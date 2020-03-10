@@ -8,6 +8,7 @@ on:
 
 jobs:
   build:
+    name: Build the project
     runs-on: ubuntu-latest
     steps:
       - name: Checkout project
