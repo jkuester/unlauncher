@@ -1,11 +1,10 @@
-# Builds the project
-name: Android Feature Branch CI
+# Builds the project and uploads a debug APK
+name: Android PR CI
 
 on:
-  push:
+  pull_request:
     branches:
-      - '*'
-      - '!master'
+      - 'master'
 
 jobs:
   build:
@@ -20,3 +19,8 @@ jobs:
           java-version: 1.8
       - name: Build with Gradle
         run: ./gradlew build
+      - name: Upload APK
+        uses: actions/upload-artifact@v1
+        with:
+          name: app
+          path: app/build/outputs/apk/debug/com.jkuester.unlauncher.debug.apk

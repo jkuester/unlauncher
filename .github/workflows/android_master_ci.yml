@@ -1,9 +1,7 @@
+# Builds the project, signs an API, and then uploads it
 name: Android Master Branch CI
 
 on:
-  pull_request:
-    branches:
-      - 'master'
   push:
     branches:
       - 'master'
@@ -19,16 +17,8 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-
-          # TODO Need to separate things into a build for PRs (unsigned) and a signed build for master
       - name: Build with Gradle
         run: ./gradlew build
-      # - name: Upload APK
-      #   uses: actions/upload-artifact@v1
-      #   with:
-      #     name: app
-      #     path: app/build/outputs/apk/debug/com.jkuester.unlauncher.debug.apk
-
       - name: Build Signed APK
         uses: r0adkll/sign-android-release@v1
         with:
