@@ -41,5 +41,5 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: app
-          path: ${{ SIGNED_RELEASE_FILE }}
+          path: $SIGNED_RELEASE_FILE
           # path: app/release/app-release.apk
