@@ -1,0 +1,5 @@
+The goal of Unlauncher is to provide a clean and simple Android experience.
+
+We believe you should have easy access to all of your apps without the distraction of bells, whistles, and notifications clamouring for your attention. You want to be able to use your phone, not have your phone use you!
+
+Forked from https://github.com/sduduzog/slim-launcher.
