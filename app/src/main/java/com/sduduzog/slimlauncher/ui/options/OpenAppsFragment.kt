@@ -2,6 +2,7 @@ package com.sduduzog.slimlauncher.ui.options
 
 import android.content.ComponentName
 import android.content.Intent
+import androidx.navigation.fragment.NavHostFragment
 import com.sduduzog.slimlauncher.data.model.App
 
 class OpenAppsFragment : AddAppFragment() {
@@ -20,6 +21,6 @@ class OpenAppsFragment : AddAppFragment() {
             }
         } catch (e: Exception) {
         }
-        activity?.supportFragmentManager?.popBackStack();
+        NavHostFragment.findNavController(this).popBackStack();
     }
 }
