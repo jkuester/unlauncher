@@ -14,16 +14,11 @@ import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.ui.dialogs.ChangeThemeDialog
 import com.sduduzog.slimlauncher.ui.dialogs.ChooseTimeFormatDialog
 import com.sduduzog.slimlauncher.utils.BaseFragment
-import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.options_fragment.*
 
 class OptionsFragment : BaseFragment() {
     override fun getFragmentView(): ViewGroup = options_fragment
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        AndroidSupportInjection.inject(this)
-    }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.options_fragment, container, false)
     }
@@ -52,7 +47,7 @@ class OptionsFragment : BaseFragment() {
             chooseTimeFormatDialog.showNow(childFragmentManager, "TIME_FORMAT_CHOOSER")
         }
         options_fragment_toggle_status_bar.setOnClickListener {
-            val settings = context!!.getSharedPreferences(getString(R.string.prefs_settings), MODE_PRIVATE)
+            val settings = requireContext().getSharedPreferences(getString(R.string.prefs_settings), MODE_PRIVATE)
             val isHidden = settings.getBoolean(getString(R.string.prefs_settings_key_toggle_status_bar), false)
             settings.edit {
                 putBoolean(getString(R.string.prefs_settings_key_toggle_status_bar), !isHidden)

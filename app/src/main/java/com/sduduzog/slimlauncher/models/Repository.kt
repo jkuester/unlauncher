@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import com.sduduzog.slimlauncher.data.BaseDao
 import javax.inject.Singleton
 
-@Singleton
 class Repository(private val baseDao: BaseDao) {
 
     private val _apps = baseDao.apps
@@ -17,12 +16,16 @@ class Repository(private val baseDao: BaseDao) {
         AddAppAsyncTask(baseDao).execute(app)
     }
 
-    fun update(vararg list: HomeApp) {
+    fun update(vararg list : HomeApp) {
         UpdateAppAsyncTask(baseDao).execute(*list)
     }
 
-    fun remove(vararg app: HomeApp) {
-        RemoveAppAsyncTask(baseDao).execute(*app)
+    fun remove(app: HomeApp) {
+        RemoveAppAsyncTask(baseDao).execute(app)
+    }
+
+    fun clearTable(){
+        ClearTableAsyncTask(baseDao).execute()
     }
 
     private class AddAppAsyncTask(private val mAsyncTaskDao: BaseDao) : AsyncTask<HomeApp, Void, Void>() {
@@ -44,7 +47,15 @@ class Repository(private val baseDao: BaseDao) {
     private class RemoveAppAsyncTask(private val mAsyncTaskDao: BaseDao) : AsyncTask<HomeApp, Void, Void>() {
 
         override fun doInBackground(vararg params: HomeApp): Void? {
-            mAsyncTaskDao.remove(*params)
+            mAsyncTaskDao.remove(params[0])
+            return null
+        }
+    }
+
+    private class ClearTableAsyncTask(private val mAsyncTaskDao: BaseDao) : AsyncTask<Void, Void, Void>() {
+
+        override fun doInBackground(vararg params: Void): Void? {
+            mAsyncTaskDao.clearTable()
             return null
         }
     }

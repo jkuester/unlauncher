@@ -1,15 +1,17 @@
 package com.sduduzog.slimlauncher.ui.options
 
-import android.content.Intent
-import android.content.pm.ResolveInfo
+import android.content.Context
+import android.content.pm.LauncherApps
 import android.os.Bundle
+import android.os.Process
+import android.os.UserManager
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.sduduzog.slimlauncher.BuildConfig
 import com.sduduzog.slimlauncher.R
@@ -18,22 +20,17 @@ import com.sduduzog.slimlauncher.data.model.App
 import com.sduduzog.slimlauncher.models.AddAppViewModel
 import com.sduduzog.slimlauncher.utils.BaseFragment
 import com.sduduzog.slimlauncher.utils.OnAppClickedListener
-import dagger.android.support.AndroidSupportInjection
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.add_app_fragment.*
 import java.util.*
-import javax.inject.Inject
 
+@AndroidEntryPoint
 open class AddAppFragment : BaseFragment(), OnAppClickedListener {
 
     override fun getFragmentView(): ViewGroup = add_app_fragment
 
-    @Inject
-    internal lateinit var viewModelFactory: ViewModelProvider.Factory
-    private lateinit var viewModel: AddAppViewModel
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        AndroidSupportInjection.inject(this)
-    }
+    private  val viewModel: AddAppViewModel by viewModels()
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.add_app_fragment, container, false)
     }
@@ -44,9 +41,6 @@ open class AddAppFragment : BaseFragment(), OnAppClickedListener {
 
         add_app_fragment_list.adapter = adapter
 
-        activity?.let {
-            viewModel = ViewModelProvider(it, viewModelFactory).get(AddAppViewModel::class.java)
-        } ?: throw Error("How the fuck is this fragment alive while there's no activity?")
         viewModel.apps.observe(viewLifecycleOwner, Observer {
             it?.let { apps ->
                 adapter.setItems(apps)
@@ -90,21 +84,29 @@ open class AddAppFragment : BaseFragment(), OnAppClickedListener {
     }
 
     private fun getInstalledApps(): List<App> {
-        val pm = activity!!.packageManager
         val list = mutableListOf<App>()
-        val main = Intent(Intent.ACTION_MAIN, null)
-        main.addCategory(Intent.CATEGORY_LAUNCHER)
-        val activitiesList = pm.queryIntentActivities(main, 0)
-        Collections.sort(activitiesList, ResolveInfo.DisplayNameComparator(pm))
-        activitiesList.indices.forEach {
-            val item = activitiesList[it]
-            val activity = item.activityInfo
-            val app = App(
-                    activitiesList[it].loadLabel(pm).toString(),
-                    activity.applicationInfo.packageName, activity.name
-            )
-            list.add(app)
+
+        val manager = context!!.getSystemService(Context.USER_SERVICE) as UserManager
+        val launcher = context!!.getSystemService(Context.LAUNCHER_APPS_SERVICE) as LauncherApps
+        val myUserHandle = Process.myUserHandle()
+
+        for (profile in manager.userProfiles) {
+            val prefix = if (profile.equals(myUserHandle)) "" else "\uD83C\uDD46 " //Unicode for boxed w
+            val profileSerial = manager.getSerialNumberForUser(profile)
+
+            for (activityInfo in launcher.getActivityList(null, profile)) {
+                val app = App(
+                        appName = prefix + activityInfo.label.toString(),
+                        packageName = activityInfo.applicationInfo.packageName,
+                        activityName = activityInfo.name,
+                        userSerial = profileSerial
+                )
+                list.add(app)
+            }
         }
+
+        list.sortBy{it.appName}
+
         val filter = mutableListOf<String>()
         filter.add(BuildConfig.APPLICATION_ID)
         return list.filterNot { filter.contains(it.packageName) }

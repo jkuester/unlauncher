@@ -22,7 +22,7 @@ class RenameAppDialog : DialogFragment() {
         val editText: EditText = view.findViewById(R.id.rename_editText)
         val appName: String = app.appNickname ?: app.appName
         editText.text.append(appName)
-        val builder = AlertDialog.Builder(context!!)
+        val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Rename $appName")
         builder.setView(view)
         builder.setPositiveButton("DONE") { _, _ ->

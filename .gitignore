@@ -67,3 +67,4 @@ fastlane/readme.md
 /app/release/release
 
 app/release/output\.json
+*.aab

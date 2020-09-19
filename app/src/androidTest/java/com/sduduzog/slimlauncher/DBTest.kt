@@ -42,7 +42,7 @@ class DBTest {
     @Test
     @Throws(InterruptedException::class)
     fun testInsertLiveDataApps() {
-        val app = HomeApp("TestApp", "com.test.test.app", "TestMainActivity", 0)
+        val app = HomeApp("TestApp", "com.test.test.app", "TestMainActivity", 0, "Test", 0)
         baseDao!!.add(app)
 
         var appsInstalled: List<HomeApp> = listOf()

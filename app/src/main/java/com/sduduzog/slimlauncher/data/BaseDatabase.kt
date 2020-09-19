@@ -1,6 +1,7 @@
 package com.sduduzog.slimlauncher.data
 
 import android.content.Context
+import android.os.Process
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -9,7 +10,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.sduduzog.slimlauncher.models.HomeApp
 
 
-@Database(entities = [HomeApp::class], version = 7, exportSchema = false)
+@Database(entities = [HomeApp::class], version = 8, exportSchema = false)
 abstract class BaseDatabase : RoomDatabase() {
 
     abstract fun baseDao(): BaseDao
@@ -30,7 +31,8 @@ abstract class BaseDatabase : RoomDatabase() {
                                     MIGRATION_3_4,
                                     MIGRATION_4_5,
                                     MIGRATION_5_6,
-                                    MIGRATION_6_7
+                                    MIGRATION_6_7,
+                                    MIGRATION_7_8
                             )
                             .build()
                 }
@@ -84,6 +86,26 @@ abstract class BaseDatabase : RoomDatabase() {
          val MIGRATION_6_7 = object : Migration(6, 7){
             override fun migrate(database: SupportSQLiteDatabase) {
                database.execSQL("ALTER TABLE `home_apps` ADD COLUMN `app_nickname` TEXT")
+            }
+        }
+        val MIGRATION_7_8 = object : Migration(7, 8){
+            override fun migrate(database: SupportSQLiteDatabase) {
+                val userSerial = Process.myUserHandle().hashCode()
+                database.execSQL("ALTER TABLE `home_apps` ADD COLUMN `user_serial` INTEGER NOT NULL DEFAULT " + userSerial.toString())
+
+                database.execSQL("CREATE TABLE home_apps_copy(" +
+                        "package_name TEXT NOT NULL, " +
+                        "user_serial INTEGER NOT NULL, " +
+                        "app_name TEXT NOT NULL, " +
+                        "app_nickname TEXT, " +
+                        "activity_name TEXT NOT NULL, " +
+                        "sorting_index INTEGER NOT NULL, " +
+                        "PRIMARY KEY(package_name, user_serial))"
+                )
+                database.execSQL("INSERT INTO home_apps_copy (package_name, user_serial, app_name, app_nickname, activity_name, sorting_index) " +
+                        "SELECT package_name, user_serial, app_name, app_nickname, activity_name, sorting_index FROM home_apps")
+                database.execSQL("DROP TABLE home_apps")
+                database.execSQL("ALTER TABLE home_apps_copy RENAME TO home_apps")
             }
         }
     }

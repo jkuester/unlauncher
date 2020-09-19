@@ -16,6 +16,18 @@ interface BaseDao {
     @Update(onConflict = OnConflictStrategy.REPLACE)
     fun update(vararg apps: HomeApp)
 
+    @Transaction
+    fun remove(app: HomeApp){
+        removeFromTable(app)
+        updateIndices(app.sortingIndex)
+    }
+
     @Delete
-    fun remove(vararg app: HomeApp)
+    fun removeFromTable(app: HomeApp)
+
+    @Query("UPDATE home_apps SET sorting_index = sorting_index - 1 WHERE sorting_index > :sortingIndex")
+    fun updateIndices(sortingIndex : Int)
+
+    @Query("DELETE FROM home_apps")
+    fun clearTable()
 }
