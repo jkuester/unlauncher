@@ -144,8 +144,8 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
 
     override fun onLaunch(app: HomeApp, view: View) {
         try {
-            val manager = context!!.getSystemService(Context.USER_SERVICE) as UserManager
-            val launcher = context!!.getSystemService(Context.LAUNCHER_APPS_SERVICE) as LauncherApps
+            val manager = requireContext().getSystemService(Context.USER_SERVICE) as UserManager
+            val launcher = requireContext().getSystemService(Context.LAUNCHER_APPS_SERVICE) as LauncherApps
 
             val componentName = ComponentName(app.packageName, app.activityName)
             val userHandle = manager.getUserForSerialNumber(app.userSerial)

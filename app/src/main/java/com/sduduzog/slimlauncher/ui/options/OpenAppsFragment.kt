@@ -16,7 +16,7 @@ class OpenAppsFragment : AddAppFragment() {
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
             intent.component = name
 
-            intent.resolveActivity(activity!!.packageManager)?.let {
+            intent.resolveActivity(requireActivity().packageManager)?.let {
                 launchActivity(getFragmentView(), intent)
             }
         } catch (e: Exception) {
