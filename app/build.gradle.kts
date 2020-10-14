@@ -48,9 +48,9 @@ android {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 
-    testOptions {
-        unitTests.isIncludeAndroidResources = true
-    }
+//    testOptions {
+//        unitTests.isIncludeAndroidResources = true
+//    }
     lintOptions{
         disable = mutableSetOf("MissingTranslation")
     }
