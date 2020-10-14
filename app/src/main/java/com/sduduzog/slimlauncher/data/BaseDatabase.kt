@@ -1,9 +1,7 @@
 package com.sduduzog.slimlauncher.data
 
-import android.content.Context
 import android.os.Process
 import androidx.room.Database
-import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
@@ -16,29 +14,6 @@ abstract class BaseDatabase : RoomDatabase() {
     abstract fun baseDao(): BaseDao
 
     companion object {
-        @Volatile
-        @JvmStatic
-        private var INSTANCE: BaseDatabase? = null
-
-        fun getDatabase(context: Context): BaseDatabase? {
-            synchronized(BaseDatabase::class.java) {
-                if (INSTANCE == null) {
-                    INSTANCE = Room.databaseBuilder(context.applicationContext,
-                            BaseDatabase::class.java, "app_database")
-                            .addMigrations(
-                                    MIGRATION_1_2,
-                                    MIGRATION_2_3,
-                                    MIGRATION_3_4,
-                                    MIGRATION_4_5,
-                                    MIGRATION_5_6,
-                                    MIGRATION_6_7,
-                                    MIGRATION_7_8
-                            )
-                            .build()
-                }
-                return INSTANCE
-            }
-        }
 
          val MIGRATION_1_2 = object : Migration(1, 2) {
             override fun migrate(database: SupportSQLiteDatabase) {

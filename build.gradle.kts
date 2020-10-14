@@ -1,9 +1,13 @@
+import java.net.URI
+
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
     repositories {
         google()
         jcenter()
+//        maven { url = URI("https://oss.sonatype.org/content/repositories/snapshots/") }
+        maven { url = java.net.URI("https://jitpack.io") }
     }
     dependencies {
         classpath("com.android.tools.build:gradle:4.0.1")
@@ -19,6 +23,7 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven { url = java.net.URI("https://jitpack.io") }
     }
 }
 

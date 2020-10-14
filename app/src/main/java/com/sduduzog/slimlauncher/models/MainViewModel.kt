@@ -1,12 +1,12 @@
 package com.sduduzog.slimlauncher.models
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.sduduzog.slimlauncher.data.BaseDao
 import com.sduduzog.slimlauncher.data.model.App
+import javax.inject.Inject
 
-class MainViewModel @ViewModelInject constructor(baseDao: BaseDao) : ViewModel() {
+class MainViewModel @Inject constructor(baseDao: BaseDao) : ViewModel() {
 
     private val _baseRepository = Repository(baseDao)
 

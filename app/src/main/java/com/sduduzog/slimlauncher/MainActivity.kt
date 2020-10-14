@@ -7,27 +7,31 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.Navigation.findNavController
+import com.sduduzog.slimlauncher.di.MainFragmentFactoryEntryPoint
 import com.sduduzog.slimlauncher.utils.BaseFragment
 import com.sduduzog.slimlauncher.utils.HomeWatcher
+import com.sduduzog.slimlauncher.utils.IPublisher
+import com.sduduzog.slimlauncher.utils.ISubscriber
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.EntryPointAccessors
 
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(),
         SharedPreferences.OnSharedPreferenceChangeListener,
-        HomeWatcher.OnHomePressedListener {
+        HomeWatcher.OnHomePressedListener, IPublisher {
 
     private lateinit var settings: SharedPreferences
     private lateinit var navigator: NavController
     private lateinit var homeWatcher: HomeWatcher
     private val subscribers: MutableSet<BaseFragment> = mutableSetOf()
 
-    fun attachSubscriber(s: BaseFragment) {
-        subscribers.add(s)
+    override fun attachSubscriber(s: ISubscriber) {
+        subscribers.add(s as BaseFragment)
     }
 
-    fun detachSubscriber(s: BaseFragment) {
-        subscribers.remove(s)
+    override fun detachSubscriber(s: ISubscriber) {
+        subscribers.remove(s as BaseFragment)
     }
 
     private fun dispatchBack() {
@@ -40,6 +44,8 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val entryPoint = EntryPointAccessors.fromActivity(this, MainFragmentFactoryEntryPoint::class.java)
+        supportFragmentManager.fragmentFactory = entryPoint.getMainFragmentFactory()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
         settings = getSharedPreferences(getString(R.string.prefs_settings), MODE_PRIVATE)

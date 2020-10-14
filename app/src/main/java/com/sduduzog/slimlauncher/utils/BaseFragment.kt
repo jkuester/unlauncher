@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import com.sduduzog.slimlauncher.MainActivity
 import com.sduduzog.slimlauncher.R
 
-abstract class BaseFragment : Fragment() {
+abstract class BaseFragment : Fragment(), ISubscriber {
 
     abstract fun getFragmentView(): ViewGroup
 
@@ -39,14 +39,14 @@ abstract class BaseFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        with(activity as MainActivity) {
+        with(activity as IPublisher) {
             this.attachSubscriber(this@BaseFragment)
         }
     }
 
     override fun onStop() {
         super.onStop()
-        with(activity as MainActivity) {
+        with(activity as IPublisher) {
             this.detachSubscriber(this@BaseFragment)
         }
     }
