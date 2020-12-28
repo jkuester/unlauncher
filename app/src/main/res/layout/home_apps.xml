@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:ignore="MotionLayoutInvalidSceneFileReference">
+    tools:ignore="MotionLayoutInvalidSceneFileReference"
+    app:layoutDescription="@xml/home_motion_scene">
 
     <TextView
         android:id="@+id/home_fragment_time"
