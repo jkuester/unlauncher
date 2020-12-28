@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:ignore="MotionLayoutInvalidSceneFileReference"
-    app:layoutDescription="@xml/home_motion_scene">
+    android:visibility="visible"
+    app:layoutDescription="@xml/home_motion_scene"
+    tools:ignore="MotionLayoutInvalidSceneFileReference">
 
     <TextView
         android:id="@+id/home_fragment_time"
@@ -43,12 +44,12 @@
         android:layout_marginLeft="@dimen/_16sdp"
         android:layout_marginEnd="@dimen/_16sdp"
         android:layout_marginRight="@dimen/_16sdp"
+        android:alpha="-1"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toTopOf="@+id/home_fragment_list_exp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/home_fragment_date"
+        app:layout_constraintBottom_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed"
         tools:itemCount="4"
         tools:listitem="@layout/main_fragment_list_item" />
