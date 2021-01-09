@@ -3,29 +3,41 @@ package com.sduduzog.slimlauncher.ui.main
 import android.content.*
 import android.content.pm.LauncherApps
 import android.os.Bundle
+import android.os.Process
 import android.os.UserManager
 import android.provider.AlarmClock
 import android.provider.CalendarContract
 import android.provider.MediaStore
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
+import com.sduduzog.slimlauncher.BuildConfig
 import com.sduduzog.slimlauncher.R
+import com.sduduzog.slimlauncher.adapters.AddAppAdapter
 import com.sduduzog.slimlauncher.adapters.HomeAdapter
+import com.sduduzog.slimlauncher.adapters.OpenAppAdapter
+import com.sduduzog.slimlauncher.data.model.App
 import com.sduduzog.slimlauncher.models.HomeApp
 import com.sduduzog.slimlauncher.models.MainViewModel
+import com.sduduzog.slimlauncher.ui.options.OpenAppsFragment
 import com.sduduzog.slimlauncher.utils.BaseFragment
+import com.sduduzog.slimlauncher.utils.OnAppClickedListener
 import com.sduduzog.slimlauncher.utils.OnLaunchAppListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.home_fragment.*
+import kotlinx.android.synthetic.main.home_fragment.add_app_fragment_edit_text
+import kotlinx.android.synthetic.main.home_fragment.add_app_fragment_list
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
 @AndroidEntryPoint
-class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLaunchAppListener {
+class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLaunchAppListener, OnAppClickedListener {
 
     private lateinit var receiver: BroadcastReceiver
 
@@ -55,6 +67,18 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
         setEventListeners()
         home_fragment_options.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_homeFragment_to_optionsFragment))
         home_fragment_apps.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_homeFragment_to_openAppsFragment))
+
+
+        val addAppAdapter = OpenAppAdapter(this)
+        add_app_fragment_list.adapter = addAppAdapter
+        viewModel.addAppViewModel.apps.observe(viewLifecycleOwner, Observer {
+            it?.let { apps ->
+                addAppAdapter.setItems(apps)
+//                add_app_fragment_progress_bar.visibility = View.GONE
+            } ?: run {
+//                add_app_fragment_progress_bar.visibility = View.VISIBLE
+            }
+        })
     }
 
     override fun onStart() {
@@ -68,6 +92,10 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
     override fun onResume() {
         super.onResume()
         updateClock()
+
+        viewModel.addAppViewModel.setInstalledApps(getInstalledApps())
+        viewModel.addAppViewModel.filterApps("")
+        add_app_fragment_edit_text.addTextChangedListener(onTextChangeListener)
     }
 
     override fun onStop() {
@@ -166,6 +194,67 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
     inner class ClockReceiver : BroadcastReceiver() {
         override fun onReceive(ctx: Context?, intent: Intent?) {
             updateClock()
+        }
+    }
+
+    override fun onAppClicked(app: App) {
+        try {
+            val intent = Intent()
+            val name = ComponentName(app.packageName, app.activityName)
+            intent.action = Intent.ACTION_MAIN
+            intent.addCategory(Intent.CATEGORY_LAUNCHER)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
+            intent.component = name
+
+            intent.resolveActivity(requireActivity().packageManager)?.let {
+                launchActivity(getFragmentView(), intent)
+            }
+        } catch (e: Exception) {
+        }
+        NavHostFragment.findNavController(this).popBackStack();
+    }
+
+    private fun getInstalledApps(): List<App> {
+        val list = mutableListOf<App>()
+
+        val manager = requireContext().getSystemService(Context.USER_SERVICE) as UserManager
+        val launcher = requireContext().getSystemService(Context.LAUNCHER_APPS_SERVICE) as LauncherApps
+        val myUserHandle = Process.myUserHandle()
+
+        for (profile in manager.userProfiles) {
+            val prefix = if (profile.equals(myUserHandle)) "" else "\uD83C\uDD46 " //Unicode for boxed w
+            val profileSerial = manager.getSerialNumberForUser(profile)
+
+            for (activityInfo in launcher.getActivityList(null, profile)) {
+                val app = App(
+                        appName = prefix + activityInfo.label.toString(),
+                        packageName = activityInfo.applicationInfo.packageName,
+                        activityName = activityInfo.name,
+                        userSerial = profileSerial
+                )
+                list.add(app)
+            }
+        }
+
+        list.sortBy{it.appName}
+
+        val filter = mutableListOf<String>()
+        filter.add(BuildConfig.APPLICATION_ID)
+        return list.filterNot { filter.contains(it.packageName) }
+    }
+
+    private val onTextChangeListener: TextWatcher = object : TextWatcher {
+
+        override fun afterTextChanged(s: Editable?) {
+            // Do nothing
+        }
+
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            // Do nothing
+        }
+
+        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+            viewModel.addAppViewModel.filterApps(s.toString())
         }
     }
 }
