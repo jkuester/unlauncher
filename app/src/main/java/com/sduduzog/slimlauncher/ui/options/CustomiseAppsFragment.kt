@@ -43,7 +43,7 @@ class CustomiseAppsFragment : BaseFragment(), OnShitDoneToAppsListener {
         viewModel.apps.observe(viewLifecycleOwner, Observer {
             it?.let { apps ->
                 adapter.setItems(apps)
-                customise_apps_fragment_add.visibility = if(apps.size < 8) View.VISIBLE else View.INVISIBLE
+                customise_apps_fragment_add.visibility = if(apps.size < 6) View.VISIBLE else View.INVISIBLE
             } ?: adapter.setItems(listOf())
         })
         customise_apps_fragment_remove_all.setOnClickListener {

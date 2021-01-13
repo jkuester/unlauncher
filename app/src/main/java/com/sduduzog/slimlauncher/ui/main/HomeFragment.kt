@@ -18,20 +18,16 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import com.sduduzog.slimlauncher.BuildConfig
 import com.sduduzog.slimlauncher.R
-import com.sduduzog.slimlauncher.adapters.AddAppAdapter
 import com.sduduzog.slimlauncher.adapters.HomeAdapter
 import com.sduduzog.slimlauncher.adapters.OpenAppAdapter
 import com.sduduzog.slimlauncher.data.model.App
 import com.sduduzog.slimlauncher.models.HomeApp
 import com.sduduzog.slimlauncher.models.MainViewModel
-import com.sduduzog.slimlauncher.ui.options.OpenAppsFragment
 import com.sduduzog.slimlauncher.utils.BaseFragment
 import com.sduduzog.slimlauncher.utils.OnAppClickedListener
 import com.sduduzog.slimlauncher.utils.OnLaunchAppListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.home_fragment.*
-import kotlinx.android.synthetic.main.home_fragment.add_app_fragment_edit_text
-import kotlinx.android.synthetic.main.home_fragment.add_app_fragment_list
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -49,25 +45,18 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val adapter1 = HomeAdapter(this)
-        val adapter2 = HomeAdapter(this)
         home_fragment_list.adapter = adapter1
-        home_fragment_list_exp.adapter = adapter2
 
         viewModel.apps.observe(viewLifecycleOwner, Observer { list ->
             list?.let { apps ->
                 adapter1.setItems(apps.filter {
-                    it.sortingIndex < 4
-                })
-                adapter2.setItems(apps.filter {
-                    it.sortingIndex >= 4
+                    it.sortingIndex < 6
                 })
             }
         })
 
         setEventListeners()
         home_fragment_options.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_homeFragment_to_optionsFragment))
-        home_fragment_apps.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_homeFragment_to_openAppsFragment))
-
 
         val addAppAdapter = OpenAppAdapter(this)
         add_app_fragment_list.adapter = addAppAdapter
@@ -188,7 +177,8 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
     }
 
     override fun onHome() {
-        home_fragment.transitionToEnd()
+        home_fragment.transitionToStart()
+//        home_fragment.transitionToEnd()
     }
 
     inner class ClockReceiver : BroadcastReceiver() {
