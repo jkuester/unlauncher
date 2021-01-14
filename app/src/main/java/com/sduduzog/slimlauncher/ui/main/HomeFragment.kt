@@ -45,12 +45,17 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val adapter1 = HomeAdapter(this)
+        val adapter2 = HomeAdapter(this)
         home_fragment_list.adapter = adapter1
+        home_fragment_list_exp.adapter = adapter2
 
         viewModel.apps.observe(viewLifecycleOwner, Observer { list ->
             list?.let { apps ->
                 adapter1.setItems(apps.filter {
-                    it.sortingIndex < 6
+                    it.sortingIndex < 3
+                })
+                adapter2.setItems(apps.filter {
+                    it.sortingIndex >= 3
                 })
             }
         })
@@ -58,14 +63,11 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
         setEventListeners()
         home_fragment_options.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_homeFragment_to_optionsFragment))
 
-        val addAppAdapter = OpenAppAdapter(this)
-        add_app_fragment_list.adapter = addAppAdapter
+        val openAppAdapter = OpenAppAdapter(this)
+        app_drawer_fragment_list.adapter = openAppAdapter
         viewModel.addAppViewModel.apps.observe(viewLifecycleOwner, Observer {
             it?.let { apps ->
-                addAppAdapter.setItems(apps)
-//                add_app_fragment_progress_bar.visibility = View.GONE
-            } ?: run {
-//                add_app_fragment_progress_bar.visibility = View.VISIBLE
+                openAppAdapter.setItems(apps)
             }
         })
     }
@@ -84,7 +86,7 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
 
         viewModel.addAppViewModel.setInstalledApps(getInstalledApps())
         viewModel.addAppViewModel.filterApps("")
-        add_app_fragment_edit_text.addTextChangedListener(onTextChangeListener)
+        app_drawer_edit_text.addTextChangedListener(onTextChangeListener)
     }
 
     override fun onStop() {
@@ -178,7 +180,6 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
 
     override fun onHome() {
         home_fragment.transitionToStart()
-//        home_fragment.transitionToEnd()
     }
 
     inner class ClockReceiver : BroadcastReceiver() {
@@ -201,7 +202,8 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
             }
         } catch (e: Exception) {
         }
-        NavHostFragment.findNavController(this).popBackStack();
+        home_fragment.transitionToStart()
+//        NavHostFragment.findNavController(this).popBackStack();
     }
 
     private fun getInstalledApps(): List<App> {
