@@ -14,7 +14,7 @@
      alt="Get it on F-Droid"
      height="80">](https://f-droid.org/packages/com.jkuester.unlauncher/)
 
-The goal of Unlauncher is to provide a clean and simple Android experience. We believe you should have easy access to all of your apps without the distraction of bells, whistles, and notifications clamouring for your attention. You want to be able to use your phone, not have your phone use you!
+The goal of Unlauncher is to provide a clean and simple Android launcher experience. We believe you should have easy access to all of your apps without the distraction of bells, whistles, and notifications clamouring for your attention. You want to be able to use your phone, not have your phone use you!
 
 <p float="left">
   <img height="724" width="400" src="docs/assets/home-screen-1.png">
@@ -25,7 +25,7 @@ The goal of Unlauncher is to provide a clean and simple Android experience. We b
 
 Features:
 
-- Top 8 spaces to pin apps
+- List your top apps on the home screen
 - No app icons
 - Customizable app titles
 - Searchable drawer with all apps
@@ -37,7 +37,7 @@ Features:
 
 This project is a downstream fork of the great [Slim Launcher](https://github.com/sduduzog/slim-launcher) by [sduduzog](https://github.com/sduduzog). The contributors to that project deserve all the credit for the beautiful layout of this app and most of its functionality.
 
-The main differentiator between Unlauncher and Slim Launcher lies in the number of apps the launcher gives you access too.  Slim Launcher takes the Spartan approach of only allowing access to seven apps. Unlauncher, on the other hand, allows you to pin eight apps to the home screen and then gives you access to all the rest of your apps through a new "Apps" button at the bottom of the home screen
+The main differentiator between Unlauncher and Slim Launcher lies in the number of apps the launcher gives you access too.  Slim Launcher takes the Spartan approach of only allowing access to seven apps. Unlauncher, on the other hand, allows you to pin up to six apps on the home screen and then gives you access to all the rest of your apps by swiping up into a searchable app drawer.
 
 The goal of this project is continue to remain synchronized, where possible, with Slim Launcher and to submit any new contributions back upstream (if they align with the design philosophy and goals of Slim Launcher).
 
