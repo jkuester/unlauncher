@@ -15,7 +15,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.NavHostFragment
 import com.sduduzog.slimlauncher.BuildConfig
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.adapters.HomeAdapter
@@ -57,12 +56,14 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
                 adapter2.setItems(apps.filter {
                     it.sortingIndex >= 3
                 })
+                // TODO Do we need something around here that would drop the extra apps from the list so that they do not get lost?
             }
         })
 
         setEventListeners()
         home_fragment_options.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_homeFragment_to_optionsFragment))
 
+        // Populate the app drawer
         val openAppAdapter = OpenAppAdapter(this)
         app_drawer_fragment_list.adapter = openAppAdapter
         viewModel.addAppViewModel.apps.observe(viewLifecycleOwner, Observer {
@@ -203,7 +204,6 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
         } catch (e: Exception) {
         }
         home_fragment.transitionToStart()
-//        NavHostFragment.findNavController(this).popBackStack();
     }
 
     private fun getInstalledApps(): List<App> {

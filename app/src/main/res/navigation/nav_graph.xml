@@ -13,9 +13,6 @@
         <action
             android:id="@+id/action_homeFragment_to_optionsFragment"
             app:destination="@id/optionsFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_openAppsFragment"
-            app:destination="@id/openAppsFragment" />
     </fragment>
     <fragment
         android:id="@+id/optionsFragment"
@@ -40,10 +37,5 @@
         android:name="com.sduduzog.slimlauncher.ui.options.AddAppFragment"
         android:label="add_app_fragment"
         tools:layout="@layout/add_app_fragment" />
-    <fragment
-        android:id="@+id/openAppsFragment"
-        android:name="com.sduduzog.slimlauncher.ui.options.OpenAppsFragment"
-        android:label="open_apps_fragment"
-        tools:layout="@layout/open_apps_fragment" />
 
 </navigation>
