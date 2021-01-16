@@ -17,8 +17,8 @@ import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import com.sduduzog.slimlauncher.BuildConfig
 import com.sduduzog.slimlauncher.R
+import com.sduduzog.slimlauncher.adapters.AddAppAdapter
 import com.sduduzog.slimlauncher.adapters.HomeAdapter
-import com.sduduzog.slimlauncher.adapters.OpenAppAdapter
 import com.sduduzog.slimlauncher.data.model.App
 import com.sduduzog.slimlauncher.models.HomeApp
 import com.sduduzog.slimlauncher.models.MainViewModel
@@ -56,7 +56,13 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
                 adapter2.setItems(apps.filter {
                     it.sortingIndex >= 3
                 })
-                // TODO Do we need something around here that would drop the extra apps from the list so that they do not get lost?
+
+                // Since the app previously supported more than 6 apps, we need this as a transition to only
+                // allowing 6 home apps. This can be removed in the future when it is likely everyone has
+                // upgraded to a version that only supports 6 home apps.
+                if(apps.size > 6) {
+                    apps.subList(6, apps.size).forEach(viewModel::remove)
+                }
             }
         })
 
@@ -64,7 +70,7 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
         home_fragment_options.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_homeFragment_to_optionsFragment))
 
         // Populate the app drawer
-        val openAppAdapter = OpenAppAdapter(this)
+        val openAppAdapter = AddAppAdapter(this)
         app_drawer_fragment_list.adapter = openAppAdapter
         viewModel.addAppViewModel.apps.observe(viewLifecycleOwner, Observer {
             it?.let { apps ->
@@ -161,17 +167,7 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
     }
 
     override fun onLaunch(app: HomeApp, view: View) {
-        try {
-            val manager = requireContext().getSystemService(Context.USER_SERVICE) as UserManager
-            val launcher = requireContext().getSystemService(Context.LAUNCHER_APPS_SERVICE) as LauncherApps
-
-            val componentName = ComponentName(app.packageName, app.activityName)
-            val userHandle = manager.getUserForSerialNumber(app.userSerial)
-
-            launcher.startMainActivity(componentName, userHandle, view.clipBounds, null)
-        } catch (e: Exception) {
-            // Do no shit yet
-        }
+        launchApp(app.packageName, app.activityName, app.userSerial)
     }
 
     override fun onBack(): Boolean {
@@ -190,49 +186,22 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
     }
 
     override fun onAppClicked(app: App) {
-        try {
-            val intent = Intent()
-            val name = ComponentName(app.packageName, app.activityName)
-            intent.action = Intent.ACTION_MAIN
-            intent.addCategory(Intent.CATEGORY_LAUNCHER)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
-            intent.component = name
-
-            intent.resolveActivity(requireActivity().packageManager)?.let {
-                launchActivity(getFragmentView(), intent)
-            }
-        } catch (e: Exception) {
-        }
+        launchApp(app.packageName, app.activityName, app.userSerial)
         home_fragment.transitionToStart()
     }
 
-    private fun getInstalledApps(): List<App> {
-        val list = mutableListOf<App>()
+    private fun launchApp(packageName: String, activityName: String, userSerial: Long) {
+        try {
+            val manager = requireContext().getSystemService(Context.USER_SERVICE) as UserManager
+            val launcher = requireContext().getSystemService(Context.LAUNCHER_APPS_SERVICE) as LauncherApps
 
-        val manager = requireContext().getSystemService(Context.USER_SERVICE) as UserManager
-        val launcher = requireContext().getSystemService(Context.LAUNCHER_APPS_SERVICE) as LauncherApps
-        val myUserHandle = Process.myUserHandle()
+            val componentName = ComponentName(packageName, activityName)
+            val userHandle = manager.getUserForSerialNumber(userSerial)
 
-        for (profile in manager.userProfiles) {
-            val prefix = if (profile == myUserHandle) "" else "\uD83C\uDD46 " //Unicode for boxed w
-            val profileSerial = manager.getSerialNumberForUser(profile)
-
-            for (activityInfo in launcher.getActivityList(null, profile)) {
-                val app = App(
-                        appName = prefix + activityInfo.label.toString(),
-                        packageName = activityInfo.applicationInfo.packageName,
-                        activityName = activityInfo.name,
-                        userSerial = profileSerial
-                )
-                list.add(app)
-            }
+            launcher.startMainActivity(componentName, userHandle, view?.clipBounds, null)
+        } catch (e: Exception) {
+            // Do no shit yet
         }
-
-        list.sortBy{it.appName}
-
-        val filter = mutableListOf<String>()
-        filter.add(BuildConfig.APPLICATION_ID)
-        return list.filterNot { filter.contains(it.packageName) }
     }
 
     private val onTextChangeListener: TextWatcher = object : TextWatcher {

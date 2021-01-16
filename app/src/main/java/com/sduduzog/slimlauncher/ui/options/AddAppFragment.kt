@@ -81,33 +81,4 @@ class AddAppFragment : BaseFragment(), OnAppClickedListener {
         viewModel.addAppToHomeScreen(app)
         Navigation.findNavController(add_app_fragment).popBackStack()
     }
-
-    private fun getInstalledApps(): List<App> {
-        val list = mutableListOf<App>()
-
-        val manager = requireContext().getSystemService(Context.USER_SERVICE) as UserManager
-        val launcher = requireContext().getSystemService(Context.LAUNCHER_APPS_SERVICE) as LauncherApps
-        val myUserHandle = Process.myUserHandle()
-
-        for (profile in manager.userProfiles) {
-            val prefix = if (profile.equals(myUserHandle)) "" else "\uD83C\uDD46 " //Unicode for boxed w
-            val profileSerial = manager.getSerialNumberForUser(profile)
-
-            for (activityInfo in launcher.getActivityList(null, profile)) {
-                val app = App(
-                        appName = prefix + activityInfo.label.toString(),
-                        packageName = activityInfo.applicationInfo.packageName,
-                        activityName = activityInfo.name,
-                        userSerial = profileSerial
-                )
-                list.add(app)
-            }
-        }
-
-        list.sortBy{it.appName}
-
-        val filter = mutableListOf<String>()
-        filter.add(BuildConfig.APPLICATION_ID)
-        return list.filterNot { filter.contains(it.packageName) }
-    }
 }
