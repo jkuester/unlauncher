@@ -43,6 +43,5 @@
     <string name="remove_all_apps_dialog_title" translatable="false">Remove All Apps</string>
     <string name="remove_all_apps_dialog_message" translatable="false">"This action will not uninstall your apps."
     "It is just to confirm if you're clearing this list on purpose"</string>
-    <string name="main_fragment_apps">Apps</string>
 
 </resources>

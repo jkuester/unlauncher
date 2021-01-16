@@ -31,8 +31,6 @@
         android:layout_height="wrap_content"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:itemCount="3"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="101dp"
         tools:listitem="@layout/main_fragment_list_item" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -41,8 +39,6 @@
         android:layout_height="wrap_content"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:itemCount="3"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="101dp"
         tools:listitem="@layout/main_fragment_list_item" />
 
     <ImageView
@@ -50,7 +46,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="@dimen/_8sdp"
-        app:srcCompat="@drawable/ic_cog2"
+        app:srcCompat="@drawable/ic_cog"
         tools:ignore="ContentDescription"/>
 
     <ImageView
@@ -83,9 +79,6 @@
         android:imeOptions="actionDone"
         android:inputType="none|textNoSuggestions|textCapWords"
         android:textSize="@dimen/_18ssp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="parent"
         tools:ignore="Autofill,LabelFor" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -97,8 +90,5 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/app_drawer_edit_text"
         tools:listitem="@layout/add_app_fragment_list_item" />
 </androidx.constraintlayout.motion.widget.MotionLayout>

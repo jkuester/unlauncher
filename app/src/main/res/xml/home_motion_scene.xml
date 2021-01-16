@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:motion="http://schemas.android.com/apk/res-auto">
     <Transition
-        motion:constraintSetEnd="@+id/state_1"
-        motion:constraintSetStart="@+id/state_0"
+        motion:constraintSetEnd="@+id/home_motion_02"
+        motion:constraintSetStart="@+id/home_motion_01"
         motion:duration="250">
         <OnSwipe
             motion:dragDirection="dragUp"
@@ -12,7 +12,7 @@
             motion:touchAnchorSide="bottom" />
     </Transition>
 
-    <ConstraintSet android:id="@+id/state_0">
+    <ConstraintSet android:id="@+id/home_motion_01">
         <Constraint
             android:id="@+id/home_fragment_time"
             android:layout_width="wrap_content"
@@ -112,7 +112,7 @@
             app:layout_constraintTop_toBottomOf="@+id/app_drawer_edit_text" />
     </ConstraintSet>
 
-    <ConstraintSet android:id="@+id/state_1">
+    <ConstraintSet android:id="@+id/home_motion_02">
         <Constraint
             android:id="@+id/home_fragment_time"
             android:layout_width="wrap_content"
