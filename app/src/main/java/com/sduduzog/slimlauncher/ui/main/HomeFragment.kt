@@ -154,15 +154,16 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
                 ?.getInt(getString(R.string.prefs_settings_key_time_format), 0)
         val date = Date()
 
+        val currentLocale = Locale.getDefault()
         val fWatchTime = when(active) {
-            1 -> SimpleDateFormat("H:mm", Locale.ROOT)
-            2 -> SimpleDateFormat("h:mm aa", Locale.ROOT)
+            1 -> SimpleDateFormat("H:mm", currentLocale)
+            2 -> SimpleDateFormat("h:mm aa", currentLocale)
             else -> DateFormat.getTimeInstance(DateFormat.SHORT)
         }
         home_fragment_time.text = fWatchTime.format(date)
 
 
-        val fWatchDate = SimpleDateFormat("EEE, MMM dd", Locale.ROOT)
+        val fWatchDate = SimpleDateFormat("EEE, MMM dd", currentLocale)
         home_fragment_date.text = fWatchDate.format(date)
     }
 
