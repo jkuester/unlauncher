@@ -1,5 +1,6 @@
 package com.sduduzog.slimlauncher.ui.main
 
+import android.app.Activity
 import android.content.*
 import android.content.pm.LauncherApps
 import android.os.Bundle
@@ -13,6 +14,9 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import androidx.constraintlayout.motion.widget.MotionLayout
+import androidx.constraintlayout.motion.widget.MotionLayout.TransitionListener
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import com.sduduzog.slimlauncher.BuildConfig
@@ -75,6 +79,28 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
         viewModel.addAppViewModel.apps.observe(viewLifecycleOwner, Observer {
             it?.let { apps ->
                 openAppAdapter.setItems(apps)
+            }
+        })
+        home_fragment.setTransitionListener(object : TransitionListener {
+            override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
+                // hide the keyboard and remove focus from the EditText when swiping back up
+                if (currentId == motionLayout?.startState) {
+                    app_drawer_edit_text.clearFocus()
+                    val inputMethodManager = requireContext().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+                    inputMethodManager.hideSoftInputFromWindow(requireView().windowToken, 0)
+                }
+            }
+
+            override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {
+                // do nothing
+            }
+
+            override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {
+                // do nothing
+            }
+
+            override fun onTransitionChange(motionLayout: MotionLayout?, startId: Int, endId: Int, progress: Float) {
+                // do nothing
             }
         })
     }
