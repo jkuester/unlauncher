@@ -99,6 +99,7 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
     override fun onStop() {
         super.onStop()
         activity?.unregisterReceiver(receiver)
+        resetAppDrawerEditText()
     }
 
     private fun setEventListeners() {
@@ -188,7 +189,6 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
 
     override fun onAppClicked(app: App) {
         launchApp(app.packageName, app.activityName, app.userSerial)
-        app_drawer_edit_text.clearFocus() // dismiss the on-screen keyboard
         home_fragment.transitionToStart()
     }
 
@@ -204,6 +204,11 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
         } catch (e: Exception) {
             // Do no shit yet
         }
+    }
+
+    private fun resetAppDrawerEditText() {
+        app_drawer_edit_text.setText("")
+        app_drawer_edit_text.clearFocus()
     }
 
     private val onTextChangeListener: TextWatcher = object : TextWatcher {
