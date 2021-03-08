@@ -91,11 +91,11 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
                 }
             }
 
-            override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {
+            override fun onTransitionTrigger(motionLayout: MotionLayout?, triggerId: Int, positive: Boolean, progress: Float) {
                 // do nothing
             }
 
-            override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {
+            override fun onTransitionStarted(motionLayout: MotionLayout?, startId: Int, endId: Int) {
                 // do nothing
             }
 
