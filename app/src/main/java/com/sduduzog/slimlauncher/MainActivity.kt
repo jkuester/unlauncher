@@ -150,8 +150,6 @@ class MainActivity : AppCompatActivity(),
 
     private val gestureDetector = GestureDetector(baseContext, object : SimpleOnGestureListener() {
         override fun onLongPress(e: MotionEvent) {
-            Log.e("", "Longpress detected")
-
             // Open Options
             val homeView = findViewById<View>(R.id.home_fragment)
             if(homeView != null) {
