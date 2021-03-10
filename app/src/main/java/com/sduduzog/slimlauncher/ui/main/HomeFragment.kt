@@ -188,6 +188,8 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
 
     override fun onAppClicked(app: App) {
         launchApp(app.packageName, app.activityName, app.userSerial)
+        app_drawer_edit_text.clearFocus() // dismiss the on-screen keyboard
+        app_drawer_edit_text.clearComposingText()
         home_fragment.transitionToStart()
     }
 
