@@ -234,6 +234,7 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
 
     private fun resetAppDrawerEditText() {
         app_drawer_edit_text.clearComposingText()
+        app_drawer_edit_text.setText("")
         app_drawer_edit_text.clearFocus()
     }
 
