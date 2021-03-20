@@ -1,5 +1,6 @@
 package com.sduduzog.slimlauncher.ui.main
 
+import android.app.Activity
 import android.content.*
 import android.content.pm.LauncherApps
 import android.os.Bundle
@@ -13,6 +14,9 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import androidx.constraintlayout.motion.widget.MotionLayout
+import androidx.constraintlayout.motion.widget.MotionLayout.TransitionListener
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import com.sduduzog.slimlauncher.BuildConfig
@@ -77,6 +81,28 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
                 openAppAdapter.setItems(apps)
             }
         })
+        home_fragment.setTransitionListener(object : TransitionListener {
+            override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
+                // hide the keyboard and remove focus from the EditText when swiping back up
+                if (currentId == motionLayout?.startState) {
+                    resetAppDrawerEditText()
+                    val inputMethodManager = requireContext().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+                    inputMethodManager.hideSoftInputFromWindow(requireView().windowToken, 0)
+                }
+            }
+
+            override fun onTransitionTrigger(motionLayout: MotionLayout?, triggerId: Int, positive: Boolean, progress: Float) {
+                // do nothing
+            }
+
+            override fun onTransitionStarted(motionLayout: MotionLayout?, startId: Int, endId: Int) {
+                // do nothing
+            }
+
+            override fun onTransitionChange(motionLayout: MotionLayout?, startId: Int, endId: Int, progress: Float) {
+                // do nothing
+            }
+        })
     }
 
     override fun onStart() {
@@ -99,6 +125,7 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
     override fun onStop() {
         super.onStop()
         activity?.unregisterReceiver(receiver)
+        resetAppDrawerEditText()
     }
 
     private fun setEventListeners() {
@@ -188,8 +215,6 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
 
     override fun onAppClicked(app: App) {
         launchApp(app.packageName, app.activityName, app.userSerial)
-        app_drawer_edit_text.clearFocus() // dismiss the on-screen keyboard
-        app_drawer_edit_text.clearComposingText()
         home_fragment.transitionToStart()
     }
 
@@ -205,6 +230,12 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
         } catch (e: Exception) {
             // Do no shit yet
         }
+    }
+
+    private fun resetAppDrawerEditText() {
+        app_drawer_edit_text.clearComposingText()
+        app_drawer_edit_text.setText("")
+        app_drawer_edit_text.clearFocus()
     }
 
     private val onTextChangeListener: TextWatcher = object : TextWatcher {
