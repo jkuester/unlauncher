@@ -85,7 +85,7 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
             override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
                 // hide the keyboard and remove focus from the EditText when swiping back up
                 if (currentId == motionLayout?.startState) {
-                    app_drawer_edit_text.clearFocus()
+                    resetAppDrawerEditText()
                     val inputMethodManager = requireContext().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
                     inputMethodManager.hideSoftInputFromWindow(requireView().windowToken, 0)
                 }
