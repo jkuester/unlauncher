@@ -19,7 +19,7 @@
         <item>12 小时</item>
     </string-array>
 
-<string-array name="quick_button_array">
+    <string-array name="quick_button_array">
         <item>显示</item>
         <item>隐藏</item>
     </string-array>
