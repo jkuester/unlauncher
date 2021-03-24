@@ -22,7 +22,7 @@ abstract class BaseDatabase : RoomDatabase() {
                 cursor.moveToFirst()
                 var index = 0
                 while (!cursor.isAfterLast) {
-                    val column = cursor.getString(cursor.getColumnIndex("package_name"))
+                    val column = cursor.getString(cursor.getColumnIndexOrThrow("package_name"))
                     database.execSQL("UPDATE `home_apps` SET `sorting_index`=$index WHERE `package_name`='$column'")
                     cursor.moveToNext()
                     index++

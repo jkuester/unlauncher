@@ -3,6 +3,9 @@ package com.sduduzog.slimlauncher
 import android.content.SharedPreferences
 import android.content.res.Resources
 import android.os.Bundle
+import android.view.GestureDetector
+import android.view.GestureDetector.SimpleOnGestureListener
+import android.view.MotionEvent
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
@@ -32,6 +35,11 @@ class MainActivity : AppCompatActivity(),
 
     override fun detachSubscriber(s: ISubscriber) {
         subscribers.remove(s as BaseFragment)
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        gestureDetector.onTouchEvent(ev)
+        return super.dispatchTouchEvent(ev)
     }
 
     private fun dispatchBack() {
@@ -138,4 +146,14 @@ class MainActivity : AppCompatActivity(),
     private fun completeBackAction() {
         super.onBackPressed()
     }
+
+    private val gestureDetector = GestureDetector(baseContext, object : SimpleOnGestureListener() {
+        override fun onLongPress(e: MotionEvent) {
+            // Open Options
+            val homeView = findViewById<View>(R.id.home_fragment)
+            if(homeView != null) {
+                findNavController(homeView).navigate(R.id.action_homeFragment_to_optionsFragment, null)
+            }
+        }
+    })
 }

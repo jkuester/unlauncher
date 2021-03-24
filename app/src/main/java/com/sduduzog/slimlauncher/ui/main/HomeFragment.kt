@@ -1,5 +1,6 @@
 package com.sduduzog.slimlauncher.ui.main
 
+import android.app.Activity
 import android.content.*
 import android.content.pm.LauncherApps
 import android.os.Bundle
@@ -13,6 +14,9 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import androidx.constraintlayout.motion.widget.MotionLayout
+import androidx.constraintlayout.motion.widget.MotionLayout.TransitionListener
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import com.sduduzog.slimlauncher.BuildConfig
@@ -67,7 +71,6 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
         })
 
         setEventListeners()
-        home_fragment_options.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_homeFragment_to_optionsFragment))
 
         // Populate the app drawer
         val openAppAdapter = AddAppAdapter(this)
@@ -75,6 +78,28 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
         viewModel.addAppViewModel.apps.observe(viewLifecycleOwner, Observer {
             it?.let { apps ->
                 openAppAdapter.setItems(apps)
+            }
+        })
+        home_fragment.setTransitionListener(object : TransitionListener {
+            override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
+                // hide the keyboard and remove focus from the EditText when swiping back up
+                if (currentId == motionLayout?.startState) {
+                    resetAppDrawerEditText()
+                    val inputMethodManager = requireContext().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+                    inputMethodManager.hideSoftInputFromWindow(requireView().windowToken, 0)
+                }
+            }
+
+            override fun onTransitionTrigger(motionLayout: MotionLayout?, triggerId: Int, positive: Boolean, progress: Float) {
+                // do nothing
+            }
+
+            override fun onTransitionStarted(motionLayout: MotionLayout?, startId: Int, endId: Int) {
+                // do nothing
+            }
+
+            override fun onTransitionChange(motionLayout: MotionLayout?, startId: Int, endId: Int, progress: Float) {
+                // do nothing
             }
         })
     }
@@ -99,6 +124,7 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
     override fun onStop() {
         super.onStop()
         activity?.unregisterReceiver(receiver)
+        resetAppDrawerEditText()
     }
 
     private fun setEventListeners() {
@@ -125,26 +151,40 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
             }
         }
 
-        home_fragment_call.setOnClickListener { view ->
-            try {
-                val pm = context?.packageManager!!
-                val intent = Intent(Intent.ACTION_DIAL)
-                val componentName = intent.resolveActivity(pm)
-                if (componentName == null) launchActivity(view, intent) else
-                    pm.getLaunchIntentForPackage(componentName.packageName)?.let {
-                        launchActivity(view, it)
-                    } ?: run { launchActivity(view, intent) }
-            } catch (e: Exception) {
-                // Do nothing
+        val leftButtonIcon = getQuickButtonIcon(R.string.prefs_settings_key_quick_button_left_icon_id, R.drawable.ic_call)
+        home_fragment_call.setImageResource(leftButtonIcon)
+        if(leftButtonIcon != R.drawable.ic_empty) {
+            home_fragment_call.setOnClickListener { view ->
+                try {
+                    val pm = context?.packageManager!!
+                    val intent = Intent(Intent.ACTION_DIAL)
+                    val componentName = intent.resolveActivity(pm)
+                    if (componentName == null) launchActivity(view, intent) else
+                        pm.getLaunchIntentForPackage(componentName.packageName)?.let {
+                            launchActivity(view, it)
+                        } ?: run { launchActivity(view, intent) }
+                } catch (e: Exception) {
+                    // Do nothing
+                }
             }
         }
 
-        home_fragment_camera.setOnClickListener {
-            try {
-                val intent = Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA)
-                launchActivity(it, intent)
-            } catch (e: Exception) {
-                // Do nothing
+        val centerButtonIcon = getQuickButtonIcon(R.string.prefs_settings_key_quick_button_center_icon_id, R.drawable.ic_cog)
+        home_fragment_options.setImageResource(centerButtonIcon)
+        if(centerButtonIcon != R.drawable.ic_empty) {
+            home_fragment_options.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_homeFragment_to_optionsFragment))
+        }
+
+        val rightButtonIcon = getQuickButtonIcon(R.string.prefs_settings_key_quick_button_right_icon_id, R.drawable.ic_photo_camera)
+        home_fragment_camera.setImageResource(rightButtonIcon)
+        if(rightButtonIcon != R.drawable.ic_empty) {
+            home_fragment_camera.setOnClickListener {
+                try {
+                    val intent = Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA)
+                    launchActivity(it, intent)
+                } catch (e: Exception) {
+                    // Do nothing
+                }
             }
         }
     }
@@ -203,6 +243,17 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
         } catch (e: Exception) {
             // Do no shit yet
         }
+    }
+
+    private fun resetAppDrawerEditText() {
+        app_drawer_edit_text.clearComposingText()
+        app_drawer_edit_text.setText("")
+        app_drawer_edit_text.clearFocus()
+    }
+
+    private fun getQuickButtonIcon(buttonPrefKey: Int, defaultIconId: Int): Int {
+        return context?.getSharedPreferences(getString(R.string.prefs_settings), Context.MODE_PRIVATE)
+                ?.getInt(getString(buttonPrefKey), defaultIconId) ?: defaultIconId
     }
 
     private val onTextChangeListener: TextWatcher = object : TextWatcher {
