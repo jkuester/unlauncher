@@ -19,12 +19,12 @@
         <item>Cacher</item>
     </string-array>
 
-    <string name="choose_time_format_dialog_title">Format de l'heure</string>
+    <string name="choose_time_format_dialog_title">Format de l’heure</string>
     <string name="main_fragment_options">Options</string>
-    <string name="options_fragment_about_slim">À propos d'Unlauncher</string>
+    <string name="options_fragment_about_slim">À propos d’Unlauncher</string>
     <string name="options_fragment_device_settings">Paramètres Système</string>
     <string name="options_fragment_change_theme">Changer le Thème</string>
-    <string name="options_fragment_choose_time_format">Format de l'Heure</string>
+    <string name="options_fragment_choose_time_format">Format de l’Heure</string>
     <string name="options_fragment_customise_apps">Applications Personnalisées</string>
     <string name="options_fragment_toggle_status_bar">Afficher/Cacher la Barre de Statut</string>
     <string name="options_fragment_hide_status_bar">Cacher la Barre de Statut</string>
@@ -37,6 +37,6 @@
     <string name="customise_apps_fragment_remove_all">Supprimer tout</string>
     <string name="menu_reset">Réinitialiser</string>
     <string name="remove_all_apps_dialog_title">Supprimer toutes les applications</string>
-    <string name="remove_all_apps_dialog_message">"Cette action ne supprimera aucune application de l'appareil."
-    "Il s'agit seulement de confirmer la purgation de la liste."</string>
+    <string name="remove_all_apps_dialog_message">"Cette action ne supprimera aucune application de l’appareil."
+    "Il s’agit seulement de confirmer la purgation de la liste."</string>
 </resources>
