@@ -118,7 +118,6 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
 
         viewModel.addAppViewModel.setInstalledApps(getInstalledApps())
         viewModel.addAppViewModel.filterApps("")
-        app_drawer_edit_text.addTextChangedListener(onTextChangeListener)
     }
 
     override fun onStop() {
@@ -187,6 +186,8 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
                 }
             }
         }
+
+        app_drawer_edit_text.addTextChangedListener(onTextChangeListener)
     }
 
     fun updateClock() {
