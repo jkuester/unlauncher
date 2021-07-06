@@ -53,9 +53,6 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
-    lintOptions{
-        disable = mutableSetOf("MissingTranslation")
-    }
     testOptions {
         unitTests.isIncludeAndroidResources = true
     }

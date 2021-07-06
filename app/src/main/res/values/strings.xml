@@ -1,4 +1,7 @@
-<resources>
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation" >
+
     <string name="app_name" translatable="false">Unlauncher</string>
     <string name="slim_url" translatable="false">https://github.com/jkuester/unlauncher</string>
     <string name="main_placeholder_clock" translatable="false">00:00</string>
