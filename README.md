@@ -33,6 +33,17 @@ Features:
 - No wallpapers
 - Multiple color themes
 
+## What people are saying
+
+<!-- 2020-11-13 -->
+zymotux - [Bare-bones smartphone “Unlauncher”](https://write.as/zymotux/bare-bones-smartphone-unlauncher)
+
+<!-- 2020-11-03 -->
+Maxime Vaillancourt - [Turning my smartphone into a boring tool](https://maximevaillancourt.com/blog/turning-my-smartphone-into-a-boring-tool)
+
+<!-- 2020-08-29 -->
+Linux Lounge - [A Quick Look At Unlauncher - Can This Launcher Help With Smartphone Addicition?](https://odysee.com/@LinuxLounge:b/a-quick-look-at-unlauncher-can-this) (VIDEO)
+
 ## Project History
 
 This project is a downstream fork of the great [Slim Launcher](https://github.com/sduduzog/slim-launcher) by [sduduzog](https://github.com/sduduzog). The contributors to that project deserve all the credit for the beautiful layout of this app and most of its functionality.
