@@ -25,9 +25,4 @@ class MainViewModel @Inject constructor(baseDao: BaseDao) : ViewModel() {
         val index = _apps.value!!.size
         _baseRepository.add(HomeApp.from(app, index))
     }
-
-    // This is needed temporarily so that the HomeFragment can transition the max number of home apps
-    fun remove(app: HomeApp) {
-        _baseRepository.remove(app)
-    }
 }

@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.*
 import android.content.pm.LauncherApps
 import android.os.Bundle
-import android.os.Process
 import android.os.UserManager
 import android.provider.AlarmClock
 import android.provider.CalendarContract
@@ -19,7 +18,6 @@ import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.motion.widget.MotionLayout.TransitionListener
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
-import com.sduduzog.slimlauncher.BuildConfig
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.adapters.AddAppAdapter
 import com.sduduzog.slimlauncher.adapters.HomeAdapter
@@ -60,13 +58,6 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
                 adapter2.setItems(apps.filter {
                     it.sortingIndex >= 3
                 })
-
-                // Since the app previously supported more than 6 apps, we need this as a transition to only
-                // allowing 6 home apps. This can be removed in the future when it is likely everyone has
-                // upgraded to a version that only supports 6 home apps.
-                if(apps.size > 6) {
-                    apps.subList(6, apps.size).forEach(viewModel::remove)
-                }
             }
         })
 

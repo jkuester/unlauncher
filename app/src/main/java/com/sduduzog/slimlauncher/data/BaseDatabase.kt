@@ -8,7 +8,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.sduduzog.slimlauncher.models.HomeApp
 
 
-@Database(entities = [HomeApp::class], version = 8, exportSchema = false)
+@Database(entities = [HomeApp::class], version = 9, exportSchema = false)
 abstract class BaseDatabase : RoomDatabase() {
 
     abstract fun baseDao(): BaseDao
@@ -81,6 +81,16 @@ abstract class BaseDatabase : RoomDatabase() {
                         "SELECT package_name, user_serial, app_name, app_nickname, activity_name, sorting_index FROM home_apps")
                 database.execSQL("DROP TABLE home_apps")
                 database.execSQL("ALTER TABLE home_apps_copy RENAME TO home_apps")
+            }
+        }
+        val MIGRATION_8_9 = object : Migration(8, 9) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                val userSerial = Process.myUserHandle().hashCode().toLong()
+                val statement =
+                    database.compileStatement("DELETE FROM home_apps WHERE user_serial = ? AND package_name NOT IN (SELECT package_name FROM home_apps WHERE user_serial = ? ORDER BY sorting_index ASC limit 6)")
+                statement.bindLong(1, userSerial)
+                statement.bindLong(2, userSerial)
+                statement.execute()
             }
         }
     }
