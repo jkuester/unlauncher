@@ -55,5 +55,6 @@ class OptionsFragment : BaseFragment() {
         }
         options_fragment_customise_apps.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_optionsFragment_to_customiseAppsFragment))
         options_fragment_customize_quick_buttons.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_optionsFragment_to_customiseQuickButtonsFragment))
+        options_fragment_customize_app_drawer.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_optionsFragment_to_customiseAppDrawerFragment))
     }
 }

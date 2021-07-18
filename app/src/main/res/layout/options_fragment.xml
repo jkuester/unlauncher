@@ -108,4 +108,16 @@
         android:textSize="@dimen/_20ssp"
         app:layout_constraintStart_toStartOf="@+id/options_fragment_customise_apps"
         app:layout_constraintTop_toBottomOf="@+id/options_fragment_customise_apps" />
+
+    <TextView
+        android:id="@+id/options_fragment_customize_app_drawer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="32dp"
+        android:text="@string/options_fragment_customize_app_drawer"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textSize="@dimen/_20ssp"
+        app:layout_constraintStart_toStartOf="@+id/options_fragment_customize_quick_buttons"
+        app:layout_constraintTop_toBottomOf="@+id/options_fragment_customize_quick_buttons" />
 </androidx.constraintlayout.widget.ConstraintLayout>

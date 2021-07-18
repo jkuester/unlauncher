@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_optionsFragment_to_customiseQuickButtonsFragment"
             app:destination="@id/customiseQuickButtonsFragment" />
+        <action
+            android:id="@+id/action_optionsFragment_to_customiseAppDrawerFragment"
+            app:destination="@id/customiseAppDrawerFragment" />
     </fragment>
     <fragment
         android:id="@+id/customiseAppsFragment"
@@ -45,5 +48,10 @@
         android:name="com.sduduzog.slimlauncher.ui.options.CustomizeQuickButtonsFragment"
         android:label="customise_quick_buttons_fragment"
         tools:layout="@layout/customize_quick_buttons_fragment" />
+    <fragment
+        android:id="@+id/customiseAppDrawerFragment"
+        android:name="com.sduduzog.slimlauncher.ui.options.CustomizeAppDrawerFragment"
+        android:label="customise_app_drawer_fragment"
+        tools:layout="@layout/customize_app_drawer_fragment" />
 
 </navigation>

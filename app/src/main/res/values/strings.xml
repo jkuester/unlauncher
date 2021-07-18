@@ -39,6 +39,7 @@
     <string name="options_fragment_choose_time_format">Choose Time Format</string>
     <string name="options_fragment_customise_apps">Customise Apps</string>
     <string name="options_fragment_customize_quick_buttons">Customise Quick Buttons</string>
+    <string name="options_fragment_customize_app_drawer">Customise Drawer</string>
     <string name="options_fragment_toggle_status_bar">Toggle Status Bar</string>
     <string name="options_fragment_hide_status_bar">Hide Status Bar</string>
     <string name="options_fragment_show_status_bar">Show Status Bar</string>
