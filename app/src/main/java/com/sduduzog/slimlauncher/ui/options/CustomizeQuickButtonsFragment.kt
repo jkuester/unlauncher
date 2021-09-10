@@ -37,7 +37,6 @@ class CustomizeQuickButtonsFragment : BaseFragment() {
             ChooseQuickButtonDialog(
                 viewLifecycleOwner.lifecycleScope,
                 prefsRepo,
-                R.string.prefs_settings_key_quick_button_left_icon_id,
                 QuickButtonPreferencesRepository.DEFAULT_ICON_LEFT
             ).showNow(childFragmentManager, "QUICK_BUTTON_CHOOSER")
         }
@@ -45,7 +44,6 @@ class CustomizeQuickButtonsFragment : BaseFragment() {
             ChooseQuickButtonDialog(
                 viewLifecycleOwner.lifecycleScope,
                 prefsRepo,
-                R.string.prefs_settings_key_quick_button_center_icon_id,
                 QuickButtonPreferencesRepository.DEFAULT_ICON_CENTER
             ).showNow(childFragmentManager, "QUICK_BUTTON_CHOOSER")
         }
@@ -53,7 +51,6 @@ class CustomizeQuickButtonsFragment : BaseFragment() {
             ChooseQuickButtonDialog(
                 viewLifecycleOwner.lifecycleScope,
                 prefsRepo,
-                R.string.prefs_settings_key_quick_button_right_icon_id,
                 QuickButtonPreferencesRepository.DEFAULT_ICON_RIGHT
             ).showNow(childFragmentManager, "QUICK_BUTTON_CHOOSER")
         }

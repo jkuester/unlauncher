@@ -2,9 +2,7 @@ package com.sduduzog.slimlauncher.ui.dialogs
 
 import android.app.AlertDialog
 import android.app.Dialog
-import android.content.Context
 import android.content.DialogInterface
-import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.LifecycleCoroutineScope
@@ -15,29 +13,23 @@ import kotlinx.coroutines.launch
 class ChooseQuickButtonDialog(
     private val lifecycleScope: LifecycleCoroutineScope,
     private val repo: QuickButtonPreferencesRepository,
-    private var settingsKey: Int,
-    defaultIconId: Int
+    private val defaultIconId: Int
 ) : DialogFragment() {
-    private lateinit var settings: SharedPreferences
     private var onDismissListener: DialogInterface.OnDismissListener? = null
     private val iconIdsByIndex = mapOf(0 to defaultIconId, 1 to R.drawable.ic_empty)
     private val indexesByIconId = iconIdsByIndex.entries.associate { it.value to it.key }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(requireContext())
-        settings = requireContext().getSharedPreferences(
-            getString(R.string.prefs_settings),
-            Context.MODE_PRIVATE
-        )
 
         val quickButtonPrefs = repo.get()
         var currentIconId = 0
-        when (settingsKey) {
-            R.string.prefs_settings_key_quick_button_left_icon_id -> currentIconId =
+        when (defaultIconId) {
+            QuickButtonPreferencesRepository.DEFAULT_ICON_LEFT -> currentIconId =
                 quickButtonPrefs.leftIconId
-            R.string.prefs_settings_key_quick_button_center_icon_id -> currentIconId =
+            QuickButtonPreferencesRepository.DEFAULT_ICON_CENTER -> currentIconId =
                 quickButtonPrefs.centerIconId
-            R.string.prefs_settings_key_quick_button_right_icon_id -> currentIconId =
+            QuickButtonPreferencesRepository.DEFAULT_ICON_RIGHT -> currentIconId =
                 quickButtonPrefs.rightIconId
         }
 
@@ -49,14 +41,14 @@ class ChooseQuickButtonDialog(
         ) { dialogInterface, i ->
             dialogInterface.dismiss()
             lifecycleScope.launch {
-                when (settingsKey) {
-                    R.string.prefs_settings_key_quick_button_left_icon_id -> repo.updateLeftIconId(
+                when (defaultIconId) {
+                    QuickButtonPreferencesRepository.DEFAULT_ICON_LEFT -> repo.updateLeftIconId(
                         iconIdsByIndex[i]!!
                     )
-                    R.string.prefs_settings_key_quick_button_center_icon_id -> repo.updateCenterIconId(
+                    QuickButtonPreferencesRepository.DEFAULT_ICON_CENTER -> repo.updateCenterIconId(
                         iconIdsByIndex[i]!!
                     )
-                    R.string.prefs_settings_key_quick_button_right_icon_id -> repo.updateRightIconId(
+                    QuickButtonPreferencesRepository.DEFAULT_ICON_RIGHT -> repo.updateRightIconId(
                         iconIdsByIndex[i]!!
                     )
                 }

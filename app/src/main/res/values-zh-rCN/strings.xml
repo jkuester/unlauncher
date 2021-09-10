@@ -25,9 +25,6 @@
     </string-array>
 
     <string name="prefs_settings" translatable="false">settings</string>
-    <string name="prefs_settings_key_quick_button_center_icon_id" translatable="false">quick_button_center</string>
-    <string name="prefs_settings_key_quick_button_left_icon_id" translatable="false">quick_button_left</string>
-    <string name="prefs_settings_key_quick_button_right_icon_id" translatable="false">quick_button_right</string>
     <string name="prefs_settings_key_theme" translatable="false">key_theme</string>
     <string name="prefs_settings_key_time_format" translatable="false">time_format</string>
     <string name="prefs_settings_key_toggle_status_bar" translatable="false">hide_status_bar</string>
