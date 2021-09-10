@@ -1,6 +1,9 @@
+import com.google.protobuf.gradle.*
+
 plugins {
     id("com.android.application")
     id("dagger.hilt.android.plugin")
+    id("com.google.protobuf") version "0.8.12"
     kotlin("android")
     kotlin("android.extensions")
     kotlin("kapt")
@@ -73,12 +76,16 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.2.0")
     implementation("androidx.recyclerview:recyclerview:1.1.0")
     implementation("androidx.constraintlayout:constraintlayout:2.0.1")
+    implementation("androidx.datastore:datastore:1.0.0-rc02")
+    implementation("androidx.datastore:datastore-core:1.0.0-rc02")
+    implementation("com.google.protobuf:protobuf-javalite:3.10.0")
 
     // Arch Components
     implementation("androidx.core:core-ktx:1.5.0-alpha03")
     implementation("androidx.fragment:fragment-ktx:1.2.5")
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
     implementation("androidx.navigation:navigation-fragment-ktx:2.3.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.3.0")
     implementation("androidx.room:room-runtime:2.2.5")
     implementation("androidx.lifecycle:lifecycle-common-java8:2.2.0")
     kapt("androidx.room:room-compiler:2.2.5")
@@ -90,4 +97,18 @@ dependencies {
     implementation("androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha02")
     kapt("androidx.hilt:hilt-compiler:1.0.0-alpha02")
     kapt("com.google.dagger:hilt-android-compiler:2.29-alpha")
+}
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.10.0"
+    }
+    generateProtoTasks {
+        all().forEach { task ->
+            task.builtins {
+                id("java") {
+                    option("lite")
+                }
+            }
+        }
+    }
 }

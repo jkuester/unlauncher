@@ -141,42 +141,44 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
             }
         }
 
-        val leftButtonIcon = getQuickButtonIcon(R.string.prefs_settings_key_quick_button_left_icon_id, R.drawable.ic_call)
-        home_fragment_call.setImageResource(leftButtonIcon)
-        if(leftButtonIcon != R.drawable.ic_empty) {
-            home_fragment_call.setOnClickListener { view ->
-                try {
-                    val pm = context?.packageManager!!
-                    val intent = Intent(Intent.ACTION_DIAL)
-                    val componentName = intent.resolveActivity(pm)
-                    if (componentName == null) launchActivity(view, intent) else
-                        pm.getLaunchIntentForPackage(componentName.packageName)?.let {
-                            launchActivity(view, it)
-                        } ?: run { launchActivity(view, intent) }
-                } catch (e: Exception) {
-                    // Do nothing
+        getUnlauncherDataSource().quickButtonPreferencesRepo.liveData().observe(viewLifecycleOwner, { prefs ->
+            val leftButtonIcon = prefs.leftIconId
+            home_fragment_call.setImageResource(leftButtonIcon)
+            if(leftButtonIcon != R.drawable.ic_empty) {
+                home_fragment_call.setOnClickListener { view ->
+                    try {
+                        val pm = context?.packageManager!!
+                        val intent = Intent(Intent.ACTION_DIAL)
+                        val componentName = intent.resolveActivity(pm)
+                        if (componentName == null) launchActivity(view, intent) else
+                            pm.getLaunchIntentForPackage(componentName.packageName)?.let {
+                                launchActivity(view, it)
+                            } ?: run { launchActivity(view, intent) }
+                    } catch (e: Exception) {
+                        // Do nothing
+                    }
                 }
             }
-        }
 
-        val centerButtonIcon = getQuickButtonIcon(R.string.prefs_settings_key_quick_button_center_icon_id, R.drawable.ic_cog)
-        home_fragment_options.setImageResource(centerButtonIcon)
-        if(centerButtonIcon != R.drawable.ic_empty) {
-            home_fragment_options.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_homeFragment_to_optionsFragment))
-        }
+            val centerButtonIcon = prefs.centerIconId
+            home_fragment_options.setImageResource(centerButtonIcon)
+            if(centerButtonIcon != R.drawable.ic_empty) {
+                home_fragment_options.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_homeFragment_to_optionsFragment))
+            }
 
-        val rightButtonIcon = getQuickButtonIcon(R.string.prefs_settings_key_quick_button_right_icon_id, R.drawable.ic_photo_camera)
-        home_fragment_camera.setImageResource(rightButtonIcon)
-        if(rightButtonIcon != R.drawable.ic_empty) {
-            home_fragment_camera.setOnClickListener {
-                try {
-                    val intent = Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA)
-                    launchActivity(it, intent)
-                } catch (e: Exception) {
-                    // Do nothing
+            val rightButtonIcon = prefs.rightIconId
+            home_fragment_camera.setImageResource(rightButtonIcon)
+            if(rightButtonIcon != R.drawable.ic_empty) {
+                home_fragment_camera.setOnClickListener {
+                    try {
+                        val intent = Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA)
+                        launchActivity(it, intent)
+                    } catch (e: Exception) {
+                        // Do nothing
+                    }
                 }
             }
-        }
+        })
 
         app_drawer_edit_text.addTextChangedListener(onTextChangeListener)
     }
@@ -241,11 +243,6 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
         app_drawer_edit_text.clearComposingText()
         app_drawer_edit_text.setText("")
         app_drawer_edit_text.clearFocus()
-    }
-
-    private fun getQuickButtonIcon(buttonPrefKey: Int, defaultIconId: Int): Int {
-        return context?.getSharedPreferences(getString(R.string.prefs_settings), Context.MODE_PRIVATE)
-                ?.getInt(getString(buttonPrefKey), defaultIconId) ?: defaultIconId
     }
 
     private val onTextChangeListener: TextWatcher = object : TextWatcher {

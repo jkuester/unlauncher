@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+option java_package = "com.jkuester.unlauncher.datastore";
+option java_multiple_files = true;
+
+message QuickButtonPreferences {
+  int32 left_icon_id = 1;
+  int32 center_icon_id = 2;
+  int32 right_icon_id = 3;
+}
