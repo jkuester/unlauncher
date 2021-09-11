@@ -5,6 +5,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.dataStore
 import androidx.datastore.migrations.SharedPreferencesMigration
 import androidx.datastore.migrations.SharedPreferencesView
+import androidx.lifecycle.LifecycleCoroutineScope
 import com.jkuester.unlauncher.datastore.QuickButtonPreferences
 
 private val Context.quickButtonPreferencesStore: DataStore<QuickButtonPreferences> by dataStore(
@@ -52,7 +53,7 @@ private val Context.quickButtonPreferencesStore: DataStore<QuickButtonPreference
     }
 )
 
-class UnlauncherDataSource(context: Context) {
+class UnlauncherDataSource(context: Context, lifecycleScope: LifecycleCoroutineScope) {
     val quickButtonPreferencesRepo =
-        QuickButtonPreferencesRepository(context.quickButtonPreferencesStore)
+        QuickButtonPreferencesRepository(context.quickButtonPreferencesStore, lifecycleScope)
 }

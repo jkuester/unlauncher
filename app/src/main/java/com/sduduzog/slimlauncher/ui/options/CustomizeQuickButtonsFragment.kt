@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.lifecycleScope
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.datasource.QuickButtonPreferencesRepository
 import com.sduduzog.slimlauncher.ui.dialogs.ChooseQuickButtonDialog
@@ -35,21 +34,18 @@ class CustomizeQuickButtonsFragment : BaseFragment() {
 
         customize_quick_buttons_fragment_left.setOnClickListener {
             ChooseQuickButtonDialog(
-                viewLifecycleOwner.lifecycleScope,
                 prefsRepo,
                 QuickButtonPreferencesRepository.DEFAULT_ICON_LEFT
             ).showNow(childFragmentManager, "QUICK_BUTTON_CHOOSER")
         }
         customize_quick_buttons_fragment_center.setOnClickListener {
             ChooseQuickButtonDialog(
-                viewLifecycleOwner.lifecycleScope,
                 prefsRepo,
                 QuickButtonPreferencesRepository.DEFAULT_ICON_CENTER
             ).showNow(childFragmentManager, "QUICK_BUTTON_CHOOSER")
         }
         customize_quick_buttons_fragment_right.setOnClickListener {
             ChooseQuickButtonDialog(
-                viewLifecycleOwner.lifecycleScope,
                 prefsRepo,
                 QuickButtonPreferencesRepository.DEFAULT_ICON_RIGHT
             ).showNow(childFragmentManager, "QUICK_BUTTON_CHOOSER")

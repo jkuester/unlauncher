@@ -5,13 +5,10 @@ import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.LifecycleCoroutineScope
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.datasource.QuickButtonPreferencesRepository
-import kotlinx.coroutines.launch
 
 class ChooseQuickButtonDialog(
-    private val lifecycleScope: LifecycleCoroutineScope,
     private val repo: QuickButtonPreferencesRepository,
     private val defaultIconId: Int
 ) : DialogFragment() {
@@ -40,18 +37,16 @@ class ChooseQuickButtonDialog(
             indexesByIconId[currentIconId]!!
         ) { dialogInterface, i ->
             dialogInterface.dismiss()
-            lifecycleScope.launch {
-                when (defaultIconId) {
-                    QuickButtonPreferencesRepository.DEFAULT_ICON_LEFT -> repo.updateLeftIconId(
-                        iconIdsByIndex[i]!!
-                    )
-                    QuickButtonPreferencesRepository.DEFAULT_ICON_CENTER -> repo.updateCenterIconId(
-                        iconIdsByIndex[i]!!
-                    )
-                    QuickButtonPreferencesRepository.DEFAULT_ICON_RIGHT -> repo.updateRightIconId(
-                        iconIdsByIndex[i]!!
-                    )
-                }
+            when (defaultIconId) {
+                QuickButtonPreferencesRepository.DEFAULT_ICON_LEFT -> repo.updateLeftIconId(
+                    iconIdsByIndex[i]!!
+                )
+                QuickButtonPreferencesRepository.DEFAULT_ICON_CENTER -> repo.updateCenterIconId(
+                    iconIdsByIndex[i]!!
+                )
+                QuickButtonPreferencesRepository.DEFAULT_ICON_RIGHT -> repo.updateRightIconId(
+                    iconIdsByIndex[i]!!
+                )
             }
         }
         return builder.create()

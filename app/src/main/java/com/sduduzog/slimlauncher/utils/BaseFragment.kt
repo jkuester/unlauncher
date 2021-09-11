@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.sduduzog.slimlauncher.BuildConfig
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.data.model.App
@@ -101,8 +102,9 @@ abstract class BaseFragment : Fragment(), ISubscriber {
     }
 
     protected fun getUnlauncherDataSource(): UnlauncherDataSource {
-        if(!::unlauncherDataSource.isInitialized) {
-            unlauncherDataSource = UnlauncherDataSource(requireContext())
+        if (!::unlauncherDataSource.isInitialized) {
+            unlauncherDataSource =
+                UnlauncherDataSource(requireContext(), viewLifecycleOwner.lifecycleScope)
         }
         return unlauncherDataSource
     }
