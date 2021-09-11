@@ -28,9 +28,9 @@ class CustomizeQuickButtonsFragment : BaseFragment() {
         val prefsRepo = getUnlauncherDataSource().quickButtonPreferencesRepo
 
         prefsRepo.liveData().observe(viewLifecycleOwner, { prefs ->
-            customize_quick_buttons_fragment_left.setImageResource(prefs.leftIconId)
-            customize_quick_buttons_fragment_center.setImageResource(prefs.centerIconId)
-            customize_quick_buttons_fragment_right.setImageResource(prefs.rightIconId)
+            customize_quick_buttons_fragment_left.setImageResource(prefs.leftButton.iconId)
+            customize_quick_buttons_fragment_center.setImageResource(prefs.centerButton.iconId)
+            customize_quick_buttons_fragment_right.setImageResource(prefs.rightButton.iconId)
         })
 
         customize_quick_buttons_fragment_left.setOnClickListener {

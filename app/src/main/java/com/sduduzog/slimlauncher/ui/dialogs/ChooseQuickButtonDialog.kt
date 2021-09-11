@@ -26,11 +26,11 @@ class ChooseQuickButtonDialog(
         var currentIconId = 0
         when (defaultIconId) {
             QuickButtonPreferencesRepository.DEFAULT_ICON_LEFT -> currentIconId =
-                quickButtonPrefs.leftIconId
+                quickButtonPrefs.leftButton.iconId
             QuickButtonPreferencesRepository.DEFAULT_ICON_CENTER -> currentIconId =
-                quickButtonPrefs.centerIconId
+                quickButtonPrefs.centerButton.iconId
             QuickButtonPreferencesRepository.DEFAULT_ICON_RIGHT -> currentIconId =
-                quickButtonPrefs.rightIconId
+                quickButtonPrefs.rightButton.iconId
         }
 
         builder.setTitle(R.string.options_fragment_customize_quick_buttons)

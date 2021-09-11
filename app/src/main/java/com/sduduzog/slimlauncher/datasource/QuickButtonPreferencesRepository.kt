@@ -48,33 +48,49 @@ class QuickButtonPreferencesRepository(private val quickButtonPreferencesStore: 
 
     suspend fun updateLeftIconId(iconId: Int) {
         quickButtonPreferencesStore.updateData { currentPreferences ->
-            currentPreferences.toBuilder().setLeftIconId(iconId).build()
+            currentPreferences.toBuilder()
+                .setLeftButton(currentPreferences.leftButton.toBuilder().setIconId(iconId).build())
+                .build()
         }
     }
 
     suspend fun updateCenterIconId(iconId: Int) {
         quickButtonPreferencesStore.updateData { currentPreferences ->
-            currentPreferences.toBuilder().setCenterIconId(iconId).build()
+            currentPreferences.toBuilder()
+                .setCenterButton(
+                    currentPreferences.centerButton.toBuilder().setIconId(iconId).build()
+                )
+                .build()
         }
     }
 
     suspend fun updateRightIconId(iconId: Int) {
         quickButtonPreferencesStore.updateData { currentPreferences ->
-            currentPreferences.toBuilder().setRightIconId(iconId).build()
+            currentPreferences.toBuilder()
+                .setRightButton(
+                    currentPreferences.rightButton.toBuilder().setIconId(iconId).build()
+                )
+                .build()
         }
     }
 
     private fun validateQuickButtonPreferences(prefs: QuickButtonPreferences): QuickButtonPreferences {
-        if (prefs.leftIconId == 0 || prefs.centerIconId == 0 || prefs.rightIconId == 0) {
+        if (!prefs.hasLeftButton() || !prefs.hasCenterButton() || !prefs.hasRightButton()) {
             val prefBuilder = prefs.toBuilder()
-            if (prefs.leftIconId == 0) {
-                prefBuilder.leftIconId = DEFAULT_ICON_LEFT
+            if (!prefs.hasLeftButton()) {
+                prefBuilder.leftButton =
+                    QuickButtonPreferences.QuickButton.newBuilder().setIconId(DEFAULT_ICON_LEFT)
+                        .build()
             }
-            if (prefs.centerIconId == 0) {
-                prefBuilder.centerIconId = DEFAULT_ICON_CENTER
+            if (!prefs.hasCenterButton()) {
+                prefBuilder.centerButton =
+                    QuickButtonPreferences.QuickButton.newBuilder().setIconId(DEFAULT_ICON_CENTER)
+                        .build()
             }
-            if (prefs.rightIconId == 0) {
-                prefBuilder.rightIconId = DEFAULT_ICON_RIGHT
+            if (!prefs.hasRightButton()) {
+                prefBuilder.rightButton =
+                    QuickButtonPreferences.QuickButton.newBuilder().setIconId(DEFAULT_ICON_RIGHT)
+                        .build()
             }
             return prefBuilder.build()
         }
