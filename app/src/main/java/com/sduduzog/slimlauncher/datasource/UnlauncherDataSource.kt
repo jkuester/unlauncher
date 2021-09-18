@@ -7,9 +7,12 @@ import androidx.datastore.migrations.SharedPreferencesMigration
 import androidx.datastore.migrations.SharedPreferencesView
 import androidx.lifecycle.LifecycleCoroutineScope
 import com.jkuester.unlauncher.datastore.QuickButtonPreferences
+import com.jkuester.unlauncher.datastore.UnlauncherApps
+import com.sduduzog.slimlauncher.datasource.apps.UnlauncherAppsRepository
+import com.sduduzog.slimlauncher.datasource.apps.UnlauncherAppsSerializer
 
 private val Context.quickButtonPreferencesStore: DataStore<QuickButtonPreferences> by dataStore(
-    fileName = "unlauncher_data.pb",
+    fileName = "quick_button_preferences.proto",
     serializer = QuickButtonPreferencesSerializer,
     produceMigrations = { context ->
         listOf(
@@ -53,7 +56,13 @@ private val Context.quickButtonPreferencesStore: DataStore<QuickButtonPreference
     }
 )
 
+private val Context.unlauncherAppsStore: DataStore<UnlauncherApps> by dataStore(
+    fileName = "unlauncher_apps.proto",
+    serializer = UnlauncherAppsSerializer
+)
+
 class UnlauncherDataSource(context: Context, lifecycleScope: LifecycleCoroutineScope) {
     val quickButtonPreferencesRepo =
         QuickButtonPreferencesRepository(context.quickButtonPreferencesStore, lifecycleScope)
+    val unlauncherAppsRepo = UnlauncherAppsRepository(context.unlauncherAppsStore, lifecycleScope)
 }
