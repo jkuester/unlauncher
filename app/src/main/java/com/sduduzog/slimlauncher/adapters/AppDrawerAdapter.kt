@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
-import com.jkuester.unlauncher.datastore.UnlauncherApps
+import com.jkuester.unlauncher.datastore.UnlauncherApp
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.datasource.apps.UnlauncherAppsRepository
 import com.sduduzog.slimlauncher.ui.main.HomeFragment
@@ -16,16 +16,18 @@ class AppDrawerAdapter(
     lifecycleOwner: LifecycleOwner,
     appsRepo: UnlauncherAppsRepository
 ) : RecyclerView.Adapter<AppDrawerAdapter.ViewHolder>() {
-    private var apps: UnlauncherApps = UnlauncherApps.getDefaultInstance()
+    private var apps: List<UnlauncherApp> = listOf()
 
     init {
-        appsRepo.liveData().observe(lifecycleOwner, { unlauncherApps -> apps = unlauncherApps })
+        appsRepo.liveData().observe(lifecycleOwner, { unlauncherApps ->
+            apps = unlauncherApps.appsList.filter { app -> app.displayInDrawer }.toList()
+        })
     }
 
-    override fun getItemCount(): Int = apps.appsCount
+    override fun getItemCount(): Int = apps.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = apps.getApps(position)
+        val item = apps[position]
         holder.appName.text = item.displayName
         holder.itemView.setOnClickListener {
             listener.onAppClicked(item)
