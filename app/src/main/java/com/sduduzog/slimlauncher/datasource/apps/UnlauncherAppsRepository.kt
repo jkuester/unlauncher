@@ -38,12 +38,6 @@ class UnlauncherAppsRepository(
         return unlauncherAppsFlow.asLiveData()
     }
 
-    fun get(): UnlauncherApps {
-        return runBlocking {
-            unlauncherAppsFlow.first()
-        }
-    }
-
     fun setApps(apps: List<App>) {
         lifecycleScope.launch {
             unlauncherAppsStore.updateData { unlauncherApps ->
@@ -83,16 +77,6 @@ class UnlauncherAppsRepository(
         }
     }
 
-    private fun findApp(
-        unlauncherApps: UnlauncherApps,
-        packageName: String,
-        className: String
-    ): UnlauncherApp? {
-        return unlauncherApps.appsList.firstOrNull { app ->
-            packageName == app.packageName && className == app.className
-        }
-    }
-
     fun updateDisplayInDrawer(appToUpdate: UnlauncherApp, displayInDrawer: Boolean) {
         lifecycleScope.launch {
             unlauncherAppsStore.updateData { currentApps ->
@@ -101,6 +85,16 @@ class UnlauncherAppsRepository(
                     appToUpdate.toBuilder().setDisplayInDrawer(displayInDrawer)
                 ).build()
             }
+        }
+    }
+
+    private fun findApp(
+        unlauncherApps: UnlauncherApps,
+        packageName: String,
+        className: String
+    ): UnlauncherApp? {
+        return unlauncherApps.appsList.firstOrNull { app ->
+            packageName == app.packageName && className == app.className
         }
     }
 }

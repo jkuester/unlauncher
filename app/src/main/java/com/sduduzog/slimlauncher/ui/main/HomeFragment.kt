@@ -57,7 +57,6 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
                 adapter2.setItems(apps.filter {
                     it.sortingIndex >= 3
                 })
-
             }
         })
 
