@@ -1,4 +1,4 @@
-package com.sduduzog.slimlauncher.datasource
+package com.sduduzog.slimlauncher.datasource.quickbuttonprefs
 
 import android.util.Log
 import androidx.datastore.core.DataStore

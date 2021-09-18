@@ -10,6 +10,8 @@ import com.jkuester.unlauncher.datastore.QuickButtonPreferences
 import com.jkuester.unlauncher.datastore.UnlauncherApps
 import com.sduduzog.slimlauncher.datasource.apps.UnlauncherAppsRepository
 import com.sduduzog.slimlauncher.datasource.apps.UnlauncherAppsSerializer
+import com.sduduzog.slimlauncher.datasource.quickbuttonprefs.QuickButtonPreferencesRepository
+import com.sduduzog.slimlauncher.datasource.quickbuttonprefs.QuickButtonPreferencesSerializer
 
 private val Context.quickButtonPreferencesStore: DataStore<QuickButtonPreferences> by dataStore(
     fileName = "quick_button_preferences.proto",
