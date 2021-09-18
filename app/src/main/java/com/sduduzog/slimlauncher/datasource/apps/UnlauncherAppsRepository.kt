@@ -44,17 +44,11 @@ class UnlauncherAppsRepository(
         }
     }
 
-    fun getApp(packageName: String, className: String): UnlauncherApp? {
-        return runBlocking {
-            findApp(unlauncherAppsFlow.first(), packageName, className)
-        }
-    }
-
     fun setApps(apps: List<App>) {
-        // TODO need to try and clear out any hidden apps that no longer exist
         lifecycleScope.launch {
             unlauncherAppsStore.updateData { unlauncherApps ->
                 val unlauncherAppsBuilder = unlauncherApps.toBuilder()
+                // Add any new apps
                 apps.filter { app ->
                     findApp(
                         unlauncherApps,
@@ -62,12 +56,28 @@ class UnlauncherAppsRepository(
                         app.activityName
                     ) == null
                 }.forEach { app ->
+                    val index =
+                        unlauncherAppsBuilder.appsList.indexOfFirst { unlauncherApp -> unlauncherApp.displayName > app.appName }
                     unlauncherAppsBuilder.addApps(
+                        if (index >= 0) index else 0,
                         UnlauncherApp.newBuilder().setPackageName(app.packageName)
                             .setClassName(app.activityName).setUserSerial(app.userSerial)
                             .setDisplayName(app.appName).setDisplayInDrawer(true)
                     )
                 }
+                // Remove any apps that no longer exist
+                unlauncherApps.appsList.filter { unlauncherApp ->
+                    apps.find { app ->
+                        unlauncherApp.packageName == app.packageName && unlauncherApp.className == app.activityName
+                    } == null
+                }.forEach { unlauncherApp ->
+                    unlauncherAppsBuilder.removeApps(
+                        unlauncherAppsBuilder.appsList.indexOf(
+                            unlauncherApp
+                        )
+                    )
+                }
+
                 unlauncherAppsBuilder.build()
             }
         }
