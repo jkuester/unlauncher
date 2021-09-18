@@ -8,7 +8,7 @@ message UnlauncherApp {
   string class_name = 2;
   int64 user_serial = 3;
   string display_name = 4;
-  string display_in_drawer = 5;
+  bool display_in_drawer = 5;
 }
 
 message UnlauncherApps {

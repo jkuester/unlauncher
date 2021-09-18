@@ -4,25 +4,31 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
+import com.jkuester.unlauncher.datastore.UnlauncherApps
 import com.sduduzog.slimlauncher.R
-import com.sduduzog.slimlauncher.data.model.App
-import com.sduduzog.slimlauncher.utils.OnAppClickedListener
+import com.sduduzog.slimlauncher.datasource.apps.UnlauncherAppsRepository
 
-class CustomizeAppDrawerAppsAdapter(private val listener: OnAppClickedListener) :
-    RecyclerView.Adapter<CustomizeAppDrawerAppsAdapter.ViewHolder>() {
+class CustomizeAppDrawerAppsAdapter(
+    lifecycleOwner: LifecycleOwner, private val appsRepo: UnlauncherAppsRepository
+) : RecyclerView.Adapter<CustomizeAppDrawerAppsAdapter.ViewHolder>() {
+    private var apps: UnlauncherApps = UnlauncherApps.getDefaultInstance()
 
-    private var apps: List<App> = listOf()
-    private var hiddenApps: List<App> = listOf()
+    init {
+        appsRepo.liveData().observe(lifecycleOwner, { unlauncherApps ->
+            apps = unlauncherApps
+        })
+    }
 
-    override fun getItemCount(): Int = apps.size
+    override fun getItemCount(): Int = apps.appsCount
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = apps[position]
-        holder.appName.text = item.appName
-        holder.appName.isChecked = !hiddenApps.contains(item)
+        val item = apps.getApps(position)
+        holder.appName.text = item.displayName
+        holder.appName.isChecked = item.displayInDrawer
         holder.itemView.setOnClickListener {
-            listener.onAppClicked(item)
+            appsRepo.updateDisplayInDrawer(item, holder.appName.isChecked)
         }
     }
 
@@ -30,12 +36,6 @@ class CustomizeAppDrawerAppsAdapter(private val listener: OnAppClickedListener) 
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.customize_app_drawer_fragment_app_list_item, parent, false)
         return ViewHolder(view)
-    }
-
-    fun setItems(apps: List<App>, hiddenApps: List<App>) {
-        this.apps = apps
-        this.hiddenApps = hiddenApps
-        notifyDataSetChanged()
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

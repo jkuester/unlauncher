@@ -51,6 +51,7 @@ class UnlauncherAppsRepository(
     }
 
     fun setApps(apps: List<App>) {
+        // TODO need to try and clear out any hidden apps that no longer exist
         lifecycleScope.launch {
             unlauncherAppsStore.updateData { unlauncherApps ->
                 val unlauncherAppsBuilder = unlauncherApps.toBuilder()
@@ -64,7 +65,7 @@ class UnlauncherAppsRepository(
                     unlauncherAppsBuilder.addApps(
                         UnlauncherApp.newBuilder().setPackageName(app.packageName)
                             .setClassName(app.activityName).setUserSerial(app.userSerial)
-                            .setDisplayName(app.appName)
+                            .setDisplayName(app.appName).setDisplayInDrawer(true)
                     )
                 }
                 unlauncherAppsBuilder.build()
@@ -81,28 +82,15 @@ class UnlauncherAppsRepository(
             packageName == app.packageName && className == app.className
         }
     }
-//
-//    fun updateCenterIconId(iconId: Int) {
-//        lifecycleScope.launch {
-//            quickButtonPreferencesStore.updateData { currentPreferences ->
-//                currentPreferences.toBuilder()
-//                    .setCenterButton(
-//                        currentPreferences.centerButton.toBuilder().setIconId(iconId).build()
-//                    )
-//                    .build()
-//            }
-//        }
-//    }
-//
-//    fun updateRightIconId(iconId: Int) {
-//        lifecycleScope.launch {
-//            quickButtonPreferencesStore.updateData { currentPreferences ->
-//                currentPreferences.toBuilder()
-//                    .setRightButton(
-//                        currentPreferences.rightButton.toBuilder().setIconId(iconId).build()
-//                    )
-//                    .build()
-//            }
-//        }
-//    }
+
+    fun updateDisplayInDrawer(appToUpdate: UnlauncherApp, displayInDrawer: Boolean) {
+        lifecycleScope.launch {
+            unlauncherAppsStore.updateData { currentApps ->
+                currentApps.toBuilder().setApps(
+                    currentApps.appsList.indexOf(appToUpdate),
+                    appToUpdate.toBuilder().setDisplayInDrawer(displayInDrawer)
+                ).build()
+            }
+        }
+    }
 }
