@@ -33,7 +33,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 @AndroidEntryPoint
-class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLaunchAppListener {///OnAppClickedListener
+class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLaunchAppListener {
 
     private lateinit var receiver: BroadcastReceiver
 
@@ -66,11 +66,9 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
         val unlauncherAppRepo = getUnlauncherDataSource().unlauncherAppsRepo;
         app_drawer_fragment_list.adapter =
             AppDrawerAdapter(AppDrawerListener(), viewLifecycleOwner, unlauncherAppRepo)
+        // Send the apps to Unlauncher data source
         viewModel.addAppViewModel.apps.observe(viewLifecycleOwner, Observer {
-            it?.let { apps ->
-                // Send the apps to Unlauncher data source
-                unlauncherAppRepo.setApps(apps)
-            }
+            it?.let { apps -> unlauncherAppRepo.setApps(apps) }
         })
         home_fragment.setTransitionListener(object : TransitionListener {
             override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
@@ -261,7 +259,6 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
         }
     }
 
-    // TODO Can we just use an anonomous class?
     inner class AppDrawerListener {
         fun onAppClicked(app: UnlauncherApp) {
             launchApp(app.packageName, app.className, app.userSerial)

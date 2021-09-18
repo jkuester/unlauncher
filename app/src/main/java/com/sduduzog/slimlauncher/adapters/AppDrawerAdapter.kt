@@ -19,10 +19,7 @@ class AppDrawerAdapter(
     private var apps: UnlauncherApps = UnlauncherApps.getDefaultInstance()
 
     init {
-        appsRepo.liveData().observe(lifecycleOwner, { unlauncherApps ->
-            apps = unlauncherApps
-//            notifyDataSetChanged() // TODO Figure out if we need this.
-        })
+        appsRepo.liveData().observe(lifecycleOwner, { unlauncherApps -> apps = unlauncherApps })
     }
 
     override fun getItemCount(): Int = apps.appsCount
