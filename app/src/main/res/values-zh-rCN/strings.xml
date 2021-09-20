@@ -1,4 +1,7 @@
 <resources>
+    xmlns:tools="http://schemas.android.com/tools"
+	tools:ignore="MissingTranslation" >
+		 
     <string name="app_name" translatable="false">Unlauncher</string>
     <string name="slim_url" translatable="false">https://github.com/jkuester/unlauncher</string>
     <string name="main_placeholder_clock" translatable="false">00:00</string>
@@ -24,10 +27,10 @@
         <item>隐藏</item>
     </string-array>
 
-    <string name="prefs_settings" translatable="false">settings</string>
-    <string name="prefs_settings_key_theme" translatable="false">key_theme</string>
-    <string name="prefs_settings_key_time_format" translatable="false">time_format</string>
-    <string name="prefs_settings_key_toggle_status_bar" translatable="false">hide_status_bar</string>
+    
+    
+    
+    
     <string name="choose_time_format_dialog_title">选择时间格式</string>
     <string name="main_fragment_options">选项</string>
     <string name="options_fragment_about_slim">关于 Unlauncher</string>
@@ -35,7 +38,8 @@
     <string name="options_fragment_change_theme">更改主题</string>
     <string name="options_fragment_choose_time_format">选择时间格式</string>
     <string name="options_fragment_customise_apps">自定义应用</string>
-    <string name="options_fragment_customize_quick_buttons">定制快捷按钮</string>
+	<string name="options_fragment_customize_quick_buttons">定制快捷按钮</string>
+	<string name="options_fragment_customize_app_drawer">定制应用抽屉</string>
     <string name="options_fragment_toggle_status_bar">切换状态栏</string>
     <string name="options_fragment_hide_status_bar">隐藏状态栏</string>
     <string name="options_fragment_show_status_bar">显示状态栏</string>
