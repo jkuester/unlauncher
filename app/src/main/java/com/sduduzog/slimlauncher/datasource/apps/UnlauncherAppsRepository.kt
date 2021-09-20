@@ -53,7 +53,7 @@ class UnlauncherAppsRepository(
                     val index =
                         unlauncherAppsBuilder.appsList.indexOfFirst { unlauncherApp -> unlauncherApp.displayName > app.appName }
                     unlauncherAppsBuilder.addApps(
-                        if (index >= 0) index else 0,
+                        if (index >= 0) index else unlauncherAppsBuilder.appsList.size,
                         UnlauncherApp.newBuilder().setPackageName(app.packageName)
                             .setClassName(app.activityName).setUserSerial(app.userSerial)
                             .setDisplayName(app.appName).setDisplayInDrawer(true)
