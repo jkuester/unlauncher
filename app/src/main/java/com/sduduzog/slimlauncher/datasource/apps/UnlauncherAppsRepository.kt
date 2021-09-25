@@ -43,7 +43,7 @@ class UnlauncherAppsRepository(
             // Add any new apps
             apps.filter { app ->
                 findApp(
-                    unlauncherApps,
+                    unlauncherAppsBuilder.appsList,
                     app.packageName,
                     app.activityName
                 ) == null
@@ -82,7 +82,7 @@ class UnlauncherAppsRepository(
             // Set home apps
             apps.forEach { homeApp ->
                 findApp(
-                    unlauncherApps,
+                    unlauncherAppsBuilder.appsList,
                     homeApp.packageName,
                     homeApp.activityName
                 )?.let { unlauncherApp ->
@@ -123,18 +123,13 @@ class UnlauncherAppsRepository(
     fun updateDisplayInDrawer(appToUpdate: UnlauncherApp, displayInDrawer: Boolean) {
         lifecycleScope.launch {
             unlauncherAppsStore.updateData { currentApps ->
-                updateDisplayInDrawer(currentApps, appToUpdate, displayInDrawer)
+                val builder = currentApps.toBuilder()
+                val index = builder.appsList.indexOf(appToUpdate)
+                if (index >= 0) {
+                    builder.setApps(index, appToUpdate.toBuilder().setDisplayInDrawer(displayInDrawer))
+                }
+                builder.build()
             }
-        }
-    }
-
-    private fun findApp(
-        unlauncherApps: UnlauncherApps,
-        packageName: String,
-        className: String
-    ): UnlauncherApp? {
-        return unlauncherApps.appsList.firstOrNull { app ->
-            packageName == app.packageName && className == app.className
         }
     }
 
@@ -146,18 +141,5 @@ class UnlauncherAppsRepository(
         return unlauncherApps.firstOrNull { app ->
             packageName == app.packageName && className == app.className
         }
-    }
-
-    private fun updateDisplayInDrawer(
-        currentApps: UnlauncherApps,
-        appToUpdate: UnlauncherApp,
-        displayInDrawer: Boolean
-    ): UnlauncherApps {
-        val builder = currentApps.toBuilder()
-        val index = builder.appsList.indexOf(appToUpdate)
-        if (index >= 0) {
-            builder.setApps(index, appToUpdate.toBuilder().setDisplayInDrawer(displayInDrawer))
-        }
-        return builder.build()
     }
 }
