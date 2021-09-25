@@ -9,6 +9,7 @@ message UnlauncherApp {
   int64 user_serial = 3;
   string display_name = 4;
   bool display_in_drawer = 5;
+  bool home_app = 6;
 }
 
 message UnlauncherApps {

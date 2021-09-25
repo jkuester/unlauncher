@@ -116,11 +116,6 @@ class CustomiseAppsFragment : BaseFragment(), OnShitDoneToAppsListener {
                 }
                 R.id.ca_menu_remove -> {
                     viewModel.remove(app)
-                    getUnlauncherDataSource().unlauncherAppsRepo.setDisplayInDrawer(
-                        app.packageName,
-                        app.activityName,
-                        true
-                    )
                 }
                 R.id.ca_menu_reset -> {
                     viewModel.reset(app)

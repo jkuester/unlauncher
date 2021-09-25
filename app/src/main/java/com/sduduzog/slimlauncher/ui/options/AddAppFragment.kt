@@ -79,11 +79,6 @@ class AddAppFragment : BaseFragment(), OnAppClickedListener {
 
     override fun onAppClicked(app: App) {
         viewModel.addAppToHomeScreen(app)
-        getUnlauncherDataSource().unlauncherAppsRepo.setDisplayInDrawer(
-            app.packageName,
-            app.activityName,
-            false
-        )
         Navigation.findNavController(add_app_fragment).popBackStack()
     }
 }

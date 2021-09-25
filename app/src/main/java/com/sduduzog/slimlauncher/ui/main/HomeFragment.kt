@@ -38,7 +38,6 @@ import java.util.*
 class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLaunchAppListener {
 
     private lateinit var receiver: BroadcastReceiver
-    private var homeAppsSetInUnlauncherRepo = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -63,19 +62,9 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
                     it.sortingIndex >= 3
                 })
 
-                // This hack exists to "migrate" any home apps that were configured before the
-                // Unlauncher apps repo was a thing. It can eventually be removed.
-                if (!homeAppsSetInUnlauncherRepo) {
-                    lifecycleScope.launch {
-                        apps.forEach { app ->
-                            unlauncherAppsRepo.updateDisplayInDrawer(
-                                app.packageName,
-                                app.activityName,
-                                false
-                            )
-                        }
-                    }
-                    homeAppsSetInUnlauncherRepo = true;
+                // Set the home apps in the Unlauncher data
+                lifecycleScope.launch {
+                    unlauncherAppsRepo.setHomeApps(apps)
                 }
             }
         })
