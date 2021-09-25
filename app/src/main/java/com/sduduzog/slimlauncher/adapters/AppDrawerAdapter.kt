@@ -56,7 +56,8 @@ class AppDrawerAdapter(
         filteredApps = apps.filter { app ->
             regex.replace(app.displayName, "").contains(filterQuery, ignoreCase = true)
         }.toList()
-        notifyItemChanged(R.layout.add_app_fragment_list_item)
+        notifyDataSetChanged()
+//        notifyItemChanged(R.layout.add_app_fragment_list_item)
     }
 
     val searchBoxListener: TextWatcher = object : TextWatcher {

@@ -70,10 +70,10 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
             }
         })
 
-        if (!::appDrawerAdapter.isInitialized) {
+//        if (!::appDrawerAdapter.isInitialized) {
             appDrawerAdapter =
                 AppDrawerAdapter(AppDrawerListener(), viewLifecycleOwner, unlauncherAppsRepo)
-        }
+//        }
 
         setEventListeners()
 
@@ -117,7 +117,9 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
         lifecycleScope.launch {
             getUnlauncherDataSource().unlauncherAppsRepo.setApps(getInstalledApps())
         }
-        appDrawerAdapter.setAppFilter()
+        if (!::appDrawerAdapter.isInitialized) {
+            appDrawerAdapter.setAppFilter()
+        }
     }
 
     override fun onStop() {
