@@ -38,6 +38,7 @@ import java.util.*
 class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLaunchAppListener {
 
     private lateinit var receiver: BroadcastReceiver
+    private lateinit var appDrawerAdapter: AppDrawerAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -69,14 +70,14 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
             }
         })
 
+        if (!::appDrawerAdapter.isInitialized) {
+            appDrawerAdapter =
+                AppDrawerAdapter(AppDrawerListener(), viewLifecycleOwner, unlauncherAppsRepo)
+        }
+
         setEventListeners()
 
-        app_drawer_fragment_list.adapter =
-            AppDrawerAdapter(
-                AppDrawerListener(),
-                viewLifecycleOwner,
-                unlauncherAppsRepo
-            )
+        app_drawer_fragment_list.adapter = appDrawerAdapter
         home_fragment.setTransitionListener(object : TransitionListener {
             override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
                 // hide the keyboard and remove focus from the EditText when swiping back up
@@ -116,9 +117,7 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
         lifecycleScope.launch {
             getUnlauncherDataSource().unlauncherAppsRepo.setApps(getInstalledApps())
         }
-        // TODO Right here is the issue. Probably the root of performance probs
-//        viewModel.addAppViewModel.setInstalledApps(getInstalledApps())
-//        viewModel.addAppViewModel.filterApps("")
+        appDrawerAdapter.setAppFilter()
     }
 
     override fun onStop() {
@@ -195,7 +194,7 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
                 }
             })
 
-        app_drawer_edit_text.addTextChangedListener(onTextChangeListener)
+        app_drawer_edit_text.addTextChangedListener(appDrawerAdapter.searchBoxListener)
     }
 
     fun updateClock() {
@@ -253,22 +252,6 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
         app_drawer_edit_text.clearComposingText()
         app_drawer_edit_text.setText("")
         app_drawer_edit_text.clearFocus()
-    }
-
-    private val onTextChangeListener: TextWatcher = object : TextWatcher {
-
-        override fun afterTextChanged(s: Editable?) {
-            // Do nothing
-        }
-
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            // Do nothing
-        }
-
-        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-            // TODO Here is where we need to fix da filtering.
-            viewModel.addAppViewModel.filterApps(s.toString())
-        }
     }
 
     inner class AppDrawerListener {
