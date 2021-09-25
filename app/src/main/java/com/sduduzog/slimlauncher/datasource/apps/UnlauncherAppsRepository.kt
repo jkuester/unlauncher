@@ -18,7 +18,7 @@ class UnlauncherAppsRepository(
     private val unlauncherAppsStore: DataStore<UnlauncherApps>,
     private val lifecycleScope: LifecycleCoroutineScope
 ) {
-    private val unlauncherAppsFlow: Flow<UnlauncherApps> =
+    val unlauncherAppsFlow: Flow<UnlauncherApps> =
         unlauncherAppsStore.data
             .catch { exception ->
                 if (exception is IOException) {
@@ -80,6 +80,16 @@ class UnlauncherAppsRepository(
         lifecycleScope.launch {
             unlauncherAppsStore.updateData { currentApps ->
                 updateDisplayInDrawer(currentApps, appToUpdate, displayInDrawer)
+            }
+        }
+    }
+
+    suspend fun updateDisplayInDrawer(packageName: String, className: String, displayInDrawer: Boolean) {
+        unlauncherAppsStore.updateData { currentApps ->
+            findApp(currentApps, packageName, className)?.let { appToUpdate ->
+                updateDisplayInDrawer(currentApps, appToUpdate, displayInDrawer)
+            } ?: run {
+                currentApps
             }
         }
     }

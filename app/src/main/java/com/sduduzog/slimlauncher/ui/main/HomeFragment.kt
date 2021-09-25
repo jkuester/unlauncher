@@ -38,15 +38,7 @@ import java.util.*
 class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLaunchAppListener {
 
     private lateinit var receiver: BroadcastReceiver
-
-    init {
-        viewModel.apps.value?.let { apps ->
-            val unlauncherAppsRepo = getUnlauncherDataSource().unlauncherAppsRepo
-            apps.forEach { app ->
-                unlauncherAppsRepo.setDisplayInDrawer(app.packageName, app.activityName, false)
-            }
-        }
-    }
+    private var homeAppsSetInUnlauncherRepo = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -60,6 +52,8 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
         home_fragment_list.adapter = adapter1
         home_fragment_list_exp.adapter = adapter2
 
+        val unlauncherAppsRepo = getUnlauncherDataSource().unlauncherAppsRepo
+
         viewModel.apps.observe(viewLifecycleOwner, Observer { list ->
             list?.let { apps ->
                 adapter1.setItems(apps.filter {
@@ -68,6 +62,21 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
                 adapter2.setItems(apps.filter {
                     it.sortingIndex >= 3
                 })
+
+                // This hack exists to "migrate" any home apps that were configured before the
+                // Unlauncher apps repo was a thing. It can eventually be removed.
+                if (!homeAppsSetInUnlauncherRepo) {
+                    lifecycleScope.launch {
+                        apps.forEach { app ->
+                            unlauncherAppsRepo.updateDisplayInDrawer(
+                                app.packageName,
+                                app.activityName,
+                                false
+                            )
+                        }
+                    }
+                    homeAppsSetInUnlauncherRepo = true;
+                }
             }
         })
 
@@ -77,7 +86,7 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
             AppDrawerAdapter(
                 AppDrawerListener(),
                 viewLifecycleOwner,
-                getUnlauncherDataSource().unlauncherAppsRepo
+                unlauncherAppsRepo
             )
         home_fragment.setTransitionListener(object : TransitionListener {
             override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
