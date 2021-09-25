@@ -21,6 +21,7 @@ class AppDrawerAdapter(
     init {
         appsRepo.liveData().observe(lifecycleOwner, { unlauncherApps ->
             apps = unlauncherApps.appsList.filter { app -> app.displayInDrawer }.toList()
+            notifyItemChanged(R.layout.add_app_fragment_list_item)
         })
     }
 

@@ -10,7 +10,6 @@ import com.jkuester.unlauncher.datastore.UnlauncherApps
 import com.sduduzog.slimlauncher.data.model.App
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.io.IOException
@@ -80,10 +79,19 @@ class UnlauncherAppsRepository(
     fun updateDisplayInDrawer(appToUpdate: UnlauncherApp, displayInDrawer: Boolean) {
         lifecycleScope.launch {
             unlauncherAppsStore.updateData { currentApps ->
-                currentApps.toBuilder().setApps(
-                    currentApps.appsList.indexOf(appToUpdate),
-                    appToUpdate.toBuilder().setDisplayInDrawer(displayInDrawer)
-                ).build()
+                updateDisplayInDrawer(currentApps, appToUpdate, displayInDrawer)
+            }
+        }
+    }
+
+    fun setDisplayInDrawer(packageName: String, className: String, displayInDrawer: Boolean) {
+        runBlocking {
+            unlauncherAppsStore.updateData { currentApps ->
+                findApp(currentApps, packageName, className)?.let { appToUpdate ->
+                    updateDisplayInDrawer(currentApps, appToUpdate, displayInDrawer)
+                } ?: run {
+                    currentApps
+                }
             }
         }
     }
@@ -96,5 +104,18 @@ class UnlauncherAppsRepository(
         return unlauncherApps.appsList.firstOrNull { app ->
             packageName == app.packageName && className == app.className
         }
+    }
+
+    private fun updateDisplayInDrawer(
+        currentApps: UnlauncherApps,
+        appToUpdate: UnlauncherApp,
+        displayInDrawer: Boolean
+    ): UnlauncherApps {
+        val builder = currentApps.toBuilder()
+        val index = builder.appsList.indexOf(appToUpdate)
+        if (index >= 0) {
+            builder.setApps(index, appToUpdate.toBuilder().setDisplayInDrawer(displayInDrawer))
+        }
+        return builder.build()
     }
 }

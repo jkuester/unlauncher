@@ -17,6 +17,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.motion.widget.MotionLayout.TransitionListener
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.jkuester.unlauncher.datastore.UnlauncherApp
 import com.sduduzog.slimlauncher.R
@@ -28,6 +29,7 @@ import com.sduduzog.slimlauncher.utils.BaseFragment
 import com.sduduzog.slimlauncher.utils.OnLaunchAppListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.home_fragment.*
+import kotlinx.coroutines.launch
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -36,6 +38,15 @@ import java.util.*
 class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLaunchAppListener {
 
     private lateinit var receiver: BroadcastReceiver
+
+    init {
+        viewModel.apps.value?.let { apps ->
+            val unlauncherAppsRepo = getUnlauncherDataSource().unlauncherAppsRepo
+            apps.forEach { app ->
+                unlauncherAppsRepo.setDisplayInDrawer(app.packageName, app.activityName, false)
+            }
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -62,13 +73,12 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
 
         setEventListeners()
 
-        val unlauncherAppRepo = getUnlauncherDataSource().unlauncherAppsRepo;
         app_drawer_fragment_list.adapter =
-            AppDrawerAdapter(AppDrawerListener(), viewLifecycleOwner, unlauncherAppRepo)
-        // Send the apps to Unlauncher data source
-        viewModel.addAppViewModel.apps.observe(viewLifecycleOwner, Observer {
-            it?.let { apps -> unlauncherAppRepo.setApps(apps) }
-        })
+            AppDrawerAdapter(
+                AppDrawerListener(),
+                viewLifecycleOwner,
+                getUnlauncherDataSource().unlauncherAppsRepo
+            )
         home_fragment.setTransitionListener(object : TransitionListener {
             override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
                 // hide the keyboard and remove focus from the EditText when swiping back up
@@ -105,8 +115,12 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
         super.onResume()
         updateClock()
 
-        viewModel.addAppViewModel.setInstalledApps(getInstalledApps())
-        viewModel.addAppViewModel.filterApps("")
+        lifecycleScope.launch {
+            getUnlauncherDataSource().unlauncherAppsRepo.setApps(getInstalledApps())
+        }
+        // TODO Right here is the issue. Probably the root of performance probs
+//        viewModel.addAppViewModel.setInstalledApps(getInstalledApps())
+//        viewModel.addAppViewModel.filterApps("")
     }
 
     override fun onStop() {
@@ -254,6 +268,7 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
         }
 
         override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+            // TODO Here is where we need to fix da filtering.
             viewModel.addAppViewModel.filterApps(s.toString())
         }
     }
