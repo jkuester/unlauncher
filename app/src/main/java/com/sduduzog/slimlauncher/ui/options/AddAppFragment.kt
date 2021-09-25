@@ -1,7 +1,11 @@
 package com.sduduzog.slimlauncher.ui.options
 
 import android.app.Activity
+import android.content.Context
+import android.content.pm.LauncherApps
 import android.os.Bundle
+import android.os.Process
+import android.os.UserManager
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -11,6 +15,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
+import com.sduduzog.slimlauncher.BuildConfig
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.adapters.AddAppAdapter
 import com.sduduzog.slimlauncher.data.model.App
