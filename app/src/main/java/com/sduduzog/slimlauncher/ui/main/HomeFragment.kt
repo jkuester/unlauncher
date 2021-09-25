@@ -8,8 +8,6 @@ import android.os.UserManager
 import android.provider.AlarmClock
 import android.provider.CalendarContract
 import android.provider.MediaStore
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -70,36 +68,12 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
             }
         })
 
-//        if (!::appDrawerAdapter.isInitialized) {
-            appDrawerAdapter =
-                AppDrawerAdapter(AppDrawerListener(), viewLifecycleOwner, unlauncherAppsRepo)
-//        }
+        appDrawerAdapter =
+            AppDrawerAdapter(AppDrawerListener(), viewLifecycleOwner, unlauncherAppsRepo)
 
         setEventListeners()
 
         app_drawer_fragment_list.adapter = appDrawerAdapter
-        home_fragment.setTransitionListener(object : TransitionListener {
-            override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
-                // hide the keyboard and remove focus from the EditText when swiping back up
-                if (currentId == motionLayout?.startState) {
-                    resetAppDrawerEditText()
-                    val inputMethodManager = requireContext().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-                    inputMethodManager.hideSoftInputFromWindow(requireView().windowToken, 0)
-                }
-            }
-
-            override fun onTransitionTrigger(motionLayout: MotionLayout?, triggerId: Int, positive: Boolean, progress: Float) {
-                // do nothing
-            }
-
-            override fun onTransitionStarted(motionLayout: MotionLayout?, startId: Int, endId: Int) {
-                // do nothing
-            }
-
-            override fun onTransitionChange(motionLayout: MotionLayout?, startId: Int, endId: Int, progress: Float) {
-                // do nothing
-            }
-        })
     }
 
     override fun onStart() {
@@ -197,6 +171,29 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
             })
 
         app_drawer_edit_text.addTextChangedListener(appDrawerAdapter.searchBoxListener)
+
+        home_fragment.setTransitionListener(object : TransitionListener {
+            override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
+                // hide the keyboard and remove focus from the EditText when swiping back up
+                if (currentId == motionLayout?.startState) {
+                    resetAppDrawerEditText()
+                    val inputMethodManager = requireContext().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+                    inputMethodManager.hideSoftInputFromWindow(requireView().windowToken, 0)
+                }
+            }
+
+            override fun onTransitionTrigger(motionLayout: MotionLayout?, triggerId: Int, positive: Boolean, progress: Float) {
+                // do nothing
+            }
+
+            override fun onTransitionStarted(motionLayout: MotionLayout?, startId: Int, endId: Int) {
+                // do nothing
+            }
+
+            override fun onTransitionChange(motionLayout: MotionLayout?, startId: Int, endId: Int, progress: Float) {
+                // do nothing
+            }
+        })
     }
 
     fun updateClock() {

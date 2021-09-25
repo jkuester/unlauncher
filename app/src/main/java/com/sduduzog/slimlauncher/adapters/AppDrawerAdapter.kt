@@ -1,5 +1,6 @@
 package com.sduduzog.slimlauncher.adapters
 
+import android.annotation.SuppressLint
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -22,7 +23,7 @@ class AppDrawerAdapter(
 
     private var apps: List<UnlauncherApp> = listOf()
     private var filteredApps: List<UnlauncherApp> = listOf()
-    private var filterQuery = "";
+    private var filterQuery = ""
 
     init {
         appsRepo.liveData().observe(lifecycleOwner, { unlauncherApps ->
@@ -52,12 +53,12 @@ class AppDrawerAdapter(
         this.updateDisplayedApps()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun updateDisplayedApps() {
         filteredApps = apps.filter { app ->
             regex.replace(app.displayName, "").contains(filterQuery, ignoreCase = true)
         }.toList()
         notifyDataSetChanged()
-//        notifyItemChanged(R.layout.add_app_fragment_list_item)
     }
 
     val searchBoxListener: TextWatcher = object : TextWatcher {
@@ -70,7 +71,6 @@ class AppDrawerAdapter(
         }
 
         override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-            // TODO Here is where we need to fix da filtering.
             setAppFilter(s.toString())
         }
     }
