@@ -88,9 +88,6 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
         super.onResume()
         updateClock()
 
-        lifecycleScope.launch {
-            getUnlauncherDataSource().unlauncherAppsRepo.setApps(getInstalledApps())
-        }
         if (!::appDrawerAdapter.isInitialized) {
             appDrawerAdapter.setAppFilter()
         }
@@ -99,6 +96,11 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
     override fun onStop() {
         super.onStop()
         activity?.unregisterReceiver(receiver)
+
+        lifecycleScope.launch {
+            getUnlauncherDataSource().unlauncherAppsRepo.setApps(getInstalledApps())
+        }
+
         resetAppDrawerEditText()
     }
 
