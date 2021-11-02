@@ -27,6 +27,7 @@ import com.sduduzog.slimlauncher.utils.BaseFragment
 import com.sduduzog.slimlauncher.utils.OnLaunchAppListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.home_fragment.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -88,7 +89,7 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
         super.onResume()
         updateClock()
 
-        lifecycleScope.launch {
+        lifecycleScope.launch(Dispatchers.IO) {
             getUnlauncherDataSource().unlauncherAppsRepo.setApps(getInstalledApps())
         }
         if (!::appDrawerAdapter.isInitialized) {
