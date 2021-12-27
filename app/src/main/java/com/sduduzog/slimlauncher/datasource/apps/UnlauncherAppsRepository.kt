@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import java.io.IOException
+import java.util.*
 
 class UnlauncherAppsRepository(
     private val unlauncherAppsStore: DataStore<UnlauncherApps>,
@@ -49,7 +50,11 @@ class UnlauncherAppsRepository(
                 ) == null
             }.forEach { app ->
                 val index =
-                    unlauncherAppsBuilder.appsList.indexOfFirst { unlauncherApp -> unlauncherApp.displayName > app.appName }
+                    unlauncherAppsBuilder.appsList.indexOfFirst { unlauncherApp ->
+                        unlauncherApp.displayName.toUpperCase(
+                            Locale.getDefault()
+                        ) > app.appName.toUpperCase(Locale.getDefault())
+                    }
                 unlauncherAppsBuilder.addApps(
                     if (index >= 0) index else unlauncherAppsBuilder.appsList.size,
                     UnlauncherApp.newBuilder().setPackageName(app.packageName)
