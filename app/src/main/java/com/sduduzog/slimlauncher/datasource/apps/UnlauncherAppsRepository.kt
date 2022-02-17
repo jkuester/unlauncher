@@ -49,14 +49,7 @@ class UnlauncherAppsRepository(
                     app.activityName
                 ) == null
             }.forEach { app ->
-                val index =
-                    unlauncherAppsBuilder.appsList.indexOfFirst { unlauncherApp ->
-                        unlauncherApp.displayName.toUpperCase(
-                            Locale.getDefault()
-                        ) > app.appName.toUpperCase(Locale.getDefault())
-                    }
                 unlauncherAppsBuilder.addApps(
-                    if (index >= 0) index else unlauncherAppsBuilder.appsList.size,
                     UnlauncherApp.newBuilder().setPackageName(app.packageName)
                         .setClassName(app.activityName).setUserSerial(app.userSerial)
                         .setDisplayName(app.appName).setDisplayInDrawer(true)
@@ -75,6 +68,7 @@ class UnlauncherAppsRepository(
                 )
             }
 
+            sortAppsAlphabetically(unlauncherAppsBuilder)
             unlauncherAppsBuilder.build()
         }
     }
@@ -131,7 +125,10 @@ class UnlauncherAppsRepository(
                 val builder = currentApps.toBuilder()
                 val index = builder.appsList.indexOf(appToUpdate)
                 if (index >= 0) {
-                    builder.setApps(index, appToUpdate.toBuilder().setDisplayInDrawer(displayInDrawer))
+                    builder.setApps(
+                        index,
+                        appToUpdate.toBuilder().setDisplayInDrawer(displayInDrawer)
+                    )
                 }
                 builder.build()
             }
@@ -147,4 +144,11 @@ class UnlauncherAppsRepository(
             packageName == app.packageName && className == app.className
         }
     }
+}
+
+fun sortAppsAlphabetically(unlauncherAppsBuilder: UnlauncherApps.Builder) {
+    val sortedApps =
+        unlauncherAppsBuilder.appsList.sortedBy { it.displayName.toUpperCase(Locale.getDefault()) }
+    unlauncherAppsBuilder.clearApps()
+    unlauncherAppsBuilder.addAllApps(sortedApps)
 }

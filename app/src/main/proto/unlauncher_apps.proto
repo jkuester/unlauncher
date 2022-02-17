@@ -14,4 +14,5 @@ message UnlauncherApp {
 
 message UnlauncherApps {
   repeated UnlauncherApp apps = 1;
+  int32 version = 2;
 }
