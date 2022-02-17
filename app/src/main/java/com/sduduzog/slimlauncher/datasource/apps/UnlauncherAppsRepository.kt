@@ -42,6 +42,7 @@ class UnlauncherAppsRepository(
         unlauncherAppsStore.updateData { unlauncherApps ->
             val unlauncherAppsBuilder = unlauncherApps.toBuilder()
             // Add any new apps
+            var appAdded = false
             apps.filter { app ->
                 findApp(
                     unlauncherAppsBuilder.appsList,
@@ -54,6 +55,7 @@ class UnlauncherAppsRepository(
                         .setClassName(app.activityName).setUserSerial(app.userSerial)
                         .setDisplayName(app.appName).setDisplayInDrawer(true)
                 )
+                appAdded = true
             }
             // Remove any apps that no longer exist
             unlauncherApps.appsList.filter { unlauncherApp ->
@@ -68,7 +70,9 @@ class UnlauncherAppsRepository(
                 )
             }
 
-            sortAppsAlphabetically(unlauncherAppsBuilder)
+            if(appAdded) {
+                sortAppsAlphabetically(unlauncherAppsBuilder)
+            }
             unlauncherAppsBuilder.build()
         }
     }
