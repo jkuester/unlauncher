@@ -10,9 +10,18 @@ message UnlauncherApp {
   string display_name = 4;
   bool display_in_drawer = 5;
   bool home_app = 6;
+  int64 last_opened_time_millis = 7;
 }
 
 message UnlauncherApps {
+  enum SORT_TYPE {
+    ALPHA_ASC = 0;
+    ALPHA_DSC = 1;
+    TIME_ASC = 3;
+    TIME_DSC = 4;
+  }
+
   repeated UnlauncherApp apps = 1;
   int32 version = 2;
+  SORT_TYPE sortType = 3;
 }

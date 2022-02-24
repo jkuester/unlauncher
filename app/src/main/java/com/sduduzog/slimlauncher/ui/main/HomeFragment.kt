@@ -3,11 +3,13 @@ package com.sduduzog.slimlauncher.ui.main
 import android.app.Activity
 import android.content.*
 import android.content.pm.LauncherApps
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.os.UserManager
 import android.provider.AlarmClock
 import android.provider.CalendarContract
 import android.provider.MediaStore
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +20,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.jkuester.unlauncher.datastore.UnlauncherApp
+import com.jkuester.unlauncher.datastore.UnlauncherApps
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.adapters.AppDrawerAdapter
 import com.sduduzog.slimlauncher.adapters.HomeAdapter
@@ -128,7 +131,7 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
         }
 
         getUnlauncherDataSource().quickButtonPreferencesRepo.liveData()
-            .observe(viewLifecycleOwner, { prefs ->
+            .observe(viewLifecycleOwner) { prefs ->
                 val leftButtonIcon = prefs.leftButton.iconId
                 home_fragment_call.setImageResource(leftButtonIcon)
                 if (leftButtonIcon != R.drawable.ic_empty) {
@@ -169,9 +172,38 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
                         }
                     }
                 }
-            })
+            }
 
         app_drawer_edit_text.addTextChangedListener(appDrawerAdapter.searchBoxListener)
+
+        app_drawer_sort_alpha.setOnClickListener {
+            getUnlauncherDataSource().unlauncherAppsRepo.toggleSortTypeAlpha()
+        }
+
+        app_drawer_sort_time.setOnClickListener {
+            getUnlauncherDataSource().unlauncherAppsRepo.toggleSortTypeTime()
+        }
+
+        getUnlauncherDataSource().unlauncherAppsRepo.liveData()
+            .observe(viewLifecycleOwner) { prefs ->
+                val themeColor = TypedValue()
+                    .apply { requireContext().theme.resolveAttribute(R.attr.colorAccent, this, true) }
+                    .data
+                val visibleBorder = GradientDrawable()
+                visibleBorder.setStroke(2, themeColor)
+                val hiddenBorder = GradientDrawable()
+                hiddenBorder.setStroke(0, themeColor)
+                when(prefs.sortType) {
+                    UnlauncherApps.SORT_TYPE.TIME_ASC, UnlauncherApps.SORT_TYPE.TIME_DSC -> {
+                        app_drawer_sort_alpha.background = hiddenBorder
+                        app_drawer_sort_time.background = visibleBorder
+                    }
+                    else -> {
+                        app_drawer_sort_alpha.background = visibleBorder
+                        app_drawer_sort_time.background = hiddenBorder
+                    }
+                }
+            }
 
         home_fragment.setTransitionListener(object : TransitionListener {
             override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
@@ -236,6 +268,8 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
 
     private fun launchApp(packageName: String, activityName: String, userSerial: Long) {
         try {
+            getUnlauncherDataSource().unlauncherAppsRepo.updateLastOpenedTimeMillis(packageName, activityName)
+
             val manager = requireContext().getSystemService(Context.USER_SERVICE) as UserManager
             val launcher = requireContext().getSystemService(Context.LAUNCHER_APPS_SERVICE) as LauncherApps
 

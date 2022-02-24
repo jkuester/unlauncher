@@ -70,7 +70,7 @@ class UnlauncherAppsRepository(
                 )
             }
 
-            if(appAdded) {
+            if (appAdded) {
                 sortAppsAlphabetically(unlauncherAppsBuilder)
             }
             unlauncherAppsBuilder.build()
@@ -139,6 +139,54 @@ class UnlauncherAppsRepository(
         }
     }
 
+    fun updateLastOpenedTimeMillis(packageName: String, className: String) {
+        lifecycleScope.launch {
+            unlauncherAppsStore.updateData { currentApps ->
+                val builder = currentApps.toBuilder()
+                findApp(currentApps.appsList, packageName, className)?.let { appToUpdate ->
+                    val index = builder.appsList.indexOf(appToUpdate)
+                    if (index >= 0) {
+                        val updatedApp = appToUpdate.toBuilder()
+                            .setLastOpenedTimeMillis(System.currentTimeMillis());
+                        when (currentApps.sortType) {
+                            UnlauncherApps.SORT_TYPE.TIME_ASC -> builder.removeApps(index)
+                                .addApps(updatedApp)
+                            UnlauncherApps.SORT_TYPE.TIME_DSC -> builder.removeApps(index)
+                                .addApps(0, updatedApp)
+                            else -> builder.setApps(index, updatedApp)
+                        }
+                    }
+                }
+                builder.build()
+            }
+        }
+    }
+
+    fun toggleSortTypeAlpha() {
+        lifecycleScope.launch {
+            unlauncherAppsStore.updateData { currentApps ->
+                val builder = currentApps.toBuilder()
+                builder.sortType =
+                    if (currentApps.sortType == UnlauncherApps.SORT_TYPE.ALPHA_ASC) UnlauncherApps.SORT_TYPE.ALPHA_DSC else UnlauncherApps.SORT_TYPE.ALPHA_ASC
+                sortAppsAlphabetically(builder)
+                builder.build()
+            }
+        }
+    }
+
+    fun toggleSortTypeTime() {
+        lifecycleScope.launch {
+            unlauncherAppsStore.updateData { currentApps ->
+                val builder = currentApps.toBuilder()
+                builder.sortType =
+                    if (currentApps.sortType == UnlauncherApps.SORT_TYPE.TIME_DSC) UnlauncherApps.SORT_TYPE.TIME_ASC
+                    else UnlauncherApps.SORT_TYPE.TIME_DSC
+                sortAppsByTime(builder)
+                builder.build()
+            }
+        }
+    }
+
     private fun findApp(
         unlauncherApps: List<UnlauncherApp>,
         packageName: String,
@@ -152,7 +200,20 @@ class UnlauncherAppsRepository(
 
 fun sortAppsAlphabetically(unlauncherAppsBuilder: UnlauncherApps.Builder) {
     val sortedApps =
-        unlauncherAppsBuilder.appsList.sortedBy { it.displayName.toUpperCase(Locale.getDefault()) }
+        if (unlauncherAppsBuilder.sortType == UnlauncherApps.SORT_TYPE.ALPHA_DSC)
+            unlauncherAppsBuilder.appsList.sortedByDescending { it.displayName.toUpperCase(Locale.getDefault()) }
+        else
+            unlauncherAppsBuilder.appsList.sortedBy { it.displayName.toUpperCase(Locale.getDefault()) }
+    unlauncherAppsBuilder.clearApps()
+    unlauncherAppsBuilder.addAllApps(sortedApps)
+}
+
+fun sortAppsByTime(unlauncherAppsBuilder: UnlauncherApps.Builder) {
+    val sortedApps =
+        if (unlauncherAppsBuilder.sortType == UnlauncherApps.SORT_TYPE.TIME_ASC)
+            unlauncherAppsBuilder.appsList.sortedBy { it.lastOpenedTimeMillis }
+        else
+            unlauncherAppsBuilder.appsList.sortedByDescending { it.lastOpenedTimeMillis }
     unlauncherAppsBuilder.clearApps()
     unlauncherAppsBuilder.addAllApps(sortedApps)
 }

@@ -1,0 +1,19 @@
+<vector android:height="24dp" android:viewportHeight="60"
+    android:viewportWidth="60" android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:fillColor="?attr/colorAccent"
+        android:pathData="m43.9068,47.0439v-39.948"
+        android:strokeColor="?attr/colorAccent" android:strokeLineCap="round"
+        android:strokeLineJoin="round" android:strokeWidth="5"/>
+    <path android:fillColor="?attr/colorAccent" android:fillType="evenOdd"
+        android:pathData="m34.1099,42.744l9.2813,12.919 10.313,-12.61 -19.594,-0.309z"
+        android:strokeColor="?attr/colorAccent" android:strokeLineCap="round"
+        android:strokeLineJoin="round" android:strokeWidth="3.712"/>
+    <path android:fillColor="?attr/colorAccent" android:pathData="M5.9925,20.5789C8.486,17.5115 12.0739,15.3686 16.1573,14.7539L14.2948,12.433C13.326,11.4308 11.2315,11.8598 8.5971,13.3811 5.9628,14.9022 4.5444,16.5012 4.9275,17.8412Z"/>
+    <path android:fillColor="?attr/colorAccent"
+        android:pathData="m18.5833,19.9803c-0.56,0 -1.014,0.454 -1.014,1.014L17.5692,29.7827L8.7809,29.7827c-0.56,0 -1.014,0.454 -1.014,1.014 0,0.56 0.454,1.014 1.014,1.014l9.8024,0c0.56,0 1.014,-0.454 1.014,-1.014L19.5973,20.9944c0,-0.56 -0.454,-1.014 -1.014,-1.014z"
+        android:strokeColor="?attr/colorAccent" android:strokeWidth="1"/>
+    <path android:fillColor="?attr/colorAccent" android:pathData="M31.1744,20.5789C28.6809,17.5115 25.093,15.3686 21.0095,14.7539l1.8625,-2.3209c0.9688,-1.0022 3.0633,-0.5732 5.6977,0.9481 2.6343,1.521 4.0527,3.1201 3.6696,4.46z"/>
+    <path android:fillColor="?attr/colorAccent"
+        android:pathData="M18.5833,15.9239C10.3826,15.9239 3.7108,22.5958 3.7108,30.7964 3.7108,38.9977 10.3826,45.6692 18.5833,45.6692 26.7839,45.6692 33.4557,38.9974 33.4557,30.7964 33.4561,22.5958 26.7842,15.9239 18.5833,15.9239ZM18.5833,43.6412C11.5007,43.6412 5.7388,37.879 5.7388,30.7967c0,-7.0822 5.7619,-12.8448 12.8444,-12.8448 7.0826,0 12.8444,5.7622 12.8444,12.8444 0,7.0822 -5.7619,12.8448 -12.8444,12.8448z"
+        android:strokeColor="?attr/colorAccent" android:strokeWidth="1"/>
+</vector>
