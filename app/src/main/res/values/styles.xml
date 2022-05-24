@@ -1,29 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AppTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
-        <item name="colorAccent">@color/lightAccentColor</item>
-        <item name="android:colorForeground">@color/lightAccentColor</item>
-        <item name="colorPrimary">@color/colorWhite</item>
-        <item name="colorPrimaryDark">@color/colorWhiteDark</item>
-        <item name="android:colorBackground">@color/colorWhite</item>
+    <style name="AppThemeParent" parent="@style/Theme.AppCompat.DayNight.NoActionBar">
         <item name="android:fontFamily">@font/ubuntu</item>
     </style>
 
-    <style name="AppDarkTheme" parent="@style/Theme.AppCompat.NoActionBar">
-        <item name="colorAccent">@color/darkAccentColor</item>
-        <item name="colorPrimary">@color/primaryDarkColor</item>
-        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
-        <item name="android:colorBackground">@color/primaryDarkColor</item>
-        <item name="android:colorForeground">@color/darkAccentColor</item>
-        <item name="android:fontFamily">@font/ubuntu</item>
+    <style name="AppLightTheme" parent="AppThemeParent">
+        <item name="colorAccent">@color/accentColor</item>
+        <item name="android:colorForeground">@color/accentColor</item>
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryDark">@color/primaryColorDark</item>
+        <item name="android:colorBackground">@color/primaryColor</item>
+    </style>
+
+    <style name="AppDarkTheme" parent="AppThemeParent">
+        <item name="colorAccent">@color/accentColor</item>
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryDark">@color/primaryColor</item>
+        <item name="android:colorBackground">@color/primaryColor</item>
+        <item name="android:colorForeground">@color/accentColor</item>
     </style>
 
     <style name="AppGreyTheme" parent="@style/AppDarkTheme">
+
         <item name="colorPrimary">@color/colorBlueGrey</item>
         <item name="colorPrimaryDark">@color/colorBlueGrey</item>
         <item name="android:colorBackground">@color/colorBlueGrey</item>
-        <item name="colorAccent">@color/darkAccentColor</item>
+        <item name="colorAccent">@color/accentColor</item>
     </style>
 
     <style name="AppCandyTheme" parent="AppDarkTheme">
@@ -32,13 +35,17 @@
         <item name="android:colorBackground">@color/colorCandy</item>
     </style>
 
-    <style name="AppPinkTheme" parent="AppTheme">
+    <style name="AppPinkTheme" parent="AppLightTheme">
+        <item name="colorAccent">@color/lightAccentColor</item>
+        <item name="android:colorForeground">@color/lightAccentColor</item>
         <item name="colorPrimary">@color/colorPink</item>
         <item name="colorPrimaryDark">@color/colorPink</item>
         <item name="android:colorBackground">@color/colorPink</item>
     </style>
 
-    <style name="AppTealTheme" parent="AppTheme">
+    <style name="AppTealTheme" parent="AppLightTheme">
+        <item name="colorAccent">@color/lightAccentColor</item>
+        <item name="android:colorForeground">@color/lightAccentColor</item>
         <item name="colorPrimary">@color/colorTeal</item>
         <item name="colorPrimaryDark">@color/colorTeal</item>
         <item name="android:colorBackground">@color/colorTeal</item>
