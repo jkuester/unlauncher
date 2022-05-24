@@ -1,6 +1,5 @@
 package com.sduduzog.slimlauncher.ui.options
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -26,9 +25,9 @@ class CustomizeAppDrawerFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
         val unlauncherAppsRepo = getUnlauncherDataSource().unlauncherAppsRepo
-        customize_app_drawer_fragment_app_list.adapter = CustomizeAppDrawerAppsAdapter(viewLifecycleOwner, unlauncherAppsRepo)
+        customize_app_drawer_fragment_app_list.adapter =
+            CustomizeAppDrawerAppsAdapter(viewLifecycleOwner, unlauncherAppsRepo)
         unlauncherAppsRepo.liveData().observe(viewLifecycleOwner, {
             it?.let {
                 customize_app_drawer_fragment_app_progress_bar.visibility = View.GONE
@@ -36,13 +35,5 @@ class CustomizeAppDrawerFragment : BaseFragment() {
                 customize_app_drawer_fragment_app_progress_bar.visibility = View.VISIBLE
             }
         })
-
-        val settings = requireContext().getSharedPreferences(getString(R.string.prefs_settings), Context.MODE_PRIVATE)
-        customize_app_drawer_open_keyboard_switch.setOnCheckedChangeListener { _, checked ->
-            settings.edit()
-                .putBoolean(getString(R.string.prefs_settings_key_open_keyboard), checked)
-                .apply()
-        }
-        customize_app_drawer_open_keyboard_switch.isChecked = settings.getBoolean(getString(R.string.prefs_settings_key_open_keyboard), true)
     }
 }
