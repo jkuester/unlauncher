@@ -1,123 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/options_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.options.OptionsFragment">
+    android:overScrollMode="ifContentScrolls"
+    android:scrollbars="none">
 
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/options_fragment"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_16sdp"
-        android:layout_marginLeft="@dimen/_16sdp"
-        android:layout_marginTop="@dimen/_8sdp"
-        android:text="@string/main_fragment_options"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textSize="@dimen/_36ssp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        tools:context=".ui.options.OptionsFragment">
 
-    <TextView
-        android:id="@+id/options_fragment_about_slim"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginTop="32dp"
-        android:text="@string/options_fragment_about_slim"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textSize="@dimen/_20ssp"
-        app:layout_constraintBottom_toTopOf="@+id/options_fragment_device_settings"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5"
-        app:layout_constraintVertical_bias="0.17000002"
-        app:layout_constraintVertical_chainStyle="packed" />
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:layout_marginLeft="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:text="@string/main_fragment_options"
+            android:textAppearance="@style/TextAppearance.AppCompat"
+            android:textSize="@dimen/_36ssp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/options_fragment_device_settings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="@string/options_fragment_device_settings"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textSize="@dimen/_20ssp"
-        app:layout_constraintBottom_toTopOf="@+id/options_fragment_change_theme"
-        app:layout_constraintStart_toStartOf="@+id/options_fragment_about_slim"
-        app:layout_constraintTop_toBottomOf="@+id/options_fragment_about_slim" />
+        <TextView
+            android:id="@+id/options_fragment_about_slim"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="32dp"
+            android:text="@string/options_fragment_about_slim"
+            android:textAppearance="@style/TextAppearance.AppCompat"
+            android:textSize="@dimen/_20ssp"
+            app:layout_constraintBottom_toTopOf="@+id/options_fragment_device_settings"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView5"
+            app:layout_constraintVertical_bias="0.17000002"
+            app:layout_constraintVertical_chainStyle="packed" />
 
-    <TextView
-        android:id="@+id/options_fragment_change_theme"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="@string/options_fragment_change_theme"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textSize="@dimen/_20ssp"
-        app:layout_constraintBottom_toTopOf="@+id/options_fragment_choose_time_format"
-        app:layout_constraintStart_toStartOf="@+id/options_fragment_device_settings"
-        app:layout_constraintTop_toBottomOf="@+id/options_fragment_device_settings" />
+        <TextView
+            android:id="@+id/options_fragment_device_settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/options_fragment_device_settings"
+            android:textAppearance="@style/TextAppearance.AppCompat"
+            android:textSize="@dimen/_20ssp"
+            app:layout_constraintBottom_toTopOf="@+id/options_fragment_change_theme"
+            app:layout_constraintStart_toStartOf="@+id/options_fragment_about_slim"
+            app:layout_constraintTop_toBottomOf="@+id/options_fragment_about_slim" />
 
-    <TextView
-        android:id="@+id/options_fragment_choose_time_format"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="@string/options_fragment_choose_time_format"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textSize="@dimen/_20ssp"
-        app:layout_constraintBottom_toTopOf="@+id/options_fragment_toggle_status_bar"
-        app:layout_constraintStart_toStartOf="@+id/options_fragment_change_theme"
-        app:layout_constraintTop_toBottomOf="@+id/options_fragment_change_theme" />
+        <TextView
+            android:id="@+id/options_fragment_change_theme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/options_fragment_change_theme"
+            android:textAppearance="@style/TextAppearance.AppCompat"
+            android:textSize="@dimen/_20ssp"
+            app:layout_constraintBottom_toTopOf="@+id/options_fragment_choose_time_format"
+            app:layout_constraintStart_toStartOf="@+id/options_fragment_device_settings"
+            app:layout_constraintTop_toBottomOf="@+id/options_fragment_device_settings" />
 
-    <TextView
-        android:id="@+id/options_fragment_toggle_status_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="@string/options_fragment_toggle_status_bar"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textSize="@dimen/_20ssp"
-        app:layout_constraintBottom_toTopOf="@+id/options_fragment_customise_apps"
-        app:layout_constraintStart_toStartOf="@+id/options_fragment_choose_time_format"
-        app:layout_constraintTop_toBottomOf="@+id/options_fragment_choose_time_format" />
+        <TextView
+            android:id="@+id/options_fragment_choose_time_format"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/options_fragment_choose_time_format"
+            android:textAppearance="@style/TextAppearance.AppCompat"
+            android:textSize="@dimen/_20ssp"
+            app:layout_constraintBottom_toTopOf="@+id/options_fragment_toggle_status_bar"
+            app:layout_constraintStart_toStartOf="@+id/options_fragment_change_theme"
+            app:layout_constraintTop_toBottomOf="@+id/options_fragment_change_theme" />
 
-    <TextView
-        android:id="@+id/options_fragment_customise_apps"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="32dp"
-        android:text="@string/options_fragment_customise_apps"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textSize="@dimen/_20ssp"
-        app:layout_constraintBottom_toTopOf="@+id/options_fragment_customize_quick_buttons"
-        app:layout_constraintStart_toStartOf="@+id/options_fragment_toggle_status_bar"
-        app:layout_constraintTop_toBottomOf="@+id/options_fragment_toggle_status_bar" />
+        <TextView
+            android:id="@+id/options_fragment_toggle_status_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/options_fragment_toggle_status_bar"
+            android:textAppearance="@style/TextAppearance.AppCompat"
+            android:textSize="@dimen/_20ssp"
+            app:layout_constraintBottom_toTopOf="@+id/options_fragment_customise_apps"
+            app:layout_constraintStart_toStartOf="@+id/options_fragment_choose_time_format"
+            app:layout_constraintTop_toBottomOf="@+id/options_fragment_choose_time_format" />
 
-    <TextView
-        android:id="@+id/options_fragment_customize_quick_buttons"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="32dp"
-        android:text="@string/options_fragment_customize_quick_buttons"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textSize="@dimen/_20ssp"
-        app:layout_constraintStart_toStartOf="@+id/options_fragment_customise_apps"
-        app:layout_constraintTop_toBottomOf="@+id/options_fragment_customise_apps" />
+        <TextView
+            android:id="@+id/options_fragment_customise_apps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="32dp"
+            android:text="@string/options_fragment_customise_apps"
+            android:textAppearance="@style/TextAppearance.AppCompat"
+            android:textSize="@dimen/_20ssp"
+            app:layout_constraintBottom_toTopOf="@+id/options_fragment_customize_quick_buttons"
+            app:layout_constraintStart_toStartOf="@+id/options_fragment_toggle_status_bar"
+            app:layout_constraintTop_toBottomOf="@+id/options_fragment_toggle_status_bar" />
 
-    <TextView
-        android:id="@+id/options_fragment_customize_app_drawer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="32dp"
-        android:text="@string/options_fragment_customize_app_drawer"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textSize="@dimen/_20ssp"
-        app:layout_constraintStart_toStartOf="@+id/options_fragment_customize_quick_buttons"
-        app:layout_constraintTop_toBottomOf="@+id/options_fragment_customize_quick_buttons" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/options_fragment_customize_quick_buttons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="32dp"
+            android:text="@string/options_fragment_customize_quick_buttons"
+            android:textAppearance="@style/TextAppearance.AppCompat"
+            android:textSize="@dimen/_20ssp"
+            app:layout_constraintStart_toStartOf="@+id/options_fragment_customise_apps"
+            app:layout_constraintTop_toBottomOf="@+id/options_fragment_customise_apps" />
+
+        <TextView
+            android:id="@+id/options_fragment_customize_app_drawer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="32dp"
+            android:text="@string/options_fragment_customize_app_drawer"
+            android:textAppearance="@style/TextAppearance.AppCompat"
+            android:textSize="@dimen/_20ssp"
+            app:layout_constraintStart_toStartOf="@+id/options_fragment_customize_quick_buttons"
+            app:layout_constraintTop_toBottomOf="@+id/options_fragment_customize_quick_buttons" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
