@@ -6,6 +6,7 @@
 
     <string-array name="themes_array">
         <item>默認主題</item>
+        <item>主题中午</item>
         <item>黑夜主題</item>
         <item>木星主題</item>
         <item>藍綠色主題</item>

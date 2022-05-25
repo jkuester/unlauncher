@@ -5,7 +5,8 @@
     <string name="main_placeholder_date" translatable="false">Sat, Apr 20</string>
 
     <string-array name="themes_array">
-        <item>Forvalg</item>
+        <item>System forvalg</item>
+        <item>Middag</item>
         <item>Midnatt</item>
         <item>Jupiter</item>
         <item>Turkis</item>

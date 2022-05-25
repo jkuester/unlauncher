@@ -9,6 +9,7 @@
 
     <string-array name="themes_array">
         <item>默认</item>
+        <item>正午</item>
         <item>午夜</item>
         <item>木星</item>
         <item>水鸭色</item>

@@ -133,11 +133,12 @@ class MainActivity : AppCompatActivity(),
 
         fun resolveTheme(i: Int): Int {
             return when (i) {
-                1 -> R.style.AppDarkTheme
-                2 -> R.style.AppGreyTheme
-                3 -> R.style.AppTealTheme
-                4 -> R.style.AppCandyTheme
-                5 -> R.style.AppPinkTheme
+                1 -> R.style.AppThemeLight
+                2 -> R.style.AppThemeDark
+                3 -> R.style.AppGreyTheme
+                4 -> R.style.AppTealTheme
+                5 -> R.style.AppCandyTheme
+                6 -> R.style.AppPinkTheme
                 else -> R.style.AppTheme
             }
         }

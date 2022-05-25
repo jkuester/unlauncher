@@ -29,8 +29,6 @@ class ChangeThemeDialog : DialogFragment(){
     }
 
     companion object {
-        fun getThemeChooser(): ChangeThemeDialog{
-            return ChangeThemeDialog()
-        }
+        fun getThemeChooser(): ChangeThemeDialog = ChangeThemeDialog()
     }
 }
