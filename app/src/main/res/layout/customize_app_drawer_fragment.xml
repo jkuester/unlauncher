@@ -7,6 +7,21 @@
     android:layout_height="match_parent"
     tools:context=".ui.options.CustomizeAppDrawerFragment">
 
+    <TextView
+        android:id="@+id/customize_app_drawer_fragment_visible_apps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:layout_marginLeft="@dimen/_16sdp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="@dimen/_16sdp"
+        android:layout_marginRight="@dimen/_16sdp"
+        android:textSize="@dimen/_20ssp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="@string/customize_app_drawer_fragment_visible_apps" />
+
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/customize_app_drawer_open_keyboard_switch"
         android:layout_width="match_parent"
@@ -20,54 +35,6 @@
         android:text="@string/customize_app_drawer_fragment_open_keyboard"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textSize="@dimen/_20ssp"
-
-        app:layout_constraintTop_toTopOf="parent"/>
-
-    <TextView
-        android:id="@+id/customize_app_drawer_fragment_visible_apps"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:layout_marginStart="@dimen/_16sdp"
-        android:layout_marginLeft="@dimen/_16sdp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="@dimen/_16sdp"
-        android:layout_marginRight="@dimen/_16sdp"
-        android:textSize="@dimen/_20ssp"
-        app:layout_constraintTop_toBottomOf="@id/customize_app_drawer_open_keyboard_switch"
-        app:layout_constraintStart_toStartOf="parent"
-        android:text="@string/customize_app_drawer_fragment_visible_apps" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/customize_app_drawer_fragment_app_list"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="@dimen/_24sdp"
-        android:layout_marginLeft="@dimen/_24sdp"
-        android:layout_marginEnd="@dimen/_16sdp"
-        android:layout_marginRight="@dimen/_16sdp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/customize_app_drawer_fragment_visible_apps"
-        tools:listitem="@layout/customize_app_drawer_fragment_app_list_item" />
-
-    <ProgressBar
-        android:id="@+id/customize_app_drawer_fragment_app_progress_bar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        app:layout_constraintBottom_toBottomOf="@id/customize_app_drawer_fragment_app_list"
-        app:layout_constraintEnd_toEndOf="@id/customize_app_drawer_fragment_app_list"
-        app:layout_constraintStart_toStartOf="@id/customize_app_drawer_fragment_app_list"
-        app:layout_constraintTop_toTopOf="@id/customize_app_drawer_fragment_app_list"
-        app:layout_constraintVertical_bias="0.25" />
+        app:layout_constraintStart_toStartOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
