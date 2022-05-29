@@ -1,28 +1,32 @@
 package com.sduduzog.slimlauncher
 
+import android.app.WallpaperManager
 import android.content.SharedPreferences
 import android.content.res.Resources
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.os.Bundle
 import android.view.GestureDetector
 import android.view.GestureDetector.SimpleOnGestureListener
 import android.view.MotionEvent
 import android.view.View
+import android.widget.Toast
+import androidx.annotation.ColorInt
+import androidx.annotation.StyleRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.Navigation.findNavController
 import com.sduduzog.slimlauncher.di.MainFragmentFactoryEntryPoint
-import com.sduduzog.slimlauncher.utils.BaseFragment
-import com.sduduzog.slimlauncher.utils.HomeWatcher
-import com.sduduzog.slimlauncher.utils.IPublisher
-import com.sduduzog.slimlauncher.utils.ISubscriber
+import com.sduduzog.slimlauncher.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.EntryPointAccessors
+import java.io.IOException
 
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(),
-        SharedPreferences.OnSharedPreferenceChangeListener,
-        HomeWatcher.OnHomePressedListener, IPublisher {
+    SharedPreferences.OnSharedPreferenceChangeListener,
+    HomeWatcher.OnHomePressedListener, IPublisher {
 
     private lateinit var settings: SharedPreferences
     private lateinit var navigator: NavController
@@ -94,12 +98,52 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
+    override fun onApplyThemeResource(theme: Resources.Theme?, resid: Int, first: Boolean) {
+        super.onApplyThemeResource(theme, resid, first)
+        val wallpaperManager = WallpaperManager.getInstance(applicationContext)
+        try {
+            val backgroundColor = getThemeBackgroundColorInt(theme)
+            val wallpaperBitmap = createBackgroundWallpaperBitmap(backgroundColor)
+            wallpaperManager.setBitmap(wallpaperBitmap)
+        } catch (e: IOException) {
+            Toast.makeText(this,"Looks like you did not permit the app to change the background", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    @ColorInt
+    private fun getThemeBackgroundColorInt(theme: Resources.Theme?): Int {
+        val typedArray =
+            theme?.obtainStyledAttributes(getThemeRes(), intArrayOf(android.R.attr.colorBackground))
+        val backgroundColorInt = typedArray?.getColor(0, 0) ?: 0
+        typedArray?.recycle()
+
+        if (backgroundColorInt == 0) {
+            // should not happen as the themes always have a background color
+            throw IOException("Theme has no background color")
+        }
+        return backgroundColorInt
+    }
+
+    private fun createBackgroundWallpaperBitmap(@ColorInt color: Int): Bitmap {
+        val width = getScreenWidth(this)
+        val height = getScreenHeight(this)
+        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        canvas.drawColor(color)
+        return bitmap
+    }
+
     override fun getTheme(): Resources.Theme {
         val theme = super.getTheme()
+        theme.applyStyle(getThemeRes(), true)
+        return theme
+    }
+
+    @StyleRes
+    private fun getThemeRes(): Int {
         settings = getSharedPreferences(getString(R.string.prefs_settings), MODE_PRIVATE)
         val active = settings.getInt(getString(R.string.prefs_settings_key_theme), 0)
-        theme.applyStyle(resolveTheme(active), true)
-        return theme
+        return resolveTheme(active)
     }
 
     override fun onBackPressed() {
@@ -131,6 +175,7 @@ class MainActivity : AppCompatActivity(),
 
     companion object {
 
+        @StyleRes
         fun resolveTheme(i: Int): Int {
             return when (i) {
                 1 -> R.style.AppDarkTheme

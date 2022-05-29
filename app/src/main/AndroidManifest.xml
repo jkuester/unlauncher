@@ -6,12 +6,13 @@
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
         tools:ignore="QueryAllPackagesPermission" />
+    <uses-permission android:name="android.permission.SET_WALLPAPER"/>
 
 
     <application
         android:name=".App"
         android:allowBackup="false"
-        android:configChanges="orientation|keyboardHidden|screenSize"
+        android:configChanges="orientation|keyboardHidden|screenSize|uiMode"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
