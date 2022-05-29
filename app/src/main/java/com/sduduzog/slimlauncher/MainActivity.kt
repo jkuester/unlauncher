@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.Navigation.findNavController
 import com.sduduzog.slimlauncher.di.MainFragmentFactoryEntryPoint
+import com.sduduzog.slimlauncher.ui.dialogs.AutomaticWallpaperPromptDialog
 import com.sduduzog.slimlauncher.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.EntryPointAccessors
@@ -26,12 +27,13 @@ import java.io.IOException
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(),
     SharedPreferences.OnSharedPreferenceChangeListener,
-    HomeWatcher.OnHomePressedListener, IPublisher {
+    HomeWatcher.OnHomePressedListener, IPublisher, AutomaticWallpaperPromptDialog.OnPromptResultListener {
 
     private lateinit var settings: SharedPreferences
     private lateinit var navigator: NavController
     private lateinit var homeWatcher: HomeWatcher
     private val subscribers: MutableSet<BaseFragment> = mutableSetOf()
+    private var appIsDefaultLauncher: Boolean = false
 
     override fun attachSubscriber(s: ISubscriber) {
         subscribers.add(s as BaseFragment)
@@ -65,12 +67,14 @@ class MainActivity : AppCompatActivity(),
         navigator = findNavController(this, R.id.nav_host_fragment)
         homeWatcher = HomeWatcher(this)
         homeWatcher.setOnHomePressedListener(this)
+        appIsDefaultLauncher = (applicationContext as App).isDefaultLauncher
     }
 
     override fun onResume() {
         super.onResume()
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         toggleStatusBar()
+        appIsDefaultLauncher = (applicationContext as App).isDefaultLauncher
     }
 
     override fun onStart() {
@@ -100,9 +104,30 @@ class MainActivity : AppCompatActivity(),
 
     override fun onApplyThemeResource(theme: Resources.Theme?, resid: Int, first: Boolean) {
         super.onApplyThemeResource(theme, resid, first)
+        val appIsDefaultLauncher = (applicationContext as App).isDefaultLauncher
+        // the first time the user sets this app as the default launcher,
+        // the app will ask if the background wallpaper should be
+        // changed automatically once the theme changes
+        if (first && appIsDefaultLauncher) {
+            // TODO fixme
+            val dialogAlreadyShown = settings.getBoolean(getString(R.string.prefs_key_automatic_wallpaper_shown), false)
+            if (!dialogAlreadyShown) {
+                setWallpaperBasedOnThemeBackgroundColor(theme)
+            } else {
+                val changeThemeDialog = AutomaticWallpaperPromptDialog.getAutomaticWallpaperPrompt()
+                changeThemeDialog.showNow(supportFragmentManager, "AUTOMATIC_WALLPAPER_PROMPT")
+            }
+        }
+    }
+
+    override fun yes() {
+        setWallpaperBasedOnThemeBackgroundColor(super.getTheme())
+    }
+
+    private fun setWallpaperBasedOnThemeBackgroundColor(theme: Resources.Theme?) {
         val wallpaperManager = WallpaperManager.getInstance(applicationContext)
         try {
-            val backgroundColor = getThemeBackgroundColorInt(theme)
+            val backgroundColor = getThemeBackgroundColor(theme)
             val wallpaperBitmap = createBackgroundWallpaperBitmap(backgroundColor)
             wallpaperManager.setBitmap(wallpaperBitmap)
         } catch (e: IOException) {
@@ -111,7 +136,7 @@ class MainActivity : AppCompatActivity(),
     }
 
     @ColorInt
-    private fun getThemeBackgroundColorInt(theme: Resources.Theme?): Int {
+    private fun getThemeBackgroundColor(theme: Resources.Theme?): Int {
         val typedArray =
             theme?.obtainStyledAttributes(getThemeRes(), intArrayOf(android.R.attr.colorBackground))
         val backgroundColorInt = typedArray?.getColor(0, 0) ?: 0
