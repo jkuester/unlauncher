@@ -187,12 +187,12 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
 
                     motionLayout?.endState -> {
                         // Check for preferences to open the keyboard
-                        val settings = activity?.getSharedPreferences(getString(R.string.prefs_settings), AppCompatActivity.MODE_PRIVATE)
-                        val showKeyboard = settings?.getBoolean(getString(R.string.prefs_settings_key_open_keyboard), true) ?: true
-                        if (showKeyboard) {
-                            // show the keyboard and set focus to the EditText when swiping down
-                            inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
-                            app_drawer_edit_text.requestFocus()
+                        getUnlauncherDataSource().unlauncherAppsRepo.liveData().observe(viewLifecycleOwner) {
+                            if (it.activateKeyboardInDrawer) {
+                                // show the keyboard and set focus to the EditText when swiping down
+                                inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0)
+                                app_drawer_edit_text.requestFocus()
+                            }
                         }
                     }
                 }

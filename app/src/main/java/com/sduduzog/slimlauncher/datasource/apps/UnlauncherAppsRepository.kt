@@ -139,6 +139,14 @@ class UnlauncherAppsRepository(
         }
     }
 
+    fun updateActivateKeyboardInDrawer(activateKeyboardInDrawer: Boolean) {
+        lifecycleScope.launch {
+            unlauncherAppsStore.updateData {
+                it.toBuilder().setActivateKeyboardInDrawer(activateKeyboardInDrawer).build()
+            }
+        }
+    }
+
     private fun findApp(
         unlauncherApps: List<UnlauncherApp>,
         packageName: String,
