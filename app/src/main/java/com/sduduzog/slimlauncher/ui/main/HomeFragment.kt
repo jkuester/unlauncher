@@ -85,10 +85,6 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
         activity?.registerReceiver(receiver, IntentFilter(Intent.ACTION_TIME_TICK))
     }
 
-    override fun onPause() {
-        super.onPause()
-    }
-
     override fun getFragmentView(): ViewGroup = home_fragment
 
     override fun onResume() {
