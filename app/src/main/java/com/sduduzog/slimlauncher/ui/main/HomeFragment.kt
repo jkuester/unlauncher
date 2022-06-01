@@ -98,7 +98,7 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
             appDrawerAdapter.setAppFilter()
         }
 
-        // scroll back to the top if user returns to thes fragment
+        // scroll back to the top if user returns to this fragment
         val layoutManager = app_drawer_fragment_list.layoutManager as LinearLayoutManager
         if (layoutManager.findFirstCompletelyVisibleItemPosition() != 0) {
             app_drawer_fragment_list.scrollToPosition(0)
