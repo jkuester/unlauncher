@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.motion.widget.MotionLayout.TransitionListener
 import androidx.lifecycle.Observer
@@ -53,7 +54,7 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
 
         val unlauncherAppsRepo = getUnlauncherDataSource().unlauncherAppsRepo
 
-        viewModel.apps.observe(viewLifecycleOwner, Observer { list ->
+        viewModel.apps.observe(viewLifecycleOwner, { list ->
             list?.let { apps ->
                 adapter1.setItems(apps.filter {
                     it.sortingIndex < 3
@@ -175,11 +176,25 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
 
         home_fragment.setTransitionListener(object : TransitionListener {
             override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
-                // hide the keyboard and remove focus from the EditText when swiping back up
-                if (currentId == motionLayout?.startState) {
-                    resetAppDrawerEditText()
-                    val inputMethodManager = requireContext().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-                    inputMethodManager.hideSoftInputFromWindow(requireView().windowToken, 0)
+                val inputMethodManager = requireContext().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+
+                when (currentId) {
+                    motionLayout?.startState -> {
+                        // hide the keyboard and remove focus from the EditText when swiping back up
+                        resetAppDrawerEditText()
+                        inputMethodManager.hideSoftInputFromWindow(requireView().windowToken, 0)
+                    }
+
+                    motionLayout?.endState -> {
+                        // Check for preferences to open the keyboard
+                        getUnlauncherDataSource().unlauncherAppsRepo.liveData().observe(viewLifecycleOwner) {
+                            if (it.activateKeyboardInDrawer) {
+                                // show the keyboard and set focus to the EditText when swiping down
+                                inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0)
+                                app_drawer_edit_text.requestFocus()
+                            }
+                        }
+                    }
                 }
             }
 
