@@ -15,4 +15,5 @@ message UnlauncherApp {
 message UnlauncherApps {
   repeated UnlauncherApp apps = 1;
   int32 version = 2;
+  bool activate_keyboard_in_drawer = 3;
 }
