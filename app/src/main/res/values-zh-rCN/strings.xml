@@ -38,8 +38,8 @@
     <string name="options_fragment_change_theme">更改主题</string>
     <string name="options_fragment_choose_time_format">选择时间格式</string>
     <string name="options_fragment_customise_apps">自定义应用</string>
-	<string name="options_fragment_customize_quick_buttons">定制快捷按钮</string>
-	<string name="options_fragment_customize_app_drawer">定制应用抽屉</string>
+    <string name="options_fragment_customize_quick_buttons">定制快捷按钮</string>
+    <string name="options_fragment_customize_app_drawer">定制应用抽屉</string>
     <string name="options_fragment_toggle_status_bar">切换状态栏</string>
     <string name="options_fragment_hide_status_bar">隐藏状态栏</string>
     <string name="options_fragment_show_status_bar">显示状态栏</string>
