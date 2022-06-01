@@ -58,6 +58,6 @@ If you have any issues or questions, please log a [Github issue](https://github.
 
 ## Contributing
 
-Contributions are welcome! Simply open a pull request.
+Contributions are welcome! Simply open a pull request. See the [development guide](./DEVELOPMENT.md) for details.
 
 If a monetary contribution is more your style, please consider buying [sduduzog](https://github.com/sduduzog) (the author of the original project) a [cup of coffee](https://buymeacoff.ee/sduduzog).

@@ -9,8 +9,11 @@ message UnlauncherApp {
   int64 user_serial = 3;
   string display_name = 4;
   bool display_in_drawer = 5;
+  bool home_app = 6;
 }
 
 message UnlauncherApps {
   repeated UnlauncherApp apps = 1;
+  int32 version = 2;
+  bool activate_keyboard_in_drawer = 3;
 }

@@ -8,15 +8,15 @@ import android.os.UserManager
 import android.provider.AlarmClock
 import android.provider.CalendarContract
 import android.provider.MediaStore
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.motion.widget.MotionLayout.TransitionListener
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.jkuester.unlauncher.datastore.UnlauncherApp
 import com.sduduzog.slimlauncher.R
@@ -28,6 +28,8 @@ import com.sduduzog.slimlauncher.utils.BaseFragment
 import com.sduduzog.slimlauncher.utils.OnLaunchAppListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.home_fragment.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -36,6 +38,7 @@ import java.util.*
 class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLaunchAppListener {
 
     private lateinit var receiver: BroadcastReceiver
+    private lateinit var appDrawerAdapter: AppDrawerAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -49,7 +52,9 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
         home_fragment_list.adapter = adapter1
         home_fragment_list_exp.adapter = adapter2
 
-        viewModel.apps.observe(viewLifecycleOwner, Observer { list ->
+        val unlauncherAppsRepo = getUnlauncherDataSource().unlauncherAppsRepo
+
+        viewModel.apps.observe(viewLifecycleOwner, { list ->
             list?.let { apps ->
                 adapter1.setItems(apps.filter {
                     it.sortingIndex < 3
@@ -57,40 +62,20 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
                 adapter2.setItems(apps.filter {
                     it.sortingIndex >= 3
                 })
+
+                // Set the home apps in the Unlauncher data
+                lifecycleScope.launch {
+                    unlauncherAppsRepo.setHomeApps(apps)
+                }
             }
         })
+
+        appDrawerAdapter =
+            AppDrawerAdapter(AppDrawerListener(), viewLifecycleOwner, unlauncherAppsRepo)
 
         setEventListeners()
 
-        val unlauncherAppRepo = getUnlauncherDataSource().unlauncherAppsRepo;
-        app_drawer_fragment_list.adapter =
-            AppDrawerAdapter(AppDrawerListener(), viewLifecycleOwner, unlauncherAppRepo)
-        // Send the apps to Unlauncher data source
-        viewModel.addAppViewModel.apps.observe(viewLifecycleOwner, Observer {
-            it?.let { apps -> unlauncherAppRepo.setApps(apps) }
-        })
-        home_fragment.setTransitionListener(object : TransitionListener {
-            override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
-                // hide the keyboard and remove focus from the EditText when swiping back up
-                if (currentId == motionLayout?.startState) {
-                    resetAppDrawerEditText()
-                    val inputMethodManager = requireContext().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-                    inputMethodManager.hideSoftInputFromWindow(requireView().windowToken, 0)
-                }
-            }
-
-            override fun onTransitionTrigger(motionLayout: MotionLayout?, triggerId: Int, positive: Boolean, progress: Float) {
-                // do nothing
-            }
-
-            override fun onTransitionStarted(motionLayout: MotionLayout?, startId: Int, endId: Int) {
-                // do nothing
-            }
-
-            override fun onTransitionChange(motionLayout: MotionLayout?, startId: Int, endId: Int, progress: Float) {
-                // do nothing
-            }
-        })
+        app_drawer_fragment_list.adapter = appDrawerAdapter
     }
 
     override fun onStart() {
@@ -105,8 +90,12 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
         super.onResume()
         updateClock()
 
-        viewModel.addAppViewModel.setInstalledApps(getInstalledApps())
-        viewModel.addAppViewModel.filterApps("")
+        lifecycleScope.launch(Dispatchers.IO) {
+            getUnlauncherDataSource().unlauncherAppsRepo.setApps(getInstalledApps())
+        }
+        if (!::appDrawerAdapter.isInitialized) {
+            appDrawerAdapter.setAppFilter()
+        }
     }
 
     override fun onStop() {
@@ -183,7 +172,44 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
                 }
             })
 
-        app_drawer_edit_text.addTextChangedListener(onTextChangeListener)
+        app_drawer_edit_text.addTextChangedListener(appDrawerAdapter.searchBoxListener)
+
+        home_fragment.setTransitionListener(object : TransitionListener {
+            override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
+                val inputMethodManager = requireContext().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+
+                when (currentId) {
+                    motionLayout?.startState -> {
+                        // hide the keyboard and remove focus from the EditText when swiping back up
+                        resetAppDrawerEditText()
+                        inputMethodManager.hideSoftInputFromWindow(requireView().windowToken, 0)
+                    }
+
+                    motionLayout?.endState -> {
+                        // Check for preferences to open the keyboard
+                        getUnlauncherDataSource().unlauncherAppsRepo.liveData().observe(viewLifecycleOwner) {
+                            if (it.activateKeyboardInDrawer) {
+                                // show the keyboard and set focus to the EditText when swiping down
+                                inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0)
+                                app_drawer_edit_text.requestFocus()
+                            }
+                        }
+                    }
+                }
+            }
+
+            override fun onTransitionTrigger(motionLayout: MotionLayout?, triggerId: Int, positive: Boolean, progress: Float) {
+                // do nothing
+            }
+
+            override fun onTransitionStarted(motionLayout: MotionLayout?, startId: Int, endId: Int) {
+                // do nothing
+            }
+
+            override fun onTransitionChange(motionLayout: MotionLayout?, startId: Int, endId: Int, progress: Float) {
+                // do nothing
+            }
+        })
     }
 
     fun updateClock() {
@@ -241,21 +267,6 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
         app_drawer_edit_text.clearComposingText()
         app_drawer_edit_text.setText("")
         app_drawer_edit_text.clearFocus()
-    }
-
-    private val onTextChangeListener: TextWatcher = object : TextWatcher {
-
-        override fun afterTextChanged(s: Editable?) {
-            // Do nothing
-        }
-
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            // Do nothing
-        }
-
-        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-            viewModel.addAppViewModel.filterApps(s.toString())
-        }
     }
 
     inner class AppDrawerListener {

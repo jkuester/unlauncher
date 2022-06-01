@@ -4,7 +4,7 @@ name: Android Release CI
 on:
   push:
     tags:
-      - 'v*'
+      - '*'
 
 jobs:
   build:
