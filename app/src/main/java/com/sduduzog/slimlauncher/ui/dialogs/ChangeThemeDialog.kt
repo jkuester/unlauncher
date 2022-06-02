@@ -9,7 +9,7 @@ import androidx.core.content.edit
 import androidx.fragment.app.DialogFragment
 import com.sduduzog.slimlauncher.R
 
-class ChangeThemeDialog : DialogFragment(){
+class ChangeThemeDialog : DialogFragment() {
 
     private lateinit var settings: SharedPreferences
 

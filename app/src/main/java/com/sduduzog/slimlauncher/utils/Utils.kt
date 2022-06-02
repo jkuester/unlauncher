@@ -1,16 +1,28 @@
 package com.sduduzog.slimlauncher.utils
 
 import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Insets
 import android.graphics.Rect
 import android.os.Build
 import android.util.DisplayMetrics
 import android.view.WindowInsets
-import androidx.annotation.NonNull
 
 
-fun getScreenWidth(@NonNull activity: Activity): Int {
+fun isAppDefaultLauncher(context: Context): Boolean {
+    val intent = Intent(Intent.ACTION_MAIN);
+    intent.addCategory(Intent.CATEGORY_HOME);
+    val res = context.packageManager.resolveActivity(intent, 0)
+    if (res?.activityInfo == null) {
+        // should not happen. A home is always installed, isn't it?
+        return false
+    }
+    return context.packageName == res.activityInfo?.packageName
+}
+
+fun getScreenWidth(activity: Activity): Int {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
         val windowMetrics = activity.windowManager.currentWindowMetrics
         val bounds: Rect = windowMetrics.bounds
@@ -33,7 +45,7 @@ fun getScreenWidth(@NonNull activity: Activity): Int {
     }
 }
 
-fun getScreenHeight(@NonNull activity: Activity): Int {
+fun getScreenHeight(activity: Activity): Int {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
         val windowMetrics = activity.windowManager.currentWindowMetrics
         val bounds: Rect = windowMetrics.bounds
