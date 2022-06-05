@@ -24,9 +24,7 @@ class CustomizeAppDrawerFragment : BaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.customize_app_drawer_fragment, container, false)
-    }
+    ): View? = inflater.inflate(R.layout.customize_app_drawer_fragment, container, false)
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -37,7 +35,6 @@ class CustomizeAppDrawerFragment : BaseFragment() {
         val unlauncherAppsRepo = getUnlauncherDataSource().unlauncherAppsRepo
         setupKeyboardSwitch(unlauncherAppsRepo)
         setupAutomaticDeviceWallpaperSwitch(unlauncherAppsRepo)
-
     }
 
     private fun setupKeyboardSwitch(appsRepo: UnlauncherAppsRepository) {

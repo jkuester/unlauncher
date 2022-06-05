@@ -6,6 +6,7 @@ import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
+import android.util.Log
 import android.view.GestureDetector
 import android.view.GestureDetector.SimpleOnGestureListener
 import android.view.MotionEvent
@@ -16,7 +17,6 @@ import androidx.annotation.StyleRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.Navigation.findNavController
-import com.sduduzog.slimlauncher.datasource.apps.UnlauncherAppsRepository
 import com.sduduzog.slimlauncher.di.MainFragmentFactoryEntryPoint
 import com.sduduzog.slimlauncher.utils.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -84,6 +84,11 @@ class MainActivity : AppCompatActivity(),
         homeWatcher.stopWatch()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        settings.unregisterOnSharedPreferenceChangeListener(this)
+    }
+
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
         if (hasFocus) toggleStatusBar()
@@ -100,18 +105,17 @@ class MainActivity : AppCompatActivity(),
 
     override fun onApplyThemeResource(theme: Resources.Theme?, resid: Int, first: Boolean) {
         super.onApplyThemeResource(theme, resid, first)
-
-
-//        if (first && UnlauncherAppsRepository().liveData().value.setThemeWallpaper) {
-            setWallpaperBasedOnThemeBackgroundColor(theme)
-//        }
+        // TODO check if user already set wallpaper as theme background with UnlauncherDataSource
+        if (first) {
+            @ColorInt val backgroundColor = getThemeBackgroundColor(theme, resid)
+            setWallpaperBackgroundColor(backgroundColor)
+        }
     }
 
-    private fun setWallpaperBasedOnThemeBackgroundColor(theme: Resources.Theme?) {
+    private fun setWallpaperBackgroundColor(@ColorInt color: Int) {
         val wallpaperManager = WallpaperManager.getInstance(applicationContext)
         try {
-            val backgroundColor = getThemeBackgroundColor(theme)
-            val wallpaperBitmap = createWallpaperBitmap(backgroundColor)
+            val wallpaperBitmap = createWallpaperBitmap(color)
             wallpaperManager.setBitmap(wallpaperBitmap)
         } catch (e: IOException) {
             Toast.makeText(this,"Oops, the wallpaper could not be set.", Toast.LENGTH_SHORT).show()
@@ -119,16 +123,13 @@ class MainActivity : AppCompatActivity(),
     }
 
     @ColorInt
-    private fun getThemeBackgroundColor(theme: Resources.Theme?): Int {
-        val array =  theme?.obtainStyledAttributes(getThemeRes(), intArrayOf(android.R.attr.colorBackground))
-        val backgroundColor = array?.getColor(0, 0) ?: 0
-        array?.recycle()
-
-        if (backgroundColor == 0) {
-            // should not happen as the themes always have a background color
-            throw IOException("Theme has no background color")
+    private fun getThemeBackgroundColor(theme: Resources.Theme?, @StyleRes themeRes: Int): Int {
+        val array =  theme?.obtainStyledAttributes(themeRes, intArrayOf(android.R.attr.colorBackground))
+        try {
+             return array?.getColor(0, 0) ?: 0
+        } finally {
+            array?.recycle()
         }
-        return backgroundColor
     }
 
     private fun createWallpaperBitmap(@ColorInt color: Int): Bitmap {
@@ -140,14 +141,17 @@ class MainActivity : AppCompatActivity(),
         return bitmap
     }
 
-    override fun getTheme(): Resources.Theme {
-        val theme = super.getTheme()
-        theme.applyStyle(getThemeRes(), true)
-        return theme
+    override fun setTheme(resId: Int) {
+        val selectedTheme = getUserSelectedThemeRes()
+        if (resId != selectedTheme) {
+            super.setTheme(selectedTheme)
+        } else {
+            super.setTheme(resId)
+        }
     }
 
     @StyleRes
-    private fun getThemeRes(): Int {
+    private fun getUserSelectedThemeRes(): Int {
         settings = getSharedPreferences(getString(R.string.prefs_settings), MODE_PRIVATE)
         val active = settings.getInt(getString(R.string.prefs_settings_key_theme), 0)
         return resolveTheme(active)

@@ -8,14 +8,13 @@ import android.os.UserManager
 import android.provider.AlarmClock
 import android.provider.CalendarContract
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.motion.widget.MotionLayout.TransitionListener
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.jkuester.unlauncher.datastore.UnlauncherApp
@@ -40,8 +39,10 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
     private lateinit var receiver: BroadcastReceiver
     private lateinit var appDrawerAdapter: AppDrawerAdapter
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         return inflater.inflate(R.layout.home_fragment, container, false)
     }
 
@@ -82,6 +83,11 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
         super.onStart()
         receiver = ClockReceiver()
         activity?.registerReceiver(receiver, IntentFilter(Intent.ACTION_TIME_TICK))
+        getUnlauncherDataSource().unlauncherAppsRepo.liveData().observe(viewLifecycleOwner) {
+            if (it.setThemeWallpaper) {
+                Log.d(HomeFragment::class.simpleName, "Setting Theme wallpaper")
+            }
+        }
     }
 
     override fun getFragmentView(): ViewGroup = home_fragment
