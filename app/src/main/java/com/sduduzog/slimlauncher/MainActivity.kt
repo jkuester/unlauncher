@@ -6,7 +6,6 @@ import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
-import android.util.Log
 import android.view.GestureDetector
 import android.view.GestureDetector.SimpleOnGestureListener
 import android.view.MotionEvent
@@ -103,7 +102,7 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
-    override fun onApplyThemeResource(theme: Resources.Theme?, resid: Int, first: Boolean) {
+    override fun onApplyThemeResource(theme: Resources.Theme?, @StyleRes resid: Int, first: Boolean) {
         super.onApplyThemeResource(theme, resid, first)
         // TODO check if user already set wallpaper as theme background with UnlauncherDataSource
         if (first) {
@@ -113,9 +112,9 @@ class MainActivity : AppCompatActivity(),
     }
 
     private fun setWallpaperBackgroundColor(@ColorInt color: Int) {
+        val wallpaperBitmap = createColoredWallpaperBitmap(color)
         val wallpaperManager = WallpaperManager.getInstance(applicationContext)
         try {
-            val wallpaperBitmap = createWallpaperBitmap(color)
             wallpaperManager.setBitmap(wallpaperBitmap)
         } catch (e: IOException) {
             Toast.makeText(this,"Oops, the wallpaper could not be set.", Toast.LENGTH_SHORT).show()
@@ -132,7 +131,7 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
-    private fun createWallpaperBitmap(@ColorInt color: Int): Bitmap {
+    private fun createColoredWallpaperBitmap(@ColorInt color: Int): Bitmap {
         val width = getScreenWidth(this)
         val height = getScreenHeight(this)
         val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
