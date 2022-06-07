@@ -141,12 +141,13 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun setTheme(resId: Int) {
-        val selectedTheme = getUserSelectedThemeRes()
-        if (resId != selectedTheme) {
-            super.setTheme(selectedTheme)
+        val userThemeId = getUserSelectedThemeRes()
+        val id = if (resId != userThemeId) {
+            userThemeId
         } else {
-            super.setTheme(resId)
+            resId
         }
+        super.setTheme(id)
     }
 
     @StyleRes
