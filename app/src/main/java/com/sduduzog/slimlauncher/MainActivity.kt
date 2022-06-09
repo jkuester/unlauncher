@@ -5,15 +5,16 @@ import android.content.SharedPreferences
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.view.GestureDetector
 import android.view.GestureDetector.SimpleOnGestureListener
 import android.view.MotionEvent
 import android.view.View
-import android.widget.Toast
 import androidx.annotation.ColorInt
 import androidx.annotation.StyleRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.get
 import androidx.navigation.NavController
 import androidx.navigation.Navigation.findNavController
 import com.sduduzog.slimlauncher.di.MainFragmentFactoryEntryPoint
@@ -21,6 +22,7 @@ import com.sduduzog.slimlauncher.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.EntryPointAccessors
 import java.io.IOException
+import kotlin.jvm.Throws
 
 
 @AndroidEntryPoint
@@ -104,20 +106,16 @@ class MainActivity : AppCompatActivity(),
 
     override fun onApplyThemeResource(theme: Resources.Theme?, @StyleRes resid: Int, first: Boolean) {
         super.onApplyThemeResource(theme, resid, first)
-        // TODO check if user already set wallpaper as theme background with UnlauncherDataSource
-        if (first) {
-            @ColorInt val backgroundColor = getThemeBackgroundColor(theme, resid)
-            setWallpaperBackgroundColor(backgroundColor)
+        if (!first) {
+            return
         }
-    }
-
-    private fun setWallpaperBackgroundColor(@ColorInt color: Int) {
-        val wallpaperBitmap = createColoredWallpaperBitmap(color)
-        val wallpaperManager = WallpaperManager.getInstance(applicationContext)
-        try {
-            wallpaperManager.setBitmap(wallpaperBitmap)
-        } catch (e: IOException) {
-            Toast.makeText(this,"Oops, the wallpaper could not be set.", Toast.LENGTH_SHORT).show()
+        @ColorInt val backgroundColor = getThemeBackgroundColor(theme, resid)
+        if (getWallpaperBackgroundColor() != backgroundColor) {
+            try {
+                setWallpaperBackgroundColor(backgroundColor)
+            } catch (e: IOException) {
+                // do nothing
+            }
         }
     }
 
@@ -125,10 +123,29 @@ class MainActivity : AppCompatActivity(),
     private fun getThemeBackgroundColor(theme: Resources.Theme?, @StyleRes themeRes: Int): Int {
         val array =  theme?.obtainStyledAttributes(themeRes, intArrayOf(android.R.attr.colorBackground))
         try {
-             return array?.getColor(0, 0) ?: 0
+            return array?.getColor(0, 0) ?: 0
         } finally {
             array?.recycle()
         }
+    }
+
+    @ColorInt
+    private fun getWallpaperBackgroundColor(): Int {
+        val wallpaperManager = WallpaperManager.getInstance(applicationContext)
+        val drawable = wallpaperManager.drawable
+        if (drawable !is BitmapDrawable) {
+            // user might have a live wallpaper set
+            return 0
+        }
+        // only retrieving the top left since the wallpaper consists of a single color
+        return drawable.bitmap[0, 0]
+    }
+
+    @Throws(IOException::class)
+    private fun setWallpaperBackgroundColor(@ColorInt color: Int) {
+        val wallpaperBitmap = createColoredWallpaperBitmap(color)
+        val wallpaperManager = WallpaperManager.getInstance(applicationContext)
+        wallpaperManager.setBitmap(wallpaperBitmap)
     }
 
     private fun createColoredWallpaperBitmap(@ColorInt color: Int): Bitmap {
@@ -139,6 +156,8 @@ class MainActivity : AppCompatActivity(),
         canvas.drawColor(color)
         return bitmap
     }
+
+
 
     override fun setTheme(resId: Int) {
         val userThemeId = getUserSelectedThemeRes()
