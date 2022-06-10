@@ -5,7 +5,6 @@ import android.content.SharedPreferences
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.view.GestureDetector
 import android.view.GestureDetector.SimpleOnGestureListener
@@ -14,9 +13,10 @@ import android.view.View
 import androidx.annotation.ColorInt
 import androidx.annotation.StyleRes
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.graphics.get
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.Navigation.findNavController
+import com.sduduzog.slimlauncher.datasource.UnlauncherDataSource
 import com.sduduzog.slimlauncher.di.MainFragmentFactoryEntryPoint
 import com.sduduzog.slimlauncher.utils.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,6 +33,8 @@ class MainActivity : AppCompatActivity(),
     private lateinit var settings: SharedPreferences
     private lateinit var navigator: NavController
     private lateinit var homeWatcher: HomeWatcher
+    private lateinit var unlauncherDataSource: UnlauncherDataSource
+
     private val subscribers: MutableSet<BaseFragment> = mutableSetOf()
 
     override fun attachSubscriber(s: ISubscriber) {
@@ -110,12 +112,10 @@ class MainActivity : AppCompatActivity(),
             return
         }
         @ColorInt val backgroundColor = getThemeBackgroundColor(theme, resid)
-        if (getWallpaperBackgroundColor() != backgroundColor) {
-            try {
-                setWallpaperBackgroundColor(backgroundColor)
-            } catch (e: IOException) {
-                // do nothing
-            }
+        try {
+            setWallpaperBackgroundColor(backgroundColor)
+        } catch (e: IOException) {
+            // do nothing
         }
     }
 
@@ -127,18 +127,6 @@ class MainActivity : AppCompatActivity(),
         } finally {
             array?.recycle()
         }
-    }
-
-    @ColorInt
-    private fun getWallpaperBackgroundColor(): Int {
-        val wallpaperManager = WallpaperManager.getInstance(applicationContext)
-        val drawable = wallpaperManager.drawable
-        if (drawable !is BitmapDrawable) {
-            // user might have a live wallpaper set
-            return 0
-        }
-        // only retrieving the top left since the wallpaper consists of a single color
-        return drawable.bitmap[0, 0]
     }
 
     @Throws(IOException::class)
@@ -201,6 +189,13 @@ class MainActivity : AppCompatActivity(),
         } else {
             showSystemUI()
         }
+    }
+
+    private fun getUnlaucherDataSource(): UnlauncherDataSource {
+        if (!::unlauncherDataSource.isInitialized) {
+            unlauncherDataSource = UnlauncherDataSource(this, lifecycleScope)
+        }
+        return unlauncherDataSource
     }
 
     companion object {
