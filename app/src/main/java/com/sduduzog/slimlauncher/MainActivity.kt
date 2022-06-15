@@ -1,5 +1,6 @@
 package com.sduduzog.slimlauncher
 
+import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import android.content.res.Resources
 import android.os.Bundle
@@ -8,6 +9,7 @@ import android.view.GestureDetector.SimpleOnGestureListener
 import android.view.MotionEvent
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.navigation.NavController
 import androidx.navigation.Navigation.findNavController
 import com.sduduzog.slimlauncher.di.MainFragmentFactoryEntryPoint
@@ -17,6 +19,8 @@ import com.sduduzog.slimlauncher.utils.IPublisher
 import com.sduduzog.slimlauncher.utils.ISubscriber
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.EntryPointAccessors
+import java.lang.reflect.Method
+import kotlin.math.absoluteValue
 
 
 @AndroidEntryPoint
@@ -155,5 +159,31 @@ class MainActivity : AppCompatActivity(),
                 findNavController(homeView).navigate(R.id.action_homeFragment_to_optionsFragment, null)
             }
         }
+
+        override fun onFling(
+            e1: MotionEvent,
+            e2: MotionEvent,
+            velocityX: Float,
+            velocityY: Float
+        ): Boolean {
+            val homeView = findViewById<MotionLayout>(R.id.home_fragment)
+            if (homeView != null) {
+                val homeScreen = homeView.constraintSetIds[0]
+                val isFlingFromHomeScreen = homeView.currentState == homeScreen
+                val isFlingDown = velocityY > 0 && velocityY > velocityX.absoluteValue
+                if (isFlingDown && isFlingFromHomeScreen) {
+                    expandStatusBar()
+                }
+            }
+            return super.onFling(e1, e2, velocityX, velocityY)
+        }
     })
+
+    @SuppressLint("WrongConstant")  // statusbar is an internal API
+    private fun expandStatusBar() {
+        val service = getSystemService("statusbar")
+        val statusbarManager = Class.forName("android.app.StatusBarManager")
+        val expand: Method = statusbarManager.getMethod("expandNotificationsPanel")
+        expand.invoke(service)
+    }
 }
