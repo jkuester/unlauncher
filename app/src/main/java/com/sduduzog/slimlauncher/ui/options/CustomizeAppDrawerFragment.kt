@@ -47,32 +47,33 @@ class CustomizeAppDrawerFragment : BaseFragment() {
     }
 
     private fun setupAutomaticDeviceWallpaperSwitch(appsRepo: UnlauncherAppsRepository) {
-        setupAutomaticDeviceWallpaperSwitchText()
         val appIsDefaultLauncher = isAppDefaultLauncher(requireContext())
         if (!appIsDefaultLauncher) {
-            // always uncheck once app isn't default launcher
-            customize_app_drawer_auto_device_theme_wallpaper.isChecked = false
+            setupDeviceWallpaperSwitchText()
         }
         customize_app_drawer_auto_device_theme_wallpaper.isEnabled = appIsDefaultLauncher
 
         appsRepo.liveData().observe(viewLifecycleOwner) {
-            customize_app_drawer_auto_device_theme_wallpaper.isChecked = it.setThemeWallpaper
+            // always uncheck once app isn't default launcher
+            customize_app_drawer_auto_device_theme_wallpaper.isChecked = appIsDefaultLauncher && it.setThemeWallpaper
         }
         customize_app_drawer_auto_device_theme_wallpaper.setOnCheckedChangeListener { _, checked ->
             appsRepo.updateSetAutomaticDeviceWallpaper(checked)
         }
     }
 
-    private fun setupAutomaticDeviceWallpaperSwitchText() {
-        // have a title text and a subtitle text
+    /**
+     * Adds a text underneath the default text indicating that the app needs to be the default launcher.
+     */
+    private fun setupDeviceWallpaperSwitchText() {
+        // have a title text and a subtitle text to indicate that adapting the
+        // wallpaper can only be done when app it the default launcher
         val text = customize_app_drawer_auto_device_theme_wallpaper.text
-        val newLineIndex = text.indexOf("\n")
-        if (newLineIndex == -1) {
-            return
-        }
-        val spanBuilder = SpannableStringBuilder(customize_app_drawer_auto_device_theme_wallpaper.text)
-        spanBuilder.setSpan(TextAppearanceSpan(context, R.style.TextAppearance_AppCompat_Large), 0, newLineIndex , Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-        spanBuilder.setSpan(TextAppearanceSpan(context, R.style.TextAppearance_AppCompat_Small), newLineIndex, text.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        val subText = getText(R.string.customize_app_drawer_fragment_auto_theme_wallpaper_subtext)
+
+        val spanBuilder = SpannableStringBuilder("$text\n$subText")
+        spanBuilder.setSpan(TextAppearanceSpan(context, R.style.TextAppearance_AppCompat_Large), 0, text.length , Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        spanBuilder.setSpan(TextAppearanceSpan(context, R.style.TextAppearance_AppCompat_Small), text.length + 1, text.length + 1 + subText.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         customize_app_drawer_auto_device_theme_wallpaper.text = spanBuilder
     }
 }

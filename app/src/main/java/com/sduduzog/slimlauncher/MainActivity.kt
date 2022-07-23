@@ -12,6 +12,7 @@ import android.view.MotionEvent
 import android.view.View
 import androidx.annotation.ColorInt
 import androidx.annotation.StyleRes
+import androidx.annotation.WorkerThread
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
@@ -21,6 +22,8 @@ import com.sduduzog.slimlauncher.di.MainFragmentFactoryEntryPoint
 import com.sduduzog.slimlauncher.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.EntryPointAccessors
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.IOException
 import kotlin.jvm.Throws
 
@@ -108,28 +111,40 @@ class MainActivity : AppCompatActivity(),
 
     override fun onApplyThemeResource(theme: Resources.Theme?, @StyleRes resid: Int, first: Boolean) {
         super.onApplyThemeResource(theme, resid, first)
-        if (!first) {
-            return
-        }
-        @ColorInt val backgroundColor = getThemeBackgroundColor(theme, resid)
-        try {
-            setWallpaperBackgroundColor(backgroundColor)
-        } catch (e: IOException) {
-            // do nothing
-        }
+        getUnlaucherDataSource().unlauncherAppsRepo.liveData().observe(this, {
+            if (!first || !it.setThemeWallpaper) {
+                // only change the wallpaper when user has allowed it
+                return@observe
+            }
+            if (!first && getUserSelectedThemeRes() == resid) {
+                // preventing to change the wallpaper multiple times once it is rechecked in the settings
+                return@observe
+            }
+            @ColorInt val backgroundColor = getThemeBackgroundColor(theme, resid)
+            if (backgroundColor == Int.MIN_VALUE) {
+                return@observe
+            }
+            lifecycleScope.launch(Dispatchers.IO) {
+                setWallpaperBackgroundColor(backgroundColor)
+            }
+        })
     }
 
+    /**
+     * @return `Int.MIN_VALUE` if `android.R.attr.colorBackground` of `theme` could not be obtained.
+     */
     @ColorInt
     private fun getThemeBackgroundColor(theme: Resources.Theme?, @StyleRes themeRes: Int): Int {
         val array =  theme?.obtainStyledAttributes(themeRes, intArrayOf(android.R.attr.colorBackground))
         try {
-            return array?.getColor(0, 0) ?: 0
+            return array?.getColor(0, Int.MIN_VALUE) ?: Int.MIN_VALUE
         } finally {
             array?.recycle()
         }
     }
 
     @Throws(IOException::class)
+    @WorkerThread
     private fun setWallpaperBackgroundColor(@ColorInt color: Int) {
         val wallpaperBitmap = createColoredWallpaperBitmap(color)
         val wallpaperManager = WallpaperManager.getInstance(applicationContext)
@@ -144,8 +159,6 @@ class MainActivity : AppCompatActivity(),
         canvas.drawColor(color)
         return bitmap
     }
-
-
 
     override fun setTheme(resId: Int) {
         val userThemeId = getUserSelectedThemeRes()
