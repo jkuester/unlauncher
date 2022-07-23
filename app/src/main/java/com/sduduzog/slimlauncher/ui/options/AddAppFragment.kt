@@ -36,13 +36,13 @@ class AddAppFragment : BaseFragment(), OnAppClickedListener {
         return inflater.inflate(R.layout.add_app_fragment, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         val adapter = AddAppAdapter(this)
 
         add_app_fragment_list.adapter = adapter
 
-        viewModel.apps.observe(viewLifecycleOwner, Observer {
+        viewModel.apps.observe(viewLifecycleOwner, {
             it?.let { apps ->
                 adapter.setItems(apps)
                 add_app_fragment_progress_bar.visibility = View.GONE

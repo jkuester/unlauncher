@@ -23,8 +23,8 @@ class CustomizeAppDrawerFragment : BaseFragment() {
         return inflater.inflate(R.layout.customize_app_drawer_fragment, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         val unlauncherAppsRepo = getUnlauncherDataSource().unlauncherAppsRepo
         customize_app_drawer_fragment_app_list.adapter =
             CustomizeAppDrawerAppsAdapter(viewLifecycleOwner, unlauncherAppsRepo)

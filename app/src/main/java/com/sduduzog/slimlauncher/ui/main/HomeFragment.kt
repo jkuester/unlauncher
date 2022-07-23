@@ -44,8 +44,8 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
         return inflater.inflate(R.layout.home_fragment, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         val adapter1 = HomeAdapter(this)
         val adapter2 = HomeAdapter(this)
         home_fragment_list.adapter = adapter1
@@ -53,7 +53,7 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
 
         val unlauncherAppsRepo = getUnlauncherDataSource().unlauncherAppsRepo
 
-        viewModel.apps.observe(viewLifecycleOwner, Observer { list ->
+        viewModel.apps.observe(viewLifecycleOwner, { list ->
             list?.let { apps ->
                 adapter1.setItems(apps.filter {
                     it.sortingIndex < 3
