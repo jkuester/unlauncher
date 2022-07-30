@@ -11,7 +11,7 @@ import androidx.navigation.Navigation
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.datasource.apps.UnlauncherAppsRepository
 import com.sduduzog.slimlauncher.utils.BaseFragment
-import com.sduduzog.slimlauncher.utils.isAppDefaultLauncher
+import com.sduduzog.slimlauncher.utils.isActivityDefaultLauncher
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.customize_app_drawer_fragment.*
 
@@ -34,7 +34,13 @@ class CustomizeAppDrawerFragment : BaseFragment() {
 
         val unlauncherAppsRepo = getUnlauncherDataSource().unlauncherAppsRepo
         setupKeyboardSwitch(unlauncherAppsRepo)
-        setupAutomaticDeviceWallpaperSwitch(unlauncherAppsRepo)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        // setting up the switch text, since changing the default launcher re-starts the activity
+        // this should able to adapt to it.
+        setupAutomaticDeviceWallpaperSwitch(getUnlauncherDataSource().unlauncherAppsRepo)
     }
 
     private fun setupKeyboardSwitch(appsRepo: UnlauncherAppsRepository) {
@@ -47,10 +53,8 @@ class CustomizeAppDrawerFragment : BaseFragment() {
     }
 
     private fun setupAutomaticDeviceWallpaperSwitch(appsRepo: UnlauncherAppsRepository) {
-        val appIsDefaultLauncher = isAppDefaultLauncher(requireContext())
-        if (!appIsDefaultLauncher) {
-            setupDeviceWallpaperSwitchText()
-        }
+        val appIsDefaultLauncher = isActivityDefaultLauncher(activity)
+        setupDeviceWallpaperSwitchText(appIsDefaultLauncher)
         customize_app_drawer_auto_device_theme_wallpaper.isEnabled = appIsDefaultLauncher
 
         appsRepo.liveData().observe(viewLifecycleOwner) {
@@ -63,17 +67,31 @@ class CustomizeAppDrawerFragment : BaseFragment() {
     }
 
     /**
-     * Adds a text underneath the default text indicating that the app needs to be the default launcher.
+     * Adds a hint text underneath the default text when app is not the default launcher.
      */
-    private fun setupDeviceWallpaperSwitchText() {
+    private fun setupDeviceWallpaperSwitchText(appIsDefaultLauncher: Boolean) {
+        val text = if (appIsDefaultLauncher) {
+            getText(R.string.customize_app_drawer_fragment_auto_theme_wallpaper_text)
+        } else {
+            buildSwitchTextWithHint()
+        }
+        customize_app_drawer_auto_device_theme_wallpaper.text = text
+    }
+
+    private fun buildSwitchTextWithHint(): CharSequence {
+        val titleText = getText(R.string.customize_app_drawer_fragment_auto_theme_wallpaper_text)
         // have a title text and a subtitle text to indicate that adapting the
         // wallpaper can only be done when app it the default launcher
-        val text = customize_app_drawer_auto_device_theme_wallpaper.text
-        val subText = getText(R.string.customize_app_drawer_fragment_auto_theme_wallpaper_subtext)
+        val subTitleText = getText(R.string.customize_app_drawer_fragment_auto_theme_wallpaper_subtext_no_default_launcher)
 
-        val spanBuilder = SpannableStringBuilder("$text\n$subText")
-        spanBuilder.setSpan(TextAppearanceSpan(context, R.style.TextAppearance_AppCompat_Large), 0, text.length , Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-        spanBuilder.setSpan(TextAppearanceSpan(context, R.style.TextAppearance_AppCompat_Small), text.length + 1, text.length + 1 + subText.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-        customize_app_drawer_auto_device_theme_wallpaper.text = spanBuilder
+        val spanBuilder = SpannableStringBuilder("$titleText\n$subTitleText")
+        spanBuilder.setSpan(TextAppearanceSpan(context, R.style.TextAppearance_AppCompat_Large), 0, titleText.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        spanBuilder.setSpan(
+            TextAppearanceSpan(context, R.style.TextAppearance_AppCompat_Small),
+            titleText.length + 1,
+            titleText.length + 1 + subTitleText.length,
+            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        return spanBuilder
     }
 }

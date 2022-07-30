@@ -11,16 +11,20 @@ import android.util.DisplayMetrics
 import android.view.WindowInsets
 
 
-fun isAppDefaultLauncher(context: Context): Boolean {
-    val intent = Intent(Intent.ACTION_MAIN);
-    intent.addCategory(Intent.CATEGORY_HOME);
-    val res = context.packageManager.resolveActivity(intent, 0)
+private fun isAppDefaultLauncher(context: Context?): Boolean {
+    val intent = Intent(Intent.ACTION_MAIN)
+    intent.addCategory(Intent.CATEGORY_HOME)
+    val res = context?.packageManager?.resolveActivity(intent, 0)
     if (res?.activityInfo == null) {
         // should not happen. A home is always installed, isn't it?
         return false
     }
     return context.packageName == res.activityInfo?.packageName
 }
+
+private fun intentContainsDefaultLauncher(intent: Intent?): Boolean = intent?.action == Intent.ACTION_MAIN && intent.categories?.contains(Intent.CATEGORY_HOME) == true
+
+fun isActivityDefaultLauncher(activity: Activity?): Boolean = isAppDefaultLauncher(activity) || intentContainsDefaultLauncher(activity?.intent)
 
 fun getScreenWidth(activity: Activity): Int {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {

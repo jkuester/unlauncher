@@ -25,7 +25,6 @@ import dagger.hilt.android.EntryPointAccessors
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.IOException
-import kotlin.jvm.Throws
 
 
 @AndroidEntryPoint
@@ -112,11 +111,8 @@ class MainActivity : AppCompatActivity(),
     override fun onApplyThemeResource(theme: Resources.Theme?, @StyleRes resid: Int, first: Boolean) {
         super.onApplyThemeResource(theme, resid, first)
         getUnlaucherDataSource().unlauncherAppsRepo.liveData().observe(this, {
-            if (!first || !it.setThemeWallpaper) {
-                // only change the wallpaper when user has allowed it
-                return@observe
-            }
-            if (!first && getUserSelectedThemeRes() == resid) {
+            if (!it.setThemeWallpaper && getUserSelectedThemeRes() == resid) {
+                // only change the wallpaper when user has allowed it and
                 // preventing to change the wallpaper multiple times once it is rechecked in the settings
                 return@observe
             }
@@ -146,14 +142,20 @@ class MainActivity : AppCompatActivity(),
     @Throws(IOException::class)
     @WorkerThread
     private fun setWallpaperBackgroundColor(@ColorInt color: Int) {
-        val wallpaperBitmap = createColoredWallpaperBitmap(color)
         val wallpaperManager = WallpaperManager.getInstance(applicationContext)
+        var width = wallpaperManager.desiredMinimumWidth
+        if (width <= 0) {
+            width = getScreenWidth(this)
+        }
+        var height = wallpaperManager.desiredMinimumHeight
+        if (height <= 0) {
+            height = getScreenHeight(this)
+        }
+        val wallpaperBitmap = createColoredWallpaperBitmap(color, width, height)
         wallpaperManager.setBitmap(wallpaperBitmap)
     }
 
-    private fun createColoredWallpaperBitmap(@ColorInt color: Int): Bitmap {
-        val width = getScreenWidth(this)
-        val height = getScreenHeight(this)
+    private fun createColoredWallpaperBitmap(@ColorInt color: Int, width: Int, height: Int): Bitmap {
         val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
         canvas.drawColor(color)
