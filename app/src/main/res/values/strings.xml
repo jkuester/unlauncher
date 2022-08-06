@@ -9,12 +9,12 @@
 
     <string-array name="themes_array">
         <item>System default</item>
-        <item>Noon</item>
         <item>Midnight</item>
         <item>Jupiter</item>
         <item>Teal</item>
         <item>Candy</item>
         <item>Pastel</item>
+        <item>Noon</item>
     </string-array>
 
     <string-array name="time_format_array">

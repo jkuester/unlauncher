@@ -2,12 +2,12 @@
 <resources>
     <string-array name="themes_array">
         <item>Systemvorgabe</item>
-        <item>Mittag</item>
         <item>Mitternacht</item>
         <item>Jupiter</item>
         <item>Blaugrün</item>
         <item>Candy</item>
         <item>Pastell</item>
+        <item>Mittag</item>
     </string-array>
 
     <string name="choose_theme_dialog_title">Aussehen ändern</string>

@@ -6,12 +6,12 @@
 
     <string-array name="themes_array">
         <item>System standaard</item>
-        <item>Middag</item>
         <item>Middernacht</item>
         <item>Jupiter</item>
         <item>Blauwgroen</item>
         <item>Snoep</item>
         <item>Pastel</item>
+        <item>Middag</item>
     </string-array>
 
     <string-array name="time_format_array">
