@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import android.content.res.Resources
 import android.os.Bundle
+import android.util.Log
 import android.view.GestureDetector
 import android.view.GestureDetector.SimpleOnGestureListener
 import android.view.MotionEvent
@@ -181,9 +182,22 @@ class MainActivity : AppCompatActivity(),
 
     @SuppressLint("WrongConstant")  // statusbar is an internal API
     private fun expandStatusBar() {
-        val service = getSystemService("statusbar")
-        val statusbarManager = Class.forName("android.app.StatusBarManager")
-        val expand: Method = statusbarManager.getMethod("expandNotificationsPanel")
-        expand.invoke(service)
+        try {
+            getSystemService("statusbar")?.let { service ->
+                val statusbarManager = Class.forName("android.app.StatusBarManager")
+                val expand: Method = statusbarManager.getMethod("expandNotificationsPanel")
+                expand.invoke(service)
+            }
+        } catch (e: Exception) {
+            // Do nothing. There does not seem to be any official way with the Android SKD to open the status bar.
+            // https://stackoverflow.com/questions/5029354/how-can-i-programmatically-open-close-notifications-in-android
+            // This hack may break on future versions of Android (or even just not work for specific manufacturer variants).
+            // So, if anything goes wrong, we will just do nothing.
+            Log.e(
+                "MainActivity",
+                "Error trying to expand the notifications panel.",
+                e
+            )
+        }
     }
 }
