@@ -52,6 +52,15 @@
         android:id="@+id/customiseAppDrawerFragment"
         android:name="com.sduduzog.slimlauncher.ui.options.CustomizeAppDrawerFragment"
         android:label="customise_app_drawer_fragment"
-        tools:layout="@layout/customize_app_drawer_fragment" />
+        tools:layout="@layout/customize_app_drawer_fragment">
+        <action
+            android:id="@+id/action_customiseAppDrawerFragment_to_customiseAppDrawerAppListFragment"
+            app:destination="@id/customiseAppDrawerAppListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/customiseAppDrawerAppListFragment"
+        android:name="com.sduduzog.slimlauncher.ui.options.CustomizeAppDrawerAppListFragment"
+        android:label="customise_app_drawer_app_list_fragment"
+        tools:layout="@layout/customize_app_drawer_app_list_fragment" />
 
 </navigation>

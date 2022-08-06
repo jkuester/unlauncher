@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="colorWhite">#ffffff</color>
-    <color name="colorWhiteDark">#BDBDBD</color>
+    <!-- Colors for themes -->
+    <color name="colorGray">#BDBDBD</color>
 
-    <color name="primaryDarkColor">#000000</color>
+    <color name="colorVampireBlack">#080808</color>
 
     <color name="colorBlueGrey">#37474f</color>
 
@@ -12,9 +12,22 @@
 
     <color name="colorTeal">#E0F2F1</color>
 
-    <color name="lightAccentColor">#080808</color>
-    <color name="darkAccentColor">#e0e0e0</color>
-
     <color name="colorCandy">#f06292</color>
+
+    <color name="colorChineseWhite">#E0E0E0</color>
+
+    <!-- Default Primary Color   -->
+    <color name="primaryColor">@color/lightPrimaryColor</color>
+    <color name="primaryColorDark">@color/colorGray</color>
+
+    <!-- Default Accent Color   -->
+    <color name="accentColor">@color/lightAccentColor</color>
+
+    <color name="lightAccentColor">@color/colorVampireBlack</color>
+    <color name="darkAccentColor">@color/colorChineseWhite</color>
+
+    <color name="darkPrimaryColor">@android:color/black</color>
+    <color name="lightPrimaryColor">@android:color/white</color>
+
 
 </resources>

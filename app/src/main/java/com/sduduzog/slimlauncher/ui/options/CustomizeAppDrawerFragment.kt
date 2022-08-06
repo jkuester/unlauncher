@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import com.sduduzog.slimlauncher.R
-import com.sduduzog.slimlauncher.adapters.CustomizeAppDrawerAppsAdapter
 import com.sduduzog.slimlauncher.utils.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.customize_app_drawer_fragment.*
@@ -25,15 +25,16 @@ class CustomizeAppDrawerFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        customize_app_drawer_fragment_visible_apps
+            .setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_customiseAppDrawerFragment_to_customiseAppDrawerAppListFragment))
+
         val unlauncherAppsRepo = getUnlauncherDataSource().unlauncherAppsRepo
-        customize_app_drawer_fragment_app_list.adapter =
-            CustomizeAppDrawerAppsAdapter(viewLifecycleOwner, unlauncherAppsRepo)
-        unlauncherAppsRepo.liveData().observe(viewLifecycleOwner, {
-            it?.let {
-                customize_app_drawer_fragment_app_progress_bar.visibility = View.GONE
-            } ?: run {
-                customize_app_drawer_fragment_app_progress_bar.visibility = View.VISIBLE
-            }
-        })
+        customize_app_drawer_open_keyboard_switch.setOnCheckedChangeListener { _, checked ->
+            unlauncherAppsRepo.updateActivateKeyboardInDrawer(checked)
+        }
+        unlauncherAppsRepo.liveData().observe(viewLifecycleOwner) {
+            customize_app_drawer_open_keyboard_switch.isChecked = it.activateKeyboardInDrawer
+        }
     }
 }
