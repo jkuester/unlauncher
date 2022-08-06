@@ -6,6 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <!-- Placeholder layout for locking screen-->
+    <View
+        android:id="@+id/lock"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:contentDescription="@string/lock_layout_description" />
+
     <fragment xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/nav_host_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"

@@ -1,8 +1,15 @@
 package com.sduduzog.slimlauncher
 
+import android.app.admin.DevicePolicyManager
+import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Resources
+import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.provider.Settings
+import android.util.Log
 import android.view.GestureDetector
 import android.view.GestureDetector.SimpleOnGestureListener
 import android.view.MotionEvent
@@ -10,13 +17,13 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.Navigation.findNavController
+import com.sduduzog.slimlauncher.data.Constants
 import com.sduduzog.slimlauncher.di.MainFragmentFactoryEntryPoint
-import com.sduduzog.slimlauncher.utils.BaseFragment
-import com.sduduzog.slimlauncher.utils.HomeWatcher
-import com.sduduzog.slimlauncher.utils.IPublisher
-import com.sduduzog.slimlauncher.utils.ISubscriber
+import com.sduduzog.slimlauncher.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.EntryPointAccessors
+import kotlinx.android.synthetic.main.main_activity.*
+import java.lang.Exception
 
 
 @AndroidEntryPoint
@@ -27,6 +34,7 @@ class MainActivity : AppCompatActivity(),
     private lateinit var settings: SharedPreferences
     private lateinit var navigator: NavController
     private lateinit var homeWatcher: HomeWatcher
+    private lateinit var deviceManager: DevicePolicyManager
     private val subscribers: MutableSet<BaseFragment> = mutableSetOf()
 
     override fun attachSubscriber(s: ISubscriber) {
@@ -61,6 +69,7 @@ class MainActivity : AppCompatActivity(),
         navigator = findNavController(this, R.id.nav_host_fragment)
         homeWatcher = HomeWatcher(this)
         homeWatcher.setOnHomePressedListener(this)
+        deviceManager = getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
     }
 
     override fun onResume() {
@@ -72,6 +81,7 @@ class MainActivity : AppCompatActivity(),
     override fun onStart() {
         super.onStart()
         homeWatcher.startWatch()
+        lock.setOnClickListener { /* nothing to do*/ }
     }
 
     override fun onStop() {
@@ -148,13 +158,56 @@ class MainActivity : AppCompatActivity(),
         super.onBackPressed()
     }
 
+    private fun handleDoubleTap() {
+        // Code taken from OLauncher
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            if (isAccessServiceEnabled()) {
+                lock.performClick()
+                Log.d(MainActivity::class.java.name, "Lock!")
+            } else {
+                Log.d(MainActivity::class.java.name, "Not enabled!")
+            }
+        } else {
+            lockPhone()
+        }
+    }
+
+    private fun lockPhone() {
+        try {
+            deviceManager.lockNow()
+        } catch (e: SecurityException) {
+            Log.d(MainActivity::class.java.name, "Security!")
+        } catch (e: Exception) {
+            Log.d(MainActivity::class.java.name, "Regular!")
+        }
+    }
+
+    private fun isAccessServiceEnabled(): Boolean {
+        val enabled = Settings.Secure.getInt(applicationContext.contentResolver, Settings.Secure.ACCESSIBILITY_ENABLED)
+        if (enabled == 1) {
+            val prefString = Settings.Secure.getString(contentResolver, Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES)
+            return prefString.contains(packageName + "/" + LockDeviceAccessibilityService::class.java.name)
+        }
+        return false
+    }
+
     private val gestureDetector = GestureDetector(baseContext, object : SimpleOnGestureListener() {
+
+        val handler = Handler(Looper.getMainLooper())
+
         override fun onLongPress(e: MotionEvent) {
             // Open Options
             val homeView = findViewById<View>(R.id.home_fragment)
             if(homeView != null) {
                 findNavController(homeView).navigate(R.id.action_homeFragment_to_optionsFragment, null)
             }
+        }
+
+        override fun onDoubleTap(e: MotionEvent?): Boolean {
+            handler.postDelayed({
+                handleDoubleTap()
+            }, Constants.LONG_PRESS_DELAY_MS.toLong())
+            return super.onDoubleTap(e)
         }
     })
 }
