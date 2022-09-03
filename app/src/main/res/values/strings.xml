@@ -50,7 +50,6 @@
     <string name="customise_apps_fragment_add">Add</string>
     <string name="menu_rename">Rename</string>
     <string name="menu_remove">Remove</string>
-    <string name="ask_automatic_wallpaper_never">Never ask again</string>
     <string name="choose_theme_dialog_title">Choose Theme</string>
     <string name="add_apps_fragment_search_apps">Search apps</string>
     <string name="customise_apps_fragment_remove_all">Remove all</string>
