@@ -32,18 +32,18 @@ class CustomizeAppDrawerFragment : BaseFragment() {
         customize_app_drawer_fragment_visible_apps
             .setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_customiseAppDrawerFragment_to_customiseAppDrawerAppListFragment))
 
-        val unlauncherAppsRepo = getUnlauncherDataSource().unlauncherAppsRepo
-        setupKeyboardSwitch(unlauncherAppsRepo)
+        setupKeyboardSwitch()
     }
 
     override fun onStart() {
         super.onStart()
         // setting up the switch text, since changing the default launcher re-starts the activity
         // this should able to adapt to it.
-        setupAutomaticDeviceWallpaperSwitch(getUnlauncherDataSource().unlauncherAppsRepo)
+        setupAutomaticDeviceWallpaperSwitch()
     }
 
-    private fun setupKeyboardSwitch(appsRepo: UnlauncherAppsRepository) {
+    private fun setupKeyboardSwitch() {
+        val appsRepo = getUnlauncherDataSource().unlauncherAppsRepo
         customize_app_drawer_open_keyboard_switch.setOnCheckedChangeListener { _, checked ->
             appsRepo.updateActivateKeyboardInDrawer(checked)
         }
@@ -52,7 +52,8 @@ class CustomizeAppDrawerFragment : BaseFragment() {
         }
     }
 
-    private fun setupAutomaticDeviceWallpaperSwitch(appsRepo: UnlauncherAppsRepository) {
+    private fun setupAutomaticDeviceWallpaperSwitch() {
+        val appsRepo = getUnlauncherDataSource().unlauncherAppsRepo
         val appIsDefaultLauncher = isActivityDefaultLauncher(activity)
         setupDeviceWallpaperSwitchText(appIsDefaultLauncher)
         customize_app_drawer_auto_device_theme_wallpaper.isEnabled = appIsDefaultLauncher
