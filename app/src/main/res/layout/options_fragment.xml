@@ -27,35 +27,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/options_fragment_about_slim"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginLeft="24dp"
-            android:layout_marginTop="32dp"
-            android:stateListAnimator="@xml/animate_scale"
-            android:text="@string/options_fragment_about_slim"
-            android:textAppearance="@style/TextAppearance.AppCompat"
-            android:textSize="@dimen/_20ssp"
-            app:layout_constraintBottom_toTopOf="@+id/options_fragment_device_settings"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView5"
-            app:layout_constraintVertical_bias="0.17000002"
-            app:layout_constraintVertical_chainStyle="packed" />
-
-        <TextView
-            android:id="@+id/options_fragment_device_settings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:stateListAnimator="@xml/animate_scale"
-            android:text="@string/options_fragment_device_settings"
-            android:textAppearance="@style/TextAppearance.AppCompat"
-            android:textSize="@dimen/_20ssp"
-            app:layout_constraintBottom_toTopOf="@+id/options_fragment_change_theme"
-            app:layout_constraintStart_toStartOf="@+id/options_fragment_about_slim"
-            app:layout_constraintTop_toBottomOf="@+id/options_fragment_about_slim" />
+    <TextView
+        android:id="@+id/options_fragment_device_settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/options_fragment_device_settings"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="32dp"
+        android:textSize="@dimen/_20ssp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/options_fragment_change_theme"
+        app:layout_constraintVertical_bias="0.17000002"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
         <TextView
             android:id="@+id/options_fragment_change_theme"

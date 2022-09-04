@@ -2,7 +2,6 @@ package com.sduduzog.slimlauncher.ui.options
 
 import android.content.Context.MODE_PRIVATE
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.text.SpannableStringBuilder
@@ -34,12 +33,8 @@ class OptionsFragment : BaseFragment() {
         return inflater.inflate(R.layout.options_fragment, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        options_fragment_about_slim.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.slim_url)))
-            launchActivity(it, intent)
-        }
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         options_fragment_device_settings.setOnClickListener {
             val intent = Intent(Settings.ACTION_SETTINGS)
             launchActivity(it, intent)

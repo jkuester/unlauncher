@@ -11,7 +11,7 @@ import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
-@InstallIn(SingletonComponent::class) // TODO: wip
+@InstallIn(SingletonComponent::class)
 class AppModule {
     @Provides
     @Singleton

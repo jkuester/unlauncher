@@ -66,7 +66,7 @@ abstract class BaseDatabase : RoomDatabase() {
         val MIGRATION_7_8 = object : Migration(7, 8){
             override fun migrate(database: SupportSQLiteDatabase) {
                 val userSerial = Process.myUserHandle().hashCode()
-                database.execSQL("ALTER TABLE `home_apps` ADD COLUMN `user_serial` INTEGER NOT NULL DEFAULT " + userSerial.toString())
+                database.execSQL("ALTER TABLE `home_apps` ADD COLUMN `user_serial` INTEGER NOT NULL DEFAULT $userSerial")
 
                 database.execSQL("CREATE TABLE home_apps_copy(" +
                         "package_name TEXT NOT NULL, " +

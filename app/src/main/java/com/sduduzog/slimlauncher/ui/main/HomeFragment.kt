@@ -14,6 +14,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.motion.widget.MotionLayout.TransitionListener
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -36,9 +37,11 @@ import java.util.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLaunchAppListener {
+class HomeFragment : BaseFragment(), OnLaunchAppListener {
     @Inject
     lateinit var unlauncherDataSource: UnlauncherDataSource
+
+    private val viewModel: MainViewModel by viewModels()
 
     private lateinit var receiver: BroadcastReceiver
     private lateinit var appDrawerAdapter: AppDrawerAdapter
@@ -54,7 +57,7 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
 
         val unlauncherAppsRepo = unlauncherDataSource.unlauncherAppsRepo
 
-        viewModel.apps.observe(viewLifecycleOwner) { list ->
+        viewModel.apps.observe(viewLifecycleOwner, { list ->
             list?.let { apps ->
                 adapter1.setItems(apps.filter {
                     it.sortingIndex < 3

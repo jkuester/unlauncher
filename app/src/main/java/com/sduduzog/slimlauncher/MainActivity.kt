@@ -14,10 +14,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.navigation.NavController
 import androidx.navigation.Navigation.findNavController
-import com.sduduzog.slimlauncher.di.MainFragmentFactoryEntryPoint
 import com.sduduzog.slimlauncher.utils.*
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.EntryPointAccessors
 import java.lang.reflect.Method
 import kotlin.math.absoluteValue
 
@@ -58,8 +56,6 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val entryPoint = EntryPointAccessors.fromActivity(this, MainFragmentFactoryEntryPoint::class.java)
-        supportFragmentManager.fragmentFactory = entryPoint.getMainFragmentFactory()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
         settings = getSharedPreferences(getString(R.string.prefs_settings), MODE_PRIVATE)

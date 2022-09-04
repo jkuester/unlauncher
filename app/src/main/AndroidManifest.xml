@@ -26,7 +26,8 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:stateNotNeeded="true"
-            tools:ignore="LockedOrientationActivity">
+            tools:ignore="LockedOrientationActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
