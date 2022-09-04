@@ -8,7 +8,7 @@
     <string name="main_placeholder_date" translatable="false">Sat, Apr 20</string>
 
     <string-array name="themes_array">
-        <item>默认</item>
+        <item>系统默认</item>
         <item>午夜</item>
         <item>木星</item>
         <item>水鸭色</item>
@@ -45,6 +45,8 @@
     <string name="options_fragment_hide_status_bar">隐藏状态栏</string>
     <string name="options_fragment_show_status_bar">显示状态栏</string>
     <string name="customize_app_drawer_fragment_open_keyboard">打开键盘</string>
+    <string name="customize_app_drawer_fragment_auto_theme_wallpaper_text">将主题背景设为壁纸</string>
+    <string name="customize_app_drawer_fragment_auto_theme_wallpaper_subtext_no_default_launcher">需要将应用设为默认启动器</string>
     <string name="customize_app_drawer_fragment_visible_apps">可见的应用</string>
     <string name="customise_apps_fragment_add">添加</string>
     <string name="menu_rename">重命名</string>
