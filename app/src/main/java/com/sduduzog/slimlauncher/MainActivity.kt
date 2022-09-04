@@ -115,7 +115,7 @@ class MainActivity : AppCompatActivity(),
 
     override fun onApplyThemeResource(theme: Resources.Theme?, @StyleRes resid: Int, first: Boolean) {
         super.onApplyThemeResource(theme, resid, first)
-        getUnlaucherDataSource().unlauncherAppsRepo.liveData().observe(this, {
+        getUnlaucherDataSource().corePreferencesRepo.liveData().observe(this) {
             if (!it.setThemeWallpaper && getUserSelectedThemeRes() == resid) {
                 // only change the wallpaper when user has allowed it and
                 // preventing to change the wallpaper multiple times once it is rechecked in the settings
@@ -128,7 +128,7 @@ class MainActivity : AppCompatActivity(),
             lifecycleScope.launch(Dispatchers.IO) {
                 setWallpaperBackgroundColor(backgroundColor)
             }
-        })
+        }
     }
 
     /**

@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
 import com.sduduzog.slimlauncher.R
-import com.sduduzog.slimlauncher.datasource.apps.UnlauncherAppsRepository
 import com.sduduzog.slimlauncher.utils.BaseFragment
 import com.sduduzog.slimlauncher.utils.isActivityDefaultLauncher
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,27 +42,27 @@ class CustomizeAppDrawerFragment : BaseFragment() {
     }
 
     private fun setupKeyboardSwitch() {
-        val appsRepo = getUnlauncherDataSource().unlauncherAppsRepo
+        val prefsRepo = getUnlauncherDataSource().corePreferencesRepo
         customize_app_drawer_open_keyboard_switch.setOnCheckedChangeListener { _, checked ->
-            appsRepo.updateActivateKeyboardInDrawer(checked)
+            prefsRepo.updateActivateKeyboardInDrawer(checked)
         }
-        appsRepo.liveData().observe(viewLifecycleOwner) {
+        prefsRepo.liveData().observe(viewLifecycleOwner) {
             customize_app_drawer_open_keyboard_switch.isChecked = it.activateKeyboardInDrawer
         }
     }
 
     private fun setupAutomaticDeviceWallpaperSwitch() {
-        val appsRepo = getUnlauncherDataSource().unlauncherAppsRepo
+        val prefsRepo = getUnlauncherDataSource().corePreferencesRepo
         val appIsDefaultLauncher = isActivityDefaultLauncher(activity)
         setupDeviceWallpaperSwitchText(appIsDefaultLauncher)
         customize_app_drawer_auto_device_theme_wallpaper.isEnabled = appIsDefaultLauncher
 
-        appsRepo.liveData().observe(viewLifecycleOwner) {
+        prefsRepo.liveData().observe(viewLifecycleOwner) {
             // always uncheck once app isn't default launcher
             customize_app_drawer_auto_device_theme_wallpaper.isChecked = appIsDefaultLauncher && it.setThemeWallpaper
         }
         customize_app_drawer_auto_device_theme_wallpaper.setOnCheckedChangeListener { _, checked ->
-            appsRepo.updateSetAutomaticDeviceWallpaper(checked)
+            prefsRepo.updateSetAutomaticDeviceWallpaper(checked)
         }
     }
 

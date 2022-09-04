@@ -50,7 +50,7 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
 
         val unlauncherAppsRepo = getUnlauncherDataSource().unlauncherAppsRepo
 
-        viewModel.apps.observe(viewLifecycleOwner, { list ->
+        viewModel.apps.observe(viewLifecycleOwner) { list ->
             list?.let { apps ->
                 adapter1.setItems(apps.filter {
                     it.sortingIndex < 3
@@ -64,7 +64,7 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
                     unlauncherAppsRepo.setHomeApps(apps)
                 }
             }
-        })
+        }
 
         appDrawerAdapter =
             AppDrawerAdapter(AppDrawerListener(), viewLifecycleOwner, unlauncherAppsRepo)
@@ -131,7 +131,7 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
         }
 
         getUnlauncherDataSource().quickButtonPreferencesRepo.liveData()
-            .observe(viewLifecycleOwner, { prefs ->
+            .observe(viewLifecycleOwner) { prefs ->
                 val leftButtonIcon = prefs.leftButton.iconId
                 home_fragment_call.setImageResource(leftButtonIcon)
                 if (leftButtonIcon != R.drawable.ic_empty) {
@@ -172,7 +172,7 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
                         }
                     }
                 }
-            })
+            }
 
         app_drawer_edit_text.addTextChangedListener(appDrawerAdapter.searchBoxListener)
 
@@ -189,7 +189,7 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
 
                     motionLayout?.endState -> {
                         // Check for preferences to open the keyboard
-                        getUnlauncherDataSource().unlauncherAppsRepo.liveData().observe(viewLifecycleOwner) {
+                        getUnlauncherDataSource().corePreferencesRepo.liveData().observe(viewLifecycleOwner) {
                             if (it.activateKeyboardInDrawer) {
                                 // show the keyboard and set focus to the EditText when swiping down
                                 inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0)

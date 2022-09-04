@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+option java_package = "com.jkuester.unlauncher.datastore";
+option java_multiple_files = true;
+
+message CorePreferences {
+  bool activate_keyboard_in_drawer = 1;
+  bool set_theme_wallpaper = 2;
+}

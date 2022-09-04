@@ -139,14 +139,6 @@ class UnlauncherAppsRepository(
         }
     }
 
-    fun updateActivateKeyboardInDrawer(activateKeyboardInDrawer: Boolean) {
-        lifecycleScope.launch {
-            unlauncherAppsStore.updateData {
-                it.toBuilder().setActivateKeyboardInDrawer(activateKeyboardInDrawer).build()
-            }
-        }
-    }
-
     private fun findApp(
         unlauncherApps: List<UnlauncherApp>,
         packageName: String,
@@ -154,14 +146,6 @@ class UnlauncherAppsRepository(
     ): UnlauncherApp? {
         return unlauncherApps.firstOrNull { app ->
             packageName == app.packageName && className == app.className
-        }
-    }
-
-    fun updateSetAutomaticDeviceWallpaper(setDeviceWallpaper: Boolean) {
-        lifecycleScope.launch {
-            unlauncherAppsStore.updateData {
-                it.toBuilder().setSetThemeWallpaper(setDeviceWallpaper).build()
-            }
         }
     }
 }
