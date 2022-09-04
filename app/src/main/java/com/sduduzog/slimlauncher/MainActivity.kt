@@ -1,11 +1,13 @@
 package com.sduduzog.slimlauncher
 
+import android.annotation.SuppressLint
 import android.app.WallpaperManager
 import android.content.SharedPreferences
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
+import android.util.Log
 import android.view.GestureDetector
 import android.view.GestureDetector.SimpleOnGestureListener
 import android.view.MotionEvent
@@ -14,6 +16,7 @@ import androidx.annotation.ColorInt
 import androidx.annotation.StyleRes
 import androidx.annotation.WorkerThread
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.Navigation.findNavController
@@ -22,9 +25,11 @@ import com.sduduzog.slimlauncher.di.MainFragmentFactoryEntryPoint
 import com.sduduzog.slimlauncher.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.EntryPointAccessors
+import kotlin.math.absoluteValue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.IOException
+import java.lang.reflect.Method
 
 
 @AndroidEntryPoint
@@ -218,11 +223,12 @@ class MainActivity : AppCompatActivity(),
         @StyleRes
         fun resolveTheme(i: Int): Int {
             return when (i) {
-                1 -> R.style.AppDarkTheme
+                1 -> R.style.AppThemeDark
                 2 -> R.style.AppGreyTheme
                 3 -> R.style.AppTealTheme
                 4 -> R.style.AppCandyTheme
                 5 -> R.style.AppPinkTheme
+                6 -> R.style.AppThemeLight
                 else -> R.style.AppTheme
             }
         }
@@ -240,5 +246,44 @@ class MainActivity : AppCompatActivity(),
                 findNavController(homeView).navigate(R.id.action_homeFragment_to_optionsFragment, null)
             }
         }
+
+        override fun onFling(
+            e1: MotionEvent,
+            e2: MotionEvent,
+            velocityX: Float,
+            velocityY: Float
+        ): Boolean {
+            val homeView = findViewById<MotionLayout>(R.id.home_fragment)
+            if (homeView != null) {
+                val homeScreen = homeView.constraintSetIds[0]
+                val isFlingFromHomeScreen = homeView.currentState == homeScreen
+                val isFlingDown = velocityY > 0 && velocityY > velocityX.absoluteValue
+                if (isFlingDown && isFlingFromHomeScreen) {
+                    expandStatusBar()
+                }
+            }
+            return super.onFling(e1, e2, velocityX, velocityY)
+        }
     })
+
+    @SuppressLint("WrongConstant")  // statusbar is an internal API
+    private fun expandStatusBar() {
+        try {
+            getSystemService("statusbar")?.let { service ->
+                val statusbarManager = Class.forName("android.app.StatusBarManager")
+                val expand: Method = statusbarManager.getMethod("expandNotificationsPanel")
+                expand.invoke(service)
+            }
+        } catch (e: Exception) {
+            // Do nothing. There does not seem to be any official way with the Android SKD to open the status bar.
+            // https://stackoverflow.com/questions/5029354/how-can-i-programmatically-open-close-notifications-in-android
+            // This hack may break on future versions of Android (or even just not work for specific manufacturer variants).
+            // So, if anything goes wrong, we will just do nothing.
+            Log.e(
+                "MainActivity",
+                "Error trying to expand the notifications panel.",
+                e
+            )
+        }
+    }
 }

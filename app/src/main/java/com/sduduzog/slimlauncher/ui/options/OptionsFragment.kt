@@ -23,8 +23,8 @@ class OptionsFragment : BaseFragment() {
         return inflater.inflate(R.layout.options_fragment, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         options_fragment_about_slim.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.slim_url)))
             launchActivity(it, intent)

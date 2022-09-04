@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string-array name="themes_array">
+        <item>Systemvorgabe</item>
+        <item>Mitternacht</item>
+        <item>Jupiter</item>
+        <item>Blaugrün</item>
+        <item>Candy</item>
+        <item>Pastell</item>
+        <item>Mittag</item>
+    </string-array>
+
     <string name="choose_theme_dialog_title">Aussehen ändern</string>
     <string name="choose_time_format_dialog_title">Zeitformat ändern</string>
     <string name="customise_apps_fragment_add">Hinzufügen</string>

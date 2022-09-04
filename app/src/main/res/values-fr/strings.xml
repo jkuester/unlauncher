@@ -1,11 +1,12 @@
 <resources>
     <string-array name="themes_array">
-        <item>Par défaut</item>
-        <item>Midnight</item>
+        <item>Système défaut</item>
+        <item>Minuit</item>
         <item>Jupiter</item>
         <item>Teal</item>
         <item>Candy</item>
         <item>Pastel</item>
+        <item>Midi</item>
     </string-array>
 
     <string-array name="time_format_array">

@@ -8,12 +8,13 @@
     <string name="main_placeholder_date" translatable="false">Sat, Apr 20</string>
 
     <string-array name="themes_array">
-        <item>Default</item>
+        <item>System default</item>
         <item>Midnight</item>
         <item>Jupiter</item>
         <item>Teal</item>
         <item>Candy</item>
         <item>Pastel</item>
+        <item>Noon</item>
     </string-array>
 
     <string-array name="time_format_array">
