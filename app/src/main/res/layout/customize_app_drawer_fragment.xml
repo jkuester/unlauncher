@@ -37,20 +37,4 @@
         android:textSize="@dimen/_20ssp"
         app:layout_constraintTop_toBottomOf="@id/customize_app_drawer_fragment_visible_apps"
         app:layout_constraintStart_toStartOf="parent"/>
-
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/customize_app_drawer_auto_device_theme_wallpaper"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_16sdp"
-        android:layout_marginLeft="@dimen/_16sdp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="@dimen/_16sdp"
-        android:layout_marginRight="@dimen/_16sdp"
-        android:layout_marginBottom="32dp"
-        android:text="@string/customize_app_drawer_fragment_auto_theme_wallpaper_text"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textSize="@dimen/_18ssp"
-        app:layout_constraintTop_toBottomOf="@id/customize_app_drawer_open_keyboard_switch"
-        app:layout_constraintStart_toStartOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
