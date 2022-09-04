@@ -5,12 +5,13 @@
     <string name="main_placeholder_date" translatable="false">Sat, Apr 20</string>
 
     <string-array name="themes_array">
-        <item>Standaard</item>
+        <item>System standaard</item>
         <item>Middernacht</item>
         <item>Jupiter</item>
         <item>Blauwgroen</item>
         <item>Snoep</item>
         <item>Pastel</item>
+        <item>Middag</item>
     </string-array>
 
     <string-array name="time_format_array">

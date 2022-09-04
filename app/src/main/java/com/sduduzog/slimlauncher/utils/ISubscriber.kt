@@ -1,3 +1,3 @@
 package com.sduduzog.slimlauncher.utils
 
-interface ISubscriber{}
+interface ISubscriber

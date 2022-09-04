@@ -17,13 +17,10 @@ class CustomizeQuickButtonsFragment : BaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.customize_quick_buttons_fragment, container, false)
-    }
+    ): View? = inflater.inflate(R.layout.customize_quick_buttons_fragment, container, false)
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         val prefsRepo = getUnlauncherDataSource().quickButtonPreferencesRepo
 
         prefsRepo.liveData().observe(viewLifecycleOwner, { prefs ->

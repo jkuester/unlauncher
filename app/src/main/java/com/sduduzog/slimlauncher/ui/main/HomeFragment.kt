@@ -12,12 +12,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.motion.widget.MotionLayout.TransitionListener
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.jkuester.unlauncher.datastore.UnlauncherApp
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.adapters.AppDrawerAdapter
@@ -40,13 +39,10 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
     private lateinit var receiver: BroadcastReceiver
     private lateinit var appDrawerAdapter: AppDrawerAdapter
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.home_fragment, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View = inflater.inflate(R.layout.home_fragment, container, false)
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         val adapter1 = HomeAdapter(this)
         val adapter2 = HomeAdapter(this)
         home_fragment_list.adapter = adapter1
@@ -95,6 +91,12 @@ class HomeFragment(private val viewModel: MainViewModel) : BaseFragment(), OnLau
         }
         if (!::appDrawerAdapter.isInitialized) {
             appDrawerAdapter.setAppFilter()
+        }
+
+        // scroll back to the top if user returns to this fragment
+        val layoutManager = app_drawer_fragment_list.layoutManager as LinearLayoutManager
+        if (layoutManager.findFirstCompletelyVisibleItemPosition() != 0) {
+            app_drawer_fragment_list.scrollToPosition(0)
         }
     }
 

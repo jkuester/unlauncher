@@ -70,7 +70,7 @@ class UnlauncherAppsRepository(
                 )
             }
 
-            if(appAdded) {
+            if (appAdded) {
                 sortAppsAlphabetically(unlauncherAppsBuilder)
             }
             unlauncherAppsBuilder.build()
@@ -154,6 +154,14 @@ class UnlauncherAppsRepository(
     ): UnlauncherApp? {
         return unlauncherApps.firstOrNull { app ->
             packageName == app.packageName && className == app.className
+        }
+    }
+
+    fun updateSetAutomaticDeviceWallpaper(setDeviceWallpaper: Boolean) {
+        lifecycleScope.launch {
+            unlauncherAppsStore.updateData {
+                it.toBuilder().setSetThemeWallpaper(setDeviceWallpaper).build()
+            }
         }
     }
 }

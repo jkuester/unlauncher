@@ -36,13 +36,11 @@ abstract class BaseFragment : Fragment(), ISubscriber {
                     val flags = requireActivity().window.decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
                     getFragmentView().systemUiVisibility = flags
                 }
-
             }
             val value = TypedValue()
             requireContext().theme.resolveAttribute(R.attr.colorPrimary, value, true)
             requireActivity().window.statusBarColor = value.data
         }
-
     }
 
     override fun onStart() {
