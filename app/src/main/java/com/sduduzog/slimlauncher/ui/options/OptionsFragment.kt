@@ -14,13 +14,20 @@ import android.view.ViewGroup
 import androidx.core.content.edit
 import androidx.navigation.Navigation
 import com.sduduzog.slimlauncher.R
+import com.sduduzog.slimlauncher.datasource.UnlauncherDataSource
 import com.sduduzog.slimlauncher.ui.dialogs.ChangeThemeDialog
 import com.sduduzog.slimlauncher.ui.dialogs.ChooseTimeFormatDialog
 import com.sduduzog.slimlauncher.utils.BaseFragment
 import com.sduduzog.slimlauncher.utils.isActivityDefaultLauncher
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.options_fragment.*
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class OptionsFragment : BaseFragment() {
+    @Inject
+    lateinit var unlauncherDataSource: UnlauncherDataSource
+
     override fun getFragmentView(): ViewGroup = options_fragment
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -70,7 +77,7 @@ class OptionsFragment : BaseFragment() {
     }
 
     private fun setupAutomaticDeviceWallpaperSwitch() {
-        val prefsRepo = getUnlauncherDataSource().corePreferencesRepo
+        val prefsRepo = unlauncherDataSource.corePreferencesRepo
         val appIsDefaultLauncher = isActivityDefaultLauncher(activity)
         setupDeviceWallpaperSwitchText(appIsDefaultLauncher)
         options_fragment_auto_device_theme_wallpaper.isEnabled = appIsDefaultLauncher

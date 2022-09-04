@@ -12,15 +12,11 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import com.sduduzog.slimlauncher.BuildConfig
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.data.model.App
-import com.sduduzog.slimlauncher.datasource.UnlauncherDataSource
 
 abstract class BaseFragment : Fragment(), ISubscriber {
-    private lateinit var unlauncherDataSource: UnlauncherDataSource
-
     abstract fun getFragmentView(): ViewGroup
 
 
@@ -97,13 +93,5 @@ abstract class BaseFragment : Fragment(), ISubscriber {
         val filter = mutableListOf<String>()
         filter.add(BuildConfig.APPLICATION_ID)
         return list.filterNot { filter.contains(it.packageName) }
-    }
-
-    protected fun getUnlauncherDataSource(): UnlauncherDataSource {
-        if (!::unlauncherDataSource.isInitialized) {
-            unlauncherDataSource =
-                UnlauncherDataSource(requireContext(), viewLifecycleOwner.lifecycleScope)
-        }
-        return unlauncherDataSource
     }
 }

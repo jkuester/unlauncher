@@ -6,12 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.adapters.CustomizeAppDrawerAppsAdapter
+import com.sduduzog.slimlauncher.datasource.UnlauncherDataSource
 import com.sduduzog.slimlauncher.utils.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.customize_app_drawer_app_list_fragment.*
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class CustomizeAppDrawerAppListFragment : BaseFragment() {
+    @Inject
+    lateinit var unlauncherDataSource: UnlauncherDataSource
 
     override fun getFragmentView(): ViewGroup = customize_app_drawer_fragment
 
@@ -25,7 +29,7 @@ class CustomizeAppDrawerAppListFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val unlauncherAppsRepo = getUnlauncherDataSource().unlauncherAppsRepo
+        val unlauncherAppsRepo = unlauncherDataSource.unlauncherAppsRepo
         customize_app_drawer_fragment_app_list.adapter =
             CustomizeAppDrawerAppsAdapter(viewLifecycleOwner, unlauncherAppsRepo)
         unlauncherAppsRepo.liveData().observe(viewLifecycleOwner) {
