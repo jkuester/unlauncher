@@ -74,15 +74,15 @@ abstract class BaseFragment : Fragment(), ISubscriber {
         val myUserHandle = Process.myUserHandle()
 
         for (profile in manager.userProfiles) {
-            val prefix = if (profile == myUserHandle) "" else "\uD83C\uDD46 " //Unicode for boxed w
+            val prefix = if (profile.equals(myUserHandle)) "" else "\uD83C\uDD46 " //Unicode for boxed w
             val profileSerial = manager.getSerialNumberForUser(profile)
 
             for (activityInfo in launcher.getActivityList(null, profile)) {
                 val app = App(
-                        appName = prefix + activityInfo.label.toString(),
-                        packageName = activityInfo.applicationInfo.packageName,
-                        activityName = activityInfo.name,
-                        userSerial = profileSerial
+                    appName = prefix + activityInfo.label.toString(),
+                    packageName = activityInfo.applicationInfo.packageName,
+                    activityName = activityInfo.name,
+                    userSerial = profileSerial
                 )
                 list.add(app)
             }

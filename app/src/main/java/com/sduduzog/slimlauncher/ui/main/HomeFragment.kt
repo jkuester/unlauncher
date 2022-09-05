@@ -57,7 +57,7 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
 
         val unlauncherAppsRepo = unlauncherDataSource.unlauncherAppsRepo
 
-        viewModel.apps.observe(viewLifecycleOwner, { list ->
+        viewModel.apps.observe(viewLifecycleOwner) { list ->
             list?.let { apps ->
                 adapter1.setItems(apps.filter {
                     it.sortingIndex < 3
