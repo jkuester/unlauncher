@@ -93,27 +93,8 @@ dependencies {
     implementation("com.intuit.sdp:sdp-android:1.0.6")
     implementation("com.intuit.ssp:ssp-android:1.0.6")
     implementation("com.google.dagger:hilt-android:2.35")
-    implementation("androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03")
     kapt("androidx.hilt:hilt-compiler:1.0.0")
     kapt("com.google.dagger:hilt-android-compiler:2.35")
-
-
-//    // Unit test libs
-//    testImplementation("junit:junit:4.13.2")
-//    testImplementation("com.google.truth:truth:1.1.3")
-//
-//    testImplementation("org.robolectric:robolectric:4.4")
-//
-//    testImplementation("androidx.arch.core:core-testing:2.1.0")
-////    testImplementation("androidx.test:core:1.4.0")
-////    testImplementation("org.mockito:mockito-core:2.24.5")
-//
-//
-//    testImplementation("com.google.dagger:hilt-android-testing:2.35")
-//    kaptTest("com.google.dagger:hilt-android-compiler:2.35")
-//
-//    androidTestImplementation("androidx.test:runner:1.4.0")
-//    androidTestImplementation ("androidx.test.ext:junit:1.1.3")
 }
 protobuf {
     protoc {
