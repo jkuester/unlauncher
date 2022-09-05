@@ -25,7 +25,6 @@
     <string name="prefs_settings_key_toggle_status_bar" translatable="false">hide_status_bar</string>
     <string name="choose_time_format_dialog_title">Kies de tijdopmaak</string>
     <string name="main_fragment_options">Opties</string>
-    <string name="options_fragment_about_slim">Over Slim</string>
     <string name="options_fragment_device_settings">Systeeminstellingen</string>
     <string name="options_fragment_change_theme">Thema wijzigen</string>
     <string name="options_fragment_choose_time_format">Kies de tijdopmaak</string>

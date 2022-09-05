@@ -5,7 +5,6 @@
     <string name="customise_apps_fragment_add">Добавить</string>
     <string name="customise_apps_fragment_remove_all">Удалить все</string>
     <string name="main_fragment_options">Настройки</string>
-    <string name="options_fragment_about_slim">О Slim</string>
     <string name="menu_remove">Удалить</string>
     <string name="menu_rename">Переименовать</string>
     <string name="options_fragment_change_theme">Изменить тему</string>

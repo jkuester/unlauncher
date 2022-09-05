@@ -25,7 +25,6 @@
     <string name="prefs_settings_key_toggle_status_bar" translatable="false">hide_status_bar</string>
     <string name="choose_time_format_dialog_title">Velg tidsformat</string>
     <string name="main_fragment_options">Innstillinger</string>
-    <string name="options_fragment_about_slim">Om</string>
     <string name="options_fragment_device_settings">Enhetsinnstillinger</string>
     <string name="options_fragment_change_theme">Drakt</string>
     <string name="options_fragment_choose_time_format">Tidsformat</string>

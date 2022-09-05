@@ -7,7 +7,6 @@
     <string name="main_fragment_options">Налаштування</string>
     <string name="menu_remove">Видалити</string>
     <string name="menu_rename">Перейменувати</string>
-    <string name="options_fragment_about_slim">Про Slim</string>
     <string name="options_fragment_choose_time_format">Обрати формат часу</string>
     <string name="options_fragment_customise_apps">Налаштування програм</string>
     <string name="options_fragment_device_settings">Налаштування пристрою</string>

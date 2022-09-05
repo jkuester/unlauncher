@@ -22,7 +22,6 @@
 
     <string name="choose_time_format_dialog_title">Formato dell\'ora</string>
     <string name="main_fragment_options">Impostazioni</string>
-    <string name="options_fragment_about_slim">Informazioni su Unlauncher</string>
     <string name="options_fragment_device_settings">Impostazioni del dispositivo</string>
     <string name="options_fragment_change_theme">Cambia il tema</string>
     <string name="options_fragment_choose_time_format">Formato dell\'ora</string>

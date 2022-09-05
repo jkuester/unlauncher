@@ -22,7 +22,6 @@
 
     <string name="choose_time_format_dialog_title">Format de l’heure</string>
     <string name="main_fragment_options">Options</string>
-    <string name="options_fragment_about_slim">À propos d’Unlauncher</string>
     <string name="options_fragment_device_settings">Paramètres Système</string>
     <string name="options_fragment_change_theme">Changer le Thème</string>
     <string name="options_fragment_choose_time_format">Format de l’Heure</string>

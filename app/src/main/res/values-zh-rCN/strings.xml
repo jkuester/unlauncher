@@ -34,7 +34,6 @@
     <string name="prefs_settings_key_toggle_status_bar" translatable="false">hide_status_bar</string>
     <string name="choose_time_format_dialog_title">选择时间格式</string>
     <string name="main_fragment_options">选项</string>
-    <string name="options_fragment_about_slim">关于 Unlauncher</string>
     <string name="options_fragment_device_settings">设备设置</string>
     <string name="options_fragment_change_theme">更改主题</string>
     <string name="options_fragment_choose_time_format">选择时间格式</string>
