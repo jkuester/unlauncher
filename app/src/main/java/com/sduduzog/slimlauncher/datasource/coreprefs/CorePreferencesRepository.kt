@@ -50,10 +50,10 @@ class CorePreferencesRepository(
         }
     }
 
-    fun updateSetAutomaticDeviceWallpaper(setDeviceWallpaper: Boolean) {
+    fun updateKeepDeviceWallpaper(keepDeviceWallpaper: Boolean) {
         lifecycleScope.launch {
             corePreferencesStore.updateData {
-                it.toBuilder().setSetThemeWallpaper(setDeviceWallpaper).build()
+                it.toBuilder().setKeepDeviceWallpaper(keepDeviceWallpaper).build()
             }
         }
     }

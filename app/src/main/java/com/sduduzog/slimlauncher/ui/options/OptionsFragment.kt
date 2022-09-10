@@ -79,10 +79,10 @@ class OptionsFragment : BaseFragment() {
 
         prefsRepo.liveData().observe(viewLifecycleOwner) {
             // always uncheck once app isn't default launcher
-            options_fragment_auto_device_theme_wallpaper.isChecked = appIsDefaultLauncher && it.setThemeWallpaper
+            options_fragment_auto_device_theme_wallpaper.isChecked = appIsDefaultLauncher && !it.keepDeviceWallpaper
         }
         options_fragment_auto_device_theme_wallpaper.setOnCheckedChangeListener { _, checked ->
-            prefsRepo.updateSetAutomaticDeviceWallpaper(checked)
+            prefsRepo.updateKeepDeviceWallpaper(!checked)
         }
     }
 
