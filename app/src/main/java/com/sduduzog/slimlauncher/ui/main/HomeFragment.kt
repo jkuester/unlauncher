@@ -198,9 +198,9 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
                         // Check for preferences to open the keyboard
                         unlauncherDataSource.corePreferencesRepo.liveData().observe(viewLifecycleOwner) {
                             if (it.activateKeyboardInDrawer) {
-                                // show the keyboard and set focus to the EditText when swiping down
-                                inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0)
                                 app_drawer_edit_text.requestFocus()
+                                // show the keyboard and set focus to the EditText when swiping down
+                                inputMethodManager.showSoftInput(app_drawer_edit_text, InputMethodManager.SHOW_IMPLICIT)
                             }
                         }
                     }
