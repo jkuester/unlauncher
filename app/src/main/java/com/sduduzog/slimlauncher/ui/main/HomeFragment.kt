@@ -197,6 +197,8 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
                     motionLayout?.endState -> {
                         // Check for preferences to open the keyboard
                         unlauncherDataSource.corePreferencesRepo.liveData().observe(viewLifecycleOwner) {
+                            if(it.searchAllAppsInDrawer)
+                                app_drawer_edit_text.onFocusChangeListener = appDrawerAdapter.focusListener
                             if (it.activateKeyboardInDrawer) {
                                 // show the keyboard and set focus to the EditText when swiping down
                                 inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0)

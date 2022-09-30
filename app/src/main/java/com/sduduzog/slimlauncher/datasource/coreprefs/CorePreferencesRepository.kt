@@ -57,4 +57,12 @@ class CorePreferencesRepository(
             }
         }
     }
+
+    fun updateSearchAllAppsInDrawer(searchAllAppsInDrawer: Boolean) {
+        lifecycleScope.launch {
+            corePreferencesStore.updateData {
+                it.toBuilder().setSearchAllAppsInDrawer(searchAllAppsInDrawer).build()
+            }
+        }
+    }
 }

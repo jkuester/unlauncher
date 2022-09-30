@@ -32,6 +32,7 @@ class CustomizeAppDrawerFragment : BaseFragment() {
             .setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_customiseAppDrawerFragment_to_customiseAppDrawerAppListFragment))
 
         setupKeyboardSwitch()
+        setupSearchSwitch()
     }
 
     private fun setupKeyboardSwitch() {
@@ -41,6 +42,16 @@ class CustomizeAppDrawerFragment : BaseFragment() {
         }
         prefsRepo.liveData().observe(viewLifecycleOwner) {
             customize_app_drawer_open_keyboard_switch.isChecked = it.activateKeyboardInDrawer
+        }
+    }
+
+    private fun setupSearchSwitch() {
+        val prefsRepo = unlauncherDataSource.corePreferencesRepo
+        customize_app_drawer_search_all_switch.setOnCheckedChangeListener { _, checked ->
+            prefsRepo.updateSearchAllAppsInDrawer(checked)
+        }
+        prefsRepo.liveData().observe(viewLifecycleOwner) {
+            customize_app_drawer_search_all_switch.isChecked = it.searchAllAppsInDrawer
         }
     }
 }

@@ -5,6 +5,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnFocusChangeListener
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.LifecycleOwner
@@ -24,10 +25,12 @@ class AppDrawerAdapter(
     private var apps: List<UnlauncherApp> = listOf()
     private var filteredApps: List<UnlauncherApp> = listOf()
     private var filterQuery = ""
+    private var allApps: List<UnlauncherApp> = listOf()
 
     init {
         appsRepo.liveData().observe(lifecycleOwner, { unlauncherApps ->
-            apps = unlauncherApps.appsList.filter { app -> app.displayInDrawer }.toList()
+            allApps = unlauncherApps.appsList
+            apps = allApps.filter { app -> app.displayInDrawer }.toList()
             updateDisplayedApps()
         })
     }
@@ -72,6 +75,13 @@ class AppDrawerAdapter(
 
         override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
             setAppFilter(s.toString())
+        }
+    }
+
+    val focusListener: OnFocusChangeListener = object : OnFocusChangeListener {
+        override fun onFocusChange(v: View?, hasFocus: Boolean) {
+            apps = if (hasFocus) allApps else (allApps.filter { app -> app.displayInDrawer } .toList())
+            updateDisplayedApps()
         }
     }
 
