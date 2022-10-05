@@ -8,6 +8,7 @@
         <item name="android:colorBackground">@color/primaryColor</item>
         <item name="android:colorForeground">@color/accentColor</item>
         <item name="android:fontFamily">@font/ubuntu</item>
+        <item name="android:navigationBarColor">@color/primaryColor</item>
     </style>
 
 

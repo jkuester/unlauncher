@@ -7,5 +7,6 @@
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryDark">@color/primaryColorDark</item>
         <item name="android:colorBackground">@color/primaryColor</item>
+        <item name="android:navigationBarColor">@color/primaryColor</item>
     </style>
 </resources>
