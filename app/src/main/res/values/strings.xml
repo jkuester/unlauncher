@@ -15,6 +15,8 @@
         <item>Candy</item>
         <item>Pastel</item>
         <item>Noon</item>
+        <item>Vlad</item>
+        <item>Groovy</item>
     </string-array>
 
     <string-array name="time_format_array">
