@@ -42,4 +42,21 @@
         <item name="colorPrimaryDark">@color/colorTeal</item>
         <item name="android:colorBackground">@color/colorTeal</item>
     </style>
+
+    <style name="AppDarculaTheme" parent="AppThemeDark">
+        <item name="colorPrimary">@color/colorGunmetal</item>
+        <item name="colorPrimaryDark">@color/colorOuterSpace</item>
+        <item name="android:colorBackground">@color/colorGunmetal</item>
+        <item name="colorAccent">@color/colorCultured</item>
+        <item name="android:colorForeground">@color/colorCultured</item>
+    </style>
+
+    <style name="AppGruvBoxDarkTheme" parent="AppThemeDark">
+        <item name="colorPrimary">@color/colorDarkJungleGreen</item>
+        <item name="colorPrimaryDark">@color/colorCinereous</item>
+        <item name="android:colorBackground">@color/colorDarkJungleGreen</item>
+        <item name="colorAccent">@color/colorCookiesAndCream</item>
+        <item name="android:textColorHint">@color/colorCinereous</item>
+        <item name="android:colorForeground">@color/colorCookiesAndCream</item>
+    </style>
 </resources>
