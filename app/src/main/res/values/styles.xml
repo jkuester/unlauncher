@@ -49,14 +49,16 @@
         <item name="android:colorBackground">@color/colorGunmetal</item>
         <item name="colorAccent">@color/colorCultured</item>
         <item name="android:colorForeground">@color/colorCultured</item>
+        <item name="android:navigationBarColor">@color/colorGunmetal</item>
     </style>
 
     <style name="AppGruvBoxDarkTheme" parent="AppThemeDark">
-        <item name="colorPrimary">@color/colorDarkJungleGreen</item>
+        <item name="colorPrimary">@color/colorCharlestonGreen</item>
         <item name="colorPrimaryDark">@color/colorCinereous</item>
-        <item name="android:colorBackground">@color/colorDarkJungleGreen</item>
+        <item name="android:colorBackground">@color/colorCharlestonGreen</item>
         <item name="colorAccent">@color/colorCookiesAndCream</item>
         <item name="android:textColorHint">@color/colorCinereous</item>
         <item name="android:colorForeground">@color/colorCookiesAndCream</item>
+        <item name="android:navigationBarColor">@color/colorCharlestonGreen</item>
     </style>
 </resources>
