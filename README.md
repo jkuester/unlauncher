@@ -9,7 +9,7 @@
 ![Build Status](https://github.com/jkuester/unlauncher/workflows/Android%20Master%20Branch%20CI/badge.svg)
 
 > _Freedom from your phone_
-
+Trigger
 [<img src="https://f-droid.org/badge/get-it-on.png"
      alt="Get it on F-Droid"
      height="80">](https://f-droid.org/packages/com.jkuester.unlauncher/)
