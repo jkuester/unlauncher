@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity(),
         subscribers.remove(s as BaseFragment)
     }
 
-    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
         gestureDetector.onTouchEvent(ev)
         return super.dispatchTouchEvent(ev)
     }
