@@ -3,18 +3,18 @@ import com.google.protobuf.gradle.*
 plugins {
     id("com.android.application")
     id("dagger.hilt.android.plugin")
-    id("com.google.protobuf") version "0.8.17"
+    id("com.google.protobuf") version "0.9.0"
     kotlin("android")
     kotlin("android.extensions")
     kotlin("kapt")
 }
 
 android {
-    compileSdkVersion(34)
+    compileSdkVersion(33)
     defaultConfig {
         applicationId = "com.jkuester.unlauncher"
         minSdkVersion(21)
-        targetSdkVersion(34)
+        targetSdkVersion(33)
         versionName = "2.0.0-beta.4"
         versionCode = 16
         vectorDrawables { useSupportLibrary = true }
@@ -49,11 +49,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
+        jvmTarget = JavaVersion.VERSION_17.toString()
     }
     testOptions {
         unitTests.isIncludeAndroidResources = true
@@ -69,7 +69,7 @@ dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
     // Kotlin Libraries
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.22")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.7.22")
 
     // Support Libraries
     implementation("androidx.appcompat:appcompat:1.6.1")
@@ -80,7 +80,7 @@ dependencies {
     implementation("com.google.protobuf:protobuf-javalite:3.10.0")
 
     // Arch Components
-    implementation("androidx.core:core-ktx:1.12.0-alpha05")
+    implementation("androidx.core:core-ktx:1.10.1")
     implementation("androidx.fragment:fragment-ktx:1.6.0")
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
     implementation("androidx.navigation:navigation-fragment-ktx:2.6.0")
