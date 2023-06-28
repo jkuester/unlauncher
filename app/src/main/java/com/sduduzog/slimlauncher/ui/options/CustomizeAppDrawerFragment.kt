@@ -43,13 +43,12 @@ class CustomizeAppDrawerFragment : BaseFragment() {
     private fun setupShowSearchBarSwitch() {
         val prefsRepo = unlauncherDataSource.corePreferencesRepo
         customize_app_drawer_fragment_search_bar.setOnCheckedChangeListener { _, checked ->
-            checked.let {
-                prefsRepo.updateShowSearchBar(it)
-                enableSearchBarOptions(checked)
-            }
+            prefsRepo.updateShowSearchBar(checked)
+            enableSearchBarOptions(checked)
         }
         prefsRepo.liveData().observe(viewLifecycleOwner) {
-            customize_app_drawer_fragment_search_bar.isChecked = it.showSearchBar
+            val checked = it.hasShowSearchBar() && it.showSearchBar
+            customize_app_drawer_fragment_search_bar.isChecked = checked
             enableSearchBarOptions(it.showSearchBar)
         }
     }
