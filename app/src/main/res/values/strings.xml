@@ -47,10 +47,17 @@
     <string name="customize_app_drawer_fragment_auto_theme_wallpaper_text">Set theme background as wallpaper</string>
     <string name="customize_app_drawer_fragment_auto_theme_wallpaper_subtext_no_default_launcher">App needs to be default launcher</string>
     <string name="customize_app_drawer_fragment_visible_apps">Visible Apps</string>
+    <string name="customize_app_drawer_fragment_show_search_bar">Show Search Bar</string>
+    <string name="customize_app_drawer_fragment_search_bar_position">Search Bar Position</string>
+    <string-array name="search_bar_position_array">
+        <item>Top</item>
+        <item>Bottom</item>
+    </string-array>
     <string name="customise_apps_fragment_add">Add</string>
     <string name="menu_rename">Rename</string>
     <string name="menu_remove">Remove</string>
     <string name="choose_theme_dialog_title">Choose Theme</string>
+    <string name="choose_search_bar_position_dialog_title">Set position of Search Bar</string>
     <string name="add_apps_fragment_search_apps">Search apps</string>
     <string name="customise_apps_fragment_remove_all">Remove all</string>
     <string name="menu_reset">Reset</string>

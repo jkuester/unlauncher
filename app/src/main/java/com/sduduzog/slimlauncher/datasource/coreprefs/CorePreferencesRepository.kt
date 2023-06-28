@@ -6,6 +6,7 @@ import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import com.jkuester.unlauncher.datastore.CorePreferences
+import com.jkuester.unlauncher.datastore.SearchBarPosition
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
@@ -54,6 +55,22 @@ class CorePreferencesRepository(
         lifecycleScope.launch {
             corePreferencesStore.updateData {
                 it.toBuilder().setKeepDeviceWallpaper(keepDeviceWallpaper).build()
+            }
+        }
+    }
+
+    fun updateShowSearchBar(showSearchBar: Boolean) {
+        lifecycleScope.launch {
+            corePreferencesStore.updateData {
+                it.toBuilder().setShowSearchBar(showSearchBar).build()
+            }
+        }
+    }
+
+    fun updateSearchBarPosition(searchBarPosition: SearchBarPosition) {
+        lifecycleScope.launch {
+            corePreferencesStore.updateData {
+                it.toBuilder().setSearchBarPosition(searchBarPosition).build()
             }
         }
     }
