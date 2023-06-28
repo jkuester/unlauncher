@@ -98,7 +98,7 @@
             app:visibilityMode="ignore"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/app_drawer_fragment_list" />
         <Constraint
             android:id="@+id/app_drawer_fragment_list"
             android:layout_width="0dp"
@@ -110,7 +110,7 @@
             android:alpha="-1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/app_drawer_edit_text" />
+            app:layout_constraintTop_toBottomOf="parent" />
     </ConstraintSet>
 
     <ConstraintSet android:id="@+id/home_motion_02">
@@ -193,7 +193,7 @@
             app:visibilityMode="ignore"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent" />
         <Constraint
             android:id="@+id/app_drawer_fragment_list"
             android:layout_width="0dp"
@@ -202,9 +202,9 @@
             android:layout_marginLeft="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/app_drawer_edit_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/app_drawer_edit_text" />
+            app:layout_constraintTop_toTopOf="parent" />
     </ConstraintSet>
 </MotionScene>

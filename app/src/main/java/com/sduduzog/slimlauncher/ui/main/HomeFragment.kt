@@ -12,12 +12,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.motion.widget.MotionLayout.TransitionListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.jkuester.unlauncher.datastore.SearchBarPosition
 import com.jkuester.unlauncher.datastore.UnlauncherApp
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.adapters.AppDrawerAdapter
@@ -30,6 +32,7 @@ import com.sduduzog.slimlauncher.utils.BaseFragment
 import com.sduduzog.slimlauncher.utils.OnLaunchAppListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.home_fragment.*
+import kotlinx.android.synthetic.main.home_fragment_content.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.DateFormat
@@ -47,7 +50,18 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
     private lateinit var receiver: BroadcastReceiver
     private lateinit var appDrawerAdapter: AppDrawerAdapter
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View = inflater.inflate(R.layout.home_fragment, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        val coreRepository = unlauncherDataSource.corePreferencesRepo
+        val position = coreRepository.get().searchBarPosition
+        val layout = when (position) {
+            SearchBarPosition.bottom -> R.layout.home_fragment_bottom
+            SearchBarPosition.UNRECOGNIZED,
+            SearchBarPosition.top -> R.layout.home_fragment
+            else -> R.layout.home_fragment
+        }
+        return inflater.inflate(layout, container, false) as MotionLayout
+
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -80,6 +94,9 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
         setEventListeners()
 
         app_drawer_fragment_list.adapter = appDrawerAdapter
+
+        val showSearchBar = unlauncherDataSource.corePreferencesRepo.get().showSearchBar
+        app_drawer_edit_text.visibility = if (showSearchBar) View.VISIBLE else View.GONE
     }
 
     override fun onStart() {
@@ -196,8 +213,12 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
                     }
 
                     motionLayout?.endState -> {
+                        val corePrefs = unlauncherDataSource.corePreferencesRepo.get()
+                        val showSearchBar = corePrefs.showSearchBar
+                        val activateKeyboard = corePrefs.activateKeyboardInDrawer
+
                         // Check for preferences to open the keyboard
-                        if (unlauncherDataSource.corePreferencesRepo.get().activateKeyboardInDrawer) {
+                        if (showSearchBar && activateKeyboard) {
                             app_drawer_edit_text.requestFocus()
                             // show the keyboard and set focus to the EditText when swiping down
                             inputMethodManager.showSoftInput(

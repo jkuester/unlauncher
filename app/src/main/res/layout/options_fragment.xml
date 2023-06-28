@@ -27,20 +27,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/options_fragment_device_settings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/options_fragment_device_settings"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="32dp"
-        android:textSize="@dimen/_20ssp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/options_fragment_change_theme"
-        app:layout_constraintVertical_bias="0.17000002"
-        app:layout_constraintVertical_chainStyle="packed"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        <TextView
+            android:id="@+id/options_fragment_device_settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="32dp"
+            android:text="@string/options_fragment_device_settings"
+            android:textAppearance="@style/TextAppearance.AppCompat"
+            android:textSize="@dimen/_20ssp"
+            app:layout_constraintBottom_toTopOf="@+id/options_fragment_change_theme"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView5"
+            app:layout_constraintVertical_bias="0.17000002"
+            app:layout_constraintVertical_chainStyle="packed" />
 
         <TextView
             android:id="@+id/options_fragment_change_theme"
@@ -125,17 +125,13 @@
             android:id="@+id/options_fragment_auto_device_theme_wallpaper"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_16sdp"
-            android:layout_marginLeft="@dimen/_16sdp"
             android:layout_marginTop="32dp"
-            android:layout_marginEnd="@dimen/_16sdp"
-            android:layout_marginRight="@dimen/_16sdp"
-            android:layout_marginBottom="32dp"
             android:text="@string/customize_app_drawer_fragment_auto_theme_wallpaper_text"
             android:textAppearance="@style/TextAppearance.AppCompat"
-            android:textSize="@dimen/_18ssp"
-            app:layout_constraintTop_toBottomOf="@id/options_fragment_customize_app_drawer"
-            app:layout_constraintStart_toStartOf="parent"/>
+            android:textSize="@dimen/_20ssp"
+            android:layout_marginStart="@dimen/_16sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/options_fragment_customize_app_drawer" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>
