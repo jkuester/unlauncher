@@ -35,6 +35,7 @@
     <string name="customize_app_drawer_fragment_open_keyboard">Tastatur anzeigen</string>
     <string name="customize_app_drawer_fragment_visible_apps">Sichtbare Apps</string>
     <string name="customize_app_drawer_fragment_auto_theme_wallpaper_text">Theme Hintergrund als Wallpaper</string>
+    <string name="choose_search_bar_position_dialog_title">Setze Position des Suchfelds</string>
     <string name="customize_app_drawer_fragment_auto_theme_wallpaper_subtext_no_default_launcher">App muss Standardlauncher sein</string>
     <string name="menu_reset">Zurücksetzen</string>
 </resources>
