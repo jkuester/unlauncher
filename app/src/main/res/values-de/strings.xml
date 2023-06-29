@@ -25,8 +25,9 @@
     <string name="options_fragment_toggle_status_bar">Statusleiste ein\\aus</string>
     <string name="options_fragment_hide_status_bar">Statusleiste verstecken</string>
     <string name="options_fragment_show_status_bar">Statusleiste zeigen</string>
-    <string name="customize_app_drawer_fragment_show_search_bar">Suchleiste anzeigen</string>
-    <string name="customize_app_drawer_fragment_search_bar_position">Position der Suchleiste</string>
+    <string name="customize_app_drawer_fragment_search_field_options">Suchfeldoptionen</string>
+    <string name="customize_app_drawer_fragment_show_search_bar">Suchfeld anzeigen</string>
+    <string name="customize_app_drawer_fragment_search_bar_position">Suchfeldposition</string>
     <string-array name="search_bar_position_array">
         <item>Oben</item>
         <item>Unten</item>
