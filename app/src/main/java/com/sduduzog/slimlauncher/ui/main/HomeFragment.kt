@@ -210,9 +210,9 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
                     }
 
                     motionLayout?.endState -> {
-                        val corePrefs = unlauncherDataSource.corePreferencesRepo
-                        val showSearchBar = corePrefs.showSearchBar
-                        val activateKeyboard = unlauncherDataSource.corePreferencesRepo.get().activateKeyboardInDrawer
+                        val repository = unlauncherDataSource.corePreferencesRepo
+                        val showSearchBar = repository.showSearchBar
+                        val activateKeyboard = repository.get().activateKeyboardInDrawer
 
                         // Check for preferences to open the keyboard
                         if (showSearchBar && activateKeyboard) {
