@@ -59,7 +59,7 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
             SearchBarPosition.top -> R.layout.home_fragment
             else -> R.layout.home_fragment
         }
-        return inflater.inflate(layout, container, false) as MotionLayout
+        return inflater.inflate(layout, container, false)
 
     }
 
