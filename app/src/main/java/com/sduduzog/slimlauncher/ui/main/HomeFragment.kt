@@ -12,7 +12,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.motion.widget.MotionLayout.TransitionListener
 import androidx.fragment.app.viewModels
@@ -60,7 +59,6 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
             else -> R.layout.home_fragment
         }
         return inflater.inflate(layout, container, false)
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -88,8 +86,7 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
             }
         }
 
-        appDrawerAdapter =
-            AppDrawerAdapter(AppDrawerListener(), viewLifecycleOwner, unlauncherAppsRepo)
+        appDrawerAdapter = AppDrawerAdapter(AppDrawerListener(), viewLifecycleOwner, unlauncherAppsRepo)
 
         setEventListeners()
 
