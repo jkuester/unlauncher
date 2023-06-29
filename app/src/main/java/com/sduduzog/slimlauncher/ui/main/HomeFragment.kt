@@ -92,7 +92,7 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
 
         app_drawer_fragment_list.adapter = appDrawerAdapter
 
-        val showSearchBar = unlauncherDataSource.corePreferencesRepo.get().showSearchBar
+        val showSearchBar = unlauncherDataSource.corePreferencesRepo.showSearchBar
         app_drawer_edit_text.visibility = if (showSearchBar) View.VISIBLE else View.GONE
     }
 
@@ -210,9 +210,9 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
                     }
 
                     motionLayout?.endState -> {
-                        val corePrefs = unlauncherDataSource.corePreferencesRepo.get()
+                        val corePrefs = unlauncherDataSource.corePreferencesRepo
                         val showSearchBar = corePrefs.showSearchBar
-                        val activateKeyboard = corePrefs.activateKeyboardInDrawer
+                        val activateKeyboard = unlauncherDataSource.corePreferencesRepo.get().activateKeyboardInDrawer
 
                         // Check for preferences to open the keyboard
                         if (showSearchBar && activateKeyboard) {
