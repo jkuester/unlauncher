@@ -68,17 +68,14 @@ class CorePreferencesRepository(
     }
 
     var showSearchBar: Boolean
-        get() {
-            val prefs = get()
-            // when upgrading from an older version the property showSearchBar is null
-            // we therefore set default state to true.
-            // This has the reason that protobuf 3 does not allow default values,
-            // see https://stackoverflow.com/a/62435235
-            // hence making the showSearchBar attribute optional and allow it to be null.
-            // With that we can use a logical implication: hasShowSearchBar -> showSearchBar,
-            // returning true, when the showSearchBar attribute is null.
-            return !prefs.hasShowSearchBar() || prefs.showSearchBar
-        }
+        // when upgrading from an older version the property showSearchBar is null
+        // we therefore set default state to true.
+        // This has the reason that protobuf 3 does not allow default values,
+        // see https://stackoverflow.com/a/62435235
+        // hence making the showSearchBar attribute optional and allow it to be null.
+        // With that we can use a logical implication: hasShowSearchBar -> showSearchBar,
+        // returning true, when the showSearchBar attribute is null.
+        get() = !get().hasShowSearchBar() || get().showSearchBar
         set(value) = updateShowSearchBar(value)
 
     fun updateSearchBarPosition(searchBarPosition: SearchBarPosition) {
