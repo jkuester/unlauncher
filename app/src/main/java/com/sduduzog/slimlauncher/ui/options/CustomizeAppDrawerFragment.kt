@@ -47,7 +47,13 @@ class CustomizeAppDrawerFragment : BaseFragment() {
             enableSearchBarOptions(checked)
         }
         prefsRepo.liveData().observe(viewLifecycleOwner) {
-            val checked = it.hasShowSearchBar() && it.showSearchBar
+            // when upgrading from an older version the property showSearchBar is null
+            // we therefore set default state of the switch to true
+            // this has the reason that protobuf 3 does not allow default values,
+            // see https://stackoverflow.com/a/62435235
+            // hence making the showSearchBar attribute optional and therefore allow to be null
+            // this is a logical implication: checked = hasShowSearchBar -> showSearchBar
+            val checked = !it.hasShowSearchBar() || it.showSearchBar
             customize_app_drawer_fragment_search_bar.isChecked = checked
             enableSearchBarOptions(it.showSearchBar)
         }
