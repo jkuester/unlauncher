@@ -1,14 +1,17 @@
 package com.sduduzog.slimlauncher.adapters
 
 import android.annotation.SuppressLint
+import android.graphics.Canvas
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.annotation.LayoutRes
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.jkuester.unlauncher.datastore.UnlauncherApp
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.datasource.apps.UnlauncherAppsRepository
@@ -22,14 +25,17 @@ class AppDrawerAdapter(
     private val regex = Regex("[!@#\$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/? ]")
 
     private var apps: List<UnlauncherApp> = listOf()
+    private var appHeaders: List<Char> = listOf()
     private var filteredApps: List<UnlauncherApp> = listOf()
     private var filterQuery = ""
 
     init {
-        appsRepo.liveData().observe(lifecycleOwner, { unlauncherApps ->
+        appsRepo.liveData().observe(lifecycleOwner) { unlauncherApps ->
             apps = unlauncherApps.appsList.filter { app -> app.displayInDrawer }.toList()
+            appHeaders =
+                apps.groupBy { app -> app.displayName.first().uppercase()[0] }.keys.toList()
             updateDisplayedApps()
-        })
+        }
     }
 
     override fun getItemCount(): Int = filteredApps.size
@@ -81,6 +87,43 @@ class AppDrawerAdapter(
 
         override fun toString(): String {
             return super.toString() + " '${appName.text}'"
+        }
+    }
+
+    inner class StickyHeaderDecoration<B : ViewDataBinding>(
+        val adapter: StickyHeaderAdaper<*>,
+        root: View,
+        @LayoutRes headerLayout: Int
+    ) :
+        ItemDecoration() {
+
+        //lazily initialize the binding instance for the header view
+        private val headerBinding: B by lazy {
+            DataBindingUtil.inflate<B>(
+                LayoutInflater.from(root.context),
+                headerLayout, null, false
+            )
+        }
+
+        override fun onDrawOver(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
+            val topChild = parent.getChildAt(0)
+            val secondChild = parent.getChildAt(1)
+
+            parent.getChildAdapterPosition(topChild).let { topPosition ->
+                val header = adapter.getHeaderForCurrentPosition(topPosition)
+                headerView.tvStickyHeader.text = header
+
+                layoutHeaderView(topChild)
+                canvas.drawHeaderView(topChild, secondChild)
+            }
+        }
+
+        private fun layoutHeaderView(topView: View) {
+            headerView.measure(
+                MeasureSpec.makeMeasureSpec(topView.width, MeasureSpec.EXACTLY),
+                MeasureSpec.makeMeasureSpec(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED)
+            )
+            headerView.layout(topView.left, 0, topView.right, headerView.measuredHeight)
         }
     }
 }
