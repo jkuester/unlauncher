@@ -71,3 +71,5 @@ fun getScreenHeight(activity: Activity): Int {
         outMetrics.heightPixels
     }
 }
+
+fun String.firstUppercase() = this.first().uppercase().first()

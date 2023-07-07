@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/aa_list_header_letter"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="6dp"
+    android:stateListAnimator="@xml/animate_scale"
+    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+    android:textSize="@dimen/_12ssp"
+    tools:text="A" />
