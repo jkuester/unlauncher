@@ -72,4 +72,4 @@ fun getScreenHeight(activity: Activity): Int {
     }
 }
 
-fun String.firstUppercase() = this.first().uppercase().first()
+fun String.firstUppercase() = this.first().uppercase()
