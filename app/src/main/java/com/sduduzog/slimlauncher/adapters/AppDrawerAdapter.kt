@@ -35,8 +35,7 @@ class AppDrawerAdapter(
     private val regex = Regex("[!@#\$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/? ]")
 
     private var apps: List<UnlauncherApp> = listOf()
-    private var filteredApps: List<AppDrawerRow> =
-        listOf() // Map<Char, List<UnlauncherApp>> = emptyMap()
+    private var filteredApps: List<AppDrawerRow> = listOf()
     private var filterQuery = ""
 
     init {
