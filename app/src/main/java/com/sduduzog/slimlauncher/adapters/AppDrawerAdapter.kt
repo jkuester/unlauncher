@@ -40,7 +40,7 @@ class AppDrawerAdapter(
 
     init {
         appsRepo.liveData().observe(lifecycleOwner) { unlauncherApps ->
-            apps = unlauncherApps.appsList.filter { app -> app.displayInDrawer }.toList()
+            apps = unlauncherApps.appsList
             updateDisplayedApps()
         }
     }
@@ -80,19 +80,19 @@ class AppDrawerAdapter(
 
     fun setAppFilter(query: String = "") {
         filterQuery = regex.replace(query, "")
-        this.updateDisplayedApps()
+        updateDisplayedApps()
     }
 
     @SuppressLint("NotifyDataSetChanged")
     private fun updateDisplayedApps() {
-        val filtered = apps.filter { app ->
-            regex.replace(app.displayName, "").contains(filterQuery, ignoreCase = true)
-        }
         // building a list with each letter and filtered app resulting in a list of
         // [
         // Header<"G">, App<"Gmail">, App<"Google Drive">, Header<"Y">, App<"YouTube">, ...
         // ]
-        filteredApps = filtered.groupBy { app -> app.displayName.firstUppercase() }
+        filteredApps = apps.filter { app ->
+            app.displayInDrawer && regex.replace(app.displayName, "")
+                .contains(filterQuery, ignoreCase = true)
+        }.groupBy { app -> app.displayName.firstUppercase() }
             .flatMap { entry ->
                 listOf(
                     AppDrawerRow.Header(entry.key),
