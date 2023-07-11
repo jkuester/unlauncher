@@ -15,17 +15,6 @@ import com.sduduzog.slimlauncher.datasource.apps.UnlauncherAppsRepository
 import com.sduduzog.slimlauncher.ui.main.HomeFragment
 import com.sduduzog.slimlauncher.utils.firstUppercase
 
-enum class RowType {
-    Header,
-    App
-}
-
-sealed class AppDrawerRow(val rowType: RowType) {
-    data class Item(val app: UnlauncherApp) : AppDrawerRow(RowType.App)
-
-    data class Header(val letter: String) : AppDrawerRow(RowType.Header)
-}
-
 class AppDrawerAdapter(
     private val listener: HomeFragment.AppDrawerListener,
     lifecycleOwner: LifecycleOwner,
@@ -36,12 +25,11 @@ class AppDrawerAdapter(
 
     private var apps: List<UnlauncherApp> = listOf()
     private var filteredApps: List<AppDrawerRow> = listOf()
-    private var filterQuery = ""
 
     init {
         appsRepo.liveData().observe(lifecycleOwner) { unlauncherApps ->
             apps = unlauncherApps.appsList
-            updateDisplayedApps()
+            updateFilteredApps()
         }
     }
 
@@ -63,7 +51,6 @@ class AppDrawerAdapter(
 
     override fun getItemViewType(position: Int): Int = filteredApps[position].rowType.ordinal
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return when (RowType.values()[viewType]) {
@@ -78,13 +65,14 @@ class AppDrawerAdapter(
     }
 
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setAppFilter(query: String = "") {
-        filterQuery = regex.replace(query, "")
-        updateDisplayedApps()
+        val filterQuery = regex.replace(query, "")
+        updateFilteredApps(filterQuery)
+        notifyDataSetChanged()
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    private fun updateDisplayedApps() {
+    private fun updateFilteredApps(filterQuery: String = "") {
         // building a list with each letter and filtered app resulting in a list of
         // [
         // Header<"G">, App<"Gmail">, App<"Google Drive">, Header<"Y">, App<"YouTube">, ...
@@ -92,14 +80,12 @@ class AppDrawerAdapter(
         filteredApps = apps.filter { app ->
             app.displayInDrawer && regex.replace(app.displayName, "")
                 .contains(filterQuery, ignoreCase = true)
-        }.groupBy { app -> app.displayName.firstUppercase() }
-            .flatMap { entry ->
+        }.groupBy { app -> app.displayName.firstUppercase() }.flatMap { entry ->
                 listOf(
                     AppDrawerRow.Header(entry.key),
                     *(entry.value.map { AppDrawerRow.Item(it) }).toTypedArray()
                 )
             }
-        notifyDataSetChanged()
     }
 
     val searchBoxListener: TextWatcher = object : TextWatcher {
@@ -140,4 +126,14 @@ class AppDrawerAdapter(
             header.text = letter
         }
     }
+}
+
+enum class RowType {
+    Header, App
+}
+
+sealed class AppDrawerRow(val rowType: RowType) {
+    data class Item(val app: UnlauncherApp) : AppDrawerRow(RowType.App)
+
+    data class Header(val letter: String) : AppDrawerRow(RowType.Header)
 }
