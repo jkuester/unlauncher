@@ -44,7 +44,7 @@ open class SystemUiManager internal constructor(internal val context: Context) {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
                 return MSystemUiManager(context)
             }
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
                 return OSystemUiManager(context)
             }
             return SystemUiManager(context)
