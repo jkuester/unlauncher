@@ -23,6 +23,7 @@ import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.adapters.AppDrawerAdapter
 import com.sduduzog.slimlauncher.adapters.HomeAdapter
 import com.sduduzog.slimlauncher.datasource.UnlauncherDataSource
+import com.sduduzog.slimlauncher.datasource.quickbuttonprefs.QuickButtonPreferencesRepository
 import com.sduduzog.slimlauncher.models.HomeApp
 import com.sduduzog.slimlauncher.models.MainViewModel
 import com.sduduzog.slimlauncher.utils.BaseFragment
@@ -139,7 +140,7 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
 
         unlauncherDataSource.quickButtonPreferencesRepo.liveData()
             .observe(viewLifecycleOwner) { prefs ->
-                val leftButtonIcon = prefs.leftButton.iconId
+                val leftButtonIcon = QuickButtonPreferencesRepository.RES_BY_ICON.getValue(prefs.leftButton.iconId)
                 home_fragment_call.setImageResource(leftButtonIcon)
                 if (leftButtonIcon != R.drawable.ic_empty) {
                     home_fragment_call.setOnClickListener { view ->
@@ -157,7 +158,7 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
                     }
                 }
 
-                val centerButtonIcon = prefs.centerButton.iconId
+                val centerButtonIcon = QuickButtonPreferencesRepository.RES_BY_ICON.getValue(prefs.centerButton.iconId)
                 home_fragment_options.setImageResource(centerButtonIcon)
                 if (centerButtonIcon != R.drawable.ic_empty) {
                     home_fragment_options.setOnClickListener(
@@ -167,7 +168,7 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
                     )
                 }
 
-                val rightButtonIcon = prefs.rightButton.iconId
+                val rightButtonIcon = QuickButtonPreferencesRepository.RES_BY_ICON.getValue(prefs.rightButton.iconId)
                 home_fragment_camera.setImageResource(rightButtonIcon)
                 if (rightButtonIcon != R.drawable.ic_empty) {
                     home_fragment_camera.setOnClickListener {
@@ -196,12 +197,13 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
 
                     motionLayout?.endState -> {
                         // Check for preferences to open the keyboard
-                        unlauncherDataSource.corePreferencesRepo.liveData().observe(viewLifecycleOwner) {
-                            if (it.activateKeyboardInDrawer) {
-                                // show the keyboard and set focus to the EditText when swiping down
-                                inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0)
-                                app_drawer_edit_text.requestFocus()
-                            }
+                        if (unlauncherDataSource.corePreferencesRepo.get().activateKeyboardInDrawer) {
+                            app_drawer_edit_text.requestFocus()
+                            // show the keyboard and set focus to the EditText when swiping down
+                            inputMethodManager.showSoftInput(
+                                app_drawer_edit_text,
+                                InputMethodManager.SHOW_IMPLICIT
+                            )
                         }
                     }
                 }
