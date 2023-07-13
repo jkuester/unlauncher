@@ -3,40 +3,26 @@ package com.sduduzog.slimlauncher.utils
 import android.content.Context
 import android.content.Intent
 import android.content.pm.LauncherApps
-import android.os.Build
 import android.os.Process
 import android.os.UserManager
-import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
 import com.sduduzog.slimlauncher.BuildConfig
-import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.data.model.App
+import javax.inject.Inject
 
 abstract class BaseFragment : Fragment(), ISubscriber {
+    @Inject
+    lateinit var systemUiManager: SystemUiManager
+
     abstract fun getFragmentView(): ViewGroup
 
 
     override fun onResume() {
         super.onResume()
-        val settings = requireContext().getSharedPreferences(getString(R.string.prefs_settings), AppCompatActivity.MODE_PRIVATE)
-        val active = settings.getInt(getString(R.string.prefs_settings_key_theme), 0)
-
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            when (active) {
-                0, 3, 5 -> {
-                    val flags = requireActivity().window.decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-                    getFragmentView().systemUiVisibility = flags
-                }
-            }
-            val value = TypedValue()
-            requireContext().theme.resolveAttribute(R.attr.colorPrimary, value, true)
-            requireActivity().window.statusBarColor = value.data
-        }
+        systemUiManager.setSystemUiColors()
     }
 
     override fun onStart() {

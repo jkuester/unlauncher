@@ -17,6 +17,7 @@ import androidx.navigation.Navigation.findNavController
 import com.sduduzog.slimlauncher.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import java.lang.reflect.Method
+import javax.inject.Inject
 import kotlin.math.absoluteValue
 
 
@@ -27,6 +28,8 @@ class MainActivity : AppCompatActivity(),
 
     private val wallpaperManager = WallpaperManager(this)
 
+    @Inject
+    lateinit var systemUiManager: SystemUiManager
     private lateinit var settings: SharedPreferences
     private lateinit var navigator: NavController
     private lateinit var homeWatcher: HomeWatcher
@@ -68,7 +71,7 @@ class MainActivity : AppCompatActivity(),
     override fun onResume() {
         super.onResume()
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-        toggleStatusBar()
+        systemUiManager.setSystemUiVisibility()
     }
 
     override fun onStart() {
@@ -88,7 +91,7 @@ class MainActivity : AppCompatActivity(),
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
-        if (hasFocus) toggleStatusBar()
+        if (hasFocus) systemUiManager.setSystemUiVisibility()
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, s: String?) {
@@ -96,7 +99,7 @@ class MainActivity : AppCompatActivity(),
             recreate()
         }
         if (s.equals(getString(R.string.prefs_settings_key_toggle_status_bar), true)) {
-            toggleStatusBar()
+            systemUiManager.setSystemUiVisibility()
         }
     }
 
@@ -123,24 +126,6 @@ class MainActivity : AppCompatActivity(),
     override fun onHomePressed() {
         dispatchHome()
         navigator.popBackStack(R.id.homeFragment, false)
-    }
-
-    private fun showSystemUI() {
-        window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
-    }
-
-    private fun hideSystemUI() {
-        window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                or View.SYSTEM_UI_FLAG_FULLSCREEN)
-    }
-
-    private fun toggleStatusBar() {
-        val isHidden = settings.getBoolean(getString(R.string.prefs_settings_key_toggle_status_bar), false)
-        if (isHidden) {
-            hideSystemUI()
-        } else {
-            showSystemUI()
-        }
     }
 
     companion object {
