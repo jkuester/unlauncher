@@ -30,7 +30,7 @@ import com.sduduzog.slimlauncher.models.MainViewModel
 import com.sduduzog.slimlauncher.utils.BaseFragment
 import com.sduduzog.slimlauncher.utils.OnLaunchAppListener
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.home_fragment.*
+import kotlinx.android.synthetic.main.home_fragment_default.*
 import kotlinx.android.synthetic.main.home_fragment_content.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -51,12 +51,11 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val coreRepository = unlauncherDataSource.corePreferencesRepo
-        val position = coreRepository.get().searchBarPosition
-        val layout = when (position) {
+        val layout = when (coreRepository.get().searchBarPosition) {
             SearchBarPosition.bottom -> R.layout.home_fragment_bottom
             SearchBarPosition.UNRECOGNIZED,
-            SearchBarPosition.top -> R.layout.home_fragment
-            else -> R.layout.home_fragment
+            SearchBarPosition.top -> R.layout.home_fragment_default
+            else -> R.layout.home_fragment_default
         }
         return inflater.inflate(layout, container, false)
     }

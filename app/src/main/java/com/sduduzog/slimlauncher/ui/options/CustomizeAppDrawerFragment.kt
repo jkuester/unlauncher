@@ -7,10 +7,12 @@ import android.view.ViewGroup
 import androidx.navigation.Navigation
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.utils.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.customize_app_drawer_fragment.customize_app_drawer_fragment
 import kotlinx.android.synthetic.main.customize_app_drawer_fragment.customize_app_drawer_fragment_search_options
 import kotlinx.android.synthetic.main.customize_app_drawer_fragment.customize_app_drawer_fragment_visible_apps
 
+@AndroidEntryPoint
 class CustomizeAppDrawerFragment : BaseFragment() {
 
     override fun getFragmentView(): ViewGroup = customize_app_drawer_fragment
