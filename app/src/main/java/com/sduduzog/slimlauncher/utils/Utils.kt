@@ -12,6 +12,7 @@ import android.text.Spanned
 import android.text.style.TextAppearanceSpan
 import android.util.DisplayMetrics
 import android.view.WindowInsets
+import androidx.annotation.StringRes
 import com.sduduzog.slimlauncher.R
 
 
@@ -75,6 +76,9 @@ fun getScreenHeight(activity: Activity): Int {
         outMetrics.heightPixels
     }
 }
+
+fun createTitleAndSubtitleText(context: Context, @StringRes titleRes: Int, @StringRes subtitleRes: Int) : CharSequence
+= createTitleAndSubtitleText(context, context.getString(titleRes), context.getString(subtitleRes))
 
 fun createTitleAndSubtitleText(context: Context, title: CharSequence, subtitle: CharSequence) : CharSequence {
     val spanBuilder = SpannableStringBuilder("$title\n$subtitle")

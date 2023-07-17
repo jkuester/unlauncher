@@ -30,7 +30,11 @@ class CustomizeSearchFieldFragment : BaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.customize_app_drawer_fragment_search_field_options, container, false)
+    ): View? = inflater.inflate(
+        R.layout.customize_app_drawer_fragment_search_field_options,
+        container,
+        false
+    )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -81,5 +85,10 @@ class CustomizeSearchFieldFragment : BaseFragment() {
         prefsRepo.liveData().observe(viewLifecycleOwner) {
             customize_app_drawer_open_keyboard_switch.isChecked = it.activateKeyboardInDrawer
         }
+        customize_app_drawer_open_keyboard_switch.text =
+            createTitleAndSubtitleText(
+                requireContext(), R.string.customize_app_drawer_fragment_open_keyboard,
+                R.string.customize_app_drawer_fragment_open_keyboard_subtitle
+            )
     }
 }
