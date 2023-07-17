@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.Navigation
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.datasource.UnlauncherDataSource
 import com.sduduzog.slimlauncher.ui.dialogs.ChooseSearchBarPositionDialog
@@ -44,11 +43,11 @@ class CustomizeSearchFieldFragment : BaseFragment() {
     private fun setupShowSearchBarSwitch() {
         val prefsRepo = unlauncherDataSource.corePreferencesRepo
         customize_app_drawer_fragment_show_search_field_switch.setOnCheckedChangeListener { _, checked ->
-            prefsRepo.showSearchBar = checked
+            prefsRepo.showSearchField = checked
             enableSearchBarOptions(checked)
         }
         prefsRepo.liveData().observe(viewLifecycleOwner) {
-            val checked = prefsRepo.showSearchBar
+            val checked = prefsRepo.showSearchField
             customize_app_drawer_fragment_show_search_field_switch.isChecked = checked
             enableSearchBarOptions(checked)
         }

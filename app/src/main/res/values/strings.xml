@@ -49,7 +49,7 @@
     <string name="customize_app_drawer_fragment_visible_apps">Visible Apps</string>
     <string name="customize_app_drawer_fragment_search_field_options">Search Field Options</string>
     <string name="customize_app_drawer_fragment_show_search_bar">Show Search Field</string>
-    <string name="customize_app_drawer_fragment_search_bar_position">Search Field Position</string>
+    <string name="customize_app_drawer_fragment_search_bar_position">Position</string>
     <string-array name="search_bar_position_array">
         <item>Top</item>
         <item>Bottom</item>
