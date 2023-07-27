@@ -84,6 +84,7 @@ open class SystemUiManager internal constructor(internal val context: Context) {
 
     @TargetApi(Build.VERSION_CODES.O)
     open fun setSystemUiColors() {
+        // These colors can be hard-coded in the theme xml once the minimum Android API version is 26
         val primaryColor = getPrimaryColor()
         window.statusBarColor = primaryColor
         window.navigationBarColor = primaryColor
