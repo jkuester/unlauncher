@@ -8,6 +8,7 @@ import android.os.UserManager
 import android.provider.AlarmClock
 import android.provider.CalendarContract
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -115,26 +116,29 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
     }
 
     private fun setEventListeners() {
-
-        home_fragment_time.setOnClickListener {
-            try {
-                val intent = Intent(AlarmClock.ACTION_SHOW_ALARMS)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                launchActivity(it, intent)
-            } catch (e: ActivityNotFoundException) {
-                e.printStackTrace()
-                // Do nothing, we've failed :(
+        val settings = requireContext().getSharedPreferences(getString(R.string.prefs_settings), Context.MODE_PRIVATE)
+        val isClockHidden = settings.getBoolean(getString(R.string.prefs_settings_key_toggle_clock), false)
+        if (!isClockHidden) {
+            home_fragment_time.setOnClickListener {
+                try {
+                    val intent = Intent(AlarmClock.ACTION_SHOW_ALARMS)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                    launchActivity(it, intent)
+                } catch (e: ActivityNotFoundException) {
+                    e.printStackTrace()
+                    // Do nothing, we've failed :(
+                }
             }
-        }
 
-        home_fragment_date.setOnClickListener {
-            try {
-                val builder = CalendarContract.CONTENT_URI.buildUpon().appendPath("time")
-                val intent = Intent(Intent.ACTION_VIEW, builder.build())
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                launchActivity(it, intent)
-            } catch (e: ActivityNotFoundException) {
-                // Do nothing, we've failed :(
+            home_fragment_date.setOnClickListener {
+                try {
+                    val builder = CalendarContract.CONTENT_URI.buildUpon().appendPath("time")
+                    val intent = Intent(Intent.ACTION_VIEW, builder.build())
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                    launchActivity(it, intent)
+                } catch (e: ActivityNotFoundException) {
+                    // Do nothing, we've failed :(
+                }
             }
         }
 
@@ -224,6 +228,15 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
     }
 
     fun updateClock() {
+        val settings = requireContext().getSharedPreferences(getString(R.string.prefs_settings), Context.MODE_PRIVATE)
+        val isHidden = settings.getBoolean(getString(R.string.prefs_settings_key_toggle_clock), false)
+
+        if (isHidden) {
+            home_fragment_time.text = ""
+            home_fragment_date.text = ""
+            return
+        }
+
         val active = context?.getSharedPreferences(getString(R.string.prefs_settings), Context.MODE_PRIVATE)
                 ?.getInt(getString(R.string.prefs_settings_key_time_format), 0)
         val date = Date()

@@ -59,6 +59,13 @@ class OptionsFragment : BaseFragment() {
                 putBoolean(getString(R.string.prefs_settings_key_toggle_status_bar), !isHidden)
             }
         }
+        options_fragment_toggle_clock.setOnClickListener {
+            val settings = requireContext().getSharedPreferences(getString(R.string.prefs_settings), MODE_PRIVATE)
+            val isHidden = settings.getBoolean(getString(R.string.prefs_settings_key_toggle_clock), false)
+            settings.edit {
+                putBoolean(getString(R.string.prefs_settings_key_toggle_clock), !isHidden)
+            }
+        }
         options_fragment_customise_apps.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_optionsFragment_to_customiseAppsFragment))
         options_fragment_customize_quick_buttons.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_optionsFragment_to_customiseQuickButtonsFragment))
         options_fragment_customize_app_drawer.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_optionsFragment_to_customiseAppDrawerFragment))
