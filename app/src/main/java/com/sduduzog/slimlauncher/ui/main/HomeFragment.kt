@@ -117,8 +117,8 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
 
     private fun setEventListeners() {
         val settings = requireContext().getSharedPreferences(getString(R.string.prefs_settings), Context.MODE_PRIVATE)
-        val isClockHidden = settings.getBoolean(getString(R.string.prefs_settings_key_toggle_clock), false)
-        if (!isClockHidden) {
+        val isClockDisplayed = settings.getBoolean(getString(R.string.prefs_settings_key_toggle_clock), false)
+        if (isClockDisplayed) {
             home_fragment_time.setOnClickListener {
                 try {
                     val intent = Intent(AlarmClock.ACTION_SHOW_ALARMS)
@@ -229,9 +229,9 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
 
     fun updateClock() {
         val settings = requireContext().getSharedPreferences(getString(R.string.prefs_settings), Context.MODE_PRIVATE)
-        val isHidden = settings.getBoolean(getString(R.string.prefs_settings_key_toggle_clock), false)
+        val isClockDisplayed = settings.getBoolean(getString(R.string.prefs_settings_key_toggle_clock), true)
 
-        if (isHidden) {
+        if (!isClockDisplayed) {
             home_fragment_time.text = ""
             home_fragment_date.text = ""
             return

@@ -53,17 +53,25 @@ class OptionsFragment : BaseFragment() {
             chooseTimeFormatDialog.showNow(childFragmentManager, "TIME_FORMAT_CHOOSER")
         }
         options_fragment_toggle_status_bar.setOnClickListener {
-            val settings = requireContext().getSharedPreferences(getString(R.string.prefs_settings), MODE_PRIVATE)
-            val isHidden = settings.getBoolean(getString(R.string.prefs_settings_key_toggle_status_bar), false)
+            val settings = requireContext().getSharedPreferences(
+                getString(R.string.prefs_settings),
+                MODE_PRIVATE
+            )
+            val isHidden =
+                settings.getBoolean(getString(R.string.prefs_settings_key_toggle_status_bar), false)
             settings.edit {
                 putBoolean(getString(R.string.prefs_settings_key_toggle_status_bar), !isHidden)
             }
         }
-        options_fragment_toggle_clock.setOnClickListener {
+
+        val settings = requireContext().getSharedPreferences(getString(R.string.prefs_settings), MODE_PRIVATE)
+        val isClockDisplayed = settings.getBoolean(getString(R.string.prefs_settings_key_toggle_clock), true)
+        options_fragment_toggle_clock.isChecked = isClockDisplayed
+
+        options_fragment_toggle_clock.setOnCheckedChangeListener { _, checked ->
             val settings = requireContext().getSharedPreferences(getString(R.string.prefs_settings), MODE_PRIVATE)
-            val isHidden = settings.getBoolean(getString(R.string.prefs_settings_key_toggle_clock), false)
             settings.edit {
-                putBoolean(getString(R.string.prefs_settings_key_toggle_clock), !isHidden)
+                putBoolean(getString(R.string.prefs_settings_key_toggle_clock), checked)
             }
         }
         options_fragment_customise_apps.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_optionsFragment_to_customiseAppsFragment))
