@@ -10,24 +10,41 @@
         <item>Mittag</item>
     </string-array>
 
-    <string name="choose_theme_dialog_title">Aussehen ändern</string>
-    <string name="choose_time_format_dialog_title">Zeitformat ändern</string>
+    <string-array name="time_format_array">
+        <item>Systemvorgabe</item>
+        <item>24 Stunden</item>
+        <item>12 Stunden</item>
+    </string-array>
+
+    <string-array name="quick_button_array">
+        <item>Zeigen</item>
+        <item>Verstecken</item>
+    </string-array>
+
+    <string name="choose_theme_dialog_title">Stil auswählen</string>
+    <string name="app_name">Unlauncher</string>
+    <string name="choose_time_format_dialog_title">Zeitformat</string>
     <string name="customise_apps_fragment_add">Hinzufügen</string>
-    <string name="customise_apps_fragment_remove_all">Alles entfernen</string>
+    <string name="customise_apps_fragment_remove_all">Alle entfernen</string>
     <string name="main_fragment_options">Einstellungen</string>
     <string name="menu_remove">Entfernen</string>
     <string name="menu_rename">Umbenennen</string>
-    <string name="options_fragment_change_theme">Aussehen ändern</string>
-    <string name="options_fragment_choose_time_format">Zeitformat ändern</string>
-    <string name="options_fragment_customise_apps">Anwendungseinstellungen</string>
+    <string name="options_fragment_change_theme">Stil auswählen</string>
+    <string name="options_fragment_choose_time_format">Zeitformat</string>
+    <string name="options_fragment_customise_apps">Apps einstellen</string>
     <string name="options_fragment_device_settings">Geräteeinstellungen</string>
-    <string name="add_apps_fragment_search_apps">Apps suchen</string>
-    <string name="options_fragment_toggle_status_bar">Statusleiste ein\\aus</string>
+    <string name="add_apps_fragment_search_apps">Appsuche</string>
+    <string name="options_fragment_customize_quick_buttons">Knöpfe einstellen</string>
+    <string name="options_fragment_customize_app_drawer">Appschublade</string>
+    <string name="options_fragment_toggle_status_bar">Statusleiste umschalten</string>
     <string name="options_fragment_hide_status_bar">Statusleiste verstecken</string>
     <string name="options_fragment_show_status_bar">Statusleiste zeigen</string>
     <string name="customize_app_drawer_fragment_open_keyboard">Tastatur anzeigen</string>
-    <string name="customize_app_drawer_fragment_visible_apps">Sichtbare Apps</string>
-    <string name="customize_app_drawer_fragment_auto_theme_wallpaper_text">Theme Hintergrund als Wallpaper</string>
-    <string name="customize_app_drawer_fragment_auto_theme_wallpaper_subtext_no_default_launcher">App muss Standardlauncher sein</string>
+    <string name="customize_app_drawer_fragment_visible_apps">Appsichtbarkeit einstellen</string>
+    <string name="customize_app_drawer_fragment_auto_theme_wallpaper_text">Themenhintergrund verwenden</string>
+    <string name="customize_app_drawer_fragment_auto_theme_wallpaper_subtext_no_default_launcher">Unlauncher muss die standard Start-App sein</string>
     <string name="menu_reset">Zurücksetzen</string>
+    <string name="remove_all_apps_dialog_title">Alle Apps entfernen</string>
+    <string name="remove_all_apps_dialog_message">"Alle Apps bleiben installiert."
+        "Bitte das Leeren der Liste bestätigen."</string>
 </resources>
