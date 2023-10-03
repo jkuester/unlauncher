@@ -61,7 +61,7 @@
         android:padding="@dimen/_4sdp"
         android:text="@string/main_placeholder_date"
         android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textSize="@dimen/_12sdp" />
+        android:textSize="@dimen/_18ssp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/home_fragment_list"

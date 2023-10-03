@@ -23,7 +23,7 @@
             android:stateListAnimator="@xml/animate_scale"
             android:text="@string/main_fragment_options"
             android:textAppearance="@style/TextAppearance.AppCompat"
-            android:textSize="@dimen/_36ssp"
+            android:textSize="@dimen/_24ssp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
