@@ -11,6 +11,19 @@
     android:layout_marginRight="8dp"
     tools:context=".ui.options.CustomizeAppDrawerFragment">
 
+    <TextView
+        android:id="@+id/customize_app_drawer_fragment_app_list_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:layout_marginLeft="@dimen/_16sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:text="@string/customize_app_drawer_fragment_visible_apps"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textSize="@dimen/_24ssp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/customize_app_drawer_fragment_app_list"
         android:layout_width="0dp"
@@ -19,7 +32,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/customize_app_drawer_fragment_app_list_title"
         tools:listitem="@layout/customize_app_drawer_fragment_app_list_item" />
 
     <ProgressBar
