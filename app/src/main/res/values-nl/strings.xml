@@ -12,6 +12,8 @@
         <item>Snoep</item>
         <item>Pastel</item>
         <item>Middag</item>
+        <item>Vlad</item>
+        <item>Groovy</item>
     </string-array>
 
     <string-array name="time_format_array">

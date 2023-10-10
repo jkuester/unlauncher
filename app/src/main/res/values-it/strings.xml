@@ -7,6 +7,8 @@
         <item>Caramella</item>
         <item>Pastello</item>
         <item>Mezzogiorno</item>
+        <item>Vlad</item>
+        <item>Groovy</item>
     </string-array>
 
     <string-array name="time_format_array">
