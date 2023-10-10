@@ -20,7 +20,6 @@ class AppDrawerAdapter(
     appsRepo: UnlauncherAppsRepository
 ) : RecyclerView.Adapter<AppDrawerAdapter.ViewHolder>() {
     private val regex = Regex("[!@#\$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/? ]")
-
     private var apps: List<UnlauncherApp> = listOf()
     private var filteredApps: List<UnlauncherApp> = listOf()
     private var filterQuery = ""
@@ -39,6 +38,9 @@ class AppDrawerAdapter(
         holder.appName.text = item.displayName
         holder.itemView.setOnClickListener {
             listener.onAppClicked(item)
+        }
+        holder.itemView.setOnLongClickListener {
+            listener.onAppLongClicked(item, it)
         }
     }
 

@@ -52,6 +52,7 @@
     <string name="customize_app_drawer_fragment_search_field_options_subtitle_status_shown">%s position, keyboard is %s</string>
     <string name="customize_app_drawer_fragment_show_search_bar">Show Search Field</string>
     <string name="customize_app_drawer_fragment_search_bar_position">Position</string>
+    <string name="customize_app_drawer_fragment_open_keyboard_subtitle">Display keyboard when showing the app drawer</string>
     <string-array name="search_bar_position_array">
         <item>Top</item>
         <item>Bottom</item>
@@ -69,7 +70,10 @@
     <string name="remove_all_apps_dialog_title" translatable="false">Remove All Apps</string>
     <string name="remove_all_apps_dialog_message" translatable="false">"This action will not uninstall your apps."
     "It is just to confirm if you're clearing this list on purpose"</string>
-    <string name="customize_app_drawer_fragment_open_keyboard_subtitle">Display keyboard when showing the app drawer</string>
-
+    <string name="open_app">Open App</string>
+    <string name="app_info">App Info</string>
+    <string name="hide_app">Hide App</string>
+    <string name="rename_app">Rename App</string>
+    <string name="uninstall">Uninstall</string>
 
 </resources>
