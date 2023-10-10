@@ -14,6 +14,7 @@
         android:layout_marginStart="@dimen/_16sdp"
         android:layout_marginTop="@dimen/_8sdp"
         android:text="@string/options_fragment_customize_quick_buttons"
+        android:textColor="?headerTextColor"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textSize="@dimen/_25ssp"
         app:layout_constraintStart_toStartOf="parent"
