@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/open"
+        android:title="@string/open_app"
+        android:icon="@drawable/ic_open_app"/>
+    <item
+        android:id="@+id/info"
+        android:title="@string/app_info"
+        android:icon="@drawable/ic_app_info"/>
+    <item
+        android:id="@+id/hide"
+        android:title="@string/hide_app"
+        android:icon="@drawable/ic_hide_app" />
+    <item
+        android:id="@+id/rename"
+        android:title="@string/rename_app"
+        android:icon="@drawable/ic_rename_app" />
+    <item
+        android:id="@+id/uninstall"
+        android:title="@string/uninstall"
+        android:icon="@drawable/ic_uninstall_app" />
+</menu>

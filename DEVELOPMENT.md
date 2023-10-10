@@ -20,11 +20,11 @@ However, an F-Droid user will only be prompted to upgrade an app (or have the ap
 So, creating a beta release for Unlauncher requires the following steps:
 
 1. Push a beta tag to GitHub (e.g. `2.0.0-beta.1`)
-   1. Make sure that the `versionName` in the [build.gradle.kts](./build.gradle.kts) matches the tag that you are pushing
+   1. Make sure that the `versionName` in the [build.gradle.kts](./app/build.gradle.kts) matches the tag that you are pushing
 1. Delete the draft Release on GitHub for the beta tag that was created by the CI
 1. Raise a MR to [fdroid/fdroiddata](https://gitlab.com/fdroid/fdroiddata) to add a new `Builds` entry for the beta release
     1. _Do not_ update the configured `CurrenVersion`/`CurrentVersionCode` since that will trigger a normal release
-1. Prepare for the next release by incrementing the `versionCode` and `versionName` in the [build.gradle.kts](./build.gradle.kts) file
+1. Prepare for the next release by incrementing the `versionCode` and `versionName` in the [build.gradle.kts](./app/build.gradle.kts) file
 
 ## Checking F-Droid build status
 
