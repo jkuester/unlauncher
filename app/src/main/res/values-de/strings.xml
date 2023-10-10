@@ -8,6 +8,8 @@
         <item>Candy</item>
         <item>Pastell</item>
         <item>Mittag</item>
+        <item>Vlad</item>
+        <item>Groovig</item>
     </string-array>
 
     <string name="choose_theme_dialog_title">Aussehen ändern</string>

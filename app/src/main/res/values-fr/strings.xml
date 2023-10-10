@@ -7,6 +7,8 @@
         <item>Candy</item>
         <item>Pastel</item>
         <item>Midi</item>
+        <item>Vlad</item>
+        <item>Groovy</item>
     </string-array>
 
     <string-array name="time_format_array">
