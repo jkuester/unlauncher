@@ -14,6 +14,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.PopupMenu
 import android.widget.Toast
@@ -190,6 +191,17 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
             }
 
         app_drawer_edit_text.addTextChangedListener(appDrawerAdapter.searchBoxListener)
+
+        app_drawer_edit_text.setOnEditorActionListener { _, actionId, _ ->
+                if(actionId == EditorInfo.IME_ACTION_DONE && appDrawerAdapter.itemCount > 0) {
+                    val firstApp = appDrawerAdapter.getFirstApp()
+                    launchApp(firstApp.packageName, firstApp.className, firstApp.userSerial)
+                    home_fragment.transitionToStart()
+                    true
+                } else {
+                    false
+                }
+            }
 
         home_fragment.setTransitionListener(object : TransitionListener {
             override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
