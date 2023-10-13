@@ -23,7 +23,9 @@
             android:layout_height="wrap_content"
             android:text="@string/main_fragment_options"
             android:textAppearance="@style/TextAppearance.AppCompat"
-            android:textSize="@dimen/_24ssp"/>
+            android:textSize="@dimen/_24ssp"
+            app:layout_constraintTop_toTopOf="parent"
+            />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/options_fragment2"
