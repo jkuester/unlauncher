@@ -7,6 +7,17 @@
     android:layout_height="match_parent"
     tools:context=".ui.options.CustomizeQuickButtonsFragment">
 
+    <ImageView
+        android:id="@+id/customize_quick_buttons_fragment_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_8ssp"
+        app:layout_constraintTop_toTopOf="@id/customize_quick_buttons_fragment_header"
+        app:layout_constraintBottom_toBottomOf="@id/customize_quick_buttons_fragment_header"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_back"
+        tools:ignore="ContentDescription" />
+
     <TextView
         android:id="@+id/customize_quick_buttons_fragment_header"
         android:layout_width="wrap_content"
@@ -18,6 +29,8 @@
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textSize="@dimen/font_size_customize_title"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/customize_quick_buttons_fragment_back"
+        app:layout_constraintBottom_toBottomOf="@id/customize_quick_buttons_fragment_back"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView

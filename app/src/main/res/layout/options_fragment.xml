@@ -5,18 +5,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:overScrollMode="ifContentScrolls"
+    android:fillViewport="true"
     android:scrollbars="none">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/options_fragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/_8sdp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         tools:context=".ui.options.OptionsFragment">
 
+        <ImageView
+            android:id="@+id/options_fragment_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_8ssp"
+            app:layout_constraintTop_toTopOf="@id/options_fragment_title"
+            app:layout_constraintBottom_toBottomOf="@id/options_fragment_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/ic_back"
+            tools:ignore="ContentDescription" />
+
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/options_fragment_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_8sdp"
@@ -25,8 +38,15 @@
             android:textAppearance="@style/TextAppearance.AppCompat"
             android:textColor="?headerTextColor"
             android:textSize="@dimen/font_size_customize_title"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/options_fragment_back"
+            app:layout_constraintStart_toEndOf="@id/options_fragment_back"
+            />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/options_fragment2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/options_fragment_device_settings"

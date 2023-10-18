@@ -11,13 +11,21 @@
     android:layout_marginRight="@dimen/_16sdp"
     tools:context=".ui.options.CustomizeAppDrawerFragment">
 
+    <ImageView
+        android:id="@+id/customize_app_drawer_fragment_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_8ssp"
+        app:layout_constraintTop_toTopOf="@id/customize_app_drawer_title"
+        app:layout_constraintBottom_toBottomOf="@id/customize_app_drawer_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_back"
+        tools:ignore="ContentDescription" />
+
     <TextView
         android:id="@+id/customize_app_drawer_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_16sdp"
-        android:layout_marginLeft="@dimen/_16sdp"
-        android:layout_marginTop="@dimen/_8sdp"
         android:text="@string/options_fragment_customize_app_drawer"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textSize="@dimen/_24ssp"
