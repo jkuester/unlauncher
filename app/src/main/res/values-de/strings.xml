@@ -47,4 +47,9 @@
     <string name="remove_all_apps_dialog_title">Alle Apps entfernen</string>
     <string name="remove_all_apps_dialog_message">"Alle Apps bleiben installiert."
         "Bitte das Leeren der Liste bestätigen."</string>
+    <string name="open_app">Öffnen</string>
+    <string name="app_info">App-Info</string>
+    <string name="hide_app">Verstecken</string>
+    <string name="rename_app">Umbenennen</string>
+    <string name="uninstall">Deinstallieren</string>
 </resources>
