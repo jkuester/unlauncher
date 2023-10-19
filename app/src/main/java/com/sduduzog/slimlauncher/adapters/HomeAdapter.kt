@@ -14,7 +14,11 @@ class HomeAdapter(private val listener: OnLaunchAppListener)
     : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
 
     private var apps: List<HomeApp> = listOf()
+    private var gravity: Int = 3
 
+    constructor(listener: OnLaunchAppListener, alignment: Int) : this(listener) {
+        setAlignment(alignment)
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.main_fragment_list_item, parent, false)
@@ -24,6 +28,7 @@ class HomeAdapter(private val listener: OnLaunchAppListener)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = apps.elementAt(position)
         holder.mLabelView.text = item.appNickname ?: item.appName
+        holder.mLabelView.gravity = gravity
         holder.mLabelView.setOnClickListener {
             listener.onLaunch(item, it)
         }
@@ -36,6 +41,20 @@ class HomeAdapter(private val listener: OnLaunchAppListener)
         notifyDataSetChanged()
     }
 
+    fun getGravity(): Int = gravity
+
+    fun setGravity(gravity: Int) {
+        this.gravity = gravity
+    }
+
+    fun setAlignment(alignment: Int) {
+        if (alignment == 2)      // right
+            gravity = 5
+        else if (alignment == 1) // center
+            gravity = 1
+        else                     // left
+            gravity = 3
+    }
 
     inner class ViewHolder(mView: View) : RecyclerView.ViewHolder(mView) {
         val mLabelView: TextView = mView.findViewById(R.id.home_fragment_list_item_app_name)

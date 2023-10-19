@@ -91,9 +91,21 @@
             android:text="@string/options_fragment_customise_apps"
             android:textAppearance="@style/TextAppearance.AppCompat"
             android:textSize="@dimen/_20ssp"
-            app:layout_constraintBottom_toTopOf="@+id/options_fragment_customize_quick_buttons"
+            app:layout_constraintBottom_toTopOf="@id/options_fragment_choose_alignment"
             app:layout_constraintStart_toStartOf="@+id/options_fragment_toggle_status_bar"
-            app:layout_constraintTop_toBottomOf="@+id/options_fragment_toggle_status_bar" />
+            app:layout_constraintTop_toBottomOf="@id/options_fragment_toggle_status_bar" />
+
+        <TextView
+            android:id="@+id/options_fragment_choose_alignment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:stateListAnimator="@xml/animate_scale"
+            android:text="@string/options_fragment_choose_alignment"
+            android:textAppearance="@style/TextAppearance.AppCompat"
+            android:textSize="@dimen/_20ssp"
+            app:layout_constraintBottom_toTopOf="@id/options_fragment_customize_quick_buttons"
+            app:layout_constraintStart_toStartOf="@+id/options_fragment_customise_apps"
+            app:layout_constraintTop_toBottomOf="@id/options_fragment_customise_apps" />
 
         <TextView
             android:id="@+id/options_fragment_customize_quick_buttons"
@@ -105,8 +117,9 @@
             android:text="@string/options_fragment_customize_quick_buttons"
             android:textAppearance="@style/TextAppearance.AppCompat"
             android:textSize="@dimen/_20ssp"
-            app:layout_constraintStart_toStartOf="@+id/options_fragment_customise_apps"
-            app:layout_constraintTop_toBottomOf="@+id/options_fragment_customise_apps" />
+            app:layout_constraintBottom_toTopOf="@id/options_fragment_customize_app_drawer"
+            app:layout_constraintStart_toStartOf="@+id/options_fragment_choose_alignment"
+            app:layout_constraintTop_toBottomOf="@+id/options_fragment_choose_alignment" />
 
         <TextView
             android:id="@+id/options_fragment_customize_app_drawer"
@@ -119,7 +132,8 @@
             android:textAppearance="@style/TextAppearance.AppCompat"
             android:textSize="@dimen/_20ssp"
             app:layout_constraintStart_toStartOf="@+id/options_fragment_customize_quick_buttons"
-            app:layout_constraintTop_toBottomOf="@+id/options_fragment_customize_quick_buttons" />
+            app:layout_constraintTop_toBottomOf="@+id/options_fragment_customize_quick_buttons"
+            />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/options_fragment_auto_device_theme_wallpaper"
@@ -130,7 +144,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat"
             android:textSize="@dimen/_20ssp"
             android:layout_marginStart="@dimen/_16sdp"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/options_fragment_customize_app_drawer"
             app:layout_constraintTop_toBottomOf="@id/options_fragment_customize_app_drawer" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

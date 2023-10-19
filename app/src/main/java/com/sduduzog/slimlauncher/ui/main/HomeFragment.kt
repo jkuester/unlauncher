@@ -70,8 +70,13 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter1 = HomeAdapter(this)
-        val adapter2 = HomeAdapter(this)
+        val settingsKey = getString(R.string.prefs_settings)
+        val alignmentKey: String = getString(R.string.prefs_settings_alignment)
+        val preferences = requireContext().getSharedPreferences(settingsKey, Context.MODE_PRIVATE)
+        val alignment = preferences.getInt(alignmentKey, 3)
+
+        val adapter1 = HomeAdapter(this, alignment)
+        val adapter2 = HomeAdapter(this, alignment)
         home_fragment_list.adapter = adapter1
         home_fragment_list_exp.adapter = adapter2
 

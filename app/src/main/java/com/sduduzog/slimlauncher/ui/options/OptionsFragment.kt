@@ -15,6 +15,7 @@ import androidx.navigation.Navigation
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.datasource.UnlauncherDataSource
 import com.sduduzog.slimlauncher.ui.dialogs.ChangeThemeDialog
+import com.sduduzog.slimlauncher.ui.dialogs.ChooseAlignmentDialog
 import com.sduduzog.slimlauncher.ui.dialogs.ChooseTimeFormatDialog
 import com.sduduzog.slimlauncher.utils.BaseFragment
 import com.sduduzog.slimlauncher.utils.createTitleAndSubtitleText
@@ -52,6 +53,10 @@ class OptionsFragment : BaseFragment() {
         options_fragment_choose_time_format.setOnClickListener {
             val chooseTimeFormatDialog = ChooseTimeFormatDialog.getInstance()
             chooseTimeFormatDialog.showNow(childFragmentManager, "TIME_FORMAT_CHOOSER")
+        }
+        options_fragment_choose_alignment.setOnClickListener {
+            val chooseAlignmentDialog = ChooseAlignmentDialog.getInstance()
+            chooseAlignmentDialog.showNow(childFragmentManager, "ALIGNMENT_CHOOSER")
         }
         options_fragment_toggle_status_bar.setOnClickListener {
             val settings = requireContext().getSharedPreferences(getString(R.string.prefs_settings), MODE_PRIVATE)

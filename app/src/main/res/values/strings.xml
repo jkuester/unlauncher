@@ -28,16 +28,24 @@
         <item>Hide</item>
     </string-array>
 
+    <string-array name="alignment_format_array">
+        <item>left</item>
+        <item>center</item>
+        <item>right</item>
+    </string-array>
+
     <string name="prefs_settings" translatable="false">settings</string>
     <string name="prefs_settings_key_theme" translatable="false">key_theme</string>
     <string name="prefs_settings_key_time_format" translatable="false">time_format</string>
     <string name="prefs_settings_key_toggle_status_bar" translatable="false">hide_status_bar</string>
+    <string name="prefs_settings_alignment" translatable="false">alignment</string>
     <string name="choose_time_format_dialog_title">Choose Time Format</string>
     <string name="main_fragment_options">Options</string>
     <string name="options_fragment_device_settings">Device Settings</string>
     <string name="options_fragment_change_theme">Change Theme</string>
     <string name="options_fragment_choose_time_format">Choose Time Format</string>
     <string name="options_fragment_customise_apps">Customise Apps</string>
+    <string name="options_fragment_choose_alignment">Choose Alignment</string>
     <string name="options_fragment_customize_quick_buttons">Customise Quick Buttons</string>
     <string name="options_fragment_customize_app_drawer">Customise Drawer</string>
     <string name="options_fragment_toggle_status_bar">Toggle Status Bar</string>
@@ -75,5 +83,6 @@
     <string name="hide_app">Hide App</string>
     <string name="rename_app">Rename App</string>
     <string name="uninstall">Uninstall</string>
+    <string name="choose_alignment_dialog_title">Choose alignment</string>
 
 </resources>

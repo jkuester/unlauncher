@@ -21,6 +21,12 @@
         <item>Verstecken</item>
     </string-array>
 
+    <string-array name="alignment_format_array">
+        <item>Links</item>
+        <item>Mitte</item>
+        <item>Rechts</item>
+    </string-array>
+
     <string name="choose_theme_dialog_title">Stil auswählen</string>
     <string name="app_name">Unlauncher</string>
     <string name="choose_time_format_dialog_title">Zeitformat</string>
@@ -36,6 +42,7 @@
     <string name="options_fragment_customise_apps">Apps einstellen</string>
     <string name="options_fragment_device_settings">Geräteeinstellungen</string>
     <string name="add_apps_fragment_search_apps">Appsuche</string>
+    <string name="options_fragment_choose_alignment">Apps ausrichten</string>
     <string name="options_fragment_customize_quick_buttons">Knöpfe einstellen</string>
     <string name="options_fragment_customize_app_drawer">Appschublade</string>
     <string name="options_fragment_toggle_status_bar">Statusleiste umschalten</string>
