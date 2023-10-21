@@ -8,7 +8,12 @@ import android.graphics.Insets
 import android.graphics.Rect
 import android.os.Build
 import android.util.DisplayMetrics
+import android.util.Log
+import android.view.View
 import android.view.WindowInsets
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import com.sduduzog.slimlauncher.datasource.UnlauncherDataSource
 
 
 private fun isAppDefaultLauncher(context: Context?): Boolean {
@@ -70,4 +75,16 @@ fun getScreenHeight(activity: Activity): Int {
         activity.windowManager.defaultDisplay.getMetrics(outMetrics)
         outMetrics.heightPixels
     }
+}
+
+fun shouldOpenKeyboard(unlauncherDataSource: UnlauncherDataSource) : Boolean =
+        unlauncherDataSource.corePreferencesRepo.get().activateKeyboardInDrawer
+
+/**
+ * @return [true] when the keyboard is displayed.
+ * Works for android API [20] and higher
+ */
+fun isKeyboardOpen(view: View) : Boolean {
+    val insets = ViewCompat.getRootWindowInsets(view)
+    return insets?.isVisible(WindowInsetsCompat.Type.ime()) ?: false
 }

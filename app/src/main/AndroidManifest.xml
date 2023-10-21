@@ -26,6 +26,7 @@
             android:screenOrientation="portrait"
             android:stateNotNeeded="true"
             tools:ignore="LockedOrientationActivity"
+            android:windowSoftInputMode="adjustNothing"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
