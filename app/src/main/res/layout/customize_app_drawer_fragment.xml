@@ -18,7 +18,7 @@
         android:layout_marginRight="@dimen/_16sdp"
         android:text="@string/customize_app_drawer_fragment_visible_apps"
         android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textSize="@dimen/_20ssp"
+        android:textSize="@dimen/font_size_customize_options"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -30,9 +30,8 @@
         android:layout_marginEnd="@dimen/_16sdp"
         android:text="@string/customize_app_drawer_fragment_search_field_options"
         android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textSize="@dimen/_20ssp"
+        android:textSize="@dimen/font_size_customize_options"
         app:layout_constraintStart_toStartOf="@id/customize_app_drawer_fragment_visible_apps"
         app:layout_constraintTop_toBottomOf="@id/customize_app_drawer_fragment_visible_apps" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
