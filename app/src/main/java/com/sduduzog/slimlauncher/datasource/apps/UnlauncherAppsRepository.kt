@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import java.io.IOException
-import java.util.*
+import java.util.Locale
 
 class UnlauncherAppsRepository(
     private val unlauncherAppsStore: DataStore<UnlauncherApps>,
@@ -74,6 +74,13 @@ class UnlauncherAppsRepository(
                 sortAppsAlphabetically(unlauncherAppsBuilder)
             }
             unlauncherAppsBuilder.build()
+        }
+    }
+
+    fun filterInstalledHomeApps(apps: List<HomeApp>) : List<HomeApp> {
+        return apps.filter {homeApp ->
+            val unlauncherApps = liveData().value?.appsList ?: emptyList()
+            findApp(unlauncherApps, homeApp.packageName, homeApp.activityName) != null
         }
     }
 

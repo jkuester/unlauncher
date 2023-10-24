@@ -22,10 +22,8 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.PopupMenu
 import android.widget.Toast
-import androidx.activity.result.ActivityResult
-import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.motion.widget.MotionLayout.TransitionListener
 import androidx.fragment.app.viewModels
@@ -65,7 +63,9 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class HomeFragment : BaseFragment(), OnLaunchAppListener, ActivityResultCallback<ActivityResult> {
+class HomeFragment : BaseFragment(), OnLaunchAppListener {
+    private lateinit var unlauncherAppsRepo: UnlauncherAppsRepository
+
     @Inject
     lateinit var unlauncherDataSource: UnlauncherDataSource
 
@@ -73,14 +73,19 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener, ActivityResultCallback
 
     private lateinit var receiver: BroadcastReceiver
     private lateinit var appDrawerAdapter: AppDrawerAdapter
-    private lateinit var uninstall: ActivityResultLauncher<Intent>
-    private lateinit var unlauncherAppsRepo: UnlauncherAppsRepository
-    val adapter1 = HomeAdapter(this)
-    val adapter2 = HomeAdapter(this)
+    private lateinit var uninstallAppLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        uninstall = registerForActivityResult(ActivityResultContracts.StartActivityForResult(), this)
+        uninstallAppLauncher = registerForActivityResult(StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                refreshApps()
+                lifecycleScope.launch(Dispatchers.IO) {
+                    val filtered = unlauncherAppsRepo.filterInstalledHomeApps(viewModel.apps.value!!)
+                    viewModel.updateHomeApps(filtered)
+                }
+            }
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View = inflater.inflate(R.layout.home_fragment, container, false)
@@ -88,13 +93,27 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener, ActivityResultCallback
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val adapter1 = HomeAdapter(this)
+        val adapter2 = HomeAdapter(this)
+
         home_fragment_list.adapter = adapter1
         home_fragment_list_exp.adapter = adapter2
 
         unlauncherAppsRepo = unlauncherDataSource.unlauncherAppsRepo
 
         viewModel.apps.observe(viewLifecycleOwner) { list ->
-            list?.let { apps ->setupApps(apps) }
+            list?.let { apps ->
+                adapter1.setItems(apps.filter {
+                    it.sortingIndex < 3
+                })
+                adapter2.setItems(apps.filter {
+                    it.sortingIndex >= 3
+                })
+
+                // Set the home apps in the Unlauncher data
+                lifecycleScope.launch {
+                    unlauncherAppsRepo.setHomeApps(apps)
+                } }
         }
 
         appDrawerAdapter =
@@ -103,20 +122,6 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener, ActivityResultCallback
         setEventListeners()
 
         app_drawer_fragment_list.adapter = appDrawerAdapter
-    }
-
-    private fun setupApps(apps: List<HomeApp>) {
-        adapter1.setItems(apps.filter {
-            it.sortingIndex < 3
-        })
-        adapter2.setItems(apps.filter {
-            it.sortingIndex >= 3
-        })
-
-        // Set the home apps in the Unlauncher data
-        lifecycleScope.launch {
-            unlauncherAppsRepo.setHomeApps(apps)
-        }
     }
 
     override fun onStart() {
@@ -131,9 +136,7 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener, ActivityResultCallback
         super.onResume()
         updateClock()
 
-        lifecycleScope.launch(Dispatchers.IO) {
-            unlauncherDataSource.unlauncherAppsRepo.setApps(getInstalledApps())
-        }
+        refreshApps()
         if (!::appDrawerAdapter.isInitialized) {
             appDrawerAdapter.setAppFilter()
         }
@@ -142,6 +145,12 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener, ActivityResultCallback
         val layoutManager = app_drawer_fragment_list.layoutManager as LinearLayoutManager
         if (layoutManager.findFirstCompletelyVisibleItemPosition() != 0) {
             app_drawer_fragment_list.scrollToPosition(0)
+        }
+    }
+
+    private fun refreshApps() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            unlauncherDataSource.unlauncherAppsRepo.setApps(getInstalledApps())
         }
     }
 
@@ -260,14 +269,6 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener, ActivityResultCallback
         })
     }
 
-
-    override fun onActivityResult(result: ActivityResult?) {
-        if (result?.resultCode == Activity.RESULT_OK) {
-            // reindex the apps
-            setupApps(viewModel.apps.value!!)
-        }
-    }
-
     fun updateClock() {
         val active = context?.getSharedPreferences(getString(R.string.prefs_settings), Context.MODE_PRIVATE)
                 ?.getInt(getString(R.string.prefs_settings_key_time_format), 0)
@@ -353,7 +354,7 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener, ActivityResultCallback
                         val intent = Intent(Intent.ACTION_DELETE)
                             .putExtra(Intent.EXTRA_RETURN_RESULT, true)
                         intent.data = Uri.parse("package:" + app.packageName)
-                        uninstall.launch(intent)
+                        uninstallAppLauncher.launch(intent)
                         //appDrawerAdapter.notifyDataSetChanged()
                         // TODO: Handle the case when this is done for system apps
                     }

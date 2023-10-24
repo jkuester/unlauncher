@@ -7,11 +7,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    _baseRepository: Repository
+    private var _baseRepository: Repository
 ) : ViewModel() {
 
     private var _apps: LiveData<List<HomeApp>> = _baseRepository.apps
 
     val apps: LiveData<List<HomeApp>>
         get() = _apps
+
+    fun updateHomeApps(apps: List<HomeApp>) {
+        _baseRepository.update(*apps.toTypedArray())
+    }
 }
