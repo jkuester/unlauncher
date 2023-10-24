@@ -1,7 +1,12 @@
 package com.sduduzog.slimlauncher.ui.main
 
 import android.app.Activity
-import android.content.*
+import android.content.ActivityNotFoundException
+import android.content.BroadcastReceiver
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.LauncherApps
 import android.net.Uri
 import android.os.Bundle
@@ -17,6 +22,10 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.PopupMenu
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultCallback
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.motion.widget.MotionLayout.TransitionListener
 import androidx.fragment.app.viewModels
@@ -28,6 +37,7 @@ import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.adapters.AppDrawerAdapter
 import com.sduduzog.slimlauncher.adapters.HomeAdapter
 import com.sduduzog.slimlauncher.datasource.UnlauncherDataSource
+import com.sduduzog.slimlauncher.datasource.apps.UnlauncherAppsRepository
 import com.sduduzog.slimlauncher.datasource.quickbuttonprefs.QuickButtonPreferencesRepository
 import com.sduduzog.slimlauncher.models.HomeApp
 import com.sduduzog.slimlauncher.models.MainViewModel
@@ -35,17 +45,27 @@ import com.sduduzog.slimlauncher.ui.dialogs.RenameAppDisplayNameDialog
 import com.sduduzog.slimlauncher.utils.BaseFragment
 import com.sduduzog.slimlauncher.utils.OnLaunchAppListener
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.home_fragment.*
+import kotlinx.android.synthetic.main.home_fragment.app_drawer_edit_text
+import kotlinx.android.synthetic.main.home_fragment.app_drawer_fragment_list
+import kotlinx.android.synthetic.main.home_fragment.home_fragment
+import kotlinx.android.synthetic.main.home_fragment.home_fragment_call
+import kotlinx.android.synthetic.main.home_fragment.home_fragment_camera
+import kotlinx.android.synthetic.main.home_fragment.home_fragment_date
+import kotlinx.android.synthetic.main.home_fragment.home_fragment_list
+import kotlinx.android.synthetic.main.home_fragment.home_fragment_list_exp
+import kotlinx.android.synthetic.main.home_fragment.home_fragment_options
+import kotlinx.android.synthetic.main.home_fragment.home_fragment_time
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.DateFormat
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class HomeFragment : BaseFragment(), OnLaunchAppListener {
+class HomeFragment : BaseFragment(), OnLaunchAppListener, ActivityResultCallback<ActivityResult> {
     @Inject
     lateinit var unlauncherDataSource: UnlauncherDataSource
 
@@ -53,32 +73,28 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
 
     private lateinit var receiver: BroadcastReceiver
     private lateinit var appDrawerAdapter: AppDrawerAdapter
+    private lateinit var uninstall: ActivityResultLauncher<Intent>
+    private lateinit var unlauncherAppsRepo: UnlauncherAppsRepository
+    val adapter1 = HomeAdapter(this)
+    val adapter2 = HomeAdapter(this)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        uninstall = registerForActivityResult(ActivityResultContracts.StartActivityForResult(), this)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View = inflater.inflate(R.layout.home_fragment, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter1 = HomeAdapter(this)
-        val adapter2 = HomeAdapter(this)
+
         home_fragment_list.adapter = adapter1
         home_fragment_list_exp.adapter = adapter2
 
-        val unlauncherAppsRepo = unlauncherDataSource.unlauncherAppsRepo
+        unlauncherAppsRepo = unlauncherDataSource.unlauncherAppsRepo
 
         viewModel.apps.observe(viewLifecycleOwner) { list ->
-            list?.let { apps ->
-                adapter1.setItems(apps.filter {
-                    it.sortingIndex < 3
-                })
-                adapter2.setItems(apps.filter {
-                    it.sortingIndex >= 3
-                })
-
-                // Set the home apps in the Unlauncher data
-                lifecycleScope.launch {
-                    unlauncherAppsRepo.setHomeApps(apps)
-                }
-            }
+            list?.let { apps ->setupApps(apps) }
         }
 
         appDrawerAdapter =
@@ -87,6 +103,20 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
         setEventListeners()
 
         app_drawer_fragment_list.adapter = appDrawerAdapter
+    }
+
+    private fun setupApps(apps: List<HomeApp>) {
+        adapter1.setItems(apps.filter {
+            it.sortingIndex < 3
+        })
+        adapter2.setItems(apps.filter {
+            it.sortingIndex >= 3
+        })
+
+        // Set the home apps in the Unlauncher data
+        lifecycleScope.launch {
+            unlauncherAppsRepo.setHomeApps(apps)
+        }
     }
 
     override fun onStart() {
@@ -230,6 +260,14 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
         })
     }
 
+
+    override fun onActivityResult(result: ActivityResult?) {
+        if (result?.resultCode == Activity.RESULT_OK) {
+            // reindex the apps
+            setupApps(viewModel.apps.value!!)
+        }
+    }
+
     fun updateClock() {
         val active = context?.getSharedPreferences(getString(R.string.prefs_settings), Context.MODE_PRIVATE)
                 ?.getInt(getString(R.string.prefs_settings_key_time_format), 0)
@@ -313,8 +351,9 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
                     }
                     R.id.uninstall -> {
                         val intent = Intent(Intent.ACTION_DELETE)
+                            .putExtra(Intent.EXTRA_RETURN_RESULT, true)
                         intent.data = Uri.parse("package:" + app.packageName)
-                        startActivity(intent)
+                        uninstall.launch(intent)
                         //appDrawerAdapter.notifyDataSetChanged()
                         // TODO: Handle the case when this is done for system apps
                     }
