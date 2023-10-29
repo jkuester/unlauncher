@@ -59,7 +59,19 @@ class AppDrawerAdapter(
     private fun updateDisplayedApps() {
         filteredApps = apps.filter { app ->
             regex.replace(app.displayName, "").contains(filterQuery, ignoreCase = true)
-        }.toList()
+        }.toList().sortedWith(
+            Comparator<UnlauncherApp>{
+                a, b -> when {
+                    // if an app's name starts with the query prefer it
+                    a.displayName.startsWith(filterQuery) && ! b.displayName.startsWith(filterQuery) -> -1
+                    ! a.displayName.startsWith(filterQuery) && b.displayName.startsWith(filterQuery) -> 1
+                    // if both or none start with the query sort in normal oder
+                    a.displayName > b.displayName -> 1
+                    a.displayName < b.displayName -> -1
+                    else -> 0
+                }
+            }
+        )
         notifyDataSetChanged()
     }
 
