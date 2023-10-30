@@ -98,6 +98,7 @@ class CustomiseAppsFragment : BaseFragment(), OnShitDoneToAppsListener {
     private fun showPopupMenu(view: View): PopupMenu {
         val popup = PopupMenu(requireContext(), view)
         popup.menuInflater.inflate(R.menu.customise_apps_popup_menu, popup.menu)
+        popup.setForceShowIcon(true)
         popup.show()
         return popup
     }
