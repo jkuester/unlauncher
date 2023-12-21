@@ -13,6 +13,7 @@ import com.sduduzog.slimlauncher.utils.createTitleAndSubtitleText
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.customize_app_drawer_fragment.customize_app_drawer_fragment
 import kotlinx.android.synthetic.main.customize_app_drawer_fragment.customize_app_drawer_fragment_search_options
+import kotlinx.android.synthetic.main.customize_app_drawer_fragment.customize_app_drawer_fragment_show_headings_switch
 import kotlinx.android.synthetic.main.customize_app_drawer_fragment.customize_app_drawer_fragment_visible_apps
 import javax.inject.Inject
 
@@ -37,6 +38,7 @@ class CustomizeAppDrawerFragment : BaseFragment() {
             .setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_customiseAppDrawerFragment_to_customiseAppDrawerAppListFragment))
 
         setupSearchFieldOptionsButton()
+        setupHeadingSwitch()
     }
 
     private fun setupSearchFieldOptionsButton() {
@@ -68,5 +70,20 @@ class CustomizeAppDrawerFragment : BaseFragment() {
             customize_app_drawer_fragment_search_options.text =
                 createTitleAndSubtitleText(requireContext(), title, subtitle)
         }
+    }
+
+    private fun setupHeadingSwitch() {
+        val prefsRepo = unlauncherDataSource.corePreferencesRepo
+        customize_app_drawer_fragment_show_headings_switch.setOnCheckedChangeListener { _, checked ->
+            prefsRepo.updateShowDrawerHeadings(checked)
+        }
+        prefsRepo.liveData().observe(viewLifecycleOwner) {
+            customize_app_drawer_fragment_show_headings_switch.isChecked = it.showDrawerHeadings
+        }
+        customize_app_drawer_fragment_show_headings_switch.text =
+            createTitleAndSubtitleText(
+                    requireContext(), R.string.customize_app_drawer_fragment_show_headings,
+                    R.string.customize_app_drawer_fragment_show_headings_subtitle
+            )
     }
 }

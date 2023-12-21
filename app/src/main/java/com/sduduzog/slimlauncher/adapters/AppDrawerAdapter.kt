@@ -12,13 +12,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jkuester.unlauncher.datastore.UnlauncherApp
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.datasource.apps.UnlauncherAppsRepository
+import com.sduduzog.slimlauncher.datasource.coreprefs.CorePreferencesRepository
 import com.sduduzog.slimlauncher.ui.main.HomeFragment
 import com.sduduzog.slimlauncher.utils.firstUppercase
 
 class AppDrawerAdapter(
     private val listener: HomeFragment.AppDrawerListener,
     lifecycleOwner: LifecycleOwner,
-    appsRepo: UnlauncherAppsRepository
+    appsRepo: UnlauncherAppsRepository,
+    private val corePreferencesRepo: CorePreferencesRepository
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val regex = Regex("[!@#\$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/? ]")
@@ -28,6 +30,9 @@ class AppDrawerAdapter(
     init {
         appsRepo.liveData().observe(lifecycleOwner) { unlauncherApps ->
             apps = unlauncherApps.appsList
+            updateFilteredApps()
+        }
+        corePreferencesRepo.liveData().observe(lifecycleOwner) { _ ->
             updateFilteredApps()
         }
     }
@@ -75,16 +80,20 @@ class AppDrawerAdapter(
     }
 
     private fun updateFilteredApps(filterQuery: String = "") {
+        val showDrawerHeadings = corePreferencesRepo.get().showDrawerHeadings
         // building a list with each letter and filtered app resulting in a list of
         // [
         // Header<"G">, App<"Gmail">, App<"Google Drive">, Header<"Y">, App<"YouTube">, ...
         // ]
-        filteredApps = apps.filter { app ->
-            app.displayInDrawer && regex.replace(app.displayName, "")
-                .contains(filterQuery, ignoreCase = true)
-        }.groupBy { app -> app.displayName.firstUppercase() }.flatMap { entry ->
-                listOf(
-                    AppDrawerRow.Header(entry.key),
+        filteredApps = apps
+            .filter { app ->
+                app.displayInDrawer && regex.replace(app.displayName, "")
+                    .contains(filterQuery, ignoreCase = true)
+            }.groupBy {
+                app -> app.displayName.firstUppercase()
+            }.flatMap { entry ->
+                listOfNotNull(
+                    if (showDrawerHeadings) AppDrawerRow.Header(entry.key) else null,
                     *(entry.value.map { AppDrawerRow.Item(it) }).toTypedArray()
                 )
             }

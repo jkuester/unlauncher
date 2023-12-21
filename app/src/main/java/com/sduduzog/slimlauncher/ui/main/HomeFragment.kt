@@ -92,7 +92,12 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
             }
         }
 
-        appDrawerAdapter = AppDrawerAdapter(AppDrawerListener(), viewLifecycleOwner, unlauncherAppsRepo)
+        appDrawerAdapter = AppDrawerAdapter(
+            AppDrawerListener(),
+            viewLifecycleOwner,
+            unlauncherAppsRepo,
+            unlauncherDataSource.corePreferencesRepo
+        )
 
         setEventListeners()
 

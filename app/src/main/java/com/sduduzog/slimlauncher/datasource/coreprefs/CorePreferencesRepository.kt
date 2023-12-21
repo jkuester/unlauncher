@@ -85,4 +85,12 @@ class CorePreferencesRepository(
             }
         }
     }
+
+    fun updateShowDrawerHeadings(showDrawerHeadings: Boolean) {
+        lifecycleScope.launch {
+            corePreferencesStore.updateData {
+                it.toBuilder().setShowDrawerHeadings(showDrawerHeadings).build()
+            }
+        }
+    }
 }

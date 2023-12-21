@@ -6,8 +6,9 @@ option java_multiple_files = true;
 message CorePreferences {
   bool activate_keyboard_in_drawer = 1;
   bool keep_device_wallpaper = 2;
-  optional bool showSearchBar = 3;
-  SearchBarPosition searchBarPosition = 4;
+  optional bool show_search_bar = 3;
+  SearchBarPosition search_bar_position = 4;
+  bool show_drawer_headings = 5;
 }
 
 enum SearchBarPosition {
