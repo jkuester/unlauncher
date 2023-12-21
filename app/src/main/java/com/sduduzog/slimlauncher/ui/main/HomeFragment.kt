@@ -46,7 +46,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
-
 @AndroidEntryPoint
 class HomeFragment : BaseFragment(), OnLaunchAppListener {
     @Inject

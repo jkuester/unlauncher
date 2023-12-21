@@ -9,12 +9,20 @@ import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.models.HomeApp
 import com.sduduzog.slimlauncher.utils.OnLaunchAppListener
 
+/**
+ * Corresponding to the resulting gravity, not the option key
+ */
+enum class Alignment (val value: Int) {
+    LEFT(3),
+    RIGHT(5),
+    CENTER(1)
+}
 
 class HomeAdapter(private val listener: OnLaunchAppListener)
     : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
 
     private var apps: List<HomeApp> = listOf()
-    private var gravity: Int = 3
+    private var gravity: Alignment = Alignment.LEFT
 
     constructor(listener: OnLaunchAppListener, alignment: Int) : this(listener) {
         setAlignment(alignment)
@@ -28,7 +36,7 @@ class HomeAdapter(private val listener: OnLaunchAppListener)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = apps.elementAt(position)
         holder.mLabelView.text = item.appNickname ?: item.appName
-        holder.mLabelView.gravity = gravity
+        holder.mLabelView.gravity = gravity.value
         holder.mLabelView.setOnClickListener {
             listener.onLaunch(item, it)
         }
@@ -41,19 +49,18 @@ class HomeAdapter(private val listener: OnLaunchAppListener)
         notifyDataSetChanged()
     }
 
-    fun getGravity(): Int = gravity
+    fun getGravity(): Alignment = gravity
 
-    fun setGravity(gravity: Int) {
+    fun setGravity(gravity: Alignment) {
         this.gravity = gravity
     }
 
-    fun setAlignment(alignment: Int) {
-        if (alignment == 2)      // right
-            gravity = 5
-        else if (alignment == 1) // center
-            gravity = 1
-        else                     // left
-            gravity = 3
+    private fun setAlignment(alignment: Int) {
+        gravity = when (alignment) {
+            2 -> Alignment.RIGHT
+            1 -> Alignment.CENTER
+            else -> Alignment.LEFT
+        }
     }
 
     inner class ViewHolder(mView: View) : RecyclerView.ViewHolder(mView) {
