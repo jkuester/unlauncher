@@ -16,7 +16,7 @@
         android:layout_marginTop="@dimen/_8sdp"
         android:text="@string/options_fragment_customise_apps"
         android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textSize="@dimen/_36ssp"
+        android:textSize="@dimen/font_size_customize_title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -47,7 +47,7 @@
         android:padding="@dimen/_12sdp"
         android:text="@string/customise_apps_fragment_add"
         android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textSize="@dimen/_16ssp"
+        android:textSize="@dimen/font_size_add_apps_action"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -60,7 +60,7 @@
         android:layout_marginBottom="8dp"
         android:text="@string/customise_apps_fragment_remove_all"
         android:padding="@dimen/_12sdp"
-        android:textSize="@dimen/_16ssp"
+        android:textSize="@dimen/font_size_add_apps_action"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

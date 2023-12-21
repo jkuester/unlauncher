@@ -23,7 +23,7 @@
             android:stateListAnimator="@xml/animate_scale"
             android:text="@string/main_fragment_options"
             android:textAppearance="@style/TextAppearance.AppCompat"
-            android:textSize="@dimen/_36ssp"
+            android:textSize="@dimen/font_size_customize_title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -50,7 +50,7 @@
             android:stateListAnimator="@xml/animate_scale"
             android:text="@string/options_fragment_change_theme"
             android:textAppearance="@style/TextAppearance.AppCompat"
-            android:textSize="@dimen/_20ssp"
+            android:textSize="@dimen/font_size_customize_options"
             app:layout_constraintBottom_toTopOf="@+id/options_fragment_choose_time_format"
             app:layout_constraintStart_toStartOf="@+id/options_fragment_device_settings"
             app:layout_constraintTop_toBottomOf="@+id/options_fragment_device_settings" />
@@ -63,7 +63,7 @@
             android:stateListAnimator="@xml/animate_scale"
             android:text="@string/options_fragment_choose_time_format"
             android:textAppearance="@style/TextAppearance.AppCompat"
-            android:textSize="@dimen/_20ssp"
+            android:textSize="@dimen/font_size_customize_options"
             app:layout_constraintBottom_toTopOf="@+id/options_fragment_toggle_status_bar"
             app:layout_constraintStart_toStartOf="@+id/options_fragment_change_theme"
             app:layout_constraintTop_toBottomOf="@+id/options_fragment_change_theme" />
@@ -76,7 +76,7 @@
             android:stateListAnimator="@xml/animate_scale"
             android:text="@string/options_fragment_toggle_status_bar"
             android:textAppearance="@style/TextAppearance.AppCompat"
-            android:textSize="@dimen/_20ssp"
+            android:textSize="@dimen/font_size_customize_options"
             app:layout_constraintBottom_toTopOf="@+id/options_fragment_customise_apps"
             app:layout_constraintStart_toStartOf="@+id/options_fragment_choose_time_format"
             app:layout_constraintTop_toBottomOf="@+id/options_fragment_choose_time_format" />
@@ -90,7 +90,7 @@
             android:stateListAnimator="@xml/animate_scale"
             android:text="@string/options_fragment_customise_apps"
             android:textAppearance="@style/TextAppearance.AppCompat"
-            android:textSize="@dimen/_20ssp"
+            android:textSize="@dimen/font_size_customize_options"
             app:layout_constraintBottom_toTopOf="@id/options_fragment_choose_alignment"
             app:layout_constraintStart_toStartOf="@+id/options_fragment_toggle_status_bar"
             app:layout_constraintTop_toBottomOf="@id/options_fragment_toggle_status_bar" />
@@ -116,7 +116,7 @@
             android:stateListAnimator="@xml/animate_scale"
             android:text="@string/options_fragment_customize_quick_buttons"
             android:textAppearance="@style/TextAppearance.AppCompat"
-            android:textSize="@dimen/_20ssp"
+            android:textSize="@dimen/font_size_customize_options"
             app:layout_constraintBottom_toTopOf="@id/options_fragment_customize_app_drawer"
             app:layout_constraintStart_toStartOf="@+id/options_fragment_choose_alignment"
             app:layout_constraintTop_toBottomOf="@+id/options_fragment_choose_alignment" />
@@ -130,7 +130,7 @@
             android:stateListAnimator="@xml/animate_scale"
             android:text="@string/options_fragment_customize_app_drawer"
             android:textAppearance="@style/TextAppearance.AppCompat"
-            android:textSize="@dimen/_20ssp"
+            android:textSize="@dimen/font_size_customize_options"
             app:layout_constraintStart_toStartOf="@+id/options_fragment_customize_quick_buttons"
             app:layout_constraintTop_toBottomOf="@+id/options_fragment_customize_quick_buttons"
             />
@@ -142,7 +142,7 @@
             android:layout_marginTop="32dp"
             android:text="@string/customize_app_drawer_fragment_auto_theme_wallpaper_text"
             android:textAppearance="@style/TextAppearance.AppCompat"
-            android:textSize="@dimen/_20ssp"
+            android:textSize="@dimen/font_size_customize_options"
             android:layout_marginStart="@dimen/_16sdp"
             app:layout_constraintStart_toStartOf="@+id/options_fragment_customize_app_drawer"
             app:layout_constraintTop_toBottomOf="@id/options_fragment_customize_app_drawer" />

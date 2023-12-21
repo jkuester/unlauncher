@@ -1,4 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="font_size_home_clock">@dimen/_40ssp</dimen>
+    <dimen name="font_size_home_date">@dimen/_18ssp</dimen>
+    <dimen name="font_size_home_app_list_item">@dimen/_24ssp</dimen>
 
+    <dimen name="font_size_drawer_search">@dimen/_18ssp</dimen>
+    <dimen name="font_size_apps_list_item">@dimen/_20ssp</dimen>
+    <!-- same list items in drawer and in search for apps to add -->
+
+    <dimen name="font_size_visible_app_list_item">@dimen/_18ssp</dimen>
+
+    <dimen name="font_size_customize_title">@dimen/_24ssp</dimen>
+    <dimen name="font_size_customize_options">@dimen/_20ssp</dimen>
+
+    <dimen name="font_size_customize_apps_list_item">@dimen/_24ssp</dimen>
+    <dimen name="font_size_add_apps_search">@dimen/_18ssp</dimen>
+    <dimen name="font_size_add_apps_action">@dimen/_18ssp</dimen>
 </resources>

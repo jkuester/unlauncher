@@ -18,7 +18,7 @@
         android:hint="@string/add_apps_fragment_search_apps"
         android:imeOptions="actionDone"
         android:inputType="none|textNoSuggestions|textCapWords"
-        android:textSize="@dimen/_18ssp"
+        android:textSize="@dimen/font_size_drawer_search"
         tools:ignore="Autofill,LabelFor" />
 
     <ImageView
@@ -52,7 +52,7 @@
         android:layout_marginTop="@dimen/_64sdp"
         android:text="@string/main_placeholder_clock"
         android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textSize="@dimen/_40ssp" />
+        android:textSize="@dimen/font_size_home_clock" />
 
     <TextView
         android:id="@+id/home_fragment_date"
@@ -61,7 +61,7 @@
         android:padding="@dimen/_4sdp"
         android:text="@string/main_placeholder_date"
         android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textSize="@dimen/_12sdp" />
+        android:textSize="@dimen/font_size_home_date" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/home_fragment_list"
