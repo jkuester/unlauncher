@@ -28,6 +28,6 @@ So, creating a beta release for Unlauncher requires the following steps:
 
 ## Checking F-Droid build status
 
-The status for the latest Unlauncher F-Droid build can be found [here](https://f-droid.org/wiki/page/com.jkuester.unlauncher/lastbuild).
+The status for the latest Unlauncher F-Droid build can be found [here](https://gitlab.com/fdroid/fdroiddata/-/blob/master/metadata/com.jkuester.unlauncher.yml).
 
 A list of all recent F-Droid builds can be found [here](https://f-droid.org/wiki/index.php?title=Special:RecentChanges&days=30&from=&hidebots=0&hideanons=1&hideliu=1&limit=500).

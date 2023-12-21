@@ -9,7 +9,7 @@
         android:id="@+id/homeFragment"
         android:name="com.sduduzog.slimlauncher.ui.main.HomeFragment"
         android:label="home_fragment"
-        tools:layout="@layout/home_fragment">
+        tools:layout="@layout/home_fragment_default">
         <action
             android:id="@+id/action_homeFragment_to_optionsFragment"
             app:destination="@id/optionsFragment" />
@@ -56,11 +56,19 @@
         <action
             android:id="@+id/action_customiseAppDrawerFragment_to_customiseAppDrawerAppListFragment"
             app:destination="@id/customiseAppDrawerAppListFragment" />
+        <action
+            android:id="@+id/action_customiseAppDrawerFragment_to_customizeSearchFieldFragment"
+            app:destination="@id/customizeSearchFieldFragment" />
     </fragment>
     <fragment
         android:id="@+id/customiseAppDrawerAppListFragment"
         android:name="com.sduduzog.slimlauncher.ui.options.CustomizeAppDrawerAppListFragment"
         android:label="customise_app_drawer_app_list_fragment"
         tools:layout="@layout/customize_app_drawer_app_list_fragment" />
+    <fragment
+        android:id="@+id/customizeSearchFieldFragment"
+        android:name="com.sduduzog.slimlauncher.ui.options.CustomizeSearchFieldFragment"
+        android:label="customize_app_drawer_search_field_fragment"
+        tools:layout="@layout/customize_app_drawer_fragment_search_field_options" />
 
 </navigation>

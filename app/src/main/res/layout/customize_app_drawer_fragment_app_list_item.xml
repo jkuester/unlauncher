@@ -5,4 +5,4 @@
     android:layout_height="wrap_content"
     android:padding="6dp"
     android:textAppearance="@style/TextAppearance.AppCompat"
-    android:textSize="@dimen/_18ssp" />
+    android:textSize="@dimen/font_size_visible_app_list_item" />
