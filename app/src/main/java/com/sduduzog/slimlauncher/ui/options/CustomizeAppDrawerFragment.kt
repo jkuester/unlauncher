@@ -44,9 +44,9 @@ class CustomizeAppDrawerFragment : BaseFragment() {
             Navigation.createNavigateOnClickListener(R.id.action_customiseAppDrawerFragment_to_customizeSearchFieldFragment)
         )
         val preferencesRepository = unlauncherDataSource.corePreferencesRepo
+        val title = getText(R.string.customize_app_drawer_fragment_search_field_options)
         preferencesRepository.liveData().observe(viewLifecycleOwner) {
-            val title = getText(R.string.customize_app_drawer_fragment_search_field_options)
-            val subtitle = if (it.showSearchBar) {
+            val subtitle = if (!it.hasShowSearchBar() || it.showSearchBar) {
                 val pos =
                     if (it.searchBarPosition == SearchBarPosition.UNRECOGNIZED) {
                         SearchBarPosition.top.number

@@ -2,7 +2,6 @@ package com.sduduzog.slimlauncher
 
 import android.annotation.SuppressLint
 import android.content.SharedPreferences
-import android.content.res.Configuration
 import android.content.res.Resources
 import android.graphics.Rect
 import android.os.Bundle

@@ -78,7 +78,7 @@ fun getScreenHeight(activity: Activity): Int {
 }
 
 fun createTitleAndSubtitleText(context: Context, @StringRes titleRes: Int, @StringRes subtitleRes: Int) : CharSequence
-= createTitleAndSubtitleText(context, context.getString(titleRes), context.getString(subtitleRes))
+    = createTitleAndSubtitleText(context, context.getString(titleRes), context.getString(subtitleRes))
 
 fun createTitleAndSubtitleText(context: Context, title: CharSequence, subtitle: CharSequence) : CharSequence {
     val spanBuilder = SpannableStringBuilder("$title\n$subtitle")
