@@ -14,6 +14,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.PopupMenu
 import android.widget.Toast
@@ -45,7 +46,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
-
 @AndroidEntryPoint
 class HomeFragment : BaseFragment(), OnLaunchAppListener {
     @Inject
@@ -69,8 +69,13 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter1 = HomeAdapter(this)
-        val adapter2 = HomeAdapter(this)
+        val settingsKey = getString(R.string.prefs_settings)
+        val alignmentKey: String = getString(R.string.prefs_settings_alignment)
+        val preferences = requireContext().getSharedPreferences(settingsKey, Context.MODE_PRIVATE)
+        val alignment = preferences.getInt(alignmentKey, 3)
+
+        val adapter1 = HomeAdapter(this, alignment)
+        val adapter2 = HomeAdapter(this, alignment)
         home_fragment_list.adapter = adapter1
         home_fragment_list_exp.adapter = adapter2
 
@@ -208,6 +213,17 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
             }
 
         app_drawer_edit_text.addTextChangedListener(appDrawerAdapter.searchBoxListener)
+
+        app_drawer_edit_text.setOnEditorActionListener { _, actionId, _ ->
+                if(actionId == EditorInfo.IME_ACTION_DONE && appDrawerAdapter.itemCount > 0) {
+                    val firstApp = appDrawerAdapter.getFirstApp()
+                    launchApp(firstApp.packageName, firstApp.className, firstApp.userSerial)
+                    home_fragment.transitionToStart()
+                    true
+                } else {
+                    false
+                }
+            }
 
         home_fragment.setTransitionListener(object : TransitionListener {
             override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {

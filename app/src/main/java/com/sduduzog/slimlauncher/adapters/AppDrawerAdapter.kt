@@ -56,6 +56,10 @@ class AppDrawerAdapter(
         }
     }
 
+    fun getFirstApp(): UnlauncherApp {
+        return filteredApps.filterIsInstance<AppDrawerRow.Item>().first().app
+    }
+
     override fun getItemViewType(position: Int): Int = filteredApps[position].rowType.ordinal
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -72,6 +76,10 @@ class AppDrawerAdapter(
     }
 
 
+    private fun onlyFirstStringStartsWith(first: String, second: String, query: String) : Boolean {
+        return first.startsWith(query, true) and !second.startsWith(query, true);
+    }
+
     @SuppressLint("NotifyDataSetChanged")
     fun setAppFilter(query: String = "") {
         val filterQuery = regex.replace(query, "")
@@ -81,22 +89,40 @@ class AppDrawerAdapter(
 
     private fun updateFilteredApps(filterQuery: String = "") {
         val showDrawerHeadings = corePreferencesRepo.get().showDrawerHeadings
-        // building a list with each letter and filtered app resulting in a list of
-        // [
-        // Header<"G">, App<"Gmail">, App<"Google Drive">, Header<"Y">, App<"YouTube">, ...
-        // ]
-        filteredApps = apps
+        val displayableApps = apps
             .filter { app ->
                 app.displayInDrawer && regex.replace(app.displayName, "")
-                    .contains(filterQuery, ignoreCase = true)
-            }.groupBy {
-                app -> app.displayName.firstUppercase()
-            }.flatMap { entry ->
-                listOfNotNull(
-                    if (showDrawerHeadings) AppDrawerRow.Header(entry.key) else null,
-                    *(entry.value.map { AppDrawerRow.Item(it) }).toTypedArray()
-                )
+                        .contains(filterQuery, ignoreCase = true)
             }
+
+        val includeHeadings = !showDrawerHeadings || filterQuery != ""
+        filteredApps = when (includeHeadings) {
+            true -> displayableApps
+                .sortedWith { a, b ->
+                    when {
+                        // if an app's name starts with the query prefer it
+                        onlyFirstStringStartsWith(a.displayName, b.displayName, filterQuery) -> -1
+                        onlyFirstStringStartsWith(b.displayName, a.displayName, filterQuery) -> 1
+                        // if both or none start with the query sort in normal oder
+                        a.displayName > b.displayName -> 1
+                        a.displayName < b.displayName -> -1
+                        else -> 0
+                    }
+                }.map { AppDrawerRow.Item(it) }
+            // building a list with each letter and filtered app resulting in a list of
+            // [
+            // Header<"G">, App<"Gmail">, App<"Google Drive">, Header<"Y">, App<"YouTube">, ...
+            // ]
+            false -> displayableApps
+                .groupBy {
+                    app -> app.displayName.firstUppercase()
+                }.flatMap { entry ->
+                    listOf(
+                            AppDrawerRow.Header(entry.key),
+                            *(entry.value.map { AppDrawerRow.Item(it) }).toTypedArray()
+                    )
+                }
+        }
     }
 
     val searchBoxListener: TextWatcher = object : TextWatcher {
