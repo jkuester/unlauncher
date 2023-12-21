@@ -44,6 +44,10 @@ class AppDrawerAdapter(
         }
     }
 
+    fun getFirstApp(): UnlauncherApp {
+        return filteredApps.first()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.add_app_fragment_list_item, parent, false)
@@ -55,11 +59,27 @@ class AppDrawerAdapter(
         this.updateDisplayedApps()
     }
 
+    private fun onlyFirstStringStartsWith(first: String, second: String, query: String) : Boolean {
+        return first.startsWith(query, true) and !second.startsWith(query, true);
+    }
+    
     @SuppressLint("NotifyDataSetChanged")
     private fun updateDisplayedApps() {
         filteredApps = apps.filter { app ->
             regex.replace(app.displayName, "").contains(filterQuery, ignoreCase = true)
-        }.toList()
+        }.toList().sortedWith(
+            Comparator<UnlauncherApp>{
+                a, b -> when {
+                    // if an app's name starts with the query prefer it
+                    onlyFirstStringStartsWith(a.displayName, b.displayName, filterQuery) -> -1
+                    onlyFirstStringStartsWith(b.displayName, a.displayName, filterQuery) -> 1
+                    // if both or none start with the query sort in normal oder
+                    a.displayName > b.displayName -> 1
+                    a.displayName < b.displayName -> -1
+                    else -> 0
+                }
+            }
+        )
         notifyDataSetChanged()
     }
 

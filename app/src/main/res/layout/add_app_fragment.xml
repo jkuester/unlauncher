@@ -19,7 +19,7 @@
         android:ems="10"
         android:imeOptions="actionDone"
         android:inputType="none|textNoSuggestions|textCapWords"
-        android:textSize="@dimen/_18ssp"
+        android:textSize="@dimen/font_size_add_apps_search"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

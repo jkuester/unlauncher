@@ -57,5 +57,10 @@
     <string name="remove_all_apps_dialog_title" translatable="false">移除所有应用</string>
     <string name="remove_all_apps_dialog_message" translatable="false">"此操作不会卸载你的应用。"
     "只是想确认一下你是否有意清除这个列表。"</string>
+    <string name="open_app">打开应用</string>
+    <string name="app_info">应用信息</string>
+    <string name="hide_app">隐藏应用</string>
+    <string name="rename_app">重命名应用</string>
+    <string name="uninstall">卸载</string>
 
 </resources>

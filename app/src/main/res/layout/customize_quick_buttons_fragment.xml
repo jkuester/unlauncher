@@ -15,7 +15,7 @@
         android:layout_marginTop="@dimen/_8sdp"
         android:text="@string/options_fragment_customize_quick_buttons"
         android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textSize="@dimen/_25ssp"
+        android:textSize="@dimen/font_size_customize_title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

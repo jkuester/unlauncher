@@ -6,6 +6,6 @@
     android:padding="6dp"
     android:stateListAnimator="@xml/animate_scale"
     android:textAppearance="@style/TextAppearance.AppCompat"
-    android:textSize="@dimen/_18ssp">
+    android:textSize="@dimen/font_size_apps_list_item">
 
 </TextView>

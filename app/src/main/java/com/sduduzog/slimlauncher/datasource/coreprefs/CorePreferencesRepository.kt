@@ -6,6 +6,7 @@ import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import com.jkuester.unlauncher.datastore.CorePreferences
+import com.jkuester.unlauncher.datastore.SearchBarPosition
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
@@ -54,6 +55,33 @@ class CorePreferencesRepository(
         lifecycleScope.launch {
             corePreferencesStore.updateData {
                 it.toBuilder().setKeepDeviceWallpaper(keepDeviceWallpaper).build()
+            }
+        }
+    }
+
+    private fun updateShowSearchBar(showSearchBar: Boolean) {
+        lifecycleScope.launch {
+            corePreferencesStore.updateData {
+                it.toBuilder().setShowSearchBar(showSearchBar).build()
+            }
+        }
+    }
+
+    var showSearchField: Boolean
+        // when upgrading from an older version the property showSearchBar is null
+        // we therefore set default state to true.
+        // This has the reason that protobuf 3 does not allow default values,
+        // see https://stackoverflow.com/a/62435235,
+        // hence making the showSearchBar attribute optional and allow it to be null.
+        // With that we can use a logical implication: hasShowSearchBar -> showSearchBar,
+        // returning true, when the showSearchBar attribute is null.
+        get() = !get().hasShowSearchBar() || get().showSearchBar
+        set(value) = updateShowSearchBar(value)
+
+    fun updateSearchBarPosition(searchBarPosition: SearchBarPosition) {
+        lifecycleScope.launch {
+            corePreferencesStore.updateData {
+                it.toBuilder().setSearchBarPosition(searchBarPosition).build()
             }
         }
     }
