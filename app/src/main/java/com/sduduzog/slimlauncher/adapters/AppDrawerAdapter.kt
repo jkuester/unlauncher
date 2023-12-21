@@ -42,12 +42,12 @@ class AppDrawerAdapter(
                 holder.itemView.setOnClickListener {
                     listener.onAppClicked(unlauncherApp)
                 }
+                holder.itemView.setOnLongClickListener {
+                    listener.onAppLongClicked(unlauncherApp, it)
+                }
             }
 
             is AppDrawerRow.Header -> (holder as HeaderViewHolder).bind(drawerRow.letter)
-        }
-        holder.itemView.setOnLongClickListener {
-            listener.onAppLongClicked(item, it)
         }
     }
 
