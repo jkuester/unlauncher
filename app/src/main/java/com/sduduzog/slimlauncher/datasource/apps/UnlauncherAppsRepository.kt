@@ -123,6 +123,25 @@ class UnlauncherAppsRepository(
         }
     }
 
+    fun updateDisplayName(appToUpdate: UnlauncherApp, displayName: String) {
+        lifecycleScope.launch {
+            unlauncherAppsStore.updateData { currentApps ->
+                val builder = currentApps.toBuilder()
+                val index = builder.appsList.indexOf(appToUpdate)
+                if (index >= 0) {
+                    builder.setApps(
+                        index,
+                        appToUpdate.toBuilder().setDisplayName(displayName)
+                    )
+                }
+
+                sortAppsAlphabetically(builder)
+                builder.build()
+            }
+        }
+    }
+
+
     fun updateDisplayInDrawer(appToUpdate: UnlauncherApp, displayInDrawer: Boolean) {
         lifecycleScope.launch {
             unlauncherAppsStore.updateData { currentApps ->

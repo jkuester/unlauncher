@@ -15,8 +15,8 @@ android {
         applicationId = "com.jkuester.unlauncher"
         minSdkVersion(21)
         targetSdkVersion(33)
-        versionName = "2.0.0-beta.4"
-        versionCode = 16
+        versionName = "2.1.0"
+        versionCode = 19
         vectorDrawables { useSupportLibrary = true }
 //        signingConfigs {
 //            if (project.extra.has("RELEASE_STORE_FILE")) {
@@ -78,7 +78,7 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.datastore:datastore:1.0.0")
     implementation("androidx.datastore:datastore-core:1.0.0")
-    implementation("com.google.protobuf:protobuf-javalite:3.10.0")
+    implementation("com.google.protobuf:protobuf-javalite:3.23.3")
 
     // Arch Components
     implementation("androidx.core:core-ktx:1.9.0")

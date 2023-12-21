@@ -5,9 +5,9 @@
 Building an Unlauncher release is straightforward.  
 
 1. Push a tag to GitHub (e.g. `1.2.1`) from the latest commit on the `master` branch
-    1. Make sure that the `versionName` in the [build.gradle.kts](./build.gradle.kts) matches the tag that you are pushing
+    1. Make sure that the `versionName` in the [build.gradle.kts](./app/build.gradle.kts) matches the tag that you are pushing
 1. Add release notes to the draft Release on GitHub that was created by the CI and publish the release
-1. Prepare for the next release by incrementing the `versionCode` and `versionName` in the [build.gradle.kts](./build.gradle.kts) file
+1. Prepare for the next release by incrementing the `versionCode` and `versionName` in the [build.gradle.kts](./app/build.gradle.kts) file
 1. Monitor the [F-Droid build status](#checking-f-droid-build-status) to make sure the tag is successfully published (can take several days depending on the build queue)
 
 ## Building a beta release
@@ -20,11 +20,11 @@ However, an F-Droid user will only be prompted to upgrade an app (or have the ap
 So, creating a beta release for Unlauncher requires the following steps:
 
 1. Push a beta tag to GitHub (e.g. `2.0.0-beta.1`)
-   1. Make sure that the `versionName` in the [build.gradle.kts](./build.gradle.kts) matches the tag that you are pushing
+   1. Make sure that the `versionName` in the [build.gradle.kts](./app/build.gradle.kts) matches the tag that you are pushing
 1. Delete the draft Release on GitHub for the beta tag that was created by the CI
 1. Raise a MR to [fdroid/fdroiddata](https://gitlab.com/fdroid/fdroiddata) to add a new `Builds` entry for the beta release
     1. _Do not_ update the configured `CurrenVersion`/`CurrentVersionCode` since that will trigger a normal release
-1. Prepare for the next release by incrementing the `versionCode` and `versionName` in the [build.gradle.kts](./build.gradle.kts) file
+1. Prepare for the next release by incrementing the `versionCode` and `versionName` in the [build.gradle.kts](./app/build.gradle.kts) file
 
 ## Checking F-Droid build status
 

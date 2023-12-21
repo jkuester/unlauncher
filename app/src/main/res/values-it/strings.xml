@@ -29,6 +29,7 @@
     <string name="options_fragment_toggle_status_bar">Mostra/nascondi barra di stato</string>
     <string name="options_fragment_hide_status_bar">Nascondi la barra di stato</string>
     <string name="options_fragment_show_status_bar">Mostra la barra di stato</string>
+    <string name="customize_app_drawer_fragment_search_bar_position">Posizione</string>
     <string name="customise_apps_fragment_add">Aggiungi</string>
     <string name="menu_rename">Rinomina</string>
     <string name="menu_remove">Rimuovi</string>

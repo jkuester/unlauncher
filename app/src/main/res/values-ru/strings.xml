@@ -2,6 +2,7 @@
 <resources>
     <string name="choose_theme_dialog_title">Выбрать тему</string>
     <string name="choose_time_format_dialog_title">Выбрать формат времени</string>
+    <string name="customize_app_drawer_fragment_search_bar_position">Положение</string>
     <string name="customise_apps_fragment_add">Добавить</string>
     <string name="customise_apps_fragment_remove_all">Удалить все</string>
     <string name="main_fragment_options">Настройки</string>

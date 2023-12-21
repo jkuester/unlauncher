@@ -22,7 +22,6 @@ class AppDrawerAdapter(
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val regex = Regex("[!@#\$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/? ]")
-
     private var apps: List<UnlauncherApp> = listOf()
     private var filteredApps: List<AppDrawerRow> = listOf()
 
@@ -46,6 +45,9 @@ class AppDrawerAdapter(
             }
 
             is AppDrawerRow.Header -> (holder as HeaderViewHolder).bind(drawerRow.letter)
+        }
+        holder.itemView.setOnLongClickListener {
+            listener.onAppLongClicked(item, it)
         }
     }
 

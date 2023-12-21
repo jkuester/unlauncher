@@ -3,6 +3,7 @@ package com.sduduzog.slimlauncher
 import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import android.content.res.Resources
+import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
 import android.view.GestureDetector
@@ -14,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.navigation.NavController
 import androidx.navigation.Navigation.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.sduduzog.slimlauncher.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import java.lang.reflect.Method
@@ -147,12 +149,30 @@ class MainActivity : AppCompatActivity(),
         super.onBackPressed()
     }
 
+    private fun isVisible(view: View): Boolean {
+        if (!view.isShown) {
+            return false
+        }
+
+        val actualPosition = Rect()
+        view.getGlobalVisibleRect(actualPosition)
+        val screen = Rect(0, 0, Resources.getSystem().displayMetrics.widthPixels, Resources.getSystem().displayMetrics.heightPixels)
+        return actualPosition.intersect(screen)
+    }
+
     private val gestureDetector = GestureDetector(baseContext, object : SimpleOnGestureListener() {
         override fun onLongPress(e: MotionEvent) {
             // Open Options
+            val recyclerView = findViewById<RecyclerView>(R.id.app_drawer_fragment_list)
             val homeView = findViewById<View>(R.id.home_fragment)
-            if(homeView != null) {
-                findNavController(homeView).navigate(R.id.action_homeFragment_to_optionsFragment, null)
+
+            if(homeView != null && recyclerView != null)
+            {
+                if(isVisible(recyclerView))
+                   recyclerView.performLongClick()
+                else // we are in the homeFragment
+                    findNavController(homeView).navigate(R.id.action_homeFragment_to_optionsFragment, null)
+
             }
         }
 

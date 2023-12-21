@@ -32,6 +32,7 @@
     <string name="options_fragment_toggle_status_bar">Statusbalk tonen/verbergen</string>
     <string name="options_fragment_hide_status_bar">Statusbalk verbergen</string>
     <string name="options_fragment_show_status_bar">Statusbalk tonen</string>
+    <string name="customize_app_drawer_fragment_search_bar_position">Positie</string>
     <string name="customise_apps_fragment_add">Toevoegen</string>
     <string name="menu_rename">Naam wijzigen</string>
     <string name="menu_remove">Verwijderen</string>

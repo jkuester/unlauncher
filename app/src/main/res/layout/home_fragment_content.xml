@@ -1,11 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/home_fragment"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:layoutDescription="@xml/home_motion_scene">
+    tools:showIn="@layout/home_fragment_default">
+
+
+    <EditText
+        android:id="@+id/app_drawer_edit_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:ems="10"
+        android:hint="@string/add_apps_fragment_search_apps"
+        android:imeOptions="actionDone"
+        android:inputType="none|textNoSuggestions|textCapWords"
+        android:textSize="@dimen/_18ssp"
+        tools:ignore="Autofill,LabelFor" />
+
+    <ImageView
+        android:id="@+id/home_fragment_call"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_8sdp"
+        app:srcCompat="@drawable/ic_call"
+        tools:ignore="ContentDescription" />
+
+    <ImageView
+        android:id="@+id/home_fragment_camera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_8sdp"
+        app:srcCompat="@drawable/ic_photo_camera"
+        tools:ignore="ContentDescription" />
+
+    <ImageView
+        android:id="@+id/home_fragment_options"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_8sdp"
+        app:srcCompat="@drawable/ic_cog"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/home_fragment_time"
@@ -41,46 +79,6 @@
         tools:itemCount="3"
         tools:listitem="@layout/main_fragment_list_item" />
 
-    <ImageView
-        android:id="@+id/home_fragment_options"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/_8sdp"
-        app:srcCompat="@drawable/ic_cog"
-        tools:ignore="ContentDescription"/>
-
-    <ImageView
-        android:id="@+id/home_fragment_call"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/_8sdp"
-        app:srcCompat="@drawable/ic_call"
-        tools:ignore="ContentDescription" />
-
-    <ImageView
-        android:id="@+id/home_fragment_camera"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/_8sdp"
-        app:srcCompat="@drawable/ic_photo_camera"
-        tools:ignore="ContentDescription" />
-
-    <EditText
-        android:id="@+id/app_drawer_edit_text"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:ems="10"
-        android:hint="@string/add_apps_fragment_search_apps"
-        android:imeOptions="actionDone"
-        android:inputType="none|textNoSuggestions|textCapWords"
-        android:textSize="@dimen/_18ssp"
-        tools:ignore="Autofill,LabelFor" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/app_drawer_fragment_list"
         android:layout_width="0dp"
@@ -91,4 +89,4 @@
         android:layout_marginRight="8dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/add_app_fragment_list_item" />
-</androidx.constraintlayout.motion.widget.MotionLayout>
+</merge>

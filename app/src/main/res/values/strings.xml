@@ -47,15 +47,33 @@
     <string name="customize_app_drawer_fragment_auto_theme_wallpaper_text">Set theme background as wallpaper</string>
     <string name="customize_app_drawer_fragment_auto_theme_wallpaper_subtext_no_default_launcher">App needs to be default launcher</string>
     <string name="customize_app_drawer_fragment_visible_apps">Visible Apps</string>
+    <string name="customize_app_drawer_fragment_search_field_options">Search Field Options</string>
+    <string name="customize_app_drawer_fragment_search_field_options_subtitle_status_hidden">Search Field is hidden</string>
+    <string name="customize_app_drawer_fragment_search_field_options_subtitle_status_shown">%s position, keyboard is %s</string>
+    <string name="customize_app_drawer_fragment_show_search_bar">Show Search Field</string>
+    <string name="customize_app_drawer_fragment_search_bar_position">Position</string>
+    <string name="customize_app_drawer_fragment_open_keyboard_subtitle">Display keyboard when showing the app drawer</string>
+    <string-array name="search_bar_position_array">
+        <item>Top</item>
+        <item>Bottom</item>
+    </string-array>
+    <string name="shown">shown</string>
+    <string name="hidden">hidden</string>
     <string name="customise_apps_fragment_add">Add</string>
     <string name="menu_rename">Rename</string>
     <string name="menu_remove">Remove</string>
     <string name="choose_theme_dialog_title">Choose Theme</string>
+    <string name="choose_search_bar_position_dialog_title">Set position of the Search Field</string>
     <string name="add_apps_fragment_search_apps">Search apps</string>
     <string name="customise_apps_fragment_remove_all">Remove all</string>
     <string name="menu_reset">Reset</string>
     <string name="remove_all_apps_dialog_title" translatable="false">Remove All Apps</string>
     <string name="remove_all_apps_dialog_message" translatable="false">"This action will not uninstall your apps."
     "It is just to confirm if you're clearing this list on purpose"</string>
+    <string name="open_app">Open App</string>
+    <string name="app_info">App Info</string>
+    <string name="hide_app">Hide App</string>
+    <string name="rename_app">Rename App</string>
+    <string name="uninstall">Uninstall</string>
 
 </resources>

@@ -11,30 +11,28 @@
         android:id="@+id/customize_app_drawer_fragment_visible_apps"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.AppCompat"
         android:layout_marginStart="@dimen/_16sdp"
         android:layout_marginLeft="@dimen/_16sdp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="@dimen/_16sdp"
         android:layout_marginRight="@dimen/_16sdp"
+        android:text="@string/customize_app_drawer_fragment_visible_apps"
+        android:textAppearance="@style/TextAppearance.AppCompat"
         android:textSize="@dimen/_20ssp"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:text="@string/customize_app_drawer_fragment_visible_apps" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/customize_app_drawer_open_keyboard_switch"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/customize_app_drawer_fragment_search_options"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_16sdp"
-        android:layout_marginLeft="@dimen/_16sdp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="@dimen/_16sdp"
-        android:layout_marginRight="@dimen/_16sdp"
-        android:layout_marginBottom="32dp"
-        android:text="@string/customize_app_drawer_fragment_open_keyboard"
+        android:text="@string/customize_app_drawer_fragment_search_field_options"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textSize="@dimen/_20ssp"
-        app:layout_constraintTop_toBottomOf="@id/customize_app_drawer_fragment_visible_apps"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="@id/customize_app_drawer_fragment_visible_apps"
+        app:layout_constraintTop_toBottomOf="@id/customize_app_drawer_fragment_visible_apps" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
