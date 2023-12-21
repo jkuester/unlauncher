@@ -46,7 +46,7 @@
         android:layout_marginBottom="32dp"
         android:text="@string/customize_app_drawer_fragment_show_headings"
         android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textSize="@dimen/_20ssp"
+        android:textSize="@dimen/font_size_customize_options"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/customize_app_drawer_fragment_search_options" />
 

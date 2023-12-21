@@ -12,6 +12,7 @@
 
     <dimen name="font_size_customize_title">@dimen/_24ssp</dimen>
     <dimen name="font_size_customize_options">@dimen/_20ssp</dimen>
+    <dimen name="font_size_customize_group_header">@dimen/_12ssp</dimen>
 
     <dimen name="font_size_customize_apps_list_item">@dimen/_24ssp</dimen>
     <dimen name="font_size_add_apps_search">@dimen/_18ssp</dimen>
