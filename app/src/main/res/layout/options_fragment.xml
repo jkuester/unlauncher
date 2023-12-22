@@ -140,6 +140,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
+            android:textColor="?switchTextColor"
             android:text="@string/customize_app_drawer_fragment_auto_theme_wallpaper_text"
             android:textAppearance="@style/TextAppearance.AppCompat"
             android:textSize="@dimen/font_size_customize_options"
