@@ -11,13 +11,14 @@
         android:id="@+id/options_fragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
         tools:context=".ui.options.OptionsFragment">
 
         <TextView
             android:id="@+id/textView5"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_16sdp"
             android:layout_marginTop="@dimen/_8sdp"
             android:stateListAnimator="@xml/animate_scale"
             android:text="@string/main_fragment_options"
@@ -29,9 +30,8 @@
 
         <TextView
             android:id="@+id/options_fragment_device_settings"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
             android:layout_marginTop="32dp"
             android:text="@string/options_fragment_device_settings"
             android:textAppearance="@style/TextAppearance.AppCompat"
@@ -44,7 +44,7 @@
 
         <TextView
             android:id="@+id/options_fragment_change_theme"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:stateListAnimator="@xml/animate_scale"
@@ -57,7 +57,7 @@
 
         <TextView
             android:id="@+id/options_fragment_choose_time_format"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:stateListAnimator="@xml/animate_scale"
@@ -70,7 +70,7 @@
 
         <TextView
             android:id="@+id/options_fragment_toggle_status_bar"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:stateListAnimator="@xml/animate_scale"
@@ -83,7 +83,7 @@
 
         <TextView
             android:id="@+id/options_fragment_customise_apps"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:layout_marginBottom="32dp"
@@ -97,7 +97,7 @@
 
         <TextView
             android:id="@+id/options_fragment_choose_alignment"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:stateListAnimator="@xml/animate_scale"
             android:text="@string/options_fragment_choose_alignment"
@@ -109,7 +109,7 @@
 
         <TextView
             android:id="@+id/options_fragment_customize_quick_buttons"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:layout_marginBottom="32dp"
@@ -123,7 +123,7 @@
 
         <TextView
             android:id="@+id/options_fragment_customize_app_drawer"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:layout_marginBottom="32dp"
@@ -143,7 +143,6 @@
             android:text="@string/customize_app_drawer_fragment_auto_theme_wallpaper_text"
             android:textAppearance="@style/TextAppearance.AppCompat"
             android:textSize="@dimen/font_size_customize_options"
-            android:layout_marginStart="@dimen/_16sdp"
             app:layout_constraintStart_toStartOf="@+id/options_fragment_customize_app_drawer"
             app:layout_constraintTop_toBottomOf="@id/options_fragment_customize_app_drawer" />
     </androidx.constraintlayout.widget.ConstraintLayout>
