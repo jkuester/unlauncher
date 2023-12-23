@@ -5,6 +5,9 @@
     android:id="@+id/customize_quick_buttons_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginStart="@dimen/_16sdp"
+    android:layout_marginEnd="@dimen/_16sdp"
+    android:layout_marginTop="@dimen/_8sdp"
     tools:context=".ui.options.CustomizeQuickButtonsFragment">
 
     <ImageView
@@ -12,6 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="@dimen/_8ssp"
+        android:paddingStart="0px"
         app:layout_constraintTop_toTopOf="@id/customize_quick_buttons_fragment_header"
         app:layout_constraintBottom_toBottomOf="@id/customize_quick_buttons_fragment_header"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,13 +26,10 @@
         android:id="@+id/customize_quick_buttons_fragment_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_16sdp"
-        android:layout_marginTop="@dimen/_8sdp"
         android:text="@string/options_fragment_customize_quick_buttons"
         android:textColor="?headerTextColor"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textSize="@dimen/font_size_customize_title"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintStart_toEndOf="@id/customize_quick_buttons_fragment_back"
         app:layout_constraintBottom_toBottomOf="@id/customize_quick_buttons_fragment_back"
         app:layout_constraintTop_toTopOf="parent" />

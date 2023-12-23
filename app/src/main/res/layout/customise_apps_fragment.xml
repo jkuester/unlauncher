@@ -6,10 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="@dimen/_8sdp"
-    android:layout_marginStart="8dp"
-    android:layout_marginLeft="8dp"
-    android:layout_marginEnd="8dp"
-    android:layout_marginRight="8dp"
+    android:layout_marginStart="@dimen/_16sdp"
+    android:layout_marginEnd="@dimen/_16sdp"
     tools:context=".ui.options.CustomiseAppsFragment">
 
     <ImageView
@@ -17,6 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="@dimen/_8ssp"
+        android:paddingStart="0px"
         app:layout_constraintTop_toTopOf="@id/customise_apps_fragment_title"
         app:layout_constraintBottom_toBottomOf="@id/customise_apps_fragment_title"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,9 +26,7 @@
         android:id="@+id/customise_apps_fragment_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_8sdp"
         android:textColor="?headerTextColor"
-        android:layout_marginTop="@dimen/_8sdp"
         android:text="@string/options_fragment_customise_apps"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textSize="@dimen/font_size_customize_title"

@@ -12,6 +12,7 @@ import com.sduduzog.slimlauncher.utils.BaseFragment
 import com.sduduzog.slimlauncher.utils.createTitleAndSubtitleText
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.customize_app_drawer_fragment.customize_app_drawer_fragment
+import kotlinx.android.synthetic.main.customize_app_drawer_fragment.customize_app_drawer_fragment_back
 import kotlinx.android.synthetic.main.customize_app_drawer_fragment.customize_app_drawer_fragment_search_options
 import kotlinx.android.synthetic.main.customize_app_drawer_fragment.customize_app_drawer_fragment_show_headings_switch
 import kotlinx.android.synthetic.main.customize_app_drawer_fragment.customize_app_drawer_fragment_visible_apps
@@ -37,6 +38,10 @@ class CustomizeAppDrawerFragment : BaseFragment() {
         customize_app_drawer_fragment_visible_apps
             .setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_customiseAppDrawerFragment_to_customiseAppDrawerAppListFragment))
 
+        customize_app_drawer_fragment_back.setOnClickListener{
+            requireActivity().onBackPressed()
+        }
+        
         setupSearchFieldOptionsButton()
         setupHeadingSwitch()
     }

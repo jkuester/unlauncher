@@ -28,8 +28,6 @@
         android:id="@+id/ca_list_item_app_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:ellipsize="end"
         android:maxLines="1"
         android:singleLine="true"
