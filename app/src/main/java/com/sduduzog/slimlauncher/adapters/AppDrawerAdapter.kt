@@ -104,9 +104,7 @@ class AppDrawerAdapter(
                         onlyFirstStringStartsWith(a.displayName, b.displayName, filterQuery) -> -1
                         onlyFirstStringStartsWith(b.displayName, a.displayName, filterQuery) -> 1
                         // if both or none start with the query sort in normal oder
-                        a.displayName > b.displayName -> 1
-                        a.displayName < b.displayName -> -1
-                        else -> 0
+                        else -> a.displayName.compareTo(b.displayName, true)
                     }
                 }.map { AppDrawerRow.Item(it) }
             // building a list with each letter and filtered app resulting in a list of
