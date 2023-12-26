@@ -39,7 +39,6 @@ class CustomizeAppDrawerFragment : BaseFragment() {
 
         setupSearchFieldOptionsButton()
         setupHeadingSwitch()
-        setupSearchSwitch()
     }
 
     private fun setupSearchFieldOptionsButton() {
@@ -86,15 +85,5 @@ class CustomizeAppDrawerFragment : BaseFragment() {
                     requireContext(), R.string.customize_app_drawer_fragment_show_headings,
                     R.string.customize_app_drawer_fragment_show_headings_subtitle
             )
-    }
-
-    private fun setupSearchSwitch() {
-        val prefsRepo = unlauncherDataSource.corePreferencesRepo
-        customize_app_drawer_search_all_switch.setOnCheckedChangeListener { _, checked ->
-            prefsRepo.updateSearchAllAppsInDrawer(checked)
-        }
-        prefsRepo.liveData().observe(viewLifecycleOwner) {
-            customize_app_drawer_search_all_switch.isChecked = it.searchAllAppsInDrawer
-        }
     }
 }

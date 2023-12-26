@@ -44,4 +44,16 @@
         android:textSize="@dimen/_20ssp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/customize_app_drawer_fragment_search_field_position" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/customize_app_drawer_search_all_switch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="32dp"
+        android:text="@string/customize_app_drawer_fragment_search_all"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textSize="@dimen/font_size_customize_options"
+        app:layout_constraintTop_toBottomOf="@id/customize_app_drawer_open_keyboard_switch"
+        app:layout_constraintStart_toStartOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
