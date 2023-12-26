@@ -55,7 +55,7 @@ class CustomizeAppDrawerFragment : BaseFragment() {
                     } else {
                         it.searchBarPosition.number
                     }
-                val positionText = resources.getStringArray(R.array.search_bar_position_array)[pos]
+                val positionText = resources.getStringArray(R.array.search_bar_position_array)[pos].lowercase()
                 val keyboardShownText =
                     if (it.activateKeyboardInDrawer) getText(R.string.shown) else getText(R.string.hidden)
                 getString(

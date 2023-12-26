@@ -79,8 +79,8 @@
     <string name="add_apps_fragment_search_apps">Search apps</string>
     <string name="customise_apps_fragment_remove_all">Remove all</string>
     <string name="menu_reset">Reset</string>
-    <string name="remove_all_apps_dialog_title" translatable="false">Remove All Apps</string>
-    <string name="remove_all_apps_dialog_message" translatable="false">"This action will not uninstall your apps."
+    <string name="remove_all_apps_dialog_title">Remove All Apps</string>
+    <string name="remove_all_apps_dialog_message">"This action will not uninstall your apps."
     "It is just to confirm if you're clearing this list on purpose"</string>
     <string name="open_app">Open App</string>
     <string name="app_info">App Info</string>
