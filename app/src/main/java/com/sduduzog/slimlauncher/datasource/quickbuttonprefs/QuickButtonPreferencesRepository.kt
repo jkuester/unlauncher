@@ -10,7 +10,6 @@ import com.sduduzog.slimlauncher.R
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.io.IOException
@@ -20,9 +19,16 @@ class QuickButtonPreferencesRepository(
     private val lifecycleScope: LifecycleCoroutineScope
 ) {
     companion object {
-        const val DEFAULT_ICON_LEFT = R.drawable.ic_call
-        const val DEFAULT_ICON_CENTER = R.drawable.ic_cog
-        const val DEFAULT_ICON_RIGHT = R.drawable.ic_photo_camera
+        const val IC_EMPTY = 1
+        const val IC_CALL = 2
+        const val IC_COG = 3
+        const val IC_PHOTO_CAMERA = 4
+        val RES_BY_ICON = mapOf(
+            IC_CALL to R.drawable.ic_call,
+            IC_COG to R.drawable.ic_cog,
+            IC_PHOTO_CAMERA to R.drawable.ic_photo_camera,
+            IC_EMPTY to R.drawable.ic_empty
+        )
     }
 
     private val quickButtonPreferencesFlow: Flow<QuickButtonPreferences> =
@@ -39,7 +45,6 @@ class QuickButtonPreferencesRepository(
                     throw exception
                 }
             }
-            .transform { prefs -> emit(validateQuickButtonPreferences(prefs)) }
 
     fun liveData(): LiveData<QuickButtonPreferences> {
         return quickButtonPreferencesFlow.asLiveData()
@@ -85,28 +90,5 @@ class QuickButtonPreferencesRepository(
                     .build()
             }
         }
-    }
-
-    private fun validateQuickButtonPreferences(prefs: QuickButtonPreferences): QuickButtonPreferences {
-        if (!prefs.hasLeftButton() || !prefs.hasCenterButton() || !prefs.hasRightButton()) {
-            val prefBuilder = prefs.toBuilder()
-            if (!prefs.hasLeftButton()) {
-                prefBuilder.leftButton =
-                    QuickButtonPreferences.QuickButton.newBuilder().setIconId(DEFAULT_ICON_LEFT)
-                        .build()
-            }
-            if (!prefs.hasCenterButton()) {
-                prefBuilder.centerButton =
-                    QuickButtonPreferences.QuickButton.newBuilder().setIconId(DEFAULT_ICON_CENTER)
-                        .build()
-            }
-            if (!prefs.hasRightButton()) {
-                prefBuilder.rightButton =
-                    QuickButtonPreferences.QuickButton.newBuilder().setIconId(DEFAULT_ICON_RIGHT)
-                        .build()
-            }
-            return prefBuilder.build()
-        }
-        return prefs
     }
 }

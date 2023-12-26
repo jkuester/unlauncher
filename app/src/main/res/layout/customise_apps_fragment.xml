@@ -5,18 +5,22 @@
     android:id="@+id/customise_apps_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginStart="8dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginRight="8dp"
     tools:context=".ui.options.CustomiseAppsFragment">
 
     <TextView
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_16sdp"
-        android:layout_marginLeft="@dimen/_16sdp"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:textColor="?headerTextColor"
         android:layout_marginTop="@dimen/_8sdp"
         android:text="@string/options_fragment_customise_apps"
         android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textSize="@dimen/_36ssp"
+        android:textSize="@dimen/font_size_customize_title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -24,11 +28,7 @@
         android:id="@+id/customise_apps_fragment_list"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -41,13 +41,11 @@
         android:id="@+id/customise_apps_fragment_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginBottom="8dp"
         android:padding="@dimen/_12sdp"
         android:text="@string/customise_apps_fragment_add"
         android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textSize="@dimen/_16ssp"
+        android:textSize="@dimen/font_size_add_apps_action"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -55,12 +53,10 @@
         android:id="@+id/customise_apps_fragment_remove_all"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
         android:text="@string/customise_apps_fragment_remove_all"
         android:padding="@dimen/_12sdp"
-        android:textSize="@dimen/_16ssp"
+        android:textSize="@dimen/font_size_add_apps_action"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,6 +2,8 @@
 <resources>
 
     <style name="AppTheme" parent="@style/Theme.AppCompat.DayNight.NoActionBar">
+        <item name="headerTextColor">@color/accentColor</item>
+        <item name="switchTextColor">@color/accentColor</item>
         <item name="colorAccent">@color/accentColor</item>
         <item name="android:colorForeground">@color/accentColor</item>
         <item name="colorPrimary">@color/primaryColor</item>

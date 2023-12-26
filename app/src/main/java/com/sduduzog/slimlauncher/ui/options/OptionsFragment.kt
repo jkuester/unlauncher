@@ -15,8 +15,10 @@ import androidx.navigation.Navigation
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.datasource.UnlauncherDataSource
 import com.sduduzog.slimlauncher.ui.dialogs.ChangeThemeDialog
+import com.sduduzog.slimlauncher.ui.dialogs.ChooseAlignmentDialog
 import com.sduduzog.slimlauncher.ui.dialogs.ChooseTimeFormatDialog
 import com.sduduzog.slimlauncher.utils.BaseFragment
+import com.sduduzog.slimlauncher.utils.createTitleAndSubtitleText
 import com.sduduzog.slimlauncher.utils.isActivityDefaultLauncher
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.options_fragment.*
@@ -51,6 +53,10 @@ class OptionsFragment : BaseFragment() {
         options_fragment_choose_time_format.setOnClickListener {
             val chooseTimeFormatDialog = ChooseTimeFormatDialog.getInstance()
             chooseTimeFormatDialog.showNow(childFragmentManager, "TIME_FORMAT_CHOOSER")
+        }
+        options_fragment_choose_alignment.setOnClickListener {
+            val chooseAlignmentDialog = ChooseAlignmentDialog.getInstance()
+            chooseAlignmentDialog.showNow(childFragmentManager, "ALIGNMENT_CHOOSER")
         }
         options_fragment_toggle_status_bar.setOnClickListener {
             val settings = requireContext().getSharedPreferences(getString(R.string.prefs_settings), MODE_PRIVATE)
@@ -103,15 +109,6 @@ class OptionsFragment : BaseFragment() {
         // have a title text and a subtitle text to indicate that adapting the
         // wallpaper can only be done when app it the default launcher
         val subTitleText = getText(R.string.customize_app_drawer_fragment_auto_theme_wallpaper_subtext_no_default_launcher)
-
-        val spanBuilder = SpannableStringBuilder("$titleText\n$subTitleText")
-        spanBuilder.setSpan(TextAppearanceSpan(context, R.style.TextAppearance_AppCompat_Large), 0, titleText.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-        spanBuilder.setSpan(
-            TextAppearanceSpan(context, R.style.TextAppearance_AppCompat_Small),
-            titleText.length + 1,
-            titleText.length + 1 + subTitleText.length,
-            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-        return spanBuilder
+        return createTitleAndSubtitleText(requireContext(), titleText, subTitleText)
     }
 }

@@ -12,6 +12,8 @@
         <item>糖果颜色主題</item>
         <item>粉色主題</item>
         <item>主题中午</item>
+        <item>弗拉德</item>
+        <item>格罗维</item>
     </string-array>
 
     <string-array name="time_format_array">

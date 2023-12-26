@@ -12,6 +12,8 @@
         <item>Godteri</item>
         <item>Pastell</item>
         <item>Middag</item>
+        <item>Vlad</item>
+        <item>Groovy</item>
     </string-array>
 
     <string-array name="time_format_array">

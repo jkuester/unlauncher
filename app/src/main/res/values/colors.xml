@@ -16,6 +16,22 @@
 
     <color name="colorChineseWhite">#E0E0E0</color>
 
+    <color name="colorGunmetal">#282A36</color>
+
+    <color name="colorCultured">#F8F8F2</color>
+
+    <color name="colorOuterSpace">#44475A</color>
+
+    <color name="colorDarkBlueGray">#6272A4</color>
+
+    <color name="colorCharlestonGreen">#282828</color>
+
+    <color name="colorCinereous">#938274</color>
+
+    <color name="colorCookiesAndCream">#EBDBB2</color>
+
+    <color name="colorAcidGreen">#B8BB26</color>
+
     <!-- Default Primary Color   -->
     <color name="primaryColor">@color/lightPrimaryColor</color>
     <color name="primaryColorDark">@color/colorGray</color>

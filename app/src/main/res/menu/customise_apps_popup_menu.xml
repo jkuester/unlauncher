@@ -3,11 +3,14 @@
 
     <item
         android:id="@+id/ca_menu_rename"
-        android:title="@string/menu_rename" />
+        android:title="@string/menu_rename"
+        android:icon="@drawable/ic_rename_app" />
     <item
         android:id="@+id/ca_menu_remove"
-        android:title="@string/menu_remove" />
+        android:title="@string/menu_remove"
+        android:icon="@drawable/ic_uninstall_app" />
     <item
         android:id="@+id/ca_menu_reset"
-        android:title="@string/menu_reset"/>
+        android:title="@string/menu_reset"
+        android:icon="@drawable/ic_reset_app" />
 </menu>

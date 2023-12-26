@@ -3,6 +3,7 @@ package com.sduduzog.slimlauncher
 import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import android.content.res.Resources
+import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
 import android.view.GestureDetector
@@ -14,9 +15,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.navigation.NavController
 import androidx.navigation.Navigation.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.sduduzog.slimlauncher.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import java.lang.reflect.Method
+import javax.inject.Inject
 import kotlin.math.absoluteValue
 
 
@@ -27,6 +30,8 @@ class MainActivity : AppCompatActivity(),
 
     private val wallpaperManager = WallpaperManager(this)
 
+    @Inject
+    lateinit var systemUiManager: SystemUiManager
     private lateinit var settings: SharedPreferences
     private lateinit var navigator: NavController
     private lateinit var homeWatcher: HomeWatcher
@@ -41,7 +46,7 @@ class MainActivity : AppCompatActivity(),
         subscribers.remove(s as BaseFragment)
     }
 
-    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
         gestureDetector.onTouchEvent(ev)
         return super.dispatchTouchEvent(ev)
     }
@@ -68,7 +73,7 @@ class MainActivity : AppCompatActivity(),
     override fun onResume() {
         super.onResume()
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-        toggleStatusBar()
+        systemUiManager.setSystemUiVisibility()
     }
 
     override fun onStart() {
@@ -88,7 +93,7 @@ class MainActivity : AppCompatActivity(),
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
-        if (hasFocus) toggleStatusBar()
+        if (hasFocus) systemUiManager.setSystemUiVisibility()
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, s: String?) {
@@ -96,7 +101,7 @@ class MainActivity : AppCompatActivity(),
             recreate()
         }
         if (s.equals(getString(R.string.prefs_settings_key_toggle_status_bar), true)) {
-            toggleStatusBar()
+            systemUiManager.setSystemUiVisibility()
         }
     }
 
@@ -125,24 +130,6 @@ class MainActivity : AppCompatActivity(),
         navigator.popBackStack(R.id.homeFragment, false)
     }
 
-    private fun showSystemUI() {
-        window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
-    }
-
-    private fun hideSystemUI() {
-        window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                or View.SYSTEM_UI_FLAG_FULLSCREEN)
-    }
-
-    private fun toggleStatusBar() {
-        val isHidden = settings.getBoolean(getString(R.string.prefs_settings_key_toggle_status_bar), false)
-        if (isHidden) {
-            hideSystemUI()
-        } else {
-            showSystemUI()
-        }
-    }
-
     companion object {
         @StyleRes
         fun resolveTheme(i: Int): Int {
@@ -153,6 +140,8 @@ class MainActivity : AppCompatActivity(),
                 4 -> R.style.AppCandyTheme
                 5 -> R.style.AppPinkTheme
                 6 -> R.style.AppThemeLight
+                7 -> R.style.AppDarculaTheme
+                8 -> R.style.AppGruvBoxDarkTheme
                 else -> R.style.AppTheme
             }
         }
@@ -162,12 +151,30 @@ class MainActivity : AppCompatActivity(),
         super.onBackPressed()
     }
 
+    private fun isVisible(view: View): Boolean {
+        if (!view.isShown) {
+            return false
+        }
+
+        val actualPosition = Rect()
+        view.getGlobalVisibleRect(actualPosition)
+        val screen = Rect(0, 0, Resources.getSystem().displayMetrics.widthPixels, Resources.getSystem().displayMetrics.heightPixels)
+        return actualPosition.intersect(screen)
+    }
+
     private val gestureDetector = GestureDetector(baseContext, object : SimpleOnGestureListener() {
         override fun onLongPress(e: MotionEvent) {
             // Open Options
+            val recyclerView = findViewById<RecyclerView>(R.id.app_drawer_fragment_list)
             val homeView = findViewById<View>(R.id.home_fragment)
-            if(homeView != null) {
-                findNavController(homeView).navigate(R.id.action_homeFragment_to_optionsFragment, null)
+
+            if(homeView != null && recyclerView != null)
+            {
+                if(isVisible(recyclerView))
+                   recyclerView.performLongClick()
+                else // we are in the homeFragment
+                    findNavController(homeView).navigate(R.id.action_homeFragment_to_optionsFragment, null)
+
             }
         }
 

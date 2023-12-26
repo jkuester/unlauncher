@@ -13,7 +13,8 @@ class ChooseQuickButtonDialog(
     private val defaultIconId: Int
 ) : DialogFragment() {
     private var onDismissListener: DialogInterface.OnDismissListener? = null
-    private val iconIdsByIndex = mapOf(0 to defaultIconId, 1 to R.drawable.ic_empty)
+    private val iconIdsByIndex =
+        mapOf(0 to defaultIconId, 1 to QuickButtonPreferencesRepository.IC_EMPTY)
     private val indexesByIconId = iconIdsByIndex.entries.associate { it.value to it.key }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -22,11 +23,13 @@ class ChooseQuickButtonDialog(
         val quickButtonPrefs = repo.get()
         var currentIconId = 0
         when (defaultIconId) {
-            QuickButtonPreferencesRepository.DEFAULT_ICON_LEFT -> currentIconId =
+            QuickButtonPreferencesRepository.IC_CALL -> currentIconId =
                 quickButtonPrefs.leftButton.iconId
-            QuickButtonPreferencesRepository.DEFAULT_ICON_CENTER -> currentIconId =
+
+            QuickButtonPreferencesRepository.IC_COG -> currentIconId =
                 quickButtonPrefs.centerButton.iconId
-            QuickButtonPreferencesRepository.DEFAULT_ICON_RIGHT -> currentIconId =
+
+            QuickButtonPreferencesRepository.IC_PHOTO_CAMERA -> currentIconId =
                 quickButtonPrefs.rightButton.iconId
         }
 
@@ -38,13 +41,15 @@ class ChooseQuickButtonDialog(
         ) { dialogInterface, i ->
             dialogInterface.dismiss()
             when (defaultIconId) {
-                QuickButtonPreferencesRepository.DEFAULT_ICON_LEFT -> repo.updateLeftIconId(
+                QuickButtonPreferencesRepository.IC_CALL -> repo.updateLeftIconId(
                     iconIdsByIndex[i]!!
                 )
-                QuickButtonPreferencesRepository.DEFAULT_ICON_CENTER -> repo.updateCenterIconId(
+
+                QuickButtonPreferencesRepository.IC_COG -> repo.updateCenterIconId(
                     iconIdsByIndex[i]!!
                 )
-                QuickButtonPreferencesRepository.DEFAULT_ICON_RIGHT -> repo.updateRightIconId(
+
+                QuickButtonPreferencesRepository.IC_PHOTO_CAMERA -> repo.updateRightIconId(
                     iconIdsByIndex[i]!!
                 )
             }
