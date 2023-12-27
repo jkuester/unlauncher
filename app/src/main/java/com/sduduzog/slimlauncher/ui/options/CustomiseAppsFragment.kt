@@ -12,13 +12,11 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.adapters.CustomAppsAdapter
-import com.sduduzog.slimlauncher.data.model.App
 import com.sduduzog.slimlauncher.models.CustomiseAppsViewModel
 import com.sduduzog.slimlauncher.models.HomeApp
 import com.sduduzog.slimlauncher.ui.dialogs.RemoveAllAppsDialog
 import com.sduduzog.slimlauncher.ui.dialogs.RenameAppDialog
 import com.sduduzog.slimlauncher.utils.BaseFragment
-import com.sduduzog.slimlauncher.utils.OnAppClickedListener
 import com.sduduzog.slimlauncher.utils.OnItemActionListener
 import com.sduduzog.slimlauncher.utils.OnShitDoneToAppsListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,7 +28,7 @@ import kotlinx.android.synthetic.main.customise_apps_fragment.customise_apps_fra
 
 
 @AndroidEntryPoint
-class CustomiseAppsFragment : BaseFragment(), OnShitDoneToAppsListener, OnAppClickedListener {
+class CustomiseAppsFragment : BaseFragment(), OnShitDoneToAppsListener {
 
     override fun getFragmentView(): ViewGroup = customise_apps_fragment
 
@@ -40,9 +38,6 @@ class CustomiseAppsFragment : BaseFragment(), OnShitDoneToAppsListener, OnAppCli
         return inflater.inflate(R.layout.customise_apps_fragment, container, false)
     }
 
-    override fun onAppClicked(app: App) {
-        TODO("Not yet implemented")
-    }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         customise_apps_fragment_back.setOnClickListener {
