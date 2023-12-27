@@ -54,6 +54,8 @@
     <string name="options_fragment_hide_status_bar">Hide Status Bar</string>
     <string name="options_fragment_show_status_bar">Show Status Bar</string>
     <string name="customize_app_drawer_fragment_open_keyboard">Open Keyboard</string>
+    <string name="customize_app_drawer_fragment_search_all">Search all apps</string>
+    <string name="customize_app_drawer_fragment_search_all_subtitle">Hidden apps can be found when searching</string>
     <string name="customize_app_drawer_fragment_auto_theme_wallpaper_text">Set theme background as wallpaper</string>
     <string name="customize_app_drawer_fragment_auto_theme_wallpaper_subtext_no_default_launcher">App needs to be default launcher</string>
     <string name="customize_app_drawer_fragment_visible_apps">Visible Apps</string>

@@ -89,9 +89,10 @@ class AppDrawerAdapter(
 
     private fun updateFilteredApps(filterQuery: String = "") {
         val showDrawerHeadings = corePreferencesRepo.get().showDrawerHeadings
+        val searchAllApps = corePreferencesRepo.get().searchAllAppsInDrawer && filterQuery != ""
         val displayableApps = apps
             .filter { app ->
-                app.displayInDrawer && regex.replace(app.displayName, "")
+                (app.displayInDrawer || searchAllApps) && regex.replace(app.displayName, "")
                         .contains(filterQuery, ignoreCase = true)
             }
 

@@ -15,6 +15,7 @@ import kotlinx.android.synthetic.main.customize_app_drawer_fragment_search_field
 import kotlinx.android.synthetic.main.customize_app_drawer_fragment_search_field_options.customize_app_drawer_fragment_search_field_position
 import kotlinx.android.synthetic.main.customize_app_drawer_fragment_search_field_options.customize_app_drawer_fragment_show_search_field_switch
 import kotlinx.android.synthetic.main.customize_app_drawer_fragment_search_field_options.customize_app_drawer_open_keyboard_switch
+import kotlinx.android.synthetic.main.customize_app_drawer_fragment_search_field_options.customize_app_drawer_search_all_switch
 
 import javax.inject.Inject
 
@@ -42,6 +43,7 @@ class CustomizeSearchFieldFragment : BaseFragment() {
         setupShowSearchBarSwitch()
         setupSearchBarPositionOption()
         setupKeyboardSwitch()
+        setupSearchAllAppsSwitch()
     }
 
     private fun setupShowSearchBarSwitch() {
@@ -90,5 +92,20 @@ class CustomizeSearchFieldFragment : BaseFragment() {
                 requireContext(), R.string.customize_app_drawer_fragment_open_keyboard,
                 R.string.customize_app_drawer_fragment_open_keyboard_subtitle
             )
+    }
+
+    private fun setupSearchAllAppsSwitch() {
+        val prefsRepo = unlauncherDataSource.corePreferencesRepo
+        customize_app_drawer_search_all_switch.setOnCheckedChangeListener { _, checked ->
+            prefsRepo.updateSearchAllAppsInDrawer(checked)
+        }
+        prefsRepo.liveData().observe(viewLifecycleOwner) {
+            customize_app_drawer_search_all_switch.isChecked = it.searchAllAppsInDrawer
+        }
+        customize_app_drawer_search_all_switch.text =
+                createTitleAndSubtitleText(
+                        requireContext(), R.string.customize_app_drawer_fragment_search_all,
+                        R.string.customize_app_drawer_fragment_search_all_subtitle
+                )
     }
 }
