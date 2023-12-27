@@ -9,6 +9,7 @@ message CorePreferences {
   optional bool show_search_bar = 3;
   SearchBarPosition search_bar_position = 4;
   bool show_drawer_headings = 5;
+  bool search_all_apps_in_drawer = 6;
 }
 
 enum SearchBarPosition {

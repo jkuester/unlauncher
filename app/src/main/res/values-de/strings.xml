@@ -60,6 +60,7 @@
         <item>Unten</item>
     </string-array>
     <string name="customize_app_drawer_fragment_open_keyboard">Tastatur anzeigen</string>
+    <string name="customize_app_drawer_fragment_search_all">Suche in allen Apps</string>
     <string name="customize_app_drawer_fragment_visible_apps">Appsichtbarkeit einstellen</string>
     <string name="customize_app_drawer_fragment_auto_theme_wallpaper_text">Themenhintergrund verwenden</string>
     <string name="customize_app_drawer_fragment_auto_theme_wallpaper_subtext_no_default_launcher">Unlauncher muss die standard Start-App sein</string>
