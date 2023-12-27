@@ -10,6 +10,7 @@ import com.sduduzog.slimlauncher.ui.dialogs.ChooseSearchBarPositionDialog
 import com.sduduzog.slimlauncher.utils.BaseFragment
 import com.sduduzog.slimlauncher.utils.createTitleAndSubtitleText
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.customize_app_drawer_fragment_search_field_options.customise_apps_fragment_back
 import kotlinx.android.synthetic.main.customize_app_drawer_fragment_search_field_options.customize_app_drawer_fragment_search_field_options
 
 import kotlinx.android.synthetic.main.customize_app_drawer_fragment_search_field_options.customize_app_drawer_fragment_search_field_position
@@ -39,6 +40,10 @@ class CustomizeSearchFieldFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        customise_apps_fragment_back.setOnClickListener{
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
 
         setupShowSearchBarSwitch()
         setupSearchBarPositionOption()
