@@ -42,7 +42,7 @@ class OptionsFragment : BaseFragment() {
             launchActivity(it, intent)
         }
         options_fragment_back.setOnClickListener{
-            requireActivity().onBackPressed()
+            requireActivity().onBackPressedDispatcher.onBackPressed()
         }
         options_fragment_device_settings.setOnLongClickListener {
             val intent = Intent(Settings.ACTION_HOME_SETTINGS)

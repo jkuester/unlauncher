@@ -44,7 +44,7 @@ class CustomiseAppsFragment : BaseFragment(), OnShitDoneToAppsListener, OnAppCli
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         customise_apps_fragment_back.setOnClickListener {
-            requireActivity().onBackPressed()
+            requireActivity().onBackPressedDispatcher.onBackPressed()
         }
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
