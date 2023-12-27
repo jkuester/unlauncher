@@ -23,13 +23,14 @@
         tools:ignore="RtlSymmetry" />
     <TextView
         android:id="@+id/customize_app_drawer_fragment_app_list_title"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textColor="?headerTextColor"
         android:text="@string/customize_app_drawer_fragment_visible_apps"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textSize="@dimen/font_size_customize_title"
         app:layout_constraintStart_toEndOf="@+id/customize_app_drawer_fragment_back"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView

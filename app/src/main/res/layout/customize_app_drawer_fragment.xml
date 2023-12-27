@@ -23,12 +23,13 @@
         tools:ignore="RtlSymmetry" />
     <TextView
         android:id="@+id/customize_app_drawer_title"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/options_fragment_customize_app_drawer"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textSize="@dimen/font_size_customize_title"
         app:layout_constraintStart_toEndOf="@+id/customize_app_drawer_fragment_back"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
