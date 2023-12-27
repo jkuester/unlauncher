@@ -1,6 +1,5 @@
 package com.sduduzog.slimlauncher.ui.options
 
-import android.content.Context
 import android.graphics.Canvas
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -23,8 +22,11 @@ import com.sduduzog.slimlauncher.utils.OnAppClickedListener
 import com.sduduzog.slimlauncher.utils.OnItemActionListener
 import com.sduduzog.slimlauncher.utils.OnShitDoneToAppsListener
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.customise_apps_fragment.*
-import kotlinx.android.synthetic.main.customize_app_drawer_fragment.customize_app_drawer_fragment_back
+import kotlinx.android.synthetic.main.customise_apps_fragment.customise_apps_fragment
+import kotlinx.android.synthetic.main.customise_apps_fragment.customise_apps_fragment_add
+import kotlinx.android.synthetic.main.customise_apps_fragment.customise_apps_fragment_back
+import kotlinx.android.synthetic.main.customise_apps_fragment.customise_apps_fragment_list
+import kotlinx.android.synthetic.main.customise_apps_fragment.customise_apps_fragment_remove_all
 
 
 @AndroidEntryPoint

@@ -43,7 +43,7 @@ class CustomizeAppDrawerAppListFragment : BaseFragment() {
             }
         }
         customize_app_drawer_fragment_back.setOnClickListener {
-            requireActivity().onBackPressed()
+            requireActivity().onBackPressedDispatcher.onBackPressed()
         }
     }
 }
