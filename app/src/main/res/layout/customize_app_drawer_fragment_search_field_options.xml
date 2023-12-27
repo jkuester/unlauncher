@@ -35,14 +35,16 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="@dimen/_16sdp"
+        android:layout_marginTop="@dimen/margin_list_items"
+        android:layout_marginStart="@dimen/_8sdp"
         android:overScrollMode="ifContentScrolls"
         android:scrollbars="none"
         app:layout_constraintTop_toBottomOf="@id/customise_apps_fragment_title">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/_100sdp">
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/customize_app_drawer_fragment_show_search_field_switch"
@@ -58,7 +60,7 @@
                 android:id="@+id/customize_app_drawer_fragment_search_field_position"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="@dimen/margin_list_items"
                 android:text="@string/customize_app_drawer_fragment_search_bar_position"
                 android:textAppearance="@style/TextAppearance.AppCompat"
                 android:textSize="@dimen/font_size_customize_options"
@@ -68,7 +70,7 @@
                 android:id="@+id/customize_app_drawer_open_keyboard_switch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="@dimen/margin_list_items"
                 android:text="@string/customize_app_drawer_fragment_open_keyboard"
                 android:textAppearance="@style/TextAppearance.AppCompat"
                 android:textSize="@dimen/font_size_customize_options"
@@ -79,7 +81,7 @@
                 android:id="@+id/customize_app_drawer_search_all_switch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="@dimen/margin_list_items"
                 android:text="@string/customize_app_drawer_fragment_search_all"
                 android:textAppearance="@style/TextAppearance.AppCompat"
                 android:textSize="@dimen/font_size_customize_options"
