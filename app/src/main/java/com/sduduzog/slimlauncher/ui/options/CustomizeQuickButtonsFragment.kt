@@ -44,7 +44,7 @@ class CustomizeQuickButtonsFragment : BaseFragment() {
         }
 
         customize_quick_buttons_fragment_back.setOnClickListener {
-            requireActivity().onBackPressed()
+            requireActivity().onBackPressedDispatcher.onBackPressed()
         }
         customize_quick_buttons_fragment_left.setOnClickListener {
             ChooseQuickButtonDialog(

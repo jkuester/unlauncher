@@ -39,7 +39,7 @@ class CustomizeAppDrawerFragment : BaseFragment() {
             .setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_customiseAppDrawerFragment_to_customiseAppDrawerAppListFragment))
 
         customize_app_drawer_fragment_back.setOnClickListener{
-            requireActivity().onBackPressed()
+            requireActivity().onBackPressedDispatcher.onBackPressed()
         }
         
         setupSearchFieldOptionsButton()
