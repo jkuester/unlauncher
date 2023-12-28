@@ -5,11 +5,14 @@ import android.content.*
 import android.content.pm.LauncherApps
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.os.UserManager
 import android.provider.AlarmClock
 import android.provider.CalendarContract
 import android.provider.MediaStore
 import android.provider.Settings
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -20,6 +23,9 @@ import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.motion.widget.MotionLayout.TransitionListener
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsAnimationCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
@@ -34,8 +40,11 @@ import com.sduduzog.slimlauncher.datasource.quickbuttonprefs.QuickButtonPreferen
 import com.sduduzog.slimlauncher.models.HomeApp
 import com.sduduzog.slimlauncher.models.MainViewModel
 import com.sduduzog.slimlauncher.ui.dialogs.RenameAppDisplayNameDialog
+import com.sduduzog.slimlauncher.utils.AppDrawerScrollListener
 import com.sduduzog.slimlauncher.utils.BaseFragment
 import com.sduduzog.slimlauncher.utils.OnLaunchAppListener
+import com.sduduzog.slimlauncher.utils.isKeyboardOpen
+import com.sduduzog.slimlauncher.utils.shouldOpenKeyboard
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.home_fragment_default.*
 import kotlinx.android.synthetic.main.home_fragment_content.*
@@ -55,6 +64,12 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
 
     private lateinit var receiver: BroadcastReceiver
     private lateinit var appDrawerAdapter: AppDrawerAdapter
+    private lateinit var inputMethodManager: InputMethodManager
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        inputMethodManager = requireContext().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val coreRepository = unlauncherDataSource.corePreferencesRepo
@@ -226,9 +241,8 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
             }
 
         home_fragment.setTransitionListener(object : TransitionListener {
+            val handler = Handler(Looper.getMainLooper())
             override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
-                val inputMethodManager = requireContext().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-
                 when (currentId) {
                     motionLayout?.startState -> {
                         // hide the keyboard and remove focus from the EditText when swiping back up
@@ -242,14 +256,17 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
                         val activateKeyboard = repository.get().activateKeyboardInDrawer
 
                         // Check for preferences to open the keyboard
-                        // only if the search field is shown
-                        if (showSearchField && activateKeyboard) {
-                            app_drawer_edit_text.requestFocus()
-                            // show the keyboard and set focus to the EditText when swiping down
-                            inputMethodManager.showSoftInput(
-                                app_drawer_edit_text,
-                                InputMethodManager.SHOW_IMPLICIT
-                            )
+                        if (shouldOpenKeyboard(unlauncherDataSource)) {
+                            // in order to avoid UI Jank, we add the focus and showing the keyboard
+                            // in the back of the queue
+                            handler.post {
+                                app_drawer_edit_text.requestFocus()
+                                // show the keyboard and set focus to the EditText when swiping down
+                                inputMethodManager.showSoftInput(
+                                    app_drawer_edit_text,
+                                    InputMethodManager.SHOW_IMPLICIT
+                                )
+                            }
                         }
                     }
                 }
@@ -265,6 +282,25 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
 
             override fun onTransitionChange(motionLayout: MotionLayout?, startId: Int, endId: Int, progress: Float) {
                 // do nothing
+            }
+        })
+
+        app_drawer_fragment_list.addOnScrollListener(object: AppDrawerScrollListener() {
+            override fun onScrolledUp() {
+                if (shouldOpenKeyboard(unlauncherDataSource) && !isKeyboardOpen(app_drawer_edit_text)) {
+                    // show the keyboard again when user is scrolling up
+                    inputMethodManager.showSoftInput(
+                        app_drawer_edit_text,
+                        InputMethodManager.SHOW_IMPLICIT
+                    )
+                }
+            }
+
+            override fun onScrolledDown() {
+                if (shouldOpenKeyboard(unlauncherDataSource) && isKeyboardOpen(app_drawer_edit_text)) {
+                    // hide the keyboard again when scrolling down
+                    inputMethodManager.hideSoftInputFromWindow(requireView().windowToken, 0)
+                }
             }
         })
     }

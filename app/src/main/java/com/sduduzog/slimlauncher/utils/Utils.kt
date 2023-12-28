@@ -11,7 +11,12 @@ import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.TextAppearanceSpan
 import android.util.DisplayMetrics
+import android.util.Log
+import android.view.View
 import android.view.WindowInsets
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import com.sduduzog.slimlauncher.datasource.UnlauncherDataSource
 import androidx.annotation.StringRes
 import com.sduduzog.slimlauncher.R
 
@@ -75,6 +80,18 @@ fun getScreenHeight(activity: Activity): Int {
         activity.windowManager.defaultDisplay.getMetrics(outMetrics)
         outMetrics.heightPixels
     }
+}
+
+fun shouldOpenKeyboard(unlauncherDataSource: UnlauncherDataSource) : Boolean =
+        unlauncherDataSource.corePreferencesRepo.get().activateKeyboardInDrawer
+
+/**
+ * @return [true] when the keyboard is displayed.
+ * Works for android API [20] and higher
+ */
+fun isKeyboardOpen(view: View) : Boolean {
+    val insets = ViewCompat.getRootWindowInsets(view)
+    return insets?.isVisible(WindowInsetsCompat.Type.ime()) ?: false
 }
 
 fun createTitleAndSubtitleText(context: Context, @StringRes titleRes: Int, @StringRes subtitleRes: Int) : CharSequence
