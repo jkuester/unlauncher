@@ -10,6 +10,7 @@ import android.provider.AlarmClock
 import android.provider.CalendarContract
 import android.provider.MediaStore
 import android.provider.Settings
+import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -41,7 +42,6 @@ import kotlinx.android.synthetic.main.home_fragment_default.*
 import kotlinx.android.synthetic.main.home_fragment_content.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -55,6 +55,18 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
 
     private lateinit var receiver: BroadcastReceiver
     private lateinit var appDrawerAdapter: AppDrawerAdapter
+
+    private var date = Date()
+    private var currentLocale = Locale.getDefault()
+
+    enum class ClockType {
+        NOCLOCK,
+        DIGITAL,
+        ANALOG,
+        BINARY
+    }
+    private var clockType = ClockType.DIGITAL
+    private var timeFormat = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val coreRepository = unlauncherDataSource.corePreferencesRepo
@@ -73,6 +85,26 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
         val alignmentKey: String = getString(R.string.prefs_settings_alignment)
         val preferences = requireContext().getSharedPreferences(settingsKey, Context.MODE_PRIVATE)
         val alignment = preferences.getInt(alignmentKey, 3)
+        timeFormat = preferences.getInt(getString(R.string.prefs_settings_key_time_format), 0)
+        val is24Hour = when (timeFormat) {
+            1 -> true
+            2 -> false
+            else -> DateFormat.is24HourFormat(context)
+        }
+
+        timeFormat = preferences.getInt(getString(R.string.prefs_settings_key_time_format), 0)
+        clockType = ClockType.values()[preferences.getInt(getString(R.string.prefs_settings_key_clock_type), ClockType.DIGITAL.ordinal)]
+        home_fragment_analog_time.setHiddenState(clockType != ClockType.ANALOG)
+        home_fragment_bin_time.setHiddenState(clockType != ClockType.BINARY)
+        home_fragment_bin_time.is24Hour = is24Hour
+
+        if (clockType != ClockType.DIGITAL) {
+            home_fragment_time.height = 0
+        }
+        // Should this be configurable independent of clockface?
+        if (clockType == ClockType.NOCLOCK) {
+            home_fragment_date.height = 0
+        }
 
         val adapter1 = HomeAdapter(this, alignment)
         val adapter2 = HomeAdapter(this, alignment)
@@ -270,20 +302,28 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
     }
 
     fun updateClock() {
-        val active = context?.getSharedPreferences(getString(R.string.prefs_settings), Context.MODE_PRIVATE)
-                ?.getInt(getString(R.string.prefs_settings_key_time_format), 0)
-        val date = Date()
+        updateDate()
+        when (clockType) {
+            ClockType.DIGITAL -> updateClockDigital()
+            ClockType.ANALOG -> home_fragment_analog_time.updateClock()
+            ClockType.BINARY -> home_fragment_bin_time.updateClock()
+            else -> {}
+        }
+    }
 
-        val currentLocale = Locale.getDefault()
-        val fWatchTime = when(active) {
+    private fun updateClockDigital () {
+        val fWatchTime = when (timeFormat) {
             1 -> SimpleDateFormat("H:mm", currentLocale)
             2 -> SimpleDateFormat("h:mm aa", currentLocale)
-            else -> DateFormat.getTimeInstance(DateFormat.SHORT)
+            else -> DateFormat.getTimeFormat(context)
         }
         home_fragment_time.text = fWatchTime.format(date)
+    }
 
-
-        val fWatchDate = SimpleDateFormat("EEE, MMM dd", currentLocale)
+    private fun updateDate() {
+        date = Date()
+        currentLocale = Locale.getDefault()
+        val fWatchDate = SimpleDateFormat(getString(R.string.main_date_format), currentLocale)
         home_fragment_date.text = fWatchDate.format(date)
     }
 
