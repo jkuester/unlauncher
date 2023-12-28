@@ -107,7 +107,8 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
                 // Set the home apps in the Unlauncher data
                 lifecycleScope.launch {
                     unlauncherAppsRepo.setHomeApps(apps)
-                } }
+                }
+            }
         }
 
         appDrawerAdapter = AppDrawerAdapter(
@@ -371,7 +372,6 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
                     }
                     R.id.uninstall -> {
                         val intent = Intent(Intent.ACTION_DELETE)
-                            .putExtra(Intent.EXTRA_RETURN_RESULT, true)
                         intent.data = Uri.parse("package:" + app.packageName)
                         uninstallAppLauncher.launch(intent)
                         //appDrawerAdapter.notifyDataSetChanged()
