@@ -11,6 +11,7 @@ import com.sduduzog.slimlauncher.ui.dialogs.ChooseQuickButtonDialog
 import com.sduduzog.slimlauncher.utils.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.customize_quick_buttons_fragment.customize_quick_buttons_fragment
+import kotlinx.android.synthetic.main.customize_quick_buttons_fragment.customize_quick_buttons_fragment_back
 import kotlinx.android.synthetic.main.customize_quick_buttons_fragment.customize_quick_buttons_fragment_center
 import kotlinx.android.synthetic.main.customize_quick_buttons_fragment.customize_quick_buttons_fragment_left
 import kotlinx.android.synthetic.main.customize_quick_buttons_fragment.customize_quick_buttons_fragment_right
@@ -42,6 +43,9 @@ class CustomizeQuickButtonsFragment : BaseFragment() {
                 .setImageResource(QuickButtonPreferencesRepository.RES_BY_ICON.getValue(prefs.rightButton.iconId))
         }
 
+        customize_quick_buttons_fragment_back.setOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
         customize_quick_buttons_fragment_left.setOnClickListener {
             ChooseQuickButtonDialog(
                 prefsRepo,

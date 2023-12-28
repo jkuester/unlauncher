@@ -78,7 +78,7 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.datastore:datastore:1.0.0")
     implementation("androidx.datastore:datastore-core:1.0.0")
-    implementation("com.google.protobuf:protobuf-javalite:3.10.0")
+    implementation("com.google.protobuf:protobuf-javalite:3.23.3")
 
     // Arch Components
     implementation("androidx.core:core-ktx:1.9.0")

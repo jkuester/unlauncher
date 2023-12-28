@@ -2,6 +2,8 @@
 <resources>
 
     <style name="AppThemeLight" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="headerTextColor">@color/lightAccentColor</item>
+        <item name="switchTextColor">@color/lightAccentColor</item>
         <item name="colorAccent">@color/lightAccentColor</item>
         <item name="android:colorForeground">@color/lightAccentColor</item>
         <item name="colorPrimary">@color/lightPrimaryColor</item>
@@ -11,6 +13,8 @@
     </style>
 
     <style name="AppThemeDark" parent="@style/Theme.AppCompat.NoActionBar">
+        <item name="headerTextColor">@color/darkAccentColor</item>
+        <item name="switchTextColor">@color/darkAccentColor</item>
         <item name="colorAccent">@color/darkAccentColor</item>
         <item name="colorPrimary">@color/darkPrimaryColor</item>
         <item name="colorPrimaryDark">@color/darkPrimaryColor</item>
@@ -42,4 +46,29 @@
         <item name="colorPrimaryDark">@color/colorTeal</item>
         <item name="android:colorBackground">@color/colorTeal</item>
     </style>
+
+    <style name="AppDarculaTheme" parent="AppThemeDark">
+        <item name="headerTextColor">@color/colorDarkBlueGray</item>
+        <item name="colorPrimary">@color/colorGunmetal</item>
+        <item name="colorPrimaryDark">@color/colorOuterSpace</item>
+        <item name="android:colorBackground">@color/colorGunmetal</item>
+        <item name="colorAccent">@color/colorCultured</item>
+        <item name="android:textColor">@color/colorCultured</item>
+        <item name="android:colorForeground">@color/colorCultured</item>
+        <item name="android:navigationBarColor">@color/colorGunmetal</item>
+    </style>
+
+    <style name="AppGruvBoxDarkTheme" parent="AppThemeDark">
+        <item name="headerTextColor">@color/colorAcidGreen</item>
+        <item name="switchTextColor">@color/colorCookiesAndCream</item>
+        <item name="colorPrimary">@color/colorCharlestonGreen</item>
+        <item name="colorPrimaryDark">@color/colorCinereous</item>
+        <item name="android:colorBackground">@color/colorCharlestonGreen</item>
+        <item name="colorAccent">@color/colorCookiesAndCream</item>
+        <item name="android:textColor">@color/colorCookiesAndCream</item>
+        <item name="android:textColorHint">@color/colorCinereous</item>
+        <item name="android:colorForeground">@color/colorCookiesAndCream</item>
+        <item name="android:navigationBarColor">@color/colorCharlestonGreen</item>
+    </style>
+
 </resources>

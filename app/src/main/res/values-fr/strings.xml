@@ -7,6 +7,8 @@
         <item>Candy</item>
         <item>Pastel</item>
         <item>Midi</item>
+        <item>Vlad</item>
+        <item>Groovy</item>
     </string-array>
 
     <string-array name="time_format_array">
@@ -29,6 +31,7 @@
     <string name="options_fragment_toggle_status_bar">Afficher/Cacher la Barre de Statut</string>
     <string name="options_fragment_hide_status_bar">Cacher la Barre de Statut</string>
     <string name="options_fragment_show_status_bar">Afficher la Barre de Statut</string>
+    <string name="customize_app_drawer_fragment_search_bar_position">Position</string>
     <string name="customise_apps_fragment_add">Ajouter</string>
     <string name="menu_rename">Renommer</string>
     <string name="menu_remove">Supprimer</string>

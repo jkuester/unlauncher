@@ -9,7 +9,10 @@ import com.sduduzog.slimlauncher.adapters.CustomizeAppDrawerAppsAdapter
 import com.sduduzog.slimlauncher.datasource.UnlauncherDataSource
 import com.sduduzog.slimlauncher.utils.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.customize_app_drawer_app_list_fragment.*
+import kotlinx.android.synthetic.main.customize_app_drawer_app_list_fragment.customize_app_drawer_fragment
+import kotlinx.android.synthetic.main.customize_app_drawer_app_list_fragment.customize_app_drawer_fragment_app_list
+import kotlinx.android.synthetic.main.customize_app_drawer_app_list_fragment.customize_app_drawer_fragment_app_progress_bar
+import kotlinx.android.synthetic.main.customize_app_drawer_app_list_fragment.customize_app_drawer_fragment_back
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -38,6 +41,9 @@ class CustomizeAppDrawerAppListFragment : BaseFragment() {
             } ?: run {
                 customize_app_drawer_fragment_app_progress_bar.visibility = View.VISIBLE
             }
+        }
+        customize_app_drawer_fragment_back.setOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
         }
     }
 }

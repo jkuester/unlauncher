@@ -1,141 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/options_fragment"
+    android:layout_marginStart="@dimen/_16sdp"
+    android:layout_marginEnd="@dimen/_16sdp"
+    android:layout_marginTop="@dimen/_8sdp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:overScrollMode="ifContentScrolls"
-    android:scrollbars="none">
+    tools:context=".ui.options.OptionsFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/options_fragment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:context=".ui.options.OptionsFragment">
-
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_16sdp"
-            android:layout_marginLeft="@dimen/_16sdp"
-            android:layout_marginTop="@dimen/_8sdp"
-            android:stateListAnimator="@xml/animate_scale"
-            android:text="@string/main_fragment_options"
-            android:textAppearance="@style/TextAppearance.AppCompat"
-            android:textSize="@dimen/_36ssp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/options_fragment_device_settings"
+    <ImageView
+        android:id="@+id/options_fragment_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/options_fragment_device_settings"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="32dp"
-        android:textSize="@dimen/_20ssp"
+        android:padding="@dimen/_8ssp"
+        android:paddingStart="0dp"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/options_fragment_change_theme"
-        app:layout_constraintVertical_bias="0.17000002"
-        app:layout_constraintVertical_chainStyle="packed"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:srcCompat="@drawable/ic_back"
+        android:contentDescription="@string/content_description_back"
+        tools:ignore="RtlSymmetry" />
+    <TextView
+        android:id="@+id/options_fragment_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColor="?headerTextColor"
+        android:text="@string/main_fragment_options"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textSize="@dimen/font_size_customize_title"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/options_fragment_back" />
 
-        <TextView
-            android:id="@+id/options_fragment_change_theme"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:stateListAnimator="@xml/animate_scale"
-            android:text="@string/options_fragment_change_theme"
-            android:textAppearance="@style/TextAppearance.AppCompat"
-            android:textSize="@dimen/_20ssp"
-            app:layout_constraintBottom_toTopOf="@+id/options_fragment_choose_time_format"
-            app:layout_constraintStart_toStartOf="@+id/options_fragment_device_settings"
-            app:layout_constraintTop_toBottomOf="@+id/options_fragment_device_settings" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/_16sdp"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:overScrollMode="ifContentScrolls"
+        android:scrollbars="none"
+        app:layout_constraintTop_toBottomOf="@+id/options_fragment_title" >
 
-        <TextView
-            android:id="@+id/options_fragment_choose_time_format"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:stateListAnimator="@xml/animate_scale"
-            android:text="@string/options_fragment_choose_time_format"
-            android:textAppearance="@style/TextAppearance.AppCompat"
-            android:textSize="@dimen/_20ssp"
-            app:layout_constraintBottom_toTopOf="@+id/options_fragment_toggle_status_bar"
-            app:layout_constraintStart_toStartOf="@+id/options_fragment_change_theme"
-            app:layout_constraintTop_toBottomOf="@+id/options_fragment_change_theme" />
-
-        <TextView
-            android:id="@+id/options_fragment_toggle_status_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:stateListAnimator="@xml/animate_scale"
-            android:text="@string/options_fragment_toggle_status_bar"
-            android:textAppearance="@style/TextAppearance.AppCompat"
-            android:textSize="@dimen/_20ssp"
-            app:layout_constraintBottom_toTopOf="@+id/options_fragment_customise_apps"
-            app:layout_constraintStart_toStartOf="@+id/options_fragment_choose_time_format"
-            app:layout_constraintTop_toBottomOf="@+id/options_fragment_choose_time_format" />
-
-        <TextView
-            android:id="@+id/options_fragment_customise_apps"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:layout_marginBottom="32dp"
-            android:stateListAnimator="@xml/animate_scale"
-            android:text="@string/options_fragment_customise_apps"
-            android:textAppearance="@style/TextAppearance.AppCompat"
-            android:textSize="@dimen/_20ssp"
-            app:layout_constraintBottom_toTopOf="@+id/options_fragment_customize_quick_buttons"
-            app:layout_constraintStart_toStartOf="@+id/options_fragment_toggle_status_bar"
-            app:layout_constraintTop_toBottomOf="@+id/options_fragment_toggle_status_bar" />
-
-        <TextView
-            android:id="@+id/options_fragment_customize_quick_buttons"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:layout_marginBottom="32dp"
-            android:stateListAnimator="@xml/animate_scale"
-            android:text="@string/options_fragment_customize_quick_buttons"
-            android:textAppearance="@style/TextAppearance.AppCompat"
-            android:textSize="@dimen/_20ssp"
-            app:layout_constraintStart_toStartOf="@+id/options_fragment_customise_apps"
-            app:layout_constraintTop_toBottomOf="@+id/options_fragment_customise_apps" />
-
-        <TextView
-            android:id="@+id/options_fragment_customize_app_drawer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:layout_marginBottom="32dp"
-            android:stateListAnimator="@xml/animate_scale"
-            android:text="@string/options_fragment_customize_app_drawer"
-            android:textAppearance="@style/TextAppearance.AppCompat"
-            android:textSize="@dimen/_20ssp"
-            app:layout_constraintStart_toStartOf="@+id/options_fragment_customize_quick_buttons"
-            app:layout_constraintTop_toBottomOf="@+id/options_fragment_customize_quick_buttons" />
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/options_fragment_auto_device_theme_wallpaper"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_16sdp"
-            android:layout_marginLeft="@dimen/_16sdp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="@dimen/_16sdp"
-            android:layout_marginRight="@dimen/_16sdp"
-            android:layout_marginBottom="32dp"
-            android:text="@string/customize_app_drawer_fragment_auto_theme_wallpaper_text"
-            android:textAppearance="@style/TextAppearance.AppCompat"
-            android:textSize="@dimen/_18ssp"
-            app:layout_constraintTop_toBottomOf="@id/options_fragment_customize_app_drawer"
-            app:layout_constraintStart_toStartOf="parent"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:paddingBottom="@dimen/_100sdp">
 
-</ScrollView>
+            <TextView
+                android:id="@+id/options_fragment_device_settings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/options_fragment_device_settings"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                android:textSize="@dimen/font_size_customize_options"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/options_fragment_change_theme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_list_items"
+                android:text="@string/options_fragment_change_theme"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                android:textSize="@dimen/font_size_customize_options"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/options_fragment_device_settings" />
+            <TextView
+                android:id="@+id/options_fragment_choose_time_format"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_list_items"
+                android:text="@string/options_fragment_choose_time_format"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                android:textSize="@dimen/font_size_customize_options"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/options_fragment_change_theme" />
+            <TextView
+                android:id="@+id/options_fragment_toggle_status_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_list_items"
+                android:text="@string/options_fragment_toggle_status_bar"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                android:textSize="@dimen/font_size_customize_options"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/options_fragment_choose_time_format" />
+            <TextView
+                android:id="@+id/options_fragment_customise_apps"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_list_items"
+                android:text="@string/options_fragment_customise_apps"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                android:textSize="@dimen/font_size_customize_options"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/options_fragment_toggle_status_bar" />
+            <TextView
+                android:id="@+id/options_fragment_choose_alignment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_list_items"
+                android:text="@string/options_fragment_choose_alignment"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                android:textSize="@dimen/font_size_customize_options"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/options_fragment_customise_apps" />
+            <TextView
+                android:id="@+id/options_fragment_customize_quick_buttons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_list_items"
+                android:text="@string/options_fragment_customize_quick_buttons"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                android:textSize="@dimen/font_size_customize_options"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/options_fragment_choose_alignment" />
+            <TextView
+                android:id="@+id/options_fragment_customize_app_drawer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_list_items"
+                android:text="@string/options_fragment_customize_app_drawer"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                android:textSize="@dimen/font_size_customize_options"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/options_fragment_customize_quick_buttons" />
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/options_fragment_auto_device_theme_wallpaper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_list_items"
+                android:textColor="?switchTextColor"
+                android:text="@string/customize_app_drawer_fragment_auto_theme_wallpaper_text"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                android:textSize="@dimen/font_size_customize_options"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/options_fragment_customize_app_drawer" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
