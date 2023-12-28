@@ -44,6 +44,7 @@
     <string name="options_fragment_customise_apps">Apps einstellen</string>
     <string name="options_fragment_device_settings">Geräteeinstellungen</string>
     <string name="add_apps_fragment_search_apps">Appsuche</string>
+    <string name="content_description_back">Zurück</string>
     <string name="options_fragment_choose_alignment">Apps ausrichten</string>
     <string name="options_fragment_customize_quick_buttons">Knöpfe einstellen</string>
     <string name="options_fragment_customize_app_drawer">Appschublade</string>
@@ -51,6 +52,8 @@
     <string name="options_fragment_hide_status_bar">Statusleiste verstecken</string>
     <string name="options_fragment_show_status_bar">Statusleiste zeigen</string>
     <string name="customize_app_drawer_fragment_search_field_options">Suchfeldoptionen</string>
+    <string name="customize_app_drawer_fragment_show_headings">Apps gruppieren</string>
+    <string name="customize_app_drawer_fragment_show_headings_subtitle">Apps in alphabetische Gruppen unterteilen</string>
     <string name="customize_app_drawer_fragment_search_field_options_subtitle_status_hidden">Suchfeld nicht sichtbar</string>
     <string name="customize_app_drawer_fragment_search_field_options_subtitle_status_shown">Suchfeldposition %s, Tastatur %s</string>
     <string name="customize_app_drawer_fragment_show_search_bar">Suchfeld anzeigen</string>
@@ -62,6 +65,7 @@
     <string name="customize_app_drawer_fragment_open_keyboard">Tastatur anzeigen</string>
     <string name="customize_app_drawer_fragment_search_all">Suche in allen Apps</string>
     <string name="customize_app_drawer_fragment_visible_apps">Appsichtbarkeit einstellen</string>
+    <string name="customize_app_drawer_fragment_search_all_subtitle">Zeige versteckte Apps in der Suche</string>
     <string name="customize_app_drawer_fragment_auto_theme_wallpaper_text">Themenhintergrund verwenden</string>
     <string name="customize_app_drawer_fragment_auto_theme_wallpaper_subtext_no_default_launcher">Unlauncher muss die standard Start-App sein</string>
     <string name="choose_search_bar_position_dialog_title">Setze Position des Suchfelds</string>
@@ -75,4 +79,5 @@
     <string name="hide_app">Verstecken</string>
     <string name="rename_app">Umbenennen</string>
     <string name="uninstall">Deinstallieren</string>
+    <string name="choose_alignment_dialog_title">Ausrichtung wählen</string>
 </resources>
