@@ -37,7 +37,6 @@ import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.adapters.AppDrawerAdapter
 import com.sduduzog.slimlauncher.adapters.HomeAdapter
 import com.sduduzog.slimlauncher.datasource.UnlauncherDataSource
-import com.sduduzog.slimlauncher.datasource.apps.UnlauncherAppsRepository
 import com.sduduzog.slimlauncher.datasource.quickbuttonprefs.QuickButtonPreferencesRepository
 import com.sduduzog.slimlauncher.models.HomeApp
 import com.sduduzog.slimlauncher.models.MainViewModel
@@ -47,16 +46,6 @@ import com.sduduzog.slimlauncher.utils.OnLaunchAppListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.home_fragment_default.*
 import kotlinx.android.synthetic.main.home_fragment_content.*
-import kotlinx.android.synthetic.main.home_fragment.app_drawer_edit_text
-import kotlinx.android.synthetic.main.home_fragment.app_drawer_fragment_list
-import kotlinx.android.synthetic.main.home_fragment.home_fragment
-import kotlinx.android.synthetic.main.home_fragment.home_fragment_call
-import kotlinx.android.synthetic.main.home_fragment.home_fragment_camera
-import kotlinx.android.synthetic.main.home_fragment.home_fragment_date
-import kotlinx.android.synthetic.main.home_fragment.home_fragment_list
-import kotlinx.android.synthetic.main.home_fragment.home_fragment_list_exp
-import kotlinx.android.synthetic.main.home_fragment.home_fragment_options
-import kotlinx.android.synthetic.main.home_fragment.home_fragment_time
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.DateFormat
@@ -67,8 +56,6 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment(), OnLaunchAppListener {
-    private lateinit var unlauncherAppsRepo: UnlauncherAppsRepository
-
     @Inject
     lateinit var unlauncherDataSource: UnlauncherDataSource
 
@@ -80,15 +67,7 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        uninstallAppLauncher = registerForActivityResult(StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                refreshApps()
-                lifecycleScope.launch(Dispatchers.IO) {
-                    val filtered = unlauncherAppsRepo.filterInstalledHomeApps(viewModel.apps.value!!)
-                    viewModel.updateHomeApps(filtered)
-                }
-            }
-        }
+        uninstallAppLauncher = registerForActivityResult(StartActivityForResult()) { refreshApps() }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -114,7 +93,7 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
         home_fragment_list.adapter = adapter1
         home_fragment_list_exp.adapter = adapter2
 
-        unlauncherAppsRepo = unlauncherDataSource.unlauncherAppsRepo
+        val unlauncherAppsRepo = unlauncherDataSource.unlauncherAppsRepo
 
         viewModel.apps.observe(viewLifecycleOwner) { list ->
             list?.let { apps ->
@@ -171,8 +150,10 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
     }
 
     private fun refreshApps() {
+        val installedApps = getInstalledApps()
         lifecycleScope.launch(Dispatchers.IO) {
-            unlauncherDataSource.unlauncherAppsRepo.setApps(getInstalledApps())
+            unlauncherDataSource.unlauncherAppsRepo.setApps(installedApps)
+            viewModel.filterHomeApps(installedApps)
         }
     }
 

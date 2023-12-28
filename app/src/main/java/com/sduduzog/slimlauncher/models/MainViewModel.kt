@@ -2,6 +2,7 @@ package com.sduduzog.slimlauncher.models
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import com.sduduzog.slimlauncher.data.model.App
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -15,7 +16,15 @@ class MainViewModel @Inject constructor(
     val apps: LiveData<List<HomeApp>>
         get() = _apps
 
-    fun updateHomeApps(apps: List<HomeApp>) {
-        _baseRepository.update(*apps.toTypedArray())
+    fun filterHomeApps(updatedApps: List<App>) {
+        _baseRepository.apps.value
+            .orEmpty()
+            .filter { currentApp ->
+                updatedApps.find { updatedApp ->
+                    updatedApp.packageName == currentApp.packageName && updatedApp.activityName == currentApp.activityName
+                } == null
+            }.forEach {
+                _baseRepository.remove(it)
+            }
     }
 }

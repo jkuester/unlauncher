@@ -77,13 +77,6 @@ class UnlauncherAppsRepository(
         }
     }
 
-    fun filterInstalledHomeApps(apps: List<HomeApp>) : List<HomeApp> {
-        return apps.filter {homeApp ->
-            val unlauncherApps = liveData().value?.appsList ?: emptyList()
-            findApp(unlauncherApps, homeApp.packageName, homeApp.activityName) != null
-        }
-    }
-
     suspend fun setHomeApps(apps: List<HomeApp>) {
         unlauncherAppsStore.updateData { unlauncherApps ->
             val unlauncherAppsBuilder = unlauncherApps.toBuilder()
