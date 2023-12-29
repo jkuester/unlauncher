@@ -134,10 +134,9 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
 
         app_drawer_fragment_list.adapter = appDrawerAdapter
 
-        val showSearchBar = unlauncherDataSource.corePreferencesRepo.showSearchField
-        app_drawer_edit_text.visibility = if (showSearchBar) View.VISIBLE else View.GONE
-
         unlauncherDataSource.corePreferencesRepo.liveData().observe(viewLifecycleOwner){ corePreferences ->
+            app_drawer_edit_text.visibility = if (corePreferences.showSearchBar) View.VISIBLE else View.GONE
+
             val clockType = corePreferences.clockType
             home_fragment_time.visibility = if(clockType == ClockType.digital) View.VISIBLE else View.GONE
             home_fragment_analog_time.visibility = if(clockType == ClockType.analog) View.VISIBLE else View.GONE
@@ -280,13 +279,10 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
                     }
 
                     motionLayout?.endState -> {
-                        val repository = unlauncherDataSource.corePreferencesRepo
-                        val showSearchField = repository.showSearchField
-                        val activateKeyboard = repository.get().activateKeyboardInDrawer
-
+                        val preferences = unlauncherDataSource.corePreferencesRepo.get()
                         // Check for preferences to open the keyboard
                         // only if the search field is shown
-                        if (showSearchField && activateKeyboard) {
+                        if (preferences.showSearchBar && preferences.activateKeyboardInDrawer) {
                             app_drawer_edit_text.requestFocus()
                             // show the keyboard and set focus to the EditText when swiping down
                             inputMethodManager.showSoftInput(

@@ -9,13 +9,12 @@ class CorePreferencesMigrations {
         return listOf(
             object : DataMigration<CorePreferences> {
                 override suspend fun shouldMigrate(currentData: CorePreferences) = !currentData.hasClockType()
-
-                override suspend fun migrate(currentData: CorePreferences): CorePreferences {
-                    val prefBuilder = currentData.toBuilder()
-                    prefBuilder.clockType = ClockType.digital
-                    return prefBuilder.build()
-                }
-
+                override suspend fun migrate(currentData: CorePreferences) = currentData.toBuilder().setClockType(ClockType.digital).build()
+                override suspend fun cleanUp() {}
+            },
+            object : DataMigration<CorePreferences> {
+                override suspend fun shouldMigrate(currentData: CorePreferences) = !currentData.hasShowSearchBar()
+                override suspend fun migrate(currentData: CorePreferences) = currentData.toBuilder().setShowSearchBar(true).build()
                 override suspend fun cleanUp() {}
             }
         )
