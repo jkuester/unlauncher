@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string-array name="alignment_format_array">
+        <item>Links</item>
+        <item>Mitte</item>
+        <item>Rechts</item>
+    </string-array>
+    <string-array name="quick_button_array">
+        <item>Zeigen</item>
+        <item>Verstecken</item>
+    </string-array>
+    <string-array name="search_bar_position_array">
+        <item>Oben</item>
+        <item>Unten</item>
+    </string-array>
     <string-array name="themes_array">
         <item>Systemvorgabe</item>
         <item>Mitternacht</item>
@@ -11,75 +24,59 @@
         <item>Vlad</item>
         <item>Groovig</item>
     </string-array>
-
     <string-array name="time_format_array">
         <item>Systemvorgabe</item>
         <item>24 Stunden</item>
         <item>12 Stunden</item>
     </string-array>
 
-    <string-array name="quick_button_array">
-        <item>Zeigen</item>
-        <item>Verstecken</item>
-    </string-array>
-
-    <string-array name="alignment_format_array">
-        <item>Links</item>
-        <item>Mitte</item>
-        <item>Rechts</item>
-    </string-array>
-
+    <string name="add_apps_fragment_search_apps">Appsuche</string>
+    <string name="app_info">App-Info</string>
+    <string name="choose_alignment_dialog_title">Ausrichtung wählen</string>
+    <string name="choose_clock_type_dialog_title">Uhrdarstellung</string>
+    <string name="choose_search_bar_position_dialog_title">Setze Position des Suchfelds</string>
+    <string name="choose_theme_dialog_title">Stil auswählen</string>
     <string name="choose_time_format_dialog_title">Zeitformat</string>
-    <string name="shown">angezeigt</string>
-    <string name="hidden">versteckt</string>
+    <string name="content_description_back">Zurück</string>
     <string name="customise_apps_fragment_add">Hinzufügen</string>
     <string name="customise_apps_fragment_remove_all">Alle entfernen</string>
+    <string name="customize_app_drawer_fragment_auto_theme_wallpaper_subtext_no_default_launcher">Unlauncher muss die standard Start-App sein</string>
+    <string name="customize_app_drawer_fragment_auto_theme_wallpaper_text">Themenhintergrund verwenden</string>
+    <string name="customize_app_drawer_fragment_open_keyboard">Tastatur anzeigen</string>
+    <string name="customize_app_drawer_fragment_open_keyboard_subtitle">Tastatur anzeigen, wenn der App-Drawer angezeigt wird</string>
+    <string name="customize_app_drawer_fragment_search_all">Suche in allen Apps</string>
+    <string name="customize_app_drawer_fragment_search_all_subtitle">Zeige versteckte Apps in der Suche</string>
+    <string name="customize_app_drawer_fragment_search_bar_position">Position</string>
+    <string name="customize_app_drawer_fragment_search_field_options">Suchfeldoptionen</string>
+    <string name="customize_app_drawer_fragment_search_field_options_subtitle_status_hidden">Suchfeld nicht sichtbar</string>
+    <string name="customize_app_drawer_fragment_search_field_options_subtitle_status_shown">Suchfeldposition %s, Tastatur %s</string>
+    <string name="customize_app_drawer_fragment_show_headings">Apps gruppieren</string>
+    <string name="customize_app_drawer_fragment_show_headings_subtitle">Apps in alphabetische Gruppen unterteilen</string>
+    <string name="customize_app_drawer_fragment_show_search_bar">Suchfeld anzeigen</string>
+    <string name="customize_app_drawer_fragment_visible_apps">Appsichtbarkeit einstellen</string>
+    <string name="hidden">versteckt</string>
+    <string name="hide_app">Verstecken</string>
+    <string name="main_date_format">EE dd. MMMM</string>
     <string name="main_fragment_options">Einstellungen</string>
     <string name="menu_remove">Entfernen</string>
     <string name="menu_rename">Umbenennen</string>
+    <string name="menu_reset">Zurücksetzen</string>
+    <string name="open_app">Öffnen</string>
     <string name="options_fragment_change_theme">Stil auswählen</string>
-    <string name="options_fragment_choose_time_format">Zeitformat</string>
-    <string name="options_fragment_choose_clock_type">Uhrdarstellung</string>
-    <string name="options_fragment_customise_apps">Apps einstellen</string>
-    <string name="options_fragment_device_settings">Geräteeinstellungen</string>
-    <string name="add_apps_fragment_search_apps">Appsuche</string>
-    <string name="content_description_back">Zurück</string>
     <string name="options_fragment_choose_alignment">Apps ausrichten</string>
-    <string name="options_fragment_customize_quick_buttons">Knöpfe einstellen</string>
+    <string name="options_fragment_choose_clock_type">Uhrdarstellung</string>
+    <string name="options_fragment_choose_time_format">Zeitformat</string>
+    <string name="options_fragment_customise_apps">Apps einstellen</string>
     <string name="options_fragment_customize_app_drawer">Appschublade</string>
-    <string name="options_fragment_toggle_status_bar">Statusleiste umschalten</string>
+    <string name="options_fragment_customize_quick_buttons">Knöpfe einstellen</string>
+    <string name="options_fragment_device_settings">Geräteeinstellungen</string>
     <string name="options_fragment_hide_status_bar">Statusleiste verstecken</string>
     <string name="options_fragment_show_status_bar">Statusleiste zeigen</string>
-    <string name="customize_app_drawer_fragment_search_field_options">Suchfeldoptionen</string>
-    <string name="customize_app_drawer_fragment_show_headings">Apps gruppieren</string>
-    <string name="customize_app_drawer_fragment_show_headings_subtitle">Apps in alphabetische Gruppen unterteilen</string>
-    <string name="customize_app_drawer_fragment_search_field_options_subtitle_status_hidden">Suchfeld nicht sichtbar</string>
-    <string name="customize_app_drawer_fragment_search_field_options_subtitle_status_shown">Suchfeldposition %s, Tastatur %s</string>
-    <string name="customize_app_drawer_fragment_show_search_bar">Suchfeld anzeigen</string>
-    <string name="customize_app_drawer_fragment_search_bar_position">Position</string>
-    <string-array name="search_bar_position_array">
-        <item>Oben</item>
-        <item>Unten</item>
-    </string-array>
-    <string name="customize_app_drawer_fragment_open_keyboard">Tastatur anzeigen</string>
-    <string name="customize_app_drawer_fragment_search_all">Suche in allen Apps</string>
-    <string name="customize_app_drawer_fragment_visible_apps">Appsichtbarkeit einstellen</string>
-    <string name="customize_app_drawer_fragment_search_all_subtitle">Zeige versteckte Apps in der Suche</string>
-    <string name="customize_app_drawer_fragment_auto_theme_wallpaper_text">Themenhintergrund verwenden</string>
-    <string name="customize_app_drawer_fragment_auto_theme_wallpaper_subtext_no_default_launcher">Unlauncher muss die standard Start-App sein</string>
-    <string name="choose_search_bar_position_dialog_title">Setze Position des Suchfelds</string>
-    <string name="choose_theme_dialog_title">Stil auswählen</string>
-    <string name="menu_reset">Zurücksetzen</string>
-    <string name="customize_app_drawer_fragment_open_keyboard_subtitle">Tastatur anzeigen, wenn der App-Drawer angezeigt wird</string>
-    <string name="remove_all_apps_dialog_title">Alle Apps entfernen</string>
+    <string name="options_fragment_toggle_status_bar">Statusleiste umschalten</string>
     <string name="remove_all_apps_dialog_message">"Alle Apps bleiben installiert."
         "Bitte das Leeren der Liste bestätigen."</string>
-    <string name="open_app">Öffnen</string>
-    <string name="app_info">App-Info</string>
-    <string name="hide_app">Verstecken</string>
+    <string name="remove_all_apps_dialog_title">Alle Apps entfernen</string>
     <string name="rename_app">Umbenennen</string>
+    <string name="shown">angezeigt</string>
     <string name="uninstall">Deinstallieren</string>
-    <string name="choose_alignment_dialog_title">Ausrichtung wählen</string>
-    <string name="main_date_format">EE dd. MMMM</string>
-    <string name="choose_clock_type_dialog_title">Uhrdarstellung</string>
 </resources>

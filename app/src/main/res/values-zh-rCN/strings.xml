@@ -1,12 +1,19 @@
 <resources>
     xmlns:tools="http://schemas.android.com/tools"
 	tools:ignore="MissingTranslation" >
-
-    <string name="app_name" translatable="false">Unlauncher</string>
-    <string name="slim_url" translatable="false">https://github.com/jkuester/unlauncher</string>
-    <string name="main_placeholder_clock" translatable="false">00:00</string>
-    <string name="main_placeholder_date" translatable="false">Sat, Apr 20</string>
-
+    <string-array name="alignment_format_array">
+        <item>左</item>
+        <item>中</item>
+        <item>右</item>
+    </string-array>
+    <string-array name="quick_button_array">
+        <item>显示</item>
+        <item>隐藏</item>
+    </string-array>
+    <string-array name="search_bar_position_array">
+        <item>顶部</item>
+        <item>底部</item>
+    </string-array>
     <string-array name="themes_array">
         <item>系统默认</item>
         <item>午夜</item>
@@ -18,78 +25,56 @@
         <item>弗拉德</item>
         <item>格罗维</item>
     </string-array>
-
     <string-array name="time_format_array">
         <item>跟随系统设置</item>
         <item>24 小时</item>
         <item>12 小时</item>
     </string-array>
 
-    <string-array name="quick_button_array">
-        <item>显示</item>
-        <item>隐藏</item>
-    </string-array>
-
-    <string-array name="alignment_format_array">
-            <item>左</item>
-            <item>中</item>
-            <item>右</item>
-    </string-array>
-
-    <string name="prefs_settings" translatable="false">设置</string>
-    <string name="prefs_settings_key_theme" translatable="false">主题</string>
-    <string name="prefs_settings_key_time_format" translatable="false">时间格式</string>
-    <string name="prefs_settings_key_toggle_status_bar" translatable="false">隐藏状态栏</string>
-    <string name="prefs_settings_alignment" translatable="false">对齐</string>
-    <string name="content_description_back">返回</string>
+    <string name="add_apps_fragment_search_apps">搜索应用</string>
+    <string name="app_info">应用信息</string>
+    <string name="choose_alignment_dialog_title">选择对齐方向</string>
+    <string name="choose_search_bar_position_dialog_title">设置搜索栏位置</string>
+    <string name="choose_theme_dialog_title">选择主题</string>
     <string name="choose_time_format_dialog_title">选择时间格式</string>
-    <string name="main_fragment_options">选项</string>
-    <string name="options_fragment_device_settings">设备设置</string>
-    <string name="options_fragment_change_theme">更改主题</string>
-    <string name="options_fragment_choose_time_format">选择时间格式</string>
-    <string name="options_fragment_customise_apps">自定义应用</string>
-    <string name="options_fragment_choose_alignment">选择对齐方向</string>
-    <string name="options_fragment_customize_quick_buttons">定制快捷按钮</string>
-    <string name="options_fragment_customize_app_drawer">定制应用抽屉</string>
-    <string name="options_fragment_toggle_status_bar">切换状态栏</string>
-    <string name="options_fragment_hide_status_bar">隐藏状态栏</string>
-    <string name="options_fragment_show_status_bar">显示状态栏</string>
+    <string name="content_description_back">返回</string>
+    <string name="customise_apps_fragment_add">添加</string>
+    <string name="customise_apps_fragment_remove_all">移除全部</string>
+    <string name="customize_app_drawer_fragment_auto_theme_wallpaper_subtext_no_default_launcher">需要将应用设为默认启动器</string>
+    <string name="customize_app_drawer_fragment_auto_theme_wallpaper_text">将主题背景设为壁纸</string>
     <string name="customize_app_drawer_fragment_open_keyboard">打开键盘</string>
+    <string name="customize_app_drawer_fragment_open_keyboard_subtitle">显示应用抽屉时展示键盘</string>
     <string name="customize_app_drawer_fragment_search_all">搜索所有应用</string>
     <string name="customize_app_drawer_fragment_search_all_subtitle">搜索时同样可以找到隐藏的应用</string>
-    <string name="customize_app_drawer_fragment_auto_theme_wallpaper_text">将主题背景设为壁纸</string>
-    <string name="customize_app_drawer_fragment_auto_theme_wallpaper_subtext_no_default_launcher">需要将应用设为默认启动器</string>
-    <string name="customize_app_drawer_fragment_visible_apps">可见的应用</string>
+    <string name="customize_app_drawer_fragment_search_bar_position">位置</string>
     <string name="customize_app_drawer_fragment_search_field_options">搜索栏选项</string>
-    <string name="customize_app_drawer_fragment_show_headings">显示分组</string>
-    <string name="customize_app_drawer_fragment_show_headings_subtitle">按应用英文名第一个字母将应用分组</string>
     <string name="customize_app_drawer_fragment_search_field_options_subtitle_status_hidden">隐藏搜索栏</string>
     <string name="customize_app_drawer_fragment_search_field_options_subtitle_status_shown">位置 %s，键盘为 %s</string>
+    <string name="customize_app_drawer_fragment_show_headings">显示分组</string>
+    <string name="customize_app_drawer_fragment_show_headings_subtitle">按应用英文名第一个字母将应用分组</string>
     <string name="customize_app_drawer_fragment_show_search_bar">显示搜索栏</string>
-    <string name="customize_app_drawer_fragment_search_bar_position">位置</string>
-    <string name="customize_app_drawer_fragment_open_keyboard_subtitle">显示应用抽屉时展示键盘</string>
-    <string-array name="search_bar_position_array">
-            <item>顶部</item>
-            <item>底部</item>
-    </string-array>
-    <string name="shown">显示</string>
+    <string name="customize_app_drawer_fragment_visible_apps">可见的应用</string>
     <string name="hidden">隐藏</string>
-    <string name="customise_apps_fragment_add">添加</string>
-    <string name="menu_rename">重命名</string>
+    <string name="hide_app">隐藏应用</string>
+    <string name="main_fragment_options">选项</string>
     <string name="menu_remove">移除</string>
-    <string name="choose_theme_dialog_title">选择主题</string>
-    <string name="choose_search_bar_position_dialog_title">设置搜索栏位置</string>
-    <string name="add_apps_fragment_search_apps">搜索应用</string>
-    <string name="customise_apps_fragment_remove_all">移除全部</string>
+    <string name="menu_rename">重命名</string>
     <string name="menu_reset">重置</string>
-    <string name="remove_all_apps_dialog_title">移除所有应用</string>
+    <string name="open_app">打开应用</string>
+    <string name="options_fragment_change_theme">更改主题</string>
+    <string name="options_fragment_choose_alignment">选择对齐方向</string>
+    <string name="options_fragment_choose_time_format">选择时间格式</string>
+    <string name="options_fragment_customise_apps">自定义应用</string>
+    <string name="options_fragment_customize_app_drawer">定制应用抽屉</string>
+    <string name="options_fragment_customize_quick_buttons">定制快捷按钮</string>
+    <string name="options_fragment_device_settings">设备设置</string>
+    <string name="options_fragment_hide_status_bar">隐藏状态栏</string>
+    <string name="options_fragment_show_status_bar">显示状态栏</string>
+    <string name="options_fragment_toggle_status_bar">切换状态栏</string>
     <string name="remove_all_apps_dialog_message">"此操作不会卸载你的应用。"
     "只是想确认一下你是否有意清除这个列表。"</string>
-    <string name="open_app">打开应用</string>
-    <string name="app_info">应用信息</string>
-    <string name="hide_app">隐藏应用</string>
+    <string name="remove_all_apps_dialog_title">移除所有应用</string>
     <string name="rename_app">重命名应用</string>
+    <string name="shown">显示</string>
     <string name="uninstall">卸载</string>
-    <string name="choose_alignment_dialog_title">选择对齐方向</string>
-
 </resources>
