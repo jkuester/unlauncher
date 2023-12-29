@@ -17,6 +17,7 @@
     </string-array>
 
     <string-array name="time_format_array">
+        <item>Systeeminstellingen volgen</item>
         <item>24-timersklokke</item>
         <item>12-timersklokke</item>
     </string-array>
