@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import java.io.IOException
-import java.util.*
+import java.util.Locale
 
 class UnlauncherAppsRepository(
     private val unlauncherAppsStore: DataStore<UnlauncherApps>,

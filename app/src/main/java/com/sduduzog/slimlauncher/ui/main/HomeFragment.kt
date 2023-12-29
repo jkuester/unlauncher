@@ -1,7 +1,12 @@
 package com.sduduzog.slimlauncher.ui.main
 
 import android.app.Activity
-import android.content.*
+import android.content.ActivityNotFoundException
+import android.content.BroadcastReceiver
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.LauncherApps
 import android.net.Uri
 import android.os.Bundle
@@ -19,6 +24,8 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.PopupMenu
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.motion.widget.MotionLayout.TransitionListener
 import androidx.fragment.app.viewModels
@@ -43,7 +50,8 @@ import kotlinx.android.synthetic.main.home_fragment_content.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -55,6 +63,12 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
 
     private lateinit var receiver: BroadcastReceiver
     private lateinit var appDrawerAdapter: AppDrawerAdapter
+    private lateinit var uninstallAppLauncher: ActivityResultLauncher<Intent>
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        uninstallAppLauncher = registerForActivityResult(StartActivityForResult()) { refreshApps() }
+    }
 
     private var date = Date()
     private var currentLocale = Locale.getDefault()
@@ -156,9 +170,7 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
         super.onResume()
         updateClock()
 
-        lifecycleScope.launch(Dispatchers.IO) {
-            unlauncherDataSource.unlauncherAppsRepo.setApps(getInstalledApps())
-        }
+        refreshApps()
         if (!::appDrawerAdapter.isInitialized) {
             appDrawerAdapter.setAppFilter()
         }
@@ -167,6 +179,14 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
         val layoutManager = app_drawer_fragment_list.layoutManager as LinearLayoutManager
         if (layoutManager.findFirstCompletelyVisibleItemPosition() != 0) {
             app_drawer_fragment_list.scrollToPosition(0)
+        }
+    }
+
+    private fun refreshApps() {
+        val installedApps = getInstalledApps()
+        lifecycleScope.launch(Dispatchers.IO) {
+            unlauncherDataSource.unlauncherAppsRepo.setApps(installedApps)
+            viewModel.filterHomeApps(installedApps)
         }
     }
 
@@ -393,7 +413,7 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
                     R.id.uninstall -> {
                         val intent = Intent(Intent.ACTION_DELETE)
                         intent.data = Uri.parse("package:" + app.packageName)
-                        startActivity(intent)
+                        uninstallAppLauncher.launch(intent)
                         //appDrawerAdapter.notifyDataSetChanged()
                         // TODO: Handle the case when this is done for system apps
                     }
