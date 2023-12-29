@@ -106,7 +106,6 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
             else -> DateFormat.is24HourFormat(context)
         }
 
-        timeFormat = preferences.getInt(getString(R.string.prefs_settings_key_time_format), 0)
         clockType = ClockType.values()[preferences.getInt(getString(R.string.prefs_settings_key_clock_type), ClockType.DIGITAL.ordinal)]
         home_fragment_analog_time.setHiddenState(clockType != ClockType.ANALOG)
         home_fragment_bin_time.setHiddenState(clockType != ClockType.BINARY)

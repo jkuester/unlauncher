@@ -2,7 +2,6 @@
 <resources>
     <attr name="headerTextColor" format="reference"/>
     <attr name="switchTextColor" format="reference" />
-    <attr name="customColor" format="reference"/>
     <declare-styleable name="BinaryClockView">
         <attr name="bitSize" format="integer" />
         <attr name="border" format="integer" />
