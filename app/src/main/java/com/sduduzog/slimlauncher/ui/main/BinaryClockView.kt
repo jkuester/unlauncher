@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.RectF
+import android.text.format.DateFormat
 import android.util.AttributeSet
 import com.sduduzog.slimlauncher.R
 import java.util.Calendar
@@ -17,9 +18,10 @@ class BinaryClockView(context: Context, attrs: AttributeSet)
     private var border: Float
     private var distance: Float
     private val bounds = RectF(0F, 0F, 0F, 0F)
-    var is24Hour: Boolean = false
+    private var is24Hour: Boolean = false
 
     init {
+        is24Hour = is24HourTimeFormat(context)
         onPaint.style  = Paint.Style.FILL_AND_STROKE
         offPaint.style = Paint.Style.STROKE
         context.theme.obtainStyledAttributes(
@@ -96,6 +98,17 @@ class BinaryClockView(context: Context, attrs: AttributeSet)
             val h: Int = resolveSizeAndState(minh, heightMeasureSpec, 0)
 
             setMeasuredDimension(w, h)
+        }
+    }
+
+    private fun is24HourTimeFormat(context: Context): Boolean {
+        val settingsKey = context.getString(R.string.prefs_settings)
+        val timeFormatKey = context.getString(R.string.prefs_settings_key_time_format);
+        val preferences = context.getSharedPreferences(settingsKey, Context.MODE_PRIVATE)
+        return when (preferences.getInt(timeFormatKey, 0)) {
+            1 -> true
+            2 -> false
+            else -> DateFormat.is24HourFormat(context)
         }
     }
 }

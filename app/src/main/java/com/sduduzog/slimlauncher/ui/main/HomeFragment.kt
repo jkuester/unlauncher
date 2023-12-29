@@ -70,9 +70,6 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
         uninstallAppLauncher = registerForActivityResult(StartActivityForResult()) { refreshApps() }
     }
 
-    private var date = Date()
-    private var currentLocale = Locale.getDefault()
-
     enum class ClockType {
         NOCLOCK,
         DIGITAL,
@@ -80,7 +77,6 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
         BINARY
     }
     private var clockType = ClockType.DIGITAL
-    private var timeFormat = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val coreRepository = unlauncherDataSource.corePreferencesRepo
@@ -99,17 +95,9 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
         val alignmentKey: String = getString(R.string.prefs_settings_alignment)
         val preferences = requireContext().getSharedPreferences(settingsKey, Context.MODE_PRIVATE)
         val alignment = preferences.getInt(alignmentKey, 3)
-        timeFormat = preferences.getInt(getString(R.string.prefs_settings_key_time_format), 0)
-        val is24Hour = when (timeFormat) {
-            1 -> true
-            2 -> false
-            else -> DateFormat.is24HourFormat(context)
-        }
-
         clockType = ClockType.values()[preferences.getInt(getString(R.string.prefs_settings_key_clock_type), ClockType.DIGITAL.ordinal)]
         home_fragment_analog_time.setHiddenState(clockType != ClockType.ANALOG)
         home_fragment_bin_time.setHiddenState(clockType != ClockType.BINARY)
-        home_fragment_bin_time.is24Hour = is24Hour
 
         if (clockType != ClockType.DIGITAL) {
             home_fragment_time.height = 0
@@ -331,19 +319,19 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
     }
 
     private fun updateClockDigital () {
+        val timeFormat = context?.getSharedPreferences(getString(R.string.prefs_settings), Context.MODE_PRIVATE)
+            ?.getInt(getString(R.string.prefs_settings_key_time_format), 0)
         val fWatchTime = when (timeFormat) {
-            1 -> SimpleDateFormat("H:mm", currentLocale)
-            2 -> SimpleDateFormat("h:mm aa", currentLocale)
+            1 -> SimpleDateFormat("H:mm", Locale.getDefault())
+            2 -> SimpleDateFormat("h:mm aa", Locale.getDefault())
             else -> DateFormat.getTimeFormat(context)
         }
-        home_fragment_time.text = fWatchTime.format(date)
+        home_fragment_time.text = fWatchTime.format(Date())
     }
 
     private fun updateDate() {
-        date = Date()
-        currentLocale = Locale.getDefault()
-        val fWatchDate = SimpleDateFormat(getString(R.string.main_date_format), currentLocale)
-        home_fragment_date.text = fWatchDate.format(date)
+        val fWatchDate = SimpleDateFormat(getString(R.string.main_date_format), Locale.getDefault())
+        home_fragment_date.text = fWatchDate.format(Date())
     }
 
     override fun onLaunch(app: HomeApp, view: View) {
