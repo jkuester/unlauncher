@@ -80,13 +80,12 @@ class AppDrawerAdapter(
         return first.startsWith(query, true) and !second.startsWith(query, true);
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     fun setAppFilter(query: String = "") {
         val filterQuery = regex.replace(query, "")
         updateFilteredApps(filterQuery)
-        notifyDataSetChanged()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun updateFilteredApps(filterQuery: String = "") {
         val showDrawerHeadings = corePreferencesRepo.get().showDrawerHeadings
         val searchAllApps = corePreferencesRepo.get().searchAllAppsInDrawer && filterQuery != ""
@@ -97,7 +96,7 @@ class AppDrawerAdapter(
             }
 
         val includeHeadings = !showDrawerHeadings || filterQuery != ""
-        filteredApps = when (includeHeadings) {
+        val updatedApps = when (includeHeadings) {
             true -> displayableApps
                 .sortedWith { a, b ->
                     when {
@@ -121,6 +120,10 @@ class AppDrawerAdapter(
                             *(entry.value.map { AppDrawerRow.Item(it) }).toTypedArray()
                     )
                 }
+        }
+        if (updatedApps != filteredApps) {
+            filteredApps = updatedApps
+            notifyDataSetChanged()
         }
     }
 
