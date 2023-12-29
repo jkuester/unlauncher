@@ -32,6 +32,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.jkuester.unlauncher.datastore.ClockType
 import com.jkuester.unlauncher.datastore.SearchBarPosition
 import com.jkuester.unlauncher.datastore.UnlauncherApp
 import com.sduduzog.slimlauncher.R
@@ -45,8 +46,18 @@ import com.sduduzog.slimlauncher.ui.dialogs.RenameAppDisplayNameDialog
 import com.sduduzog.slimlauncher.utils.BaseFragment
 import com.sduduzog.slimlauncher.utils.OnLaunchAppListener
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.home_fragment_default.*
-import kotlinx.android.synthetic.main.home_fragment_content.*
+import kotlinx.android.synthetic.main.home_fragment_content.app_drawer_edit_text
+import kotlinx.android.synthetic.main.home_fragment_content.app_drawer_fragment_list
+import kotlinx.android.synthetic.main.home_fragment_content.home_fragment_analog_time
+import kotlinx.android.synthetic.main.home_fragment_content.home_fragment_bin_time
+import kotlinx.android.synthetic.main.home_fragment_content.home_fragment_call
+import kotlinx.android.synthetic.main.home_fragment_content.home_fragment_camera
+import kotlinx.android.synthetic.main.home_fragment_content.home_fragment_date
+import kotlinx.android.synthetic.main.home_fragment_content.home_fragment_list
+import kotlinx.android.synthetic.main.home_fragment_content.home_fragment_list_exp
+import kotlinx.android.synthetic.main.home_fragment_content.home_fragment_options
+import kotlinx.android.synthetic.main.home_fragment_content.home_fragment_time
+import kotlinx.android.synthetic.main.home_fragment_default.home_fragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -70,14 +81,6 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
         uninstallAppLauncher = registerForActivityResult(StartActivityForResult()) { refreshApps() }
     }
 
-    enum class ClockType {
-        NOCLOCK,
-        DIGITAL,
-        ANALOG,
-        BINARY
-    }
-    private var clockType = ClockType.DIGITAL
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val coreRepository = unlauncherDataSource.corePreferencesRepo
         val layout = when (coreRepository.get().searchBarPosition) {
@@ -95,17 +98,6 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
         val alignmentKey: String = getString(R.string.prefs_settings_alignment)
         val preferences = requireContext().getSharedPreferences(settingsKey, Context.MODE_PRIVATE)
         val alignment = preferences.getInt(alignmentKey, 3)
-        clockType = ClockType.values()[preferences.getInt(getString(R.string.prefs_settings_key_clock_type), ClockType.DIGITAL.ordinal)]
-        home_fragment_analog_time.setHiddenState(clockType != ClockType.ANALOG)
-        home_fragment_bin_time.setHiddenState(clockType != ClockType.BINARY)
-
-        if (clockType != ClockType.DIGITAL) {
-            home_fragment_time.height = 0
-        }
-        // Should this be configurable independent of clockface?
-        if (clockType == ClockType.NOCLOCK) {
-            home_fragment_date.height = 0
-        }
 
         val adapter1 = HomeAdapter(this, alignment)
         val adapter2 = HomeAdapter(this, alignment)
@@ -143,6 +135,14 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
 
         val showSearchBar = unlauncherDataSource.corePreferencesRepo.showSearchField
         app_drawer_edit_text.visibility = if (showSearchBar) View.VISIBLE else View.GONE
+
+        unlauncherDataSource.corePreferencesRepo.liveData().observe(viewLifecycleOwner){ corePreferences ->
+            val clockType = corePreferences.clockType
+            home_fragment_time.visibility = if(clockType == ClockType.digital) View.VISIBLE else View.GONE
+            home_fragment_analog_time.visibility = if(clockType == ClockType.analog) View.VISIBLE else View.GONE
+            home_fragment_bin_time.visibility = if(clockType == ClockType.binary) View.VISIBLE else View.GONE
+            home_fragment_date.visibility = if(clockType != ClockType.none) View.VISIBLE else View.GONE
+        }
     }
 
     override fun onStart() {
@@ -310,10 +310,10 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
 
     fun updateClock() {
         updateDate()
-        when (clockType) {
-            ClockType.DIGITAL -> updateClockDigital()
-            ClockType.ANALOG -> home_fragment_analog_time.updateClock()
-            ClockType.BINARY -> home_fragment_bin_time.updateClock()
+        when (unlauncherDataSource.corePreferencesRepo.get().clockType) {
+            ClockType.digital -> updateClockDigital()
+            ClockType.analog -> home_fragment_analog_time.updateClock()
+            ClockType.binary -> home_fragment_bin_time.updateClock()
             else -> {}
         }
     }

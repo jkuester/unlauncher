@@ -5,6 +5,7 @@ import androidx.datastore.core.DataStore
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
+import com.jkuester.unlauncher.datastore.ClockType
 import com.jkuester.unlauncher.datastore.CorePreferences
 import com.jkuester.unlauncher.datastore.SearchBarPosition
 import kotlinx.coroutines.flow.Flow
@@ -98,6 +99,14 @@ class CorePreferencesRepository(
         lifecycleScope.launch {
             corePreferencesStore.updateData {
                 it.toBuilder().setSearchAllAppsInDrawer(searchAllAppsInDrawer).build()
+            }
+        }
+    }
+
+    fun updateClockType(clockType: ClockType) {
+        lifecycleScope.launch {
+            corePreferencesStore.updateData {
+                it.toBuilder().setClockType(clockType).build()
             }
         }
     }

@@ -47,8 +47,6 @@ class AnalogClockView(context: Context, attrs: AttributeSet) : ClockView(context
     override fun onDraw(canvas : Canvas)
     {
         super.onDraw(canvas)
-        if (hidden) return
-
         val calendar = Calendar.getInstance()
 
         val hour = calendar[Calendar.HOUR]
@@ -86,11 +84,6 @@ class AnalogClockView(context: Context, attrs: AttributeSet) : ClockView(context
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        // if hidden set to 0
-        if (hidden) {
-            setMeasuredDimension(0, 0)
-            return
-        }
         val dim = max(min(suggestedMinimumWidth, suggestedMinimumHeight),
             2 * radius.toInt()) + 4 * border.toInt()
         val minw: Int = dim + paddingLeft + paddingRight + marginStart + marginEnd

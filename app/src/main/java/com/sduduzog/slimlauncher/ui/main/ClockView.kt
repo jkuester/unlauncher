@@ -8,10 +8,6 @@ import android.util.TypedValue
 import android.view.View
 
 abstract class ClockView(context: Context, attrs: AttributeSet) : View(context, attrs) {
-    protected var hidden: Boolean = true
-    fun setHiddenState(isHidden: Boolean) {
-        hidden = isHidden
-    }
 
     private fun getColor(constant: Int): Int {
         val tv = TypedValue()

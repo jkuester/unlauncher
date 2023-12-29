@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.RectF
-import android.text.format.DateFormat
 import android.util.AttributeSet
 import com.sduduzog.slimlauncher.R
 import java.util.Calendar
@@ -21,7 +20,6 @@ class BinaryClockView(context: Context, attrs: AttributeSet)
     private var is24Hour: Boolean = false
 
     init {
-        is24Hour = is24HourTimeFormat(context)
         onPaint.style  = Paint.Style.FILL_AND_STROKE
         offPaint.style = Paint.Style.STROKE
         context.theme.obtainStyledAttributes(
@@ -41,8 +39,6 @@ class BinaryClockView(context: Context, attrs: AttributeSet)
     override fun onDraw(canvas : Canvas)
     {
         super.onDraw(canvas)
-        if (hidden) return
-
         val calendar = Calendar.getInstance()
 
         val middle = if (distance > 0) distance * 3 + bitSize * 2 else height.toFloat() / 2
@@ -84,31 +80,16 @@ class BinaryClockView(context: Context, attrs: AttributeSet)
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         // Try for a width based on your minimum.
-        if (hidden) {
-            setMeasuredDimension(0, 0)
-        } else {
-            val minw: Int = paddingLeft + paddingRight + suggestedMinimumWidth +
-                    12 * bitSize.toInt() + 7 * distance.toInt()
-            val w: Int = resolveSizeAndState(minw, widthMeasureSpec, 0)
+        val minw: Int = paddingLeft + paddingRight + suggestedMinimumWidth +
+                12 * bitSize.toInt() + 7 * distance.toInt()
+        val w: Int = resolveSizeAndState(minw, widthMeasureSpec, 0)
 
-            // Whatever the width is, ask for a height that lets the pie get as big as
-            // it can.
-            val minh: Int = paddingBottom + paddingTop +
-                    4 * bitSize.toInt() + 5 * distance.toInt()
-            val h: Int = resolveSizeAndState(minh, heightMeasureSpec, 0)
+        // Whatever the width is, ask for a height that lets the pie get as big as
+        // it can.
+        val minh: Int = paddingBottom + paddingTop +
+                4 * bitSize.toInt() + 5 * distance.toInt()
+        val h: Int = resolveSizeAndState(minh, heightMeasureSpec, 0)
 
-            setMeasuredDimension(w, h)
-        }
-    }
-
-    private fun is24HourTimeFormat(context: Context): Boolean {
-        val settingsKey = context.getString(R.string.prefs_settings)
-        val timeFormatKey = context.getString(R.string.prefs_settings_key_time_format);
-        val preferences = context.getSharedPreferences(settingsKey, Context.MODE_PRIVATE)
-        return when (preferences.getInt(timeFormatKey, 0)) {
-            1 -> true
-            2 -> false
-            else -> DateFormat.is24HourFormat(context)
-        }
+        setMeasuredDimension(w, h)
     }
 }
