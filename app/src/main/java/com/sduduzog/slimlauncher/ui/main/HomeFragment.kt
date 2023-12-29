@@ -19,6 +19,7 @@ import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
+import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -185,7 +186,7 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
 
     private fun setEventListeners() {
 
-        home_fragment_time.setOnClickListener {
+        val launchShowAlarms = OnClickListener {
             try {
                 val intent = Intent(AlarmClock.ACTION_SHOW_ALARMS)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
@@ -195,6 +196,9 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
                 // Do nothing, we've failed :(
             }
         }
+        home_fragment_time.setOnClickListener(launchShowAlarms)
+        home_fragment_analog_time.setOnClickListener(launchShowAlarms)
+        home_fragment_bin_time.setOnClickListener(launchShowAlarms)
 
         home_fragment_date.setOnClickListener {
             try {
