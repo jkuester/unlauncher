@@ -50,7 +50,6 @@
                 android:id="@+id/customize_app_drawer_fragment_visible_apps"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="?headerTextColor"
                 android:text="@string/customize_app_drawer_fragment_visible_apps"
                 android:textAppearance="@style/TextAppearance.AppCompat"
                 android:textSize="@dimen/font_size_customize_options"
