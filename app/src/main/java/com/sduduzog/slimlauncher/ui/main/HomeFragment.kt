@@ -403,7 +403,6 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
                         val intent = Intent(Intent.ACTION_DELETE)
                         intent.data = Uri.parse("package:" + app.packageName)
                         uninstallAppLauncher.launch(intent)
-                        //appDrawerAdapter.notifyDataSetChanged()
                     }
                 }
                 true
