@@ -1,4 +1,4 @@
-package com.sduduzog.slimlauncher.adapters
+package com.sduduzog.slimlauncher.models
 
 /**
  * Corresponding to the resulting gravity, not the option key

@@ -8,6 +8,7 @@ import android.os.Bundle
 import androidx.core.content.edit
 import androidx.fragment.app.DialogFragment
 import com.sduduzog.slimlauncher.R
+import com.sduduzog.slimlauncher.models.Alignment
 
 class ChooseAlignmentDialog : DialogFragment() {
 
@@ -17,7 +18,7 @@ class ChooseAlignmentDialog : DialogFragment() {
         val builder = AlertDialog.Builder(requireContext())
         settings = requireContext().getSharedPreferences(getString(R.string.prefs_settings), MODE_PRIVATE)
 
-        val active = settings.getInt(getString(R.string.prefs_settings_alignment), 3)
+        val active = settings.getInt(getString(R.string.prefs_settings_alignment), Alignment.LEFT.value)
         builder.setTitle(R.string.choose_alignment_dialog_title)
         builder.setSingleChoiceItems(R.array.alignment_format_array, active) { dialogInterface, i ->
             dialogInterface.dismiss()

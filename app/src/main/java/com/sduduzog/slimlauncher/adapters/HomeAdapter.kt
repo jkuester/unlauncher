@@ -6,7 +6,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.sduduzog.slimlauncher.R
+import com.sduduzog.slimlauncher.models.Alignment
 import com.sduduzog.slimlauncher.models.HomeApp
+import com.sduduzog.slimlauncher.models.fromGravity
 import com.sduduzog.slimlauncher.utils.OnLaunchAppListener
 
 class HomeAdapter(private val listener: OnLaunchAppListener)

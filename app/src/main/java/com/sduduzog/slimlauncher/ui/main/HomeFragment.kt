@@ -37,9 +37,10 @@ import com.jkuester.unlauncher.datastore.ClockType
 import com.jkuester.unlauncher.datastore.SearchBarPosition
 import com.jkuester.unlauncher.datastore.UnlauncherApp
 import com.sduduzog.slimlauncher.R
+import com.sduduzog.slimlauncher.models.Alignment
 import com.sduduzog.slimlauncher.adapters.AppDrawerAdapter
 import com.sduduzog.slimlauncher.adapters.HomeAdapter
-import com.sduduzog.slimlauncher.adapters.fromGravity
+import com.sduduzog.slimlauncher.models.fromGravity
 import com.sduduzog.slimlauncher.datasource.UnlauncherDataSource
 import com.sduduzog.slimlauncher.datasource.quickbuttonprefs.QuickButtonPreferencesRepository
 import com.sduduzog.slimlauncher.models.HomeApp
@@ -67,6 +68,11 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
+
+private val DEFAULT_ALIGNMENT: Int = Alignment.LEFT.value
+// magic value... not sure what the point of it is.
+//  Happens to be the same value as the default alignment ordinal
+private const val FILTER_START: Int = 3
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment(), OnLaunchAppListener {
@@ -100,7 +106,7 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
         val settingsKey = getString(R.string.prefs_settings)
         val alignmentKey: String = getString(R.string.prefs_settings_alignment)
         val preferences = requireContext().getSharedPreferences(settingsKey, Context.MODE_PRIVATE)
-        val alignment = preferences.getInt(alignmentKey, 3)
+        val alignment = preferences.getInt(alignmentKey, DEFAULT_ALIGNMENT)
 
         val adapter1 = HomeAdapter(this, alignment)
         val adapter2 = HomeAdapter(this, alignment)
@@ -112,10 +118,10 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
         viewModel.apps.observe(viewLifecycleOwner) { list ->
             list?.let { apps ->
                 adapter1.setItems(apps.filter {
-                    it.sortingIndex < 3
+                    it.sortingIndex < FILTER_START
                 })
                 adapter2.setItems(apps.filter {
-                    it.sortingIndex >= 3
+                    it.sortingIndex >= FILTER_START
                 })
 
                 // Set the home apps in the Unlauncher data
