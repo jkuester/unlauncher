@@ -3,6 +3,7 @@ package com.sduduzog.slimlauncher.utils
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ApplicationInfo
 import android.content.res.Configuration
 import android.graphics.Insets
 import android.graphics.Rect
@@ -94,3 +95,6 @@ fun createTitleAndSubtitleText(context: Context, title: CharSequence, subtitle: 
 }
 
 fun String.firstUppercase() = this.first().uppercase()
+
+fun ApplicationInfo.isSystemApp(): Boolean = (this.flags and ApplicationInfo.FLAG_SYSTEM != 0) ||
+        (this.flags and ApplicationInfo.FLAG_UPDATED_SYSTEM_APP != 0)

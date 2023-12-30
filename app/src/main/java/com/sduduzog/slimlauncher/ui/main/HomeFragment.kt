@@ -46,6 +46,7 @@ import com.sduduzog.slimlauncher.models.MainViewModel
 import com.sduduzog.slimlauncher.ui.dialogs.RenameAppDisplayNameDialog
 import com.sduduzog.slimlauncher.utils.BaseFragment
 import com.sduduzog.slimlauncher.utils.OnLaunchAppListener
+import com.sduduzog.slimlauncher.utils.isSystemApp
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.home_fragment_content.app_drawer_edit_text
 import kotlinx.android.synthetic.main.home_fragment_content.app_drawer_fragment_list
@@ -377,6 +378,7 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
         fun onAppLongClicked(app : UnlauncherApp, view: View) : Boolean {
             val popupMenu = PopupMenu(context, view)
             popupMenu.inflate(R.menu.app_long_press_menu)
+            hideUninstallOptionIfSystemApp(app, popupMenu)
 
             popupMenu.setOnMenuItemClickListener { item: MenuItem? ->
 
@@ -402,7 +404,6 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
                         intent.data = Uri.parse("package:" + app.packageName)
                         uninstallAppLauncher.launch(intent)
                         //appDrawerAdapter.notifyDataSetChanged()
-                        // TODO: Handle the case when this is done for system apps
                     }
                 }
                 true
@@ -417,6 +418,15 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
 
             popupMenu.show()
             return true
+        }
+
+        private fun hideUninstallOptionIfSystemApp(app:UnlauncherApp, popupMenu: PopupMenu) {
+            val pm = requireContext().packageManager
+            val info = pm.getApplicationInfo(app.packageName, 0)
+            if (info.isSystemApp()){
+                val uninstallMenuItem = popupMenu.menu.findItem(R.id.uninstall)
+                uninstallMenuItem.isVisible = false
+            }
         }
 
         fun onAppClicked(app: UnlauncherApp) {
