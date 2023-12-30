@@ -17,4 +17,6 @@
     <dimen name="font_size_customize_apps_list_item">@dimen/_24ssp</dimen>
     <dimen name="font_size_add_apps_search">@dimen/_18ssp</dimen>
     <dimen name="font_size_add_apps_action">@dimen/_18ssp</dimen>
+    
+    <dimen name="margin_list_items">@dimen/_24sdp</dimen>
 </resources>

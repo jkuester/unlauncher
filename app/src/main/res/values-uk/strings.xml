@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add_apps_fragment_search_apps">Пошук застосунків</string>
+    <string name="choose_theme_dialog_title">Обрати тему</string>
     <string name="choose_time_format_dialog_title">Обрати формат часу</string>
     <string name="customise_apps_fragment_add">Додати</string>
     <string name="customise_apps_fragment_remove_all">Видалити всі</string>
     <string name="main_fragment_options">Налаштування</string>
     <string name="menu_remove">Видалити</string>
     <string name="menu_rename">Перейменувати</string>
+    <string name="menu_reset">Ясно</string>
+    <string name="options_fragment_change_theme">Змінити тему</string>
     <string name="options_fragment_choose_time_format">Обрати формат часу</string>
     <string name="options_fragment_customise_apps">Налаштування програм</string>
     <string name="options_fragment_device_settings">Налаштування пристрою</string>
-    <string name="choose_theme_dialog_title">Обрати тему</string>
-    <string name="options_fragment_change_theme">Змінити тему</string>
-    <string name="options_fragment_toggle_status_bar">Вкл\\вимк смужку стану</string>
     <string name="options_fragment_hide_status_bar">Сховати рядок стану</string>
     <string name="options_fragment_show_status_bar">Показати рядок стану</string>
-    <string name="menu_reset">Ясно</string>
+    <string name="options_fragment_toggle_status_bar">Вкл\\вимк смужку стану</string>
 </resources>

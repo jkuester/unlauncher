@@ -5,21 +5,33 @@
     android:id="@+id/customize_quick_buttons_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginStart="@dimen/_16sdp"
+    android:layout_marginEnd="@dimen/_16sdp"
+    android:layout_marginTop="@dimen/_8sdp"
     tools:context=".ui.options.CustomizeQuickButtonsFragment">
 
-    <TextView
-        android:id="@+id/customize_quick_buttons_fragment_header"
+    <ImageView
+        android:id="@+id/customize_quick_buttons_fragment_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_16sdp"
-        android:layout_marginTop="@dimen/_8sdp"
+        android:padding="@dimen/_8ssp"
+        android:paddingStart="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_back"
+        android:contentDescription="@string/content_description_back"
+        tools:ignore="RtlSymmetry" />
+    <TextView
+        android:id="@+id/customize_quick_buttons_fragment_header"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
         android:text="@string/options_fragment_customize_quick_buttons"
         android:textColor="?headerTextColor"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textSize="@dimen/font_size_customize_title"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/customize_quick_buttons_fragment_back"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
     <ImageView
         android:id="@+id/customize_quick_buttons_fragment_left"
         android:layout_width="wrap_content"
@@ -32,7 +44,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/ic_call"
         tools:ignore="ContentDescription" />
-
     <ImageView
         android:id="@+id/customize_quick_buttons_fragment_center"
         android:layout_width="wrap_content"
@@ -46,7 +57,6 @@
         app:layout_constraintStart_toEndOf="@+id/customize_quick_buttons_fragment_left"
         app:srcCompat="@drawable/ic_cog"
         tools:ignore="ContentDescription" />
-
     <ImageView
         android:id="@+id/customize_quick_buttons_fragment_right"
         android:layout_width="wrap_content"

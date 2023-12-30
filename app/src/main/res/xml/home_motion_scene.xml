@@ -14,10 +14,32 @@
 
     <ConstraintSet android:id="@+id/home_motion_01">
         <Constraint
+            android:id="@+id/home_fragment_analog_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_22sdp"
+            app:visibilityMode="ignore"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+        <Constraint
+            android:id="@+id/home_fragment_bin_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_42sdp"
+            android:padding="@dimen/_4sdp"
+            app:visibilityMode="ignore"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.506"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+        <Constraint
             android:id="@+id/home_fragment_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_42sdp"
+            app:visibilityMode="ignore"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.506"
             app:layout_constraintStart_toStartOf="parent"
@@ -28,9 +50,11 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/_4sdp"
             android:textSize="@dimen/font_size_home_date"
+            android:layout_marginTop="@dimen/_94sdp"
+            app:visibilityMode="ignore"
             app:layout_constraintEnd_toEndOf="@+id/home_fragment_time"
             app:layout_constraintStart_toStartOf="@+id/home_fragment_time"
-            app:layout_constraintTop_toBottomOf="@+id/home_fragment_time" />
+            app:layout_constraintTop_toTopOf="parent" />
         <Constraint
             android:id="@+id/home_fragment_list"
             android:layout_width="0dp"
@@ -118,9 +142,33 @@
             android:id="@+id/home_fragment_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_64sdp"
+            android:layout_marginTop="@dimen/_44sdp"
             android:alpha="-1"
-            app:layout_constraintBottom_toTopOf="@+id/home_fragment_date"
+            app:visibilityMode="ignore"
+            app:layout_constraintBottom_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent" />
+        <Constraint
+            android:id="@+id/home_fragment_analog_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0px"
+            android:alpha="0"
+            app:visibilityMode="ignore"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+        <Constraint
+            android:id="@+id/home_fragment_bin_time"
+            android:layout_width="wrap_content"
+            android:layout_height="0px"
+            android:layout_marginTop="0px"
+            android:alpha="-1"
+            app:visibilityMode="ignore"
+            app:layout_constraintBottom_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent" />
@@ -129,6 +177,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:alpha="-1"
+            app:visibilityMode="ignore"
             app:layout_constraintBottom_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/home_fragment_time"
             app:layout_constraintStart_toStartOf="@+id/home_fragment_time" />

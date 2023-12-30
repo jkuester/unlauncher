@@ -1,4 +1,8 @@
 <resources>
+    <string-array name="quick_button_array">
+        <item>Mostra</item>
+        <item>Nascondi</item>
+    </string-array>
     <string-array name="themes_array">
         <item>Predefinito</item>
         <item>Notturno</item>
@@ -10,35 +14,29 @@
         <item>Vlad</item>
         <item>Groovy</item>
     </string-array>
-
     <string-array name="time_format_array">
         <item>Come impostato nel dispositivo</item>
         <item>24 ore</item>
         <item>12 ore</item>
     </string-array>
 
-    <string-array name="quick_button_array">
-        <item>Mostra</item>
-        <item>Nascondi</item>
-    </string-array>
-
+    <string name="add_apps_fragment_search_apps">Cerca applicazioni</string>
+    <string name="choose_theme_dialog_title">Scegli il tema</string>
     <string name="choose_time_format_dialog_title">Formato dell\'ora</string>
+    <string name="customise_apps_fragment_add">Aggiungi</string>
+    <string name="customise_apps_fragment_remove_all">Rimuovi tutto</string>
+    <string name="customize_app_drawer_fragment_search_bar_position">Posizione</string>
     <string name="main_fragment_options">Impostazioni</string>
-    <string name="options_fragment_device_settings">Impostazioni del dispositivo</string>
+    <string name="menu_remove">Rimuovi</string>
+    <string name="menu_rename">Rinomina</string>
+    <string name="menu_reset">Azzera modifiche</string>
     <string name="options_fragment_change_theme">Cambia il tema</string>
     <string name="options_fragment_choose_time_format">Formato dell\'ora</string>
     <string name="options_fragment_customise_apps">Applicazioni preferite</string>
-    <string name="options_fragment_toggle_status_bar">Mostra/nascondi barra di stato</string>
+    <string name="options_fragment_customize_app_drawer">Elenco applicazioni</string>
+    <string name="options_fragment_customize_quick_buttons">Pulsanti rapidi</string>
+    <string name="options_fragment_device_settings">Impostazioni del dispositivo</string>
     <string name="options_fragment_hide_status_bar">Nascondi la barra di stato</string>
     <string name="options_fragment_show_status_bar">Mostra la barra di stato</string>
-    <string name="customize_app_drawer_fragment_search_bar_position">Posizione</string>
-    <string name="customise_apps_fragment_add">Aggiungi</string>
-    <string name="menu_rename">Rinomina</string>
-    <string name="menu_remove">Rimuovi</string>
-    <string name="choose_theme_dialog_title">Scegli il tema</string>
-    <string name="add_apps_fragment_search_apps">Cerca applicazioni</string>
-    <string name="customise_apps_fragment_remove_all">Rimuovi tutto</string>
-    <string name="menu_reset">Azzera modifiche</string>
-    <string name="options_fragment_customize_quick_buttons">Pulsanti rapidi</string>
-    <string name="options_fragment_customize_app_drawer">Elenco applicazioni</string>
+    <string name="options_fragment_toggle_status_bar">Mostra/nascondi barra di stato</string>
 </resources>

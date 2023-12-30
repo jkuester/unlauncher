@@ -16,6 +16,7 @@ import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.datasource.UnlauncherDataSource
 import com.sduduzog.slimlauncher.ui.dialogs.ChangeThemeDialog
 import com.sduduzog.slimlauncher.ui.dialogs.ChooseAlignmentDialog
+import com.sduduzog.slimlauncher.ui.dialogs.ChooseClockTypeDialog
 import com.sduduzog.slimlauncher.ui.dialogs.ChooseTimeFormatDialog
 import com.sduduzog.slimlauncher.utils.BaseFragment
 import com.sduduzog.slimlauncher.utils.createTitleAndSubtitleText
@@ -41,6 +42,9 @@ class OptionsFragment : BaseFragment() {
             val intent = Intent(Settings.ACTION_SETTINGS)
             launchActivity(it, intent)
         }
+        options_fragment_back.setOnClickListener{
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
         options_fragment_device_settings.setOnLongClickListener {
             val intent = Intent(Settings.ACTION_HOME_SETTINGS)
             launchActivity(it, intent)
@@ -53,6 +57,10 @@ class OptionsFragment : BaseFragment() {
         options_fragment_choose_time_format.setOnClickListener {
             val chooseTimeFormatDialog = ChooseTimeFormatDialog.getInstance()
             chooseTimeFormatDialog.showNow(childFragmentManager, "TIME_FORMAT_CHOOSER")
+        }
+        options_fragment_choose_clock_type.setOnClickListener {
+            val chooseClockTypeDialog = ChooseClockTypeDialog.getInstance()
+            chooseClockTypeDialog.showNow(childFragmentManager, "CLOCK_TYPE_CHOOSER")
         }
         options_fragment_choose_alignment.setOnClickListener {
             val chooseAlignmentDialog = ChooseAlignmentDialog.getInstance()

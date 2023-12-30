@@ -80,23 +80,23 @@ class AppDrawerAdapter(
         return first.startsWith(query, true) and !second.startsWith(query, true);
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     fun setAppFilter(query: String = "") {
         val filterQuery = regex.replace(query, "")
         updateFilteredApps(filterQuery)
-        notifyDataSetChanged()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun updateFilteredApps(filterQuery: String = "") {
         val showDrawerHeadings = corePreferencesRepo.get().showDrawerHeadings
+        val searchAllApps = corePreferencesRepo.get().searchAllAppsInDrawer && filterQuery != ""
         val displayableApps = apps
             .filter { app ->
-                app.displayInDrawer && regex.replace(app.displayName, "")
+                (app.displayInDrawer || searchAllApps) && regex.replace(app.displayName, "")
                         .contains(filterQuery, ignoreCase = true)
             }
 
         val includeHeadings = !showDrawerHeadings || filterQuery != ""
-        filteredApps = when (includeHeadings) {
+        val updatedApps = when (includeHeadings) {
             true -> displayableApps
                 .sortedWith { a, b ->
                     when {
@@ -104,9 +104,7 @@ class AppDrawerAdapter(
                         onlyFirstStringStartsWith(a.displayName, b.displayName, filterQuery) -> -1
                         onlyFirstStringStartsWith(b.displayName, a.displayName, filterQuery) -> 1
                         // if both or none start with the query sort in normal oder
-                        a.displayName > b.displayName -> 1
-                        a.displayName < b.displayName -> -1
-                        else -> 0
+                        else -> a.displayName.compareTo(b.displayName, true)
                     }
                 }.map { AppDrawerRow.Item(it) }
             // building a list with each letter and filtered app resulting in a list of
@@ -122,6 +120,10 @@ class AppDrawerAdapter(
                             *(entry.value.map { AppDrawerRow.Item(it) }).toTypedArray()
                     )
                 }
+        }
+        if (updatedApps != filteredApps) {
+            filteredApps = updatedApps
+            notifyDataSetChanged()
         }
     }
 

@@ -5,21 +5,44 @@
     android:id="@+id/customize_app_drawer_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginStart="8dp"
-    android:layout_marginLeft="8dp"
-    android:layout_marginEnd="8dp"
-    android:layout_marginRight="8dp"
+    android:layout_marginStart="@dimen/_16sdp"
+    android:layout_marginEnd="@dimen/_16sdp"
+    android:layout_marginTop="@dimen/_8sdp"
     tools:context=".ui.options.CustomizeAppDrawerFragment">
+
+    <ImageView
+        android:id="@+id/customize_app_drawer_fragment_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_8ssp"
+        android:paddingStart="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_back"
+        android:contentDescription="@string/content_description_back"
+        tools:ignore="RtlSymmetry" />
+    <TextView
+        android:id="@+id/customize_app_drawer_fragment_app_list_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColor="?headerTextColor"
+        android:text="@string/customize_app_drawer_fragment_visible_apps"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textSize="@dimen/font_size_customize_title"
+        app:layout_constraintStart_toEndOf="@+id/customize_app_drawer_fragment_back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/customize_app_drawer_fragment_app_list"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="@dimen/_16sdp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/customize_app_drawer_fragment_app_list_title"
         tools:listitem="@layout/customize_app_drawer_fragment_app_list_item" />
 
     <ProgressBar

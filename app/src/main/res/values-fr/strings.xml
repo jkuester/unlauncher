@@ -1,4 +1,8 @@
 <resources>
+    <string-array name="quick_button_array">
+        <item>Afficher</item>
+        <item>Cacher</item>
+    </string-array>
     <string-array name="themes_array">
         <item>Système défaut</item>
         <item>Minuit</item>
@@ -10,36 +14,30 @@
         <item>Vlad</item>
         <item>Groovy</item>
     </string-array>
-
     <string-array name="time_format_array">
         <item>Comme les paramètres du système</item>
         <item>24 heures</item>
         <item>12 heures</item>
     </string-array>
 
-    <string-array name="quick_button_array">
-        <item>Afficher</item>
-        <item>Cacher</item>
-    </string-array>
-
+    <string name="add_apps_fragment_search_apps">Chercher parmi les applications</string>
+    <string name="choose_theme_dialog_title">Choisir le thème</string>
     <string name="choose_time_format_dialog_title">Format de l’heure</string>
+    <string name="customise_apps_fragment_add">Ajouter</string>
+    <string name="customise_apps_fragment_remove_all">Supprimer tout</string>
+    <string name="customize_app_drawer_fragment_search_bar_position">Position</string>
     <string name="main_fragment_options">Options</string>
-    <string name="options_fragment_device_settings">Paramètres Système</string>
+    <string name="menu_remove">Supprimer</string>
+    <string name="menu_rename">Renommer</string>
+    <string name="menu_reset">Réinitialiser</string>
     <string name="options_fragment_change_theme">Changer le Thème</string>
     <string name="options_fragment_choose_time_format">Format de l’Heure</string>
     <string name="options_fragment_customise_apps">Applications Personnalisées</string>
-    <string name="options_fragment_toggle_status_bar">Afficher/Cacher la Barre de Statut</string>
+    <string name="options_fragment_device_settings">Paramètres Système</string>
     <string name="options_fragment_hide_status_bar">Cacher la Barre de Statut</string>
     <string name="options_fragment_show_status_bar">Afficher la Barre de Statut</string>
-    <string name="customize_app_drawer_fragment_search_bar_position">Position</string>
-    <string name="customise_apps_fragment_add">Ajouter</string>
-    <string name="menu_rename">Renommer</string>
-    <string name="menu_remove">Supprimer</string>
-    <string name="choose_theme_dialog_title">Choisir le thème</string>
-    <string name="add_apps_fragment_search_apps">Chercher parmi les applications</string>
-    <string name="customise_apps_fragment_remove_all">Supprimer tout</string>
-    <string name="menu_reset">Réinitialiser</string>
-    <string name="remove_all_apps_dialog_title">Supprimer toutes les applications</string>
+    <string name="options_fragment_toggle_status_bar">Afficher/Cacher la Barre de Statut</string>
     <string name="remove_all_apps_dialog_message">"Cette action ne supprimera aucune application de l’appareil."
     "Il s’agit seulement de confirmer la purgation de la liste."</string>
+    <string name="remove_all_apps_dialog_title">Supprimer toutes les applications</string>
 </resources>

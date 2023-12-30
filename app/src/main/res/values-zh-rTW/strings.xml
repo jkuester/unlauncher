@@ -1,9 +1,4 @@
 <resources>
-    <string name="app_name" translatable="false">Unlauncher</string>
-    <string name="slim_url" translatable="false">https://github.com/jkuester/unlauncher</string>
-    <string name="main_placeholder_clock" translatable="false">00:00</string>
-    <string name="main_placeholder_date" translatable="false">Sat, Apr 20</string>
-
     <string-array name="themes_array">
         <item>默認主題</item>
         <item>黑夜主題</item>
@@ -15,35 +10,29 @@
         <item>弗拉德</item>
         <item>格罗维</item>
     </string-array>
-
     <string-array name="time_format_array">
         <item>根據系統設置</item>
         <item>24小時格式</item>
         <item>12小時格式</item>
     </string-array>
 
-    <string name="prefs_settings" translatable="false">settings</string>
-    <string name="prefs_settings_key_theme" translatable="false">key_theme</string>
-    <string name="prefs_settings_key_time_format" translatable="false">time_format</string>
-    <string name="prefs_settings_key_toggle_status_bar" translatable="false">hide_status_bar</string>
+    <string name="add_apps_fragment_search_apps">搜索應用程序</string>
+    <string name="choose_theme_dialog_title">選擇主題</string>
     <string name="choose_time_format_dialog_title">選擇時間格式</string>
+    <string name="customise_apps_fragment_add">添加</string>
+    <string name="customise_apps_fragment_remove_all">刪除全部</string>
     <string name="main_fragment_options">選項</string>
-    <string name="options_fragment_device_settings">設備設置</string>
+    <string name="menu_remove">刪除</string>
+    <string name="menu_rename">更改名字</string>
+    <string name="menu_reset">還原名字</string>
     <string name="options_fragment_change_theme">更換主題</string>
     <string name="options_fragment_choose_time_format">選擇時間格式</string>
     <string name="options_fragment_customise_apps">挑選應用程序</string>
-    <string name="options_fragment_toggle_status_bar">顯示或隱藏狀態欄</string>
+    <string name="options_fragment_device_settings">設備設置</string>
     <string name="options_fragment_hide_status_bar">隱藏狀態欄</string>
     <string name="options_fragment_show_status_bar">顯示狀態欄</string>
-    <string name="customise_apps_fragment_add">添加</string>
-    <string name="menu_rename">更改名字</string>
-    <string name="menu_remove">刪除</string>
-    <string name="choose_theme_dialog_title">選擇主題</string>
-    <string name="add_apps_fragment_search_apps">搜索應用程序</string>
-    <string name="customise_apps_fragment_remove_all">刪除全部</string>
-    <string name="menu_reset">還原名字</string>
-    <string name="remove_all_apps_dialog_title" translatable="false">刪除所有應用</string>
-    <string name="remove_all_apps_dialog_message" translatable="false">"這個選項不會卸載你的應用程序."
+    <string name="options_fragment_toggle_status_bar">顯示或隱藏狀態欄</string>
+    <string name="remove_all_apps_dialog_message">"這個選項不會卸載你的應用程序."
 "這只是爲了確定你想清空這個清單."</string>
-
+    <string name="remove_all_apps_dialog_title">刪除所有應用</string>
 </resources>

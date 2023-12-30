@@ -20,7 +20,11 @@ import com.sduduzog.slimlauncher.utils.BaseFragment
 import com.sduduzog.slimlauncher.utils.OnItemActionListener
 import com.sduduzog.slimlauncher.utils.OnShitDoneToAppsListener
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.customise_apps_fragment.*
+import kotlinx.android.synthetic.main.customise_apps_fragment.customise_apps_fragment
+import kotlinx.android.synthetic.main.customise_apps_fragment.customise_apps_fragment_add
+import kotlinx.android.synthetic.main.customise_apps_fragment.customise_apps_fragment_back
+import kotlinx.android.synthetic.main.customise_apps_fragment.customise_apps_fragment_list
+import kotlinx.android.synthetic.main.customise_apps_fragment.customise_apps_fragment_remove_all
 
 
 @AndroidEntryPoint
@@ -34,6 +38,12 @@ class CustomiseAppsFragment : BaseFragment(), OnShitDoneToAppsListener {
         return inflater.inflate(R.layout.customise_apps_fragment, container, false)
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        customise_apps_fragment_back.setOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val adapter = CustomAppsAdapter(this)

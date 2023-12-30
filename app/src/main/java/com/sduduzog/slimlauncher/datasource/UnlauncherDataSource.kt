@@ -10,6 +10,7 @@ import com.jkuester.unlauncher.datastore.UnlauncherApps
 import com.sduduzog.slimlauncher.datasource.apps.UnlauncherAppsMigrations
 import com.sduduzog.slimlauncher.datasource.apps.UnlauncherAppsRepository
 import com.sduduzog.slimlauncher.datasource.apps.UnlauncherAppsSerializer
+import com.sduduzog.slimlauncher.datasource.coreprefs.CorePreferencesMigrations
 import com.sduduzog.slimlauncher.datasource.coreprefs.CorePreferencesRepository
 import com.sduduzog.slimlauncher.datasource.coreprefs.CorePreferencesSerializer
 import com.sduduzog.slimlauncher.datasource.quickbuttonprefs.QuickButtonPreferencesMigrations
@@ -30,7 +31,8 @@ private val Context.unlauncherAppsStore: DataStore<UnlauncherApps> by dataStore(
 
 private val Context.corePreferencesStore: DataStore<CorePreferences> by dataStore(
     fileName = "core_preferences.proto",
-    serializer = CorePreferencesSerializer
+    serializer = CorePreferencesSerializer,
+    produceMigrations = { _ -> CorePreferencesMigrations().get() }
 )
 
 class UnlauncherDataSource(context: Context, lifecycleScope: LifecycleCoroutineScope) {

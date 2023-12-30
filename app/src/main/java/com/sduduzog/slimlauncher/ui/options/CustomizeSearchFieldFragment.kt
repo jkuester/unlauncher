@@ -10,11 +10,13 @@ import com.sduduzog.slimlauncher.ui.dialogs.ChooseSearchBarPositionDialog
 import com.sduduzog.slimlauncher.utils.BaseFragment
 import com.sduduzog.slimlauncher.utils.createTitleAndSubtitleText
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.customize_app_drawer_fragment_search_field_options.customise_apps_fragment_back
 import kotlinx.android.synthetic.main.customize_app_drawer_fragment_search_field_options.customize_app_drawer_fragment_search_field_options
 
 import kotlinx.android.synthetic.main.customize_app_drawer_fragment_search_field_options.customize_app_drawer_fragment_search_field_position
 import kotlinx.android.synthetic.main.customize_app_drawer_fragment_search_field_options.customize_app_drawer_fragment_show_search_field_switch
 import kotlinx.android.synthetic.main.customize_app_drawer_fragment_search_field_options.customize_app_drawer_open_keyboard_switch
+import kotlinx.android.synthetic.main.customize_app_drawer_fragment_search_field_options.customize_app_drawer_search_all_switch
 
 import javax.inject.Inject
 
@@ -39,19 +41,24 @@ class CustomizeSearchFieldFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        customise_apps_fragment_back.setOnClickListener{
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
+
         setupShowSearchBarSwitch()
         setupSearchBarPositionOption()
         setupKeyboardSwitch()
+        setupSearchAllAppsSwitch()
     }
 
     private fun setupShowSearchBarSwitch() {
         val prefsRepo = unlauncherDataSource.corePreferencesRepo
         customize_app_drawer_fragment_show_search_field_switch.setOnCheckedChangeListener { _, checked ->
-            prefsRepo.showSearchField = checked
+            prefsRepo.updateShowSearchBar(checked)
             enableSearchBarOptions(checked)
         }
         prefsRepo.liveData().observe(viewLifecycleOwner) {
-            val checked = prefsRepo.showSearchField
+            val checked = it.showSearchBar
             customize_app_drawer_fragment_show_search_field_switch.isChecked = checked
             enableSearchBarOptions(checked)
         }
@@ -90,5 +97,20 @@ class CustomizeSearchFieldFragment : BaseFragment() {
                 requireContext(), R.string.customize_app_drawer_fragment_open_keyboard,
                 R.string.customize_app_drawer_fragment_open_keyboard_subtitle
             )
+    }
+
+    private fun setupSearchAllAppsSwitch() {
+        val prefsRepo = unlauncherDataSource.corePreferencesRepo
+        customize_app_drawer_search_all_switch.setOnCheckedChangeListener { _, checked ->
+            prefsRepo.updateSearchAllAppsInDrawer(checked)
+        }
+        prefsRepo.liveData().observe(viewLifecycleOwner) {
+            customize_app_drawer_search_all_switch.isChecked = it.searchAllAppsInDrawer
+        }
+        customize_app_drawer_search_all_switch.text =
+                createTitleAndSubtitleText(
+                        requireContext(), R.string.customize_app_drawer_fragment_search_all,
+                        R.string.customize_app_drawer_fragment_search_all_subtitle
+                )
     }
 }

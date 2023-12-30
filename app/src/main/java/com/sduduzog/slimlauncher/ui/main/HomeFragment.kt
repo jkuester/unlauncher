@@ -1,7 +1,12 @@
 package com.sduduzog.slimlauncher.ui.main
 
 import android.app.Activity
-import android.content.*
+import android.content.ActivityNotFoundException
+import android.content.BroadcastReceiver
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.LauncherApps
 import android.net.Uri
 import android.os.Bundle
@@ -10,20 +15,25 @@ import android.provider.AlarmClock
 import android.provider.CalendarContract
 import android.provider.MediaStore
 import android.provider.Settings
+import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
+import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.PopupMenu
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.motion.widget.MotionLayout.TransitionListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.jkuester.unlauncher.datastore.ClockType
 import com.jkuester.unlauncher.datastore.SearchBarPosition
 import com.jkuester.unlauncher.datastore.UnlauncherApp
 import com.sduduzog.slimlauncher.R
@@ -37,13 +47,23 @@ import com.sduduzog.slimlauncher.ui.dialogs.RenameAppDisplayNameDialog
 import com.sduduzog.slimlauncher.utils.BaseFragment
 import com.sduduzog.slimlauncher.utils.OnLaunchAppListener
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.home_fragment_default.*
-import kotlinx.android.synthetic.main.home_fragment_content.*
+import kotlinx.android.synthetic.main.home_fragment_content.app_drawer_edit_text
+import kotlinx.android.synthetic.main.home_fragment_content.app_drawer_fragment_list
+import kotlinx.android.synthetic.main.home_fragment_content.home_fragment_analog_time
+import kotlinx.android.synthetic.main.home_fragment_content.home_fragment_bin_time
+import kotlinx.android.synthetic.main.home_fragment_content.home_fragment_call
+import kotlinx.android.synthetic.main.home_fragment_content.home_fragment_camera
+import kotlinx.android.synthetic.main.home_fragment_content.home_fragment_date
+import kotlinx.android.synthetic.main.home_fragment_content.home_fragment_list
+import kotlinx.android.synthetic.main.home_fragment_content.home_fragment_list_exp
+import kotlinx.android.synthetic.main.home_fragment_content.home_fragment_options
+import kotlinx.android.synthetic.main.home_fragment_content.home_fragment_time
+import kotlinx.android.synthetic.main.home_fragment_default.home_fragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.text.DateFormat
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -55,6 +75,12 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
 
     private lateinit var receiver: BroadcastReceiver
     private lateinit var appDrawerAdapter: AppDrawerAdapter
+    private lateinit var uninstallAppLauncher: ActivityResultLauncher<Intent>
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        uninstallAppLauncher = registerForActivityResult(StartActivityForResult()) { refreshApps() }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val coreRepository = unlauncherDataSource.corePreferencesRepo
@@ -108,8 +134,15 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
 
         app_drawer_fragment_list.adapter = appDrawerAdapter
 
-        val showSearchBar = unlauncherDataSource.corePreferencesRepo.showSearchField
-        app_drawer_edit_text.visibility = if (showSearchBar) View.VISIBLE else View.GONE
+        unlauncherDataSource.corePreferencesRepo.liveData().observe(viewLifecycleOwner){ corePreferences ->
+            app_drawer_edit_text.visibility = if (corePreferences.showSearchBar) View.VISIBLE else View.GONE
+
+            val clockType = corePreferences.clockType
+            home_fragment_time.visibility = if(clockType == ClockType.digital) View.VISIBLE else View.GONE
+            home_fragment_analog_time.visibility = if(clockType == ClockType.analog) View.VISIBLE else View.GONE
+            home_fragment_bin_time.visibility = if(clockType == ClockType.binary) View.VISIBLE else View.GONE
+            home_fragment_date.visibility = if(clockType != ClockType.none) View.VISIBLE else View.GONE
+        }
     }
 
     override fun onStart() {
@@ -124,9 +157,7 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
         super.onResume()
         updateClock()
 
-        lifecycleScope.launch(Dispatchers.IO) {
-            unlauncherDataSource.unlauncherAppsRepo.setApps(getInstalledApps())
-        }
+        refreshApps()
         if (!::appDrawerAdapter.isInitialized) {
             appDrawerAdapter.setAppFilter()
         }
@@ -138,6 +169,14 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
         }
     }
 
+    private fun refreshApps() {
+        val installedApps = getInstalledApps()
+        lifecycleScope.launch(Dispatchers.IO) {
+            unlauncherDataSource.unlauncherAppsRepo.setApps(installedApps)
+            viewModel.filterHomeApps(installedApps)
+        }
+    }
+
     override fun onStop() {
         super.onStop()
         activity?.unregisterReceiver(receiver)
@@ -146,7 +185,7 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
 
     private fun setEventListeners() {
 
-        home_fragment_time.setOnClickListener {
+        val launchShowAlarms = OnClickListener {
             try {
                 val intent = Intent(AlarmClock.ACTION_SHOW_ALARMS)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
@@ -156,6 +195,9 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
                 // Do nothing, we've failed :(
             }
         }
+        home_fragment_time.setOnClickListener(launchShowAlarms)
+        home_fragment_analog_time.setOnClickListener(launchShowAlarms)
+        home_fragment_bin_time.setOnClickListener(launchShowAlarms)
 
         home_fragment_date.setOnClickListener {
             try {
@@ -237,13 +279,10 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
                     }
 
                     motionLayout?.endState -> {
-                        val repository = unlauncherDataSource.corePreferencesRepo
-                        val showSearchField = repository.showSearchField
-                        val activateKeyboard = repository.get().activateKeyboardInDrawer
-
+                        val preferences = unlauncherDataSource.corePreferencesRepo.get()
                         // Check for preferences to open the keyboard
                         // only if the search field is shown
-                        if (showSearchField && activateKeyboard) {
+                        if (preferences.showSearchBar && preferences.activateKeyboardInDrawer) {
                             app_drawer_edit_text.requestFocus()
                             // show the keyboard and set focus to the EditText when swiping down
                             inputMethodManager.showSoftInput(
@@ -270,21 +309,29 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
     }
 
     fun updateClock() {
-        val active = context?.getSharedPreferences(getString(R.string.prefs_settings), Context.MODE_PRIVATE)
-                ?.getInt(getString(R.string.prefs_settings_key_time_format), 0)
-        val date = Date()
-
-        val currentLocale = Locale.getDefault()
-        val fWatchTime = when(active) {
-            1 -> SimpleDateFormat("H:mm", currentLocale)
-            2 -> SimpleDateFormat("h:mm aa", currentLocale)
-            else -> DateFormat.getTimeInstance(DateFormat.SHORT)
+        updateDate()
+        when (unlauncherDataSource.corePreferencesRepo.get().clockType) {
+            ClockType.digital -> updateClockDigital()
+            ClockType.analog -> home_fragment_analog_time.updateClock()
+            ClockType.binary -> home_fragment_bin_time.updateClock()
+            else -> {}
         }
-        home_fragment_time.text = fWatchTime.format(date)
+    }
 
+    private fun updateClockDigital () {
+        val timeFormat = context?.getSharedPreferences(getString(R.string.prefs_settings), Context.MODE_PRIVATE)
+            ?.getInt(getString(R.string.prefs_settings_key_time_format), 0)
+        val fWatchTime = when (timeFormat) {
+            1 -> SimpleDateFormat("H:mm", Locale.getDefault())
+            2 -> SimpleDateFormat("h:mm aa", Locale.getDefault())
+            else -> DateFormat.getTimeFormat(context)
+        }
+        home_fragment_time.text = fWatchTime.format(Date())
+    }
 
-        val fWatchDate = SimpleDateFormat("EEE, MMM dd", currentLocale)
-        home_fragment_date.text = fWatchDate.format(date)
+    private fun updateDate() {
+        val fWatchDate = SimpleDateFormat(getString(R.string.main_date_format), Locale.getDefault())
+        home_fragment_date.text = fWatchDate.format(Date())
     }
 
     override fun onLaunch(app: HomeApp, view: View) {
@@ -353,7 +400,7 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
                     R.id.uninstall -> {
                         val intent = Intent(Intent.ACTION_DELETE)
                         intent.data = Uri.parse("package:" + app.packageName)
-                        startActivity(intent)
+                        uninstallAppLauncher.launch(intent)
                         //appDrawerAdapter.notifyDataSetChanged()
                         // TODO: Handle the case when this is done for system apps
                     }
