@@ -9,15 +9,6 @@ import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.models.HomeApp
 import com.sduduzog.slimlauncher.utils.OnLaunchAppListener
 
-/**
- * Corresponding to the resulting gravity, not the option key
- */
-enum class Alignment (val value: Int) {
-    LEFT(3),
-    RIGHT(5),
-    CENTER(1)
-}
-
 class HomeAdapter(private val listener: OnLaunchAppListener)
     : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
 
@@ -56,11 +47,7 @@ class HomeAdapter(private val listener: OnLaunchAppListener)
     }
 
     private fun setAlignment(alignment: Int) {
-        gravity = when (alignment) {
-            2 -> Alignment.RIGHT
-            1 -> Alignment.CENTER
-            else -> Alignment.LEFT
-        }
+        gravity = fromGravity(alignment)
     }
 
     inner class ViewHolder(mView: View) : RecyclerView.ViewHolder(mView) {

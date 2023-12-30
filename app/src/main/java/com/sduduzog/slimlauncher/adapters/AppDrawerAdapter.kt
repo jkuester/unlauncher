@@ -17,10 +17,11 @@ import com.sduduzog.slimlauncher.ui.main.HomeFragment
 import com.sduduzog.slimlauncher.utils.firstUppercase
 
 class AppDrawerAdapter(
-    private val listener: HomeFragment.AppDrawerListener,
-    lifecycleOwner: LifecycleOwner,
-    appsRepo: UnlauncherAppsRepository,
-    private val corePreferencesRepo: CorePreferencesRepository
+        private val listener: HomeFragment.AppDrawerListener,
+        lifecycleOwner: LifecycleOwner,
+        appsRepo: UnlauncherAppsRepository,
+        private val corePreferencesRepo: CorePreferencesRepository,
+        private var alignment: Alignment,
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val WORK_APP_PREFIX = "\uD83C\uDD46 " //Unicode for boxed w
@@ -84,6 +85,10 @@ class AppDrawerAdapter(
     fun setAppFilter(query: String = "") {
         val filterQuery = regex.replace(query, "")
         updateFilteredApps(filterQuery)
+    }
+
+    fun setGravity(gravity: Alignment) {
+        this.alignment = gravity
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -153,6 +158,7 @@ class AppDrawerAdapter(
 
         fun bind(item: UnlauncherApp) {
             this.item.text = item.displayName
+            this.item.gravity = alignment.value;
         }
     }
 

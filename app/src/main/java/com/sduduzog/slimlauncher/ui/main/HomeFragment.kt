@@ -39,6 +39,7 @@ import com.jkuester.unlauncher.datastore.UnlauncherApp
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.adapters.AppDrawerAdapter
 import com.sduduzog.slimlauncher.adapters.HomeAdapter
+import com.sduduzog.slimlauncher.adapters.fromGravity
 import com.sduduzog.slimlauncher.datasource.UnlauncherDataSource
 import com.sduduzog.slimlauncher.datasource.quickbuttonprefs.QuickButtonPreferencesRepository
 import com.sduduzog.slimlauncher.models.HomeApp
@@ -128,7 +129,8 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
             AppDrawerListener(),
             viewLifecycleOwner,
             unlauncherAppsRepo,
-            unlauncherDataSource.corePreferencesRepo
+            unlauncherDataSource.corePreferencesRepo,
+            fromGravity(alignment),
         )
 
         setEventListeners()
