@@ -25,6 +25,7 @@
         android:id="@+id/customize_app_drawer_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:textColor="?headerTextColor"
         android:text="@string/options_fragment_customize_app_drawer"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textSize="@dimen/font_size_customize_title"
