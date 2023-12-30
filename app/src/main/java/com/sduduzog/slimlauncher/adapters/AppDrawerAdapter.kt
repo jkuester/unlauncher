@@ -23,6 +23,7 @@ class AppDrawerAdapter(
     private val corePreferencesRepo: CorePreferencesRepository
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    private val WORK_APP_PREFIX = "\uD83C\uDD46 " //Unicode for boxed w
     private val regex = Regex("[!@#\$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/? ]")
     private var apps: List<UnlauncherApp> = listOf()
     private var filteredApps: List<AppDrawerRow> = listOf()
@@ -112,8 +113,9 @@ class AppDrawerAdapter(
             // Header<"G">, App<"Gmail">, App<"Google Drive">, Header<"Y">, App<"YouTube">, ...
             // ]
             false -> displayableApps
-                .groupBy {
-                    app -> app.displayName.firstUppercase()
+                .groupBy { app ->
+                    if(app.displayName.startsWith(WORK_APP_PREFIX)) WORK_APP_PREFIX
+                    else app.displayName.firstUppercase()
                 }.flatMap { entry ->
                     listOf(
                             AppDrawerRow.Header(entry.key),
