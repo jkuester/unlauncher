@@ -11,31 +11,30 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.jkuester.unlauncher.datastore.UnlauncherApp
 import com.sduduzog.slimlauncher.R
-import com.sduduzog.slimlauncher.datasource.apps.UnlauncherAppsRepository
-import com.sduduzog.slimlauncher.datasource.coreprefs.CorePreferencesRepository
-import com.sduduzog.slimlauncher.models.Alignment
+import com.sduduzog.slimlauncher.datasource.UnlauncherDataSource
 import com.sduduzog.slimlauncher.ui.main.HomeFragment
 import com.sduduzog.slimlauncher.utils.firstUppercase
+import com.sduduzog.slimlauncher.utils.gravity
 
 class AppDrawerAdapter(
         private val listener: HomeFragment.AppDrawerListener,
         lifecycleOwner: LifecycleOwner,
-        appsRepo: UnlauncherAppsRepository,
-        private val corePreferencesRepo: CorePreferencesRepository,
-        private var alignment: Alignment,
+        private val unlauncherDataSource: UnlauncherDataSource
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val WORK_APP_PREFIX = "\uD83C\uDD46 " //Unicode for boxed w
     private val regex = Regex("[!@#\$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/? ]")
     private var apps: List<UnlauncherApp> = listOf()
     private var filteredApps: List<AppDrawerRow> = listOf()
+    private var gravity = 3
 
     init {
-        appsRepo.liveData().observe(lifecycleOwner) { unlauncherApps ->
+        unlauncherDataSource.unlauncherAppsRepo.liveData().observe(lifecycleOwner) { unlauncherApps ->
             apps = unlauncherApps.appsList
             updateFilteredApps()
         }
-        corePreferencesRepo.liveData().observe(lifecycleOwner) { _ ->
+        unlauncherDataSource.corePreferencesRepo.liveData().observe(lifecycleOwner) { corePrefs ->
+            gravity = corePrefs.alignmentFormat.gravity()
             updateFilteredApps()
         }
     }
@@ -88,14 +87,11 @@ class AppDrawerAdapter(
         updateFilteredApps(filterQuery)
     }
 
-    fun setGravity(gravity: Alignment) {
-        this.alignment = gravity
-    }
-
     @SuppressLint("NotifyDataSetChanged")
     private fun updateFilteredApps(filterQuery: String = "") {
-        val showDrawerHeadings = corePreferencesRepo.get().showDrawerHeadings
-        val searchAllApps = corePreferencesRepo.get().searchAllAppsInDrawer && filterQuery != ""
+        val corePreferences = unlauncherDataSource.corePreferencesRepo.get()
+        val showDrawerHeadings = corePreferences.showDrawerHeadings
+        val searchAllApps = corePreferences.searchAllAppsInDrawer && filterQuery != ""
         val displayableApps = apps
             .filter { app ->
                 (app.displayInDrawer || searchAllApps) && regex.replace(app.displayName, "")
@@ -159,7 +155,7 @@ class AppDrawerAdapter(
 
         fun bind(item: UnlauncherApp) {
             this.item.text = item.displayName
-            this.item.gravity = alignment.value;
+            this.item.gravity = gravity
         }
     }
 

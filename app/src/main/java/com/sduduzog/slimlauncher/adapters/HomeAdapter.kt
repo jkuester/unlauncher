@@ -6,20 +6,18 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.sduduzog.slimlauncher.R
-import com.sduduzog.slimlauncher.models.Alignment
+import com.sduduzog.slimlauncher.datasource.UnlauncherDataSource
 import com.sduduzog.slimlauncher.models.HomeApp
-import com.sduduzog.slimlauncher.models.fromGravity
-import com.sduduzog.slimlauncher.utils.OnLaunchAppListener
+import com.sduduzog.slimlauncher.ui.main.HomeFragment
+import com.sduduzog.slimlauncher.utils.gravity
 
-class HomeAdapter(private val listener: OnLaunchAppListener)
-    : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
+class HomeAdapter(
+    private val listener: HomeFragment,
+    private val unlauncherDataSource: UnlauncherDataSource
+) : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
 
     private var apps: List<HomeApp> = listOf()
-    private var gravity: Alignment = Alignment.LEFT
 
-    constructor(listener: OnLaunchAppListener, alignment: Int) : this(listener) {
-        setAlignment(alignment)
-    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.main_fragment_list_item, parent, false)
@@ -29,9 +27,11 @@ class HomeAdapter(private val listener: OnLaunchAppListener)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = apps.elementAt(position)
         holder.mLabelView.text = item.appNickname ?: item.appName
-        holder.mLabelView.gravity = gravity.value
         holder.mLabelView.setOnClickListener {
             listener.onLaunch(item, it)
+        }
+        unlauncherDataSource.corePreferencesRepo.liveData().observe(listener.viewLifecycleOwner) {
+            holder.mLabelView.gravity = it.alignmentFormat.gravity()
         }
     }
 
@@ -40,16 +40,6 @@ class HomeAdapter(private val listener: OnLaunchAppListener)
     fun setItems(list: List<HomeApp>) {
         this.apps = list
         notifyDataSetChanged()
-    }
-
-    fun getGravity(): Alignment = gravity
-
-    fun setGravity(gravity: Alignment) {
-        this.gravity = gravity
-    }
-
-    private fun setAlignment(alignment: Int) {
-        gravity = fromGravity(alignment)
     }
 
     inner class ViewHolder(mView: View) : RecyclerView.ViewHolder(mView) {

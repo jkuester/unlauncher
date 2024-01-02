@@ -14,6 +14,7 @@ import android.text.style.TextAppearanceSpan
 import android.util.DisplayMetrics
 import android.view.WindowInsets
 import androidx.annotation.StringRes
+import com.jkuester.unlauncher.datastore.AlignmentFormat
 import com.sduduzog.slimlauncher.R
 
 
@@ -98,3 +99,9 @@ fun String.firstUppercase() = this.first().uppercase()
 
 fun ApplicationInfo.isSystemApp(): Boolean = (this.flags and ApplicationInfo.FLAG_SYSTEM != 0) ||
         (this.flags and ApplicationInfo.FLAG_UPDATED_SYSTEM_APP != 0)
+
+fun AlignmentFormat.gravity(): Int = when (this.number) {
+    2 -> 5 // RIGHT
+    1 -> 1 // CENTER
+    else -> 3 // LEFT
+}
