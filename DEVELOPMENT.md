@@ -1,5 +1,15 @@
 # Developing Unlauncher
 
+## Adding a new configuration preference
+
+Currently user preferences in the Unlauncher code base are stored in one of three different ways:
+
+1. In the [SharedPreferences](https://developer.android.com/training/data-storage/shared-preferences). This is an older style of storing basic preferences that was inherited from Slim Launcher. 
+1. In an [SQLite database](https://developer.android.com/training/data-storage/sqlite). This format is more appropriate for storing large amounts of data and was inherited from Slim Launcher as the method for storing data about the apps installed on the device.
+1. In a [Proto DataStore](https://developer.android.com/topic/libraries/architecture/datastore#proto-datastore). This data format is suitable for both simple user preference values as well as storing larger data sets.
+
+The plan is to eventually migrate away from SharedPreferences and SQLite so that all the data is centralized in Proto DataStores. This will maximize consistency and simplicity in the codebase. All new data values should be added to Proto DataStores.
+
 ## Building a release
 
 Building an Unlauncher release is straightforward.  

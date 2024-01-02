@@ -35,6 +35,12 @@ Features:
 
 ## What people are saying
 
+<!-- 2023 -->
+Jake Ginesin - [dumb-phone](https://jakegines.in/blog/2023/dumb-phone)
+
+<!-- 2022-12-05 -->
+Side Of Burritos - [A minimalist dumb phone you should actually use](https://www.youtube.com/watch?v=OrZacTUhH0c) (VIDEO)
+
 <!-- 2020-11-13 -->
 zymotux - [Bare-bones smartphone “Unlauncher”](https://write.as/zymotux/bare-bones-smartphone-unlauncher)
 
