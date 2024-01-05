@@ -60,8 +60,10 @@ android {
     }
     lint {
         warningsAsErrors = true
-        disable += "Typos"
-        disable += "VectorPath"
+        disable += "Typos" // Too many false positives
+        disable += "VectorPath" // Not planning to change "large" graphics for now
+        disable += "GradleDependency" // Do not fail linting due to new dependencies
+        checkDependencies = false
     }
     namespace = "com.sduduzog.slimlauncher"
     applicationVariants.all{
