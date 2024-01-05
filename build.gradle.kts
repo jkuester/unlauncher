@@ -25,3 +25,7 @@ allprojects {
 tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)
 }
+
+plugins {
+    id("com.google.devtools.ksp") version "1.7.22-1.0.8" apply false // This needs to match kotlin-stdlib
+}

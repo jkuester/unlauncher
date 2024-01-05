@@ -3,10 +3,10 @@ import com.google.protobuf.gradle.*
 plugins {
     id("com.android.application")
     id("dagger.hilt.android.plugin")
+    id("com.google.devtools.ksp")
     id("com.google.protobuf") version "0.9.0"
     kotlin("android")
     kotlin("android.extensions")
-    kotlin("kapt")
 }
 
 android {
@@ -77,7 +77,7 @@ dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
     // Kotlin Libraries
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.7.22")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.7.22") // This needs to match ksp
 
     // Support Libraries
     implementation("androidx.appcompat:appcompat:1.6.1")
@@ -94,14 +94,14 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:2.5.3")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.5.1")
     implementation("androidx.room:room-runtime:2.5.1")
-    kapt("androidx.room:room-compiler:2.5.1")
+    ksp("androidx.room:room-compiler:2.5.1")
 
     //3rd party libs
     implementation("com.intuit.sdp:sdp-android:1.0.6")
     implementation("com.intuit.ssp:ssp-android:1.0.6")
     implementation("com.google.dagger:hilt-android:2.44.2")
-    kapt("androidx.hilt:hilt-compiler:1.0.0")
-    kapt("com.google.dagger:hilt-android-compiler:2.44")
+    ksp("androidx.hilt:hilt-compiler:1.0.0")
+    ksp("com.google.dagger:hilt-android-compiler:2.44")
 }
 protobuf {
     protoc {
