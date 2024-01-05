@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.navigation.NavController
 import androidx.navigation.Navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.RecyclerView
 import com.sduduzog.slimlauncher.utils.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -65,8 +66,9 @@ class MainActivity : AppCompatActivity(),
         setContentView(R.layout.main_activity)
         settings = getSharedPreferences(getString(R.string.prefs_settings), MODE_PRIVATE)
         settings.registerOnSharedPreferenceChangeListener(this)
-        navigator = findNavController(this, R.id.nav_host_fragment)
-        homeWatcher = HomeWatcher(this)
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        navigator = navHostFragment.navController
+        homeWatcher = HomeWatcher.createInstance(this)
         homeWatcher.setOnHomePressedListener(this)
     }
 
@@ -179,7 +181,7 @@ class MainActivity : AppCompatActivity(),
         }
 
         override fun onFling(
-            e1: MotionEvent,
+            e1: MotionEvent?,
             e2: MotionEvent,
             velocityX: Float,
             velocityY: Float

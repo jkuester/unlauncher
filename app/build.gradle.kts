@@ -10,11 +10,11 @@ plugins {
 }
 
 android {
-    compileSdkVersion(33)
+    compileSdk = 34
     defaultConfig {
         applicationId = "com.jkuester.unlauncher"
         minSdkVersion(21)
-        targetSdkVersion(33)
+        targetSdk = 34
         versionName = "2.1.0-beta.1"
         versionCode = 19
         vectorDrawables { useSupportLibrary = true }
