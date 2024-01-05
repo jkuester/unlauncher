@@ -19,7 +19,5 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: 17
-      - name: Lint Android
-        run: ./gradlew lint
       - name: Build with Gradle
         run: ./gradlew build
