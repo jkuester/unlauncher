@@ -7,7 +7,6 @@
     <string name="prefs_settings_key_theme" translatable="false">key_theme</string>
     <string name="prefs_settings_key_time_format" translatable="false">time_format</string>
     <string name="prefs_settings_key_toggle_status_bar" translatable="false">hide_status_bar</string>
-    <string name="slim_url" translatable="false">https://github.com/jkuester/unlauncher</string>
 
     <string-array name="alignment_format_array">
         <item>left</item>
@@ -85,8 +84,6 @@
     <string name="options_fragment_customize_app_drawer">Customise Drawer</string>
     <string name="options_fragment_customize_quick_buttons">Customise Quick Buttons</string>
     <string name="options_fragment_device_settings">Device Settings</string>
-    <string name="options_fragment_hide_status_bar">Hide Status Bar</string>
-    <string name="options_fragment_show_status_bar">Show Status Bar</string>
     <string name="options_fragment_toggle_status_bar">Toggle Status Bar</string>
     <string name="remove_all_apps_dialog_message">"This action will not uninstall your apps."
     "It is just to confirm if you're clearing this list on purpose"</string>

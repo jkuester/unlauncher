@@ -41,6 +41,7 @@ class CustomAppsAdapter(private val listener: OnShitDoneToAppsListener) : Recycl
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setItems(apps: List<HomeApp>) {
         this.apps = sanitiseIndexes(apps) as MutableList<HomeApp>
         notifyDataSetChanged()

@@ -1,5 +1,6 @@
 package com.sduduzog.slimlauncher.ui.main
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.BroadcastReceiver
@@ -371,6 +372,7 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
     }
 
     inner class AppDrawerListener {
+        @SuppressLint("DiscouragedPrivateApi")
         fun onAppLongClicked(app : UnlauncherApp, view: View) : Boolean {
             val popupMenu = PopupMenu(context, view)
             popupMenu.inflate(R.menu.app_long_press_menu)

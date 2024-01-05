@@ -29,8 +29,6 @@
     <string name="options_fragment_choose_time_format">Tidsformat</string>
     <string name="options_fragment_customise_apps">Tilpass programmer</string>
     <string name="options_fragment_device_settings">Enhetsinnstillinger</string>
-    <string name="options_fragment_hide_status_bar">Skjul statusfelt</string>
-    <string name="options_fragment_show_status_bar">Vis statusfelt</string>
     <string name="options_fragment_toggle_status_bar">Statusfelt på/av</string>
     <string name="remove_all_apps_dialog_message">"Programmene dine blir ikke avinstallert."
     "Dette bekrefter kun at du fjerner listen med overlegg."</string>

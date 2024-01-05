@@ -17,7 +17,7 @@ class RenameAppDisplayNameDialog : DialogFragment() {
     private lateinit var unlauncherAppsRepo: UnlauncherAppsRepository
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val view = LayoutInflater.from(context).inflate(R.layout.rename_dialog_edit_text, customise_apps_fragment, false)
+        val view = layoutInflater.inflate(R.layout.rename_dialog_edit_text, customise_apps_fragment, false)
         val editText: EditText = view.findViewById(R.id.rename_editText)
         val appName: String = app.displayName
         editText.text.append(appName)

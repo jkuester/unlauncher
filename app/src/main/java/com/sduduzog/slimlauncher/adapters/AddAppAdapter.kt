@@ -1,5 +1,6 @@
 package com.sduduzog.slimlauncher.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,6 +29,7 @@ class AddAppAdapter(private val listener: OnAppClickedListener) : RecyclerView.A
         return ViewHolder(view)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setItems(apps: List<App>){
         this.apps = apps
         notifyDataSetChanged()

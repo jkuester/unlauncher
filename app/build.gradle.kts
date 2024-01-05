@@ -58,6 +58,11 @@ android {
     testOptions {
         unitTests.isIncludeAndroidResources = true
     }
+    lint {
+        warningsAsErrors = true
+        disable += "Typos"
+        disable += "VectorPath"
+    }
     namespace = "com.sduduzog.slimlauncher"
     applicationVariants.all{
         outputs.all {
