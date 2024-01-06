@@ -7,6 +7,7 @@ plugins {
     id("com.google.protobuf") version "0.9.0"
     kotlin("android")
     kotlin("android.extensions")
+    kotlin("kapt") // TODO Remove this
 }
 
 android {
@@ -29,7 +30,9 @@ android {
 //            }
 //        }
     }
-
+    buildFeatures {
+        viewBinding = true
+    }
     buildTypes {
         named("release").configure {
             isMinifyEnabled = true
@@ -94,14 +97,14 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:2.5.3")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.5.1")
     implementation("androidx.room:room-runtime:2.5.1")
-    ksp("androidx.room:room-compiler:2.5.1")
+    kapt("androidx.room:room-compiler:2.5.1")
 
     //3rd party libs
     implementation("com.intuit.sdp:sdp-android:1.0.6")
     implementation("com.intuit.ssp:ssp-android:1.0.6")
     implementation("com.google.dagger:hilt-android:2.44.2")
-    ksp("androidx.hilt:hilt-compiler:1.0.0")
-    ksp("com.google.dagger:hilt-android-compiler:2.44")
+    kapt("androidx.hilt:hilt-compiler:1.0.0")
+    kapt("com.google.dagger:hilt-android-compiler:2.44")
 }
 protobuf {
     protoc {
