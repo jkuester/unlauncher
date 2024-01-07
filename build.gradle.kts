@@ -7,8 +7,8 @@ buildscript {
     }
     dependencies {
         classpath("com.android.tools.build:gradle:7.4.2")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.22")
-        classpath("com.google.dagger:hilt-android-gradle-plugin:2.44.2")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.0")
+        classpath("com.google.dagger:hilt-android-gradle-plugin:2.50")
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -27,5 +27,5 @@ tasks.register("clean", Delete::class) {
 }
 
 plugins {
-    id("com.google.devtools.ksp") version "1.7.22-1.0.8" apply false // This needs to match kotlin-stdlib
+    id("com.google.devtools.ksp") version "1.9.0-1.0.13" apply false // This needs to match kotlin-stdlib
 }

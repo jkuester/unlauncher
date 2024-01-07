@@ -6,7 +6,6 @@ plugins {
     id("com.google.devtools.ksp")
     id("com.google.protobuf") version "0.9.0"
     kotlin("android")
-    kotlin("kapt") // TODO Remove this
 }
 
 android {
@@ -76,10 +75,8 @@ android {
 }
 
 dependencies {
-    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-
     // Kotlin Libraries
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.7.22") // This needs to match ksp
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.0") // This needs to match ksp
 
     // Support Libraries
     implementation("androidx.appcompat:appcompat:1.6.1")
@@ -101,9 +98,9 @@ dependencies {
     //3rd party libs
     implementation("com.intuit.sdp:sdp-android:1.0.6")
     implementation("com.intuit.ssp:ssp-android:1.0.6")
-    implementation("com.google.dagger:hilt-android:2.44.2")
+    implementation("com.google.dagger:hilt-android:2.50")
     ksp("androidx.hilt:hilt-compiler:1.0.0")
-    kapt("com.google.dagger:hilt-android-compiler:2.44")
+    ksp("com.google.dagger:hilt-android-compiler:2.50")
 }
 protobuf {
     protoc {
