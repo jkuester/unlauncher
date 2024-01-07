@@ -39,9 +39,11 @@ class CustomizeAppDrawerAppListFragment : BaseFragment() {
             CustomizeAppDrawerAppsAdapter(viewLifecycleOwner, unlauncherAppsRepo)
         unlauncherAppsRepo.liveData().observe(viewLifecycleOwner) {
             it?.let {
-                customiseAppDrawerAppListFragment.customizeAppDrawerFragmentAppProgressBar.visibility = View.GONE
+                customiseAppDrawerAppListFragment.customizeAppDrawerFragmentAppProgressBar
+                    .visibility = View.GONE
             } ?: run {
-                customiseAppDrawerAppListFragment.customizeAppDrawerFragmentAppProgressBar.visibility = View.VISIBLE
+                customiseAppDrawerAppListFragment.customizeAppDrawerFragmentAppProgressBar
+                    .visibility = View.VISIBLE
             }
         }
         customiseAppDrawerAppListFragment.customizeAppDrawerFragmentBack.setOnClickListener {

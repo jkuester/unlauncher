@@ -17,7 +17,12 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.RecyclerView
-import com.sduduzog.slimlauncher.utils.*
+import com.sduduzog.slimlauncher.utils.BaseFragment
+import com.sduduzog.slimlauncher.utils.HomeWatcher
+import com.sduduzog.slimlauncher.utils.IPublisher
+import com.sduduzog.slimlauncher.utils.ISubscriber
+import com.sduduzog.slimlauncher.utils.SystemUiManager
+import com.sduduzog.slimlauncher.utils.WallpaperManager
 import dagger.hilt.android.AndroidEntryPoint
 import java.lang.reflect.Method
 import javax.inject.Inject

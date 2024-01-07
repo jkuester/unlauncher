@@ -51,12 +51,13 @@ class CustomiseAppsFragment : BaseFragment(), OnShitDoneToAppsListener {
         val adapter = CustomAppsAdapter(this)
 
         val customiseAppsFragment = CustomiseAppsFragmentBinding.bind(view)
-        viewModel.apps.observe(viewLifecycleOwner, {
+        viewModel.apps.observe(viewLifecycleOwner) {
             it?.let { apps ->
                 adapter.setItems(apps)
-                customiseAppsFragment.customiseAppsFragmentAdd.visibility = if (apps.size < 6) View.VISIBLE else View.INVISIBLE
+                customiseAppsFragment.customiseAppsFragmentAdd.visibility =
+                    if (apps.size < 6) View.VISIBLE else View.INVISIBLE
             } ?: adapter.setItems(listOf())
-        })
+        }
         customiseAppsFragment.customiseAppsFragmentRemoveAll.setOnClickListener {
             RemoveAllAppsDialog.getInstance(
                 viewModel.apps.value!!,
