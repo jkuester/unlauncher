@@ -52,11 +52,9 @@ Linux Lounge - [A Quick Look At Unlauncher - Can This Launcher Help With Smartph
 
 ## Project History
 
-This project is a downstream fork of the great [Slim Launcher](https://github.com/sduduzog/slim-launcher) by [sduduzog](https://github.com/sduduzog). The contributors to that project deserve all the credit for the beautiful layout of this app and most of its functionality.
+This project is a fork of the great [Slim Launcher](https://github.com/sduduzog/slim-launcher) by [sduduzog](https://github.com/sduduzog). The contributors to that project deserve all the credit for the beautiful layout of this app!
 
 The main differentiator between Unlauncher and Slim Launcher lies in the number of apps the launcher gives you access too.  Slim Launcher takes the Spartan approach of only allowing access to seven apps. Unlauncher, on the other hand, allows you to pin up to six apps on the home screen and then gives you access to all the rest of your apps by swiping up into a searchable app drawer.
-
-The goal of this project is continue to remain synchronized, where possible, with Slim Launcher and to submit any new contributions back upstream (if they align with the design philosophy and goals of Slim Launcher).
 
 ## Communication
 
