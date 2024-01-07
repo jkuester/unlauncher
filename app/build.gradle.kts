@@ -4,7 +4,7 @@ plugins {
     id("com.android.application")
     id("dagger.hilt.android.plugin")
     id("com.google.devtools.ksp")
-    id("com.google.protobuf") version "0.9.0"
+    id("com.google.protobuf") version "0.9.4"
     kotlin("android")
 }
 
@@ -63,8 +63,8 @@ android {
         warningsAsErrors = true
         disable += "Typos" // Too many false positives
         disable += "VectorPath" // Not planning to change "large" graphics for now
-        disable += "GradleDependency" // Do not fail linting due to new dependencies
-        checkDependencies = false
+//        disable += "GradleDependency" // Do not fail linting due to new dependencies
+//        checkDependencies = false
     }
     namespace = "com.sduduzog.slimlauncher"
     applicationVariants.all{
@@ -104,7 +104,7 @@ dependencies {
 }
 protobuf {
     protoc {
-        artifact = "com.google.protobuf:protoc:3.17.3"
+        artifact = "com.google.protobuf:protoc:3.25.1"
     }
     generateProtoTasks {
         all().forEach { task ->
