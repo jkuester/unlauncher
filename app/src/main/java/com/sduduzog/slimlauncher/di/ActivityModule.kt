@@ -1,5 +1,6 @@
 package com.sduduzog.slimlauncher.di
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import androidx.core.app.ComponentActivity
 import androidx.lifecycle.LifecycleCoroutineScope
@@ -14,6 +15,7 @@ import dagger.hilt.android.scopes.ActivityScoped
 @Module
 @InstallIn(ActivityComponent::class)
 class ActivityModule {
+    @SuppressLint("RestrictedApi")
     @Provides
     fun provideLifecycleCoroutineScope(activity: Activity): LifecycleCoroutineScope =
         (activity as ComponentActivity).lifecycleScope
