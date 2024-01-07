@@ -4,15 +4,13 @@ import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
-import android.text.SpannableStringBuilder
-import android.text.Spanned
-import android.text.style.TextAppearanceSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.edit
 import androidx.navigation.Navigation
 import com.sduduzog.slimlauncher.R
+import com.sduduzog.slimlauncher.databinding.OptionsFragmentBinding
 import com.sduduzog.slimlauncher.datasource.UnlauncherDataSource
 import com.sduduzog.slimlauncher.ui.dialogs.ChangeThemeDialog
 import com.sduduzog.slimlauncher.ui.dialogs.ChooseAlignmentDialog
@@ -22,7 +20,6 @@ import com.sduduzog.slimlauncher.utils.BaseFragment
 import com.sduduzog.slimlauncher.utils.createTitleAndSubtitleText
 import com.sduduzog.slimlauncher.utils.isActivityDefaultLauncher
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.options_fragment.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -30,7 +27,7 @@ class OptionsFragment : BaseFragment() {
     @Inject
     lateinit var unlauncherDataSource: UnlauncherDataSource
 
-    override fun getFragmentView(): ViewGroup = options_fragment
+    override fun getFragmentView(): ViewGroup = OptionsFragmentBinding.bind(requireView()).optionsFragment
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.options_fragment, container, false)
@@ -38,44 +35,45 @@ class OptionsFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        options_fragment_device_settings.setOnClickListener {
+        val optionsFragment = OptionsFragmentBinding.bind(requireView())
+        optionsFragment.optionsFragmentDeviceSettings.setOnClickListener {
             val intent = Intent(Settings.ACTION_SETTINGS)
             launchActivity(it, intent)
         }
-        options_fragment_back.setOnClickListener{
+        optionsFragment.optionsFragmentBack.setOnClickListener{
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
-        options_fragment_device_settings.setOnLongClickListener {
+        optionsFragment.optionsFragmentDeviceSettings.setOnLongClickListener {
             val intent = Intent(Settings.ACTION_HOME_SETTINGS)
             launchActivity(it, intent)
             true
         }
-        options_fragment_change_theme.setOnClickListener {
+        optionsFragment.optionsFragmentChangeTheme.setOnClickListener {
             val changeThemeDialog = ChangeThemeDialog.getThemeChooser()
             changeThemeDialog.showNow(childFragmentManager, "THEME_CHOOSER")
         }
-        options_fragment_choose_time_format.setOnClickListener {
+        optionsFragment.optionsFragmentChooseTimeFormat.setOnClickListener {
             val chooseTimeFormatDialog = ChooseTimeFormatDialog.getInstance()
             chooseTimeFormatDialog.showNow(childFragmentManager, "TIME_FORMAT_CHOOSER")
         }
-        options_fragment_choose_clock_type.setOnClickListener {
+        optionsFragment.optionsFragmentChooseClockType.setOnClickListener {
             val chooseClockTypeDialog = ChooseClockTypeDialog.getInstance()
             chooseClockTypeDialog.showNow(childFragmentManager, "CLOCK_TYPE_CHOOSER")
         }
-        options_fragment_choose_alignment.setOnClickListener {
+        optionsFragment.optionsFragmentChooseAlignment.setOnClickListener {
             val chooseAlignmentDialog = ChooseAlignmentDialog.getInstance()
             chooseAlignmentDialog.showNow(childFragmentManager, "ALIGNMENT_CHOOSER")
         }
-        options_fragment_toggle_status_bar.setOnClickListener {
+        optionsFragment.optionsFragmentToggleStatusBar.setOnClickListener {
             val settings = requireContext().getSharedPreferences(getString(R.string.prefs_settings), MODE_PRIVATE)
             val isHidden = settings.getBoolean(getString(R.string.prefs_settings_key_toggle_status_bar), false)
             settings.edit {
                 putBoolean(getString(R.string.prefs_settings_key_toggle_status_bar), !isHidden)
             }
         }
-        options_fragment_customise_apps.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_optionsFragment_to_customiseAppsFragment))
-        options_fragment_customize_quick_buttons.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_optionsFragment_to_customiseQuickButtonsFragment))
-        options_fragment_customize_app_drawer.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_optionsFragment_to_customiseAppDrawerFragment))
+        optionsFragment.optionsFragmentCustomiseApps.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_optionsFragment_to_customiseAppsFragment))
+        optionsFragment.optionsFragmentCustomizeQuickButtons.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_optionsFragment_to_customiseQuickButtonsFragment))
+        optionsFragment.optionsFragmentCustomizeAppDrawer.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_optionsFragment_to_customiseAppDrawerFragment))
     }
 
     override fun onStart() {
@@ -88,14 +86,15 @@ class OptionsFragment : BaseFragment() {
     private fun setupAutomaticDeviceWallpaperSwitch() {
         val prefsRepo = unlauncherDataSource.corePreferencesRepo
         val appIsDefaultLauncher = isActivityDefaultLauncher(activity)
-        setupDeviceWallpaperSwitchText(appIsDefaultLauncher)
-        options_fragment_auto_device_theme_wallpaper.isEnabled = appIsDefaultLauncher
+        val optionsFragment = OptionsFragmentBinding.bind(requireView())
+        setupDeviceWallpaperSwitchText(optionsFragment, appIsDefaultLauncher)
+        optionsFragment.optionsFragmentAutoDeviceThemeWallpaper.isEnabled = appIsDefaultLauncher
 
         prefsRepo.liveData().observe(viewLifecycleOwner) {
             // always uncheck once app isn't default launcher
-            options_fragment_auto_device_theme_wallpaper.isChecked = appIsDefaultLauncher && !it.keepDeviceWallpaper
+            optionsFragment.optionsFragmentAutoDeviceThemeWallpaper.isChecked = appIsDefaultLauncher && !it.keepDeviceWallpaper
         }
-        options_fragment_auto_device_theme_wallpaper.setOnCheckedChangeListener { _, checked ->
+        optionsFragment.optionsFragmentAutoDeviceThemeWallpaper.setOnCheckedChangeListener { _, checked ->
             prefsRepo.updateKeepDeviceWallpaper(!checked)
         }
     }
@@ -103,13 +102,13 @@ class OptionsFragment : BaseFragment() {
     /**
      * Adds a hint text underneath the default text when app is not the default launcher.
      */
-    private fun setupDeviceWallpaperSwitchText(appIsDefaultLauncher: Boolean) {
+    private fun setupDeviceWallpaperSwitchText(optionsFragment: OptionsFragmentBinding, appIsDefaultLauncher: Boolean) {
         val text = if (appIsDefaultLauncher) {
             getText(R.string.customize_app_drawer_fragment_auto_theme_wallpaper_text)
         } else {
             buildSwitchTextWithHint()
         }
-        options_fragment_auto_device_theme_wallpaper.text = text
+        optionsFragment.optionsFragmentAutoDeviceThemeWallpaper.text = text
     }
 
     private fun buildSwitchTextWithHint(): CharSequence {

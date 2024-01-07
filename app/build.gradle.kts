@@ -6,7 +6,6 @@ plugins {
     id("com.google.devtools.ksp")
     id("com.google.protobuf") version "0.9.0"
     kotlin("android")
-    kotlin("android.extensions")
     kotlin("kapt") // TODO Remove this
 }
 

@@ -6,13 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.adapters.CustomizeAppDrawerAppsAdapter
+import com.sduduzog.slimlauncher.databinding.CustomizeAppDrawerAppListFragmentBinding
 import com.sduduzog.slimlauncher.datasource.UnlauncherDataSource
 import com.sduduzog.slimlauncher.utils.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.customize_app_drawer_app_list_fragment.customize_app_drawer_fragment
-import kotlinx.android.synthetic.main.customize_app_drawer_app_list_fragment.customize_app_drawer_fragment_app_list
-import kotlinx.android.synthetic.main.customize_app_drawer_app_list_fragment.customize_app_drawer_fragment_app_progress_bar
-import kotlinx.android.synthetic.main.customize_app_drawer_app_list_fragment.customize_app_drawer_fragment_back
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -20,7 +17,7 @@ class CustomizeAppDrawerAppListFragment : BaseFragment() {
     @Inject
     lateinit var unlauncherDataSource: UnlauncherDataSource
 
-    override fun getFragmentView(): ViewGroup = customize_app_drawer_fragment
+    override fun getFragmentView(): ViewGroup = CustomizeAppDrawerAppListFragmentBinding.bind(requireView()).customizeAppDrawerFragment
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,16 +30,17 @@ class CustomizeAppDrawerAppListFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val unlauncherAppsRepo = unlauncherDataSource.unlauncherAppsRepo
-        customize_app_drawer_fragment_app_list.adapter =
+        val customiseAppDrawerAppListFragment = CustomizeAppDrawerAppListFragmentBinding.bind(requireView())
+        customiseAppDrawerAppListFragment.customizeAppDrawerFragmentAppList.adapter =
             CustomizeAppDrawerAppsAdapter(viewLifecycleOwner, unlauncherAppsRepo)
         unlauncherAppsRepo.liveData().observe(viewLifecycleOwner) {
             it?.let {
-                customize_app_drawer_fragment_app_progress_bar.visibility = View.GONE
+                customiseAppDrawerAppListFragment.customizeAppDrawerFragmentAppProgressBar.visibility = View.GONE
             } ?: run {
-                customize_app_drawer_fragment_app_progress_bar.visibility = View.VISIBLE
+                customiseAppDrawerAppListFragment.customizeAppDrawerFragmentAppProgressBar.visibility = View.VISIBLE
             }
         }
-        customize_app_drawer_fragment_back.setOnClickListener {
+        customiseAppDrawerAppListFragment.customizeAppDrawerFragmentBack.setOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
     }
