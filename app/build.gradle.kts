@@ -102,7 +102,7 @@ dependencies {
     implementation("com.intuit.sdp:sdp-android:1.0.6")
     implementation("com.intuit.ssp:ssp-android:1.0.6")
     implementation("com.google.dagger:hilt-android:2.44.2")
-    kapt("androidx.hilt:hilt-compiler:1.0.0")
+    ksp("androidx.hilt:hilt-compiler:1.0.0")
     kapt("com.google.dagger:hilt-android-compiler:2.44")
 }
 protobuf {
