@@ -30,6 +30,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
     buildTypes {
         named("release").configure {
