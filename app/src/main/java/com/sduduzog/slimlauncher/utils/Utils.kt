@@ -17,7 +17,6 @@ import androidx.annotation.StringRes
 import com.jkuester.unlauncher.datastore.AlignmentFormat
 import com.sduduzog.slimlauncher.R
 
-
 private fun isAppDefaultLauncher(context: Context?): Boolean {
     val intent = Intent(Intent.ACTION_MAIN)
     intent.addCategory(Intent.CATEGORY_HOME)
@@ -29,9 +28,12 @@ private fun isAppDefaultLauncher(context: Context?): Boolean {
     return context.packageName == res.activityInfo?.packageName
 }
 
-private fun intentContainsDefaultLauncher(intent: Intent?): Boolean = intent?.action == Intent.ACTION_MAIN && intent.categories?.contains(Intent.CATEGORY_HOME) == true
+private fun intentContainsDefaultLauncher(intent: Intent?): Boolean =
+    intent?.action == Intent.ACTION_MAIN &&
+        intent.categories?.contains(Intent.CATEGORY_HOME) == true
 
-fun isActivityDefaultLauncher(activity: Activity?): Boolean = isAppDefaultLauncher(activity) || intentContainsDefaultLauncher(activity?.intent)
+fun isActivityDefaultLauncher(activity: Activity?): Boolean =
+    isAppDefaultLauncher(activity) || intentContainsDefaultLauncher(activity?.intent)
 
 fun getScreenWidth(activity: Activity): Int {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -41,8 +43,8 @@ fun getScreenWidth(activity: Activity): Int {
             WindowInsets.Type.systemBars()
         )
         if (activity.resources.configuration.orientation
-            == Configuration.ORIENTATION_LANDSCAPE
-            && activity.resources.configuration.smallestScreenWidthDp < 600
+            == Configuration.ORIENTATION_LANDSCAPE &&
+            activity.resources.configuration.smallestScreenWidthDp < 600
         ) { // landscape and phone
             val navigationBarSize: Int = insets.right + insets.left
             bounds.width() - navigationBarSize
@@ -64,8 +66,8 @@ fun getScreenHeight(activity: Activity): Int {
             WindowInsets.Type.systemBars()
         )
         if (activity.resources.configuration.orientation
-            == Configuration.ORIENTATION_LANDSCAPE
-            && activity.resources.configuration.smallestScreenWidthDp < 600
+            == Configuration.ORIENTATION_LANDSCAPE &&
+            activity.resources.configuration.smallestScreenWidthDp < 600
         ) { // landscape and phone
             bounds.height()
         } else { // portrait or tablet
@@ -79,13 +81,28 @@ fun getScreenHeight(activity: Activity): Int {
     }
 }
 
-fun createTitleAndSubtitleText(context: Context, @StringRes titleRes: Int, @StringRes subtitleRes: Int) : CharSequence
-    = createTitleAndSubtitleText(context, context.getString(titleRes), context.getString(subtitleRes))
+fun createTitleAndSubtitleText(
+    context: Context,
+    @StringRes titleRes: Int,
+    @StringRes subtitleRes: Int
+): CharSequence = createTitleAndSubtitleText(
+    context,
+    context.getString(titleRes),
+    context.getString(subtitleRes)
+)
 
-fun createTitleAndSubtitleText(context: Context, title: CharSequence, subtitle: CharSequence) : CharSequence {
+fun createTitleAndSubtitleText(
+    context: Context,
+    title: CharSequence,
+    subtitle: CharSequence
+): CharSequence {
     val spanBuilder = SpannableStringBuilder("$title\n$subtitle")
-    spanBuilder.setSpan(TextAppearanceSpan(context, R.style.TextAppearance_AppCompat_Large),
-        0, title.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+    spanBuilder.setSpan(
+        TextAppearanceSpan(context, R.style.TextAppearance_AppCompat_Large),
+        0,
+        title.length,
+        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+    )
     spanBuilder.setSpan(
         TextAppearanceSpan(context, R.style.TextAppearance_AppCompat_Small),
         title.length + 1,
@@ -98,7 +115,7 @@ fun createTitleAndSubtitleText(context: Context, title: CharSequence, subtitle: 
 fun String.firstUppercase() = this.first().uppercase()
 
 fun ApplicationInfo.isSystemApp(): Boolean = (this.flags and ApplicationInfo.FLAG_SYSTEM != 0) ||
-        (this.flags and ApplicationInfo.FLAG_UPDATED_SYSTEM_APP != 0)
+    (this.flags and ApplicationInfo.FLAG_UPDATED_SYSTEM_APP != 0)
 
 fun AlignmentFormat.gravity(): Int = when (this.number) {
     2 -> 5 // RIGHT

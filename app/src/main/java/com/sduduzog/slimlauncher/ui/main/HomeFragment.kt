@@ -52,12 +52,12 @@ import com.sduduzog.slimlauncher.utils.BaseFragment
 import com.sduduzog.slimlauncher.utils.OnLaunchAppListener
 import com.sduduzog.slimlauncher.utils.isSystemApp
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 private const val APP_TILE_SIZE: Int = 3
 
@@ -77,12 +77,17 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
         uninstallAppLauncher = registerForActivityResult(StartActivityForResult()) { refreshApps() }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         val coreRepository = unlauncherDataSource.corePreferencesRepo
-        return if(coreRepository.get().searchBarPosition == SearchBarPosition.bottom)
+        return if (coreRepository.get().searchBarPosition == SearchBarPosition.bottom) {
             HomeFragmentBottomBinding.inflate(layoutInflater, container, false).root
-        else
+        } else {
             HomeFragmentDefaultBinding.inflate(layoutInflater, container, false).root
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -97,12 +102,16 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
 
         viewModel.apps.observe(viewLifecycleOwner) { list ->
             list?.let { apps ->
-                adapter1.setItems(apps.filter {
-                    it.sortingIndex < APP_TILE_SIZE
-                })
-                adapter2.setItems(apps.filter {
-                    it.sortingIndex >= APP_TILE_SIZE
-                })
+                adapter1.setItems(
+                    apps.filter {
+                        it.sortingIndex < APP_TILE_SIZE
+                    }
+                )
+                adapter2.setItems(
+                    apps.filter {
+                        it.sortingIndex >= APP_TILE_SIZE
+                    }
+                )
 
                 // Set the home apps in the Unlauncher data
                 lifecycleScope.launch {
@@ -121,14 +130,21 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
 
         homeFragmentContent.appDrawerFragmentList.adapter = appDrawerAdapter
 
-        unlauncherDataSource.corePreferencesRepo.liveData().observe(viewLifecycleOwner){ corePreferences ->
-            homeFragmentContent.appDrawerEditText.visibility = if (corePreferences.showSearchBar) View.VISIBLE else View.GONE
+        unlauncherDataSource.corePreferencesRepo.liveData().observe(
+            viewLifecycleOwner
+        ) { corePreferences ->
+            homeFragmentContent.appDrawerEditText
+                .visibility = if (corePreferences.showSearchBar) View.VISIBLE else View.GONE
 
             val clockType = corePreferences.clockType
-            homeFragmentContent.homeFragmentTime.visibility = if(clockType == ClockType.digital) View.VISIBLE else View.GONE
-            homeFragmentContent.homeFragmentAnalogTime.visibility = if(clockType == ClockType.analog) View.VISIBLE else View.GONE
-            homeFragmentContent.homeFragmentBinTime.visibility = if(clockType == ClockType.binary) View.VISIBLE else View.GONE
-            homeFragmentContent.homeFragmentDate.visibility = if(clockType != ClockType.none) View.VISIBLE else View.GONE
+            homeFragmentContent.homeFragmentTime
+                .visibility = if (clockType == ClockType.digital) View.VISIBLE else View.GONE
+            homeFragmentContent.homeFragmentAnalogTime
+                .visibility = if (clockType == ClockType.analog) View.VISIBLE else View.GONE
+            homeFragmentContent.homeFragmentBinTime
+                .visibility = if (clockType == ClockType.binary) View.VISIBLE else View.GONE
+            homeFragmentContent.homeFragmentDate
+                .visibility = if (clockType != ClockType.none) View.VISIBLE else View.GONE
         }
     }
 
@@ -138,7 +154,9 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
         activity?.registerReceiver(receiver, IntentFilter(Intent.ACTION_TIME_TICK))
     }
 
-    override fun getFragmentView(): ViewGroup = HomeFragmentDefaultBinding.bind(requireView()).homeFragment
+    override fun getFragmentView(): ViewGroup = HomeFragmentDefaultBinding.bind(
+        requireView()
+    ).homeFragment
 
     override fun onResume() {
         super.onResume()
@@ -150,7 +168,9 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
         }
 
         // scroll back to the top if user returns to this fragment
-        val appDrawerFragmentList = HomeFragmentContentBinding.bind(requireView()).appDrawerFragmentList
+        val appDrawerFragmentList = HomeFragmentContentBinding.bind(
+            requireView()
+        ).appDrawerFragmentList
         val layoutManager = appDrawerFragmentList.layoutManager as LinearLayoutManager
         if (layoutManager.findFirstCompletelyVisibleItemPosition() != 0) {
             appDrawerFragmentList.scrollToPosition(0)
@@ -172,7 +192,6 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
     }
 
     private fun setEventListeners() {
-
         val launchShowAlarms = OnClickListener {
             try {
                 val intent = Intent(AlarmClock.ACTION_SHOW_ALARMS)
@@ -201,7 +220,9 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
 
         unlauncherDataSource.quickButtonPreferencesRepo.liveData()
             .observe(viewLifecycleOwner) { prefs ->
-                val leftButtonIcon = QuickButtonPreferencesRepository.RES_BY_ICON.getValue(prefs.leftButton.iconId)
+                val leftButtonIcon = QuickButtonPreferencesRepository.RES_BY_ICON.getValue(
+                    prefs.leftButton.iconId
+                )
                 homeFragmentContent.homeFragmentCall.setImageResource(leftButtonIcon)
                 if (leftButtonIcon != R.drawable.ic_empty) {
                     homeFragmentContent.homeFragmentCall.setOnClickListener { view ->
@@ -209,17 +230,22 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
                             val pm = context?.packageManager!!
                             val intent = Intent(Intent.ACTION_DIAL)
                             val componentName = intent.resolveActivity(pm)
-                            if (componentName == null) launchActivity(view, intent) else
+                            if (componentName == null) {
+                                launchActivity(view, intent)
+                            } else {
                                 pm.getLaunchIntentForPackage(componentName.packageName)?.let {
                                     launchActivity(view, it)
                                 } ?: run { launchActivity(view, intent) }
+                            }
                         } catch (e: Exception) {
                             // Do nothing
                         }
                     }
                 }
 
-                val centerButtonIcon = QuickButtonPreferencesRepository.RES_BY_ICON.getValue(prefs.centerButton.iconId)
+                val centerButtonIcon = QuickButtonPreferencesRepository.RES_BY_ICON.getValue(
+                    prefs.centerButton.iconId
+                )
                 homeFragmentContent.homeFragmentOptions.setImageResource(centerButtonIcon)
                 if (centerButtonIcon != R.drawable.ic_empty) {
                     homeFragmentContent.homeFragmentOptions.setOnClickListener(
@@ -229,7 +255,9 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
                     )
                 }
 
-                val rightButtonIcon = QuickButtonPreferencesRepository.RES_BY_ICON.getValue(prefs.rightButton.iconId)
+                val rightButtonIcon = QuickButtonPreferencesRepository.RES_BY_ICON.getValue(
+                    prefs.rightButton.iconId
+                )
                 homeFragmentContent.homeFragmentCamera.setImageResource(rightButtonIcon)
                 if (rightButtonIcon != R.drawable.ic_empty) {
                     homeFragmentContent.homeFragmentCamera.setOnClickListener {
@@ -243,23 +271,27 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
                 }
             }
 
-        homeFragmentContent.appDrawerEditText.addTextChangedListener(appDrawerAdapter.searchBoxListener)
+        homeFragmentContent.appDrawerEditText.addTextChangedListener(
+            appDrawerAdapter.searchBoxListener
+        )
 
         val homeFragment = HomeFragmentDefaultBinding.bind(requireView()).root
         homeFragmentContent.appDrawerEditText.setOnEditorActionListener { _, actionId, _ ->
-                if(actionId == EditorInfo.IME_ACTION_DONE && appDrawerAdapter.itemCount > 0) {
-                    val firstApp = appDrawerAdapter.getFirstApp()
-                    launchApp(firstApp.packageName, firstApp.className, firstApp.userSerial)
-                    homeFragment.transitionToStart()
-                    true
-                } else {
-                    false
-                }
+            if (actionId == EditorInfo.IME_ACTION_DONE && appDrawerAdapter.itemCount > 0) {
+                val firstApp = appDrawerAdapter.getFirstApp()
+                launchApp(firstApp.packageName, firstApp.className, firstApp.userSerial)
+                homeFragment.transitionToStart()
+                true
+            } else {
+                false
             }
+        }
 
         homeFragment.setTransitionListener(object : TransitionListener {
             override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
-                val inputMethodManager = requireContext().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+                val inputMethodManager = requireContext().getSystemService(
+                    Activity.INPUT_METHOD_SERVICE
+                ) as InputMethodManager
 
                 when (currentId) {
                     motionLayout?.startState -> {
@@ -284,15 +316,29 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
                 }
             }
 
-            override fun onTransitionTrigger(motionLayout: MotionLayout?, triggerId: Int, positive: Boolean, progress: Float) {
+            override fun onTransitionTrigger(
+                motionLayout: MotionLayout?,
+                triggerId: Int,
+                positive: Boolean,
+                progress: Float
+            ) {
                 // do nothing
             }
 
-            override fun onTransitionStarted(motionLayout: MotionLayout?, startId: Int, endId: Int) {
+            override fun onTransitionStarted(
+                motionLayout: MotionLayout?,
+                startId: Int,
+                endId: Int
+            ) {
                 // do nothing
             }
 
-            override fun onTransitionChange(motionLayout: MotionLayout?, startId: Int, endId: Int, progress: Float) {
+            override fun onTransitionChange(
+                motionLayout: MotionLayout?,
+                startId: Int,
+                endId: Int,
+                progress: Float
+            ) {
                 // do nothing
             }
         })
@@ -309,8 +355,11 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
         }
     }
 
-    private fun updateClockDigital () {
-        val timeFormat = context?.getSharedPreferences(getString(R.string.prefs_settings), Context.MODE_PRIVATE)
+    private fun updateClockDigital() {
+        val timeFormat = context?.getSharedPreferences(
+            getString(R.string.prefs_settings),
+            Context.MODE_PRIVATE
+        )
             ?.getInt(getString(R.string.prefs_settings_key_time_format), 0)
         val fWatchTime = when (timeFormat) {
             1 -> SimpleDateFormat("H:mm", Locale.getDefault())
@@ -351,7 +400,9 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
     private fun launchApp(packageName: String, activityName: String, userSerial: Long) {
         try {
             val manager = requireContext().getSystemService(Context.USER_SERVICE) as UserManager
-            val launcher = requireContext().getSystemService(Context.LAUNCHER_APPS_SERVICE) as LauncherApps
+            val launcher = requireContext().getSystemService(
+                Context.LAUNCHER_APPS_SERVICE
+            ) as LauncherApps
 
             val componentName = ComponentName(packageName, activityName)
             val userHandle = manager.getUserForSerialNumber(userSerial)
@@ -371,7 +422,7 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
 
     inner class AppDrawerListener {
         @SuppressLint("DiscouragedPrivateApi")
-        fun onAppLongClicked(app : UnlauncherApp, view: View) : Boolean {
+        fun onAppLongClicked(app: UnlauncherApp, view: View): Boolean {
             val popupMenu = PopupMenu(context, view)
             popupMenu.inflate(R.menu.app_long_press_menu)
             hideUninstallOptionIfSystemApp(app, popupMenu)
@@ -390,10 +441,17 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
                     }
                     R.id.hide -> {
                         unlauncherDataSource.unlauncherAppsRepo.updateDisplayInDrawer(app, false)
-                        Toast.makeText(context, "Unhide under Unlauncher's Options > Customize Drawer > Visible Apps", Toast.LENGTH_LONG).show()
+                        Toast.makeText(
+                            context,
+                            "Unhide under Unlauncher's Options > Customize Drawer > Visible Apps",
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
                     R.id.rename -> {
-                        RenameAppDisplayNameDialog.getInstance(app, unlauncherDataSource.unlauncherAppsRepo).show(childFragmentManager, "AppListAdapter")
+                        RenameAppDisplayNameDialog.getInstance(
+                            app,
+                            unlauncherDataSource.unlauncherAppsRepo
+                        ).show(childFragmentManager, "AppListAdapter")
                     }
                     R.id.uninstall -> {
                         val intent = Intent(Intent.ACTION_DELETE)
@@ -415,10 +473,10 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
             return true
         }
 
-        private fun hideUninstallOptionIfSystemApp(app:UnlauncherApp, popupMenu: PopupMenu) {
+        private fun hideUninstallOptionIfSystemApp(app: UnlauncherApp, popupMenu: PopupMenu) {
             val pm = requireContext().packageManager
             val info = pm.getApplicationInfo(app.packageName, 0)
-            if (info.isSystemApp()){
+            if (info.isSystemApp()) {
                 val uninstallMenuItem = popupMenu.menu.findItem(R.id.uninstall)
                 uninstallMenuItem.isVisible = false
             }

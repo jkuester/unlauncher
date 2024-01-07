@@ -18,7 +18,9 @@ class CustomizeQuickButtonsFragment : BaseFragment() {
     @Inject
     lateinit var unlauncherDataSource: UnlauncherDataSource
 
-    override fun getFragmentView(): ViewGroup = CustomizeQuickButtonsFragmentBinding.bind(requireView()).customizeQuickButtonsFragment
+    override fun getFragmentView(): ViewGroup = CustomizeQuickButtonsFragmentBinding.bind(
+        requireView()
+    ).customizeQuickButtonsFragment
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,11 +35,17 @@ class CustomizeQuickButtonsFragment : BaseFragment() {
         val customizeQuickButtonsFragment = CustomizeQuickButtonsFragmentBinding.bind(view)
         prefsRepo.liveData().observe(viewLifecycleOwner) { prefs ->
             customizeQuickButtonsFragment.customizeQuickButtonsFragmentLeft
-                .setImageResource(QuickButtonPreferencesRepository.RES_BY_ICON.getValue(prefs.leftButton.iconId))
+                .setImageResource(
+                    QuickButtonPreferencesRepository.RES_BY_ICON.getValue(prefs.leftButton.iconId)
+                )
             customizeQuickButtonsFragment.customizeQuickButtonsFragmentCenter
-                .setImageResource(QuickButtonPreferencesRepository.RES_BY_ICON.getValue(prefs.centerButton.iconId))
+                .setImageResource(
+                    QuickButtonPreferencesRepository.RES_BY_ICON.getValue(prefs.centerButton.iconId)
+                )
             customizeQuickButtonsFragment.customizeQuickButtonsFragmentRight
-                .setImageResource(QuickButtonPreferencesRepository.RES_BY_ICON.getValue(prefs.rightButton.iconId))
+                .setImageResource(
+                    QuickButtonPreferencesRepository.RES_BY_ICON.getValue(prefs.rightButton.iconId)
+                )
         }
 
         customizeQuickButtonsFragment.customizeQuickButtonsFragmentBack.setOnClickListener {

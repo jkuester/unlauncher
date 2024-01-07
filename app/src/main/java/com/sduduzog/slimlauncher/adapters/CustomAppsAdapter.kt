@@ -14,7 +14,8 @@ import com.sduduzog.slimlauncher.models.HomeApp
 import com.sduduzog.slimlauncher.utils.OnItemActionListener
 import com.sduduzog.slimlauncher.utils.OnShitDoneToAppsListener
 
-class CustomAppsAdapter(private val listener: OnShitDoneToAppsListener) : RecyclerView.Adapter<CustomAppsAdapter.ViewHolder>(), OnItemActionListener {
+class CustomAppsAdapter(private val listener: OnShitDoneToAppsListener) :
+    RecyclerView.Adapter<CustomAppsAdapter.ViewHolder>(), OnItemActionListener {
 
     private var apps: MutableList<HomeApp> = mutableListOf()
     private lateinit var touchHelper: ItemTouchHelper
@@ -22,7 +23,9 @@ class CustomAppsAdapter(private val listener: OnShitDoneToAppsListener) : Recycl
     override fun getItemCount(): Int = apps.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.customise_apps_fragment_list_item, parent, false)
+        val view = LayoutInflater.from(
+            parent.context
+        ).inflate(R.layout.customise_apps_fragment_list_item, parent, false)
         return ViewHolder(view)
     }
 
@@ -72,7 +75,6 @@ class CustomAppsAdapter(private val listener: OnShitDoneToAppsListener) : Recycl
         }
         return false
     }
-
 
     override fun onViewIdle() {
         listener.onAppsUpdated(apps)

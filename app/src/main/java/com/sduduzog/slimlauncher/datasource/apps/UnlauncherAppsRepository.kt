@@ -9,11 +9,11 @@ import com.jkuester.unlauncher.datastore.UnlauncherApp
 import com.jkuester.unlauncher.datastore.UnlauncherApps
 import com.sduduzog.slimlauncher.data.model.App
 import com.sduduzog.slimlauncher.models.HomeApp
+import java.io.IOException
+import java.util.Locale
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
-import java.io.IOException
-import java.util.Locale
 
 class UnlauncherAppsRepository(
     private val unlauncherAppsStore: DataStore<UnlauncherApps>,
@@ -60,7 +60,8 @@ class UnlauncherAppsRepository(
             // Remove any apps that no longer exist
             unlauncherApps.appsList.filter { unlauncherApp ->
                 apps.find { app ->
-                    unlauncherApp.packageName == app.packageName && unlauncherApp.className == app.activityName
+                    unlauncherApp.packageName == app.packageName &&
+                        unlauncherApp.className == app.activityName
                 } == null
             }.forEach { unlauncherApp ->
                 unlauncherAppsBuilder.removeApps(
@@ -140,7 +141,6 @@ class UnlauncherAppsRepository(
             }
         }
     }
-
 
     fun updateDisplayInDrawer(appToUpdate: UnlauncherApp, displayInDrawer: Boolean) {
         lifecycleScope.launch {

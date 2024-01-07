@@ -15,7 +15,10 @@ class ChangeThemeDialog : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(requireContext())
-        settings  = requireContext().getSharedPreferences(getString(R.string.prefs_settings), MODE_PRIVATE)
+        settings = requireContext().getSharedPreferences(
+            getString(R.string.prefs_settings),
+            MODE_PRIVATE
+        )
 
         val active = settings.getInt(getString(R.string.prefs_settings_key_theme), 0)
         builder.setTitle(R.string.choose_theme_dialog_title)

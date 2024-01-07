@@ -25,12 +25,14 @@ class AddAppAdapter(private val listener: OnAppClickedListener) : RecyclerView.A
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.add_app_fragment_list_item, parent, false)
+        val view = LayoutInflater.from(
+            parent.context
+        ).inflate(R.layout.add_app_fragment_list_item, parent, false)
         return ViewHolder(view)
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setItems(apps: List<App>){
+    fun setItems(apps: List<App>) {
         this.apps = apps
         notifyDataSetChanged()
     }

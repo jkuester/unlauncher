@@ -14,7 +14,7 @@ class Repository(private val baseDao: BaseDao) {
         baseDao.add(app)
     }
 
-    fun update(vararg list : HomeApp) {
+    fun update(vararg list: HomeApp) {
         baseDao.update(*list)
     }
 
@@ -22,7 +22,7 @@ class Repository(private val baseDao: BaseDao) {
         baseDao.remove(app)
     }
 
-    fun clearTable(){
+    fun clearTable() {
         baseDao.clearTable()
     }
 }

@@ -19,7 +19,6 @@ abstract class BaseFragment : Fragment(), ISubscriber {
 
     abstract fun getFragmentView(): ViewGroup
 
-
     override fun onResume() {
         super.onResume()
         systemUiManager.setSystemUiColors()
@@ -56,11 +55,14 @@ abstract class BaseFragment : Fragment(), ISubscriber {
         val list = mutableListOf<App>()
 
         val manager = requireContext().getSystemService(Context.USER_SERVICE) as UserManager
-        val launcher = requireContext().getSystemService(Context.LAUNCHER_APPS_SERVICE) as LauncherApps
+        val launcher = requireContext().getSystemService(
+            Context.LAUNCHER_APPS_SERVICE
+        ) as LauncherApps
         val myUserHandle = Process.myUserHandle()
 
         for (profile in manager.userProfiles) {
-            val prefix = if (profile.equals(myUserHandle)) "" else "\uD83C\uDD46 " //Unicode for boxed w
+            // Unicode for boxed w
+            val prefix = if (profile.equals(myUserHandle)) "" else "\uD83C\uDD46 "
             val profileSerial = manager.getSerialNumberForUser(profile)
 
             for (activityInfo in launcher.getActivityList(null, profile)) {
@@ -74,7 +76,7 @@ abstract class BaseFragment : Fragment(), ISubscriber {
             }
         }
 
-        list.sortBy{it.appName}
+        list.sortBy { it.appName }
 
         val filter = mutableListOf<String>()
         filter.add(BuildConfig.APPLICATION_ID)

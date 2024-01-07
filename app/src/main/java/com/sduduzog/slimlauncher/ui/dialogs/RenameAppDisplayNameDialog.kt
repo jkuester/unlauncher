@@ -41,12 +41,19 @@ class RenameAppDisplayNameDialog : DialogFragment() {
         if (newName.isNotEmpty()) {
             unlauncherAppsRepo.updateDisplayName(app, newName)
         } else {
-            Toast.makeText(context, "Couldn't save, App name shouldn't be empty", Toast.LENGTH_LONG).show()
+            Toast.makeText(
+                context,
+                "Couldn't save, App name shouldn't be empty",
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 
     companion object {
-        fun getInstance(app: UnlauncherApp, unlauncherAppsRepo : UnlauncherAppsRepository) : RenameAppDisplayNameDialog {
+        fun getInstance(
+            app: UnlauncherApp,
+            unlauncherAppsRepo: UnlauncherAppsRepository
+        ): RenameAppDisplayNameDialog {
             return RenameAppDisplayNameDialog().apply {
                 this.app = app
                 this.unlauncherAppsRepo = unlauncherAppsRepo

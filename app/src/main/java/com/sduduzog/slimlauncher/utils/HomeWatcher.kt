@@ -16,7 +16,7 @@ open class HomeWatcher(internal val context: Context) {
 
     companion object {
         fun createInstance(context: Context): HomeWatcher {
-            if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
                 return Sv2HomeWatcher(context)
             }
             return HomeWatcher(context)
@@ -56,7 +56,7 @@ open class HomeWatcher(internal val context: Context) {
         fun onHomePressed()
     }
 
-    private class Sv2HomeWatcher(context: Context): HomeWatcher(context) {
+    private class Sv2HomeWatcher(context: Context) : HomeWatcher(context) {
         @SuppressLint("UnspecifiedRegisterReceiverFlag")
         @TargetApi(Build.VERSION_CODES.S_V2)
         override fun startWatch() {

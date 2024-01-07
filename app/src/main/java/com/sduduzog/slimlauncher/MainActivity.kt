@@ -23,11 +23,12 @@ import java.lang.reflect.Method
 import javax.inject.Inject
 import kotlin.math.absoluteValue
 
-
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(),
+class MainActivity :
+    AppCompatActivity(),
     SharedPreferences.OnSharedPreferenceChangeListener,
-    HomeWatcher.OnHomePressedListener, IPublisher {
+    HomeWatcher.OnHomePressedListener,
+    IPublisher {
 
     private val wallpaperManager = WallpaperManager(this)
 
@@ -66,7 +67,9 @@ class MainActivity : AppCompatActivity(),
         setContentView(R.layout.main_activity)
         settings = getSharedPreferences(getString(R.string.prefs_settings), MODE_PRIVATE)
         settings.registerOnSharedPreferenceChangeListener(this)
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navHostFragment = supportFragmentManager.findFragmentById(
+            R.id.nav_host_fragment
+        ) as NavHostFragment
         navigator = navHostFragment.navController
         homeWatcher = HomeWatcher.createInstance(this)
         homeWatcher.setOnHomePressedListener(this)
@@ -107,7 +110,11 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
-    override fun onApplyThemeResource(theme: Resources.Theme?, @StyleRes resid: Int, first: Boolean) {
+    override fun onApplyThemeResource(
+        theme: Resources.Theme?,
+        @StyleRes resid: Int,
+        first: Boolean
+    ) {
         super.onApplyThemeResource(theme, resid, first)
         wallpaperManager.onApplyThemeResource(theme, resid)
     }
@@ -160,46 +167,56 @@ class MainActivity : AppCompatActivity(),
 
         val actualPosition = Rect()
         view.getGlobalVisibleRect(actualPosition)
-        val screen = Rect(0, 0, Resources.getSystem().displayMetrics.widthPixels, Resources.getSystem().displayMetrics.heightPixels)
+        val screen = Rect(
+            0,
+            0,
+            Resources.getSystem().displayMetrics.widthPixels,
+            Resources.getSystem().displayMetrics.heightPixels
+        )
         return actualPosition.intersect(screen)
     }
 
-    private val gestureDetector = GestureDetector(baseContext, object : SimpleOnGestureListener() {
-        override fun onLongPress(e: MotionEvent) {
-            // Open Options
-            val recyclerView = findViewById<RecyclerView>(R.id.app_drawer_fragment_list)
-            val homeView = findViewById<View>(R.id.home_fragment)
+    private val gestureDetector = GestureDetector(
+        baseContext,
+        object : SimpleOnGestureListener() {
+            override fun onLongPress(e: MotionEvent) {
+                // Open Options
+                val recyclerView = findViewById<RecyclerView>(R.id.app_drawer_fragment_list)
+                val homeView = findViewById<View>(R.id.home_fragment)
 
-            if(homeView != null && recyclerView != null)
-            {
-                if(isVisible(recyclerView))
-                   recyclerView.performLongClick()
-                else // we are in the homeFragment
-                    findNavController(homeView).navigate(R.id.action_homeFragment_to_optionsFragment, null)
-
-            }
-        }
-
-        override fun onFling(
-            e1: MotionEvent?,
-            e2: MotionEvent,
-            velocityX: Float,
-            velocityY: Float
-        ): Boolean {
-            val homeView = findViewById<MotionLayout>(R.id.home_fragment)
-            if (homeView != null) {
-                val homeScreen = homeView.constraintSetIds[0]
-                val isFlingFromHomeScreen = homeView.currentState == homeScreen
-                val isFlingDown = velocityY > 0 && velocityY > velocityX.absoluteValue
-                if (isFlingDown && isFlingFromHomeScreen) {
-                    expandStatusBar()
+                if (homeView != null && recyclerView != null) {
+                    if (isVisible(recyclerView)) {
+                        recyclerView.performLongClick()
+                    } else {
+                        // we are in the homeFragment
+                        findNavController(
+                            homeView
+                        ).navigate(R.id.action_homeFragment_to_optionsFragment, null)
+                    }
                 }
             }
-            return super.onFling(e1, e2, velocityX, velocityY)
-        }
-    })
 
-    @SuppressLint("WrongConstant")  // statusbar is an internal API
+            override fun onFling(
+                e1: MotionEvent?,
+                e2: MotionEvent,
+                velocityX: Float,
+                velocityY: Float
+            ): Boolean {
+                val homeView = findViewById<MotionLayout>(R.id.home_fragment)
+                if (homeView != null) {
+                    val homeScreen = homeView.constraintSetIds[0]
+                    val isFlingFromHomeScreen = homeView.currentState == homeScreen
+                    val isFlingDown = velocityY > 0 && velocityY > velocityX.absoluteValue
+                    if (isFlingDown && isFlingFromHomeScreen) {
+                        expandStatusBar()
+                    }
+                }
+                return super.onFling(e1, e2, velocityX, velocityY)
+            }
+        }
+    )
+
+    @SuppressLint("WrongConstant") // statusbar is an internal API
     private fun expandStatusBar() {
         try {
             getSystemService("statusbar")?.let { service ->

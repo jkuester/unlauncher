@@ -22,15 +22,20 @@ import com.sduduzog.slimlauncher.utils.OnItemActionListener
 import com.sduduzog.slimlauncher.utils.OnShitDoneToAppsListener
 import dagger.hilt.android.AndroidEntryPoint
 
-
 @AndroidEntryPoint
 class CustomiseAppsFragment : BaseFragment(), OnShitDoneToAppsListener {
 
-    override fun getFragmentView(): ViewGroup = CustomiseAppsFragmentBinding.bind(requireView()).customiseAppsFragment
+    override fun getFragmentView(): ViewGroup = CustomiseAppsFragmentBinding.bind(
+        requireView()
+    ).customiseAppsFragment
 
     private val viewModel: CustomiseAppsViewModel by viewModels()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.customise_apps_fragment, container, false)
     }
 
@@ -49,41 +54,67 @@ class CustomiseAppsFragment : BaseFragment(), OnShitDoneToAppsListener {
         viewModel.apps.observe(viewLifecycleOwner, {
             it?.let { apps ->
                 adapter.setItems(apps)
-                customiseAppsFragment.customiseAppsFragmentAdd.visibility = if(apps.size < 6) View.VISIBLE else View.INVISIBLE
+                customiseAppsFragment.customiseAppsFragmentAdd.visibility = if (apps.size < 6) View.VISIBLE else View.INVISIBLE
             } ?: adapter.setItems(listOf())
         })
         customiseAppsFragment.customiseAppsFragmentRemoveAll.setOnClickListener {
-            RemoveAllAppsDialog.getInstance(viewModel.apps.value!!, viewModel).show(childFragmentManager, "REMOVE_APPS")
+            RemoveAllAppsDialog.getInstance(
+                viewModel.apps.value!!,
+                viewModel
+            ).show(childFragmentManager, "REMOVE_APPS")
         }
 
         customiseAppsFragment.customiseAppsFragmentList.adapter = adapter
         val listener: OnItemActionListener = adapter
         val simpleItemTouchCallback = object : ItemTouchHelper.Callback() {
 
-            override fun onChildDraw(c: Canvas, recyclerView: RecyclerView,
-                                     viewHolder: RecyclerView.ViewHolder, dX: Float,
-                                     dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
+            override fun onChildDraw(
+                c: Canvas,
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                dX: Float,
+                dY: Float,
+                actionState: Int,
+                isCurrentlyActive: Boolean
+            ) {
                 if (isCurrentlyActive) {
                     viewHolder.itemView.alpha = 0.5f
                 } else {
                     viewHolder.itemView.alpha = 1f
                 }
-                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                super.onChildDraw(
+                    c,
+                    recyclerView,
+                    viewHolder,
+                    dX,
+                    dY,
+                    actionState,
+                    isCurrentlyActive
+                )
             }
 
-            override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
+            override fun clearView(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder
+            ) {
                 super.clearView(recyclerView, viewHolder)
                 listener.onViewIdle()
             }
 
-            override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
+            override fun getMovementFlags(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder
+            ): Int {
                 val dragFlags = ItemTouchHelper.UP or ItemTouchHelper.DOWN
                 val swipeFlags = 0
                 return makeMovementFlags(dragFlags, swipeFlags)
             }
 
-            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
-                                target: RecyclerView.ViewHolder): Boolean {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
                 return listener.onViewMoved(viewHolder.adapterPosition, target.adapterPosition)
             }
 
@@ -100,7 +131,11 @@ class CustomiseAppsFragment : BaseFragment(), OnShitDoneToAppsListener {
 
         adapter.setItemTouchHelper(itemTouchHelper)
 
-        customiseAppsFragment.customiseAppsFragmentAdd.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_customiseAppsFragment_to_addAppFragment))
+        customiseAppsFragment.customiseAppsFragmentAdd.setOnClickListener(
+            Navigation.createNavigateOnClickListener(
+                R.id.action_customiseAppsFragment_to_addAppFragment
+            )
+        )
     }
 
     private fun showPopupMenu(view: View): PopupMenu {
@@ -119,7 +154,10 @@ class CustomiseAppsFragment : BaseFragment(), OnShitDoneToAppsListener {
         showPopupMenu(view).setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.ca_menu_rename -> {
-                    RenameAppDialog.getInstance(app, viewModel).show(childFragmentManager, "SettingsListAdapter")
+                    RenameAppDialog.getInstance(
+                        app,
+                        viewModel
+                    ).show(childFragmentManager, "SettingsListAdapter")
                 }
                 R.id.ca_menu_remove -> {
                     viewModel.remove(app)

@@ -20,11 +20,17 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class AddAppFragment : BaseFragment(), OnAppClickedListener {
 
-    override fun getFragmentView(): ViewGroup = AddAppFragmentBinding.bind(requireView()).addAppFragment
+    override fun getFragmentView(): ViewGroup = AddAppFragmentBinding.bind(
+        requireView()
+    ).addAppFragment
 
-    private  val viewModel: AddAppViewModel by viewModels()
+    private val viewModel: AddAppViewModel by viewModels()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.add_app_fragment, container, false)
     }
 
@@ -76,6 +82,8 @@ class AddAppFragment : BaseFragment(), OnAppClickedListener {
 
     override fun onAppClicked(app: App) {
         viewModel.addAppToHomeScreen(app)
-        Navigation.findNavController(AddAppFragmentBinding.bind(requireView()).addAppFragment).popBackStack()
+        Navigation.findNavController(
+            AddAppFragmentBinding.bind(requireView()).addAppFragment
+        ).popBackStack()
     }
 }

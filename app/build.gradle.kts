@@ -39,7 +39,7 @@ android {
             isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro",
+                "proguard-rules.pro"
             )
 //            signingConfig = signingConfigs.maybeCreate("release")
         }
@@ -47,7 +47,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro",
+                "proguard-rules.pro"
             )
         }
     }
@@ -74,12 +74,14 @@ android {
             (this as com.android.build.gradle.internal.api.BaseVariantOutputImpl).outputFileName =
                 "$applicationId.apk"
         }
+        assembleProvider.get().dependsOn.add("ktlintCheck")
     }
 }
 
 dependencies {
     // Kotlin Libraries
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.22") // This needs to match ksp and kotlin-gradle-plugin
+    // This needs to match ksp and kotlin-gradle-plugin
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.22")
 
     // Support Libraries
     implementation("androidx.appcompat:appcompat:1.6.1")

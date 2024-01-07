@@ -42,7 +42,11 @@ class RenameAppDialog : DialogFragment() {
             app.appNickname = newName
             model.update(app)
         } else {
-            Toast.makeText(context, "Couldn't save, App name shouldn't be empty", Toast.LENGTH_LONG).show()
+            Toast.makeText(
+                context,
+                "Couldn't save, App name shouldn't be empty",
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 

@@ -23,14 +23,17 @@ class ChooseQuickButtonDialog(
         val quickButtonPrefs = repo.get()
         var currentIconId = 0
         when (defaultIconId) {
-            QuickButtonPreferencesRepository.IC_CALL -> currentIconId =
-                quickButtonPrefs.leftButton.iconId
+            QuickButtonPreferencesRepository.IC_CALL ->
+                currentIconId =
+                    quickButtonPrefs.leftButton.iconId
 
-            QuickButtonPreferencesRepository.IC_COG -> currentIconId =
-                quickButtonPrefs.centerButton.iconId
+            QuickButtonPreferencesRepository.IC_COG ->
+                currentIconId =
+                    quickButtonPrefs.centerButton.iconId
 
-            QuickButtonPreferencesRepository.IC_PHOTO_CAMERA -> currentIconId =
-                quickButtonPrefs.rightButton.iconId
+            QuickButtonPreferencesRepository.IC_PHOTO_CAMERA ->
+                currentIconId =
+                    quickButtonPrefs.rightButton.iconId
         }
 
         builder.setTitle(R.string.options_fragment_customize_quick_buttons)

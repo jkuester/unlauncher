@@ -21,7 +21,7 @@ class HomeAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.main_fragment_list_item, parent, false)
+            .inflate(R.layout.main_fragment_list_item, parent, false)
         return ViewHolder(view)
     }
 

@@ -17,7 +17,9 @@ class CustomizeAppDrawerAppListFragment : BaseFragment() {
     @Inject
     lateinit var unlauncherDataSource: UnlauncherDataSource
 
-    override fun getFragmentView(): ViewGroup = CustomizeAppDrawerAppListFragmentBinding.bind(requireView()).customizeAppDrawerFragment
+    override fun getFragmentView(): ViewGroup = CustomizeAppDrawerAppListFragmentBinding.bind(
+        requireView()
+    ).customizeAppDrawerFragment
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,7 +32,9 @@ class CustomizeAppDrawerAppListFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val unlauncherAppsRepo = unlauncherDataSource.unlauncherAppsRepo
-        val customiseAppDrawerAppListFragment = CustomizeAppDrawerAppListFragmentBinding.bind(requireView())
+        val customiseAppDrawerAppListFragment = CustomizeAppDrawerAppListFragmentBinding.bind(
+            requireView()
+        )
         customiseAppDrawerAppListFragment.customizeAppDrawerFragmentAppList.adapter =
             CustomizeAppDrawerAppsAdapter(viewLifecycleOwner, unlauncherAppsRepo)
         unlauncherAppsRepo.liveData().observe(viewLifecycleOwner) {

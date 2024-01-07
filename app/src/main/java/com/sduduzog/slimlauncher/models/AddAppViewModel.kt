@@ -6,9 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sduduzog.slimlauncher.data.model.App
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class AddAppViewModel @Inject constructor(
@@ -16,11 +16,11 @@ class AddAppViewModel @Inject constructor(
 ) : ViewModel() {
     private var filterQuery = ""
     private val regex = Regex("[!@#\$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/? ]")
-    private val _installedApps = mutableListOf<App>()
-    private val _homeApps = mutableListOf<App>()
+    private val installedApps = mutableListOf<App>()
+    private val homeApps = mutableListOf<App>()
     private val homeAppsObserver = Observer<List<HomeApp>> {
-        this._homeApps.clear()
-        it.orEmpty().forEach { item -> this._homeApps.add(App.from(item)) }
+        this.homeApps.clear()
+        it.orEmpty().forEach { item -> this.homeApps.add(App.from(item)) }
         if (it !== null) updateDisplayedApps()
     }
     val apps = MutableLiveData<List<App>>()
@@ -35,20 +35,22 @@ class AddAppViewModel @Inject constructor(
     }
 
     private fun updateDisplayedApps() {
-        val filteredApps = _installedApps.filterNot { _homeApps.contains(it) }
-        this.apps.postValue(filteredApps.filter {
-            regex.replace(it.appName, "").contains(filterQuery, ignoreCase = true)
-        })
+        val filteredApps = installedApps.filterNot { homeApps.contains(it) }
+        this.apps.postValue(
+            filteredApps.filter {
+                regex.replace(it.appName, "").contains(filterQuery, ignoreCase = true)
+            }
+        )
     }
 
     fun setInstalledApps(apps: List<App>) {
         this.filterQuery = ""
-        this._installedApps.clear()
-        this._installedApps.addAll(apps)
+        this.installedApps.clear()
+        this.installedApps.addAll(apps)
     }
 
     fun addAppToHomeScreen(app: App) {
-        val index = _homeApps.size
+        val index = homeApps.size
         viewModelScope.launch(Dispatchers.IO) {
             repository.add(HomeApp.from(app, index))
         }

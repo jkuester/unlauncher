@@ -9,12 +9,12 @@ import com.jkuester.unlauncher.datastore.AlignmentFormat
 import com.jkuester.unlauncher.datastore.ClockType
 import com.jkuester.unlauncher.datastore.CorePreferences
 import com.jkuester.unlauncher.datastore.SearchBarPosition
+import java.io.IOException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import java.io.IOException
 
 class CorePreferencesRepository(
     private val corePreferencesStore: DataStore<CorePreferences>,

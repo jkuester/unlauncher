@@ -33,4 +33,3 @@ class ChooseAlignmentDialog : DialogFragment() {
         fun getInstance(): ChooseAlignmentDialog = ChooseAlignmentDialog()
     }
 }
-
