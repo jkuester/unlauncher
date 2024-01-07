@@ -4,7 +4,7 @@ plugins {
     id("com.android.application")
     id("dagger.hilt.android.plugin")
     id("com.google.devtools.ksp")
-    id("com.google.protobuf") version "0.9.4"
+    id("com.google.protobuf")
     kotlin("android")
 }
 
@@ -12,7 +12,7 @@ android {
     compileSdk = 34
     defaultConfig {
         applicationId = "com.jkuester.unlauncher"
-        minSdkVersion(21)
+        minSdk = 21
         targetSdk = 34
         versionName = "2.1.0-beta.1"
         versionCode = 19
@@ -63,8 +63,8 @@ android {
         warningsAsErrors = true
         disable += "Typos" // Too many false positives
         disable += "VectorPath" // Not planning to change "large" graphics for now
-//        disable += "GradleDependency" // Do not fail linting due to new dependencies
-//        checkDependencies = false
+        disable += "GradleDependency" // Do not fail linting due to new dependencies
+        checkDependencies = false
     }
     namespace = "com.sduduzog.slimlauncher"
     applicationVariants.all{
@@ -76,7 +76,7 @@ android {
 
 dependencies {
     // Kotlin Libraries
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.22") // This needs to match ksp
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.22") // This needs to match ksp and kotlin-gradle-plugin
 
     // Support Libraries
     implementation("androidx.appcompat:appcompat:1.6.1")

@@ -7,7 +7,7 @@ buildscript {
     }
     dependencies {
         classpath("com.android.tools.build:gradle:8.2.1")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.22")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.22") // This needs to match kotlin-stdlib
         classpath("com.google.dagger:hilt-android-gradle-plugin:2.50")
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -28,4 +28,5 @@ tasks.register("clean", Delete::class) {
 
 plugins {
     id("com.google.devtools.ksp") version "1.9.22-1.0.16" apply false // This needs to match kotlin-stdlib
+    id("com.google.protobuf") version "0.9.4" apply false
 }
