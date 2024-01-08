@@ -1,41 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string-array name="alignment_format_array">
+        <item>à gauche</item>
+        <item>au centre</item>
+        <item>à droite</item>
+    </string-array>
+    <string-array name="clock_type_array">
+        <item>Aucune</item>
+        <item>Numérique</item>
+        <item>Analogue</item>
+        <item>Binaire</item>
+    </string-array>
     <string-array name="quick_button_array">
         <item>Afficher</item>
         <item>Cacher</item>
     </string-array>
+    <string-array name="search_bar_position_array">
+        <item>En haut</item>
+        <item>En bas</item>
+    </string-array>
     <string-array name="themes_array">
-        <item>Système défaut</item>
+        <item>Système</item>
         <item>Minuit</item>
         <item>Jupiter</item>
-        <item>Teal</item>
-        <item>Candy</item>
+        <item>Bleu canard</item>
+        <item>Bonbon</item>
         <item>Pastel</item>
         <item>Midi</item>
         <item>Vlad</item>
         <item>Groovy</item>
     </string-array>
     <string-array name="time_format_array">
-        <item>Comme les paramètres du système</item>
+        <item>Système</item>
         <item>24 heures</item>
         <item>12 heures</item>
     </string-array>
 
     <string name="add_apps_fragment_search_apps">Chercher parmi les applications</string>
+    <string name="app_info">Information sur l’application</string>
+    <string name="choose_alignment_dialog_title">Choisir l’alignement</string>
+    <string name="choose_clock_type_dialog_title">Choisir le type d’horloge</string>
+    <string name="choose_search_bar_position_dialog_title">Définir la position du champ de recherche</string>
     <string name="choose_theme_dialog_title">Choisir le thème</string>
     <string name="choose_time_format_dialog_title">Format de l’heure</string>
     <string name="customise_apps_fragment_add">Ajouter</string>
     <string name="customise_apps_fragment_remove_all">Supprimer tout</string>
+    <string name="customize_app_drawer_fragment_auto_theme_wallpaper_subtext_no_default_launcher">L’application nécessite d’être définie comme lanceur par défaut</string>
+    <string name="customize_app_drawer_fragment_auto_theme_wallpaper_text">Utiliser la couleur de fond du thème comme papier peint</string>
+    <string name="customize_app_drawer_fragment_open_keyboard">Ouvrir le clavier</string>
+    <string name="customize_app_drawer_fragment_open_keyboard_subtitle">Afficher le clavier lors de l’ouverture du volet des applications</string>
+    <string name="customize_app_drawer_fragment_search_all">Chercher parmi toutes les applications</string>
+    <string name="customize_app_drawer_fragment_search_all_subtitle">Les applications masquées peuvent être trouvée via la recherche</string>
     <string name="customize_app_drawer_fragment_search_bar_position">Position</string>
+    <string name="customize_app_drawer_fragment_search_field_options">Options du champ de recherche</string>
+    <string name="customize_app_drawer_fragment_search_field_options_subtitle_status_hidden">Le champ de recherche est masqué</string>
+    <string name="customize_app_drawer_fragment_search_field_options_subtitle_status_shown">Position %s, clavier %s</string>
+    <string name="customize_app_drawer_fragment_show_headings">Afficher les regroupements</string>
+    <string name="customize_app_drawer_fragment_show_headings_subtitle">Séparer les applications par groupes alphabétiques</string>
+    <string name="customize_app_drawer_fragment_show_search_bar">Afficher le champ de recherche</string>
+    <string name="customize_app_drawer_fragment_visible_apps">Applications visibles</string>
+    <string name="hidden">masqué</string>
+    <string name="hide_app">Masquer l’application</string>
+    <string name="main_date_format">EEE d MMM</string>
     <string name="main_fragment_options">Options</string>
     <string name="menu_remove">Supprimer</string>
     <string name="menu_rename">Renommer</string>
     <string name="menu_reset">Réinitialiser</string>
-    <string name="options_fragment_change_theme">Changer le Thème</string>
-    <string name="options_fragment_choose_time_format">Format de l’Heure</string>
-    <string name="options_fragment_customise_apps">Applications Personnalisées</string>
-    <string name="options_fragment_device_settings">Paramètres Système</string>
-    <string name="options_fragment_toggle_status_bar">Afficher/Cacher la Barre de Statut</string>
+    <string name="open_app">Ouvrir l’application</string>
+    <string name="options_fragment_change_theme">Changer le thème</string>
+    <string name="options_fragment_choose_alignment">Changer l’alignement de l’application</string>
+    <string name="options_fragment_choose_clock_type">Changer le type d’horloge</string>
+    <string name="options_fragment_choose_time_format">Format de l’heure</string>
+    <string name="options_fragment_customise_apps">Applications personnalisées</string>
+    <string name="options_fragment_customize_app_drawer">Personnaliser le volet des applications</string>
+    <string name="options_fragment_customize_quick_buttons">Personnaliser les raccourcis</string>
+    <string name="options_fragment_device_settings">Paramètres système</string>
+    <string name="options_fragment_toggle_status_bar">Afficher/cacher la barre de statut</string>
     <string name="remove_all_apps_dialog_message">"Cette action ne supprimera aucune application de l’appareil."
-    "Il s’agit seulement de confirmer la purgation de la liste."</string>
+    "Il s’agit seulement de confirmer que vous souhaitez bien vider la liste."</string>
     <string name="remove_all_apps_dialog_title">Supprimer toutes les applications</string>
+    <string name="rename_app">Renommer l’application</string>
+    <string name="shown">affiché</string>
+    <string name="uninstall">Désinstaller</string>
 </resources>
