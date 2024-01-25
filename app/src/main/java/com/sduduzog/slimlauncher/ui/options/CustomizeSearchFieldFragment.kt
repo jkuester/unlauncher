@@ -11,7 +11,6 @@ import com.sduduzog.slimlauncher.ui.dialogs.ChooseSearchBarPositionDialog
 import com.sduduzog.slimlauncher.utils.BaseFragment
 import com.sduduzog.slimlauncher.utils.createTitleAndSubtitleText
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.customize_app_drawer_fragment_search_field_options.customize_app_drawer_search_all_switch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -73,7 +72,7 @@ class CustomizeSearchFieldFragment : BaseFragment() {
     ) {
         options.customizeAppDrawerFragmentSearchFieldPosition.isEnabled = enabled
         options.customizeAppDrawerOpenKeyboardSwitch.isEnabled = enabled
-        options.customize_app_drawer_search_all_switch.isEnabled = enabled
+        options.customizeAppDrawerSearchAllSwitch.isEnabled = enabled
     }
 
     private fun setupSearchBarPositionOption(
