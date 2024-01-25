@@ -24,7 +24,7 @@ abstract class ClockView(context: Context, attrs: AttributeSet) : View(context, 
         return paint
     }
 
-    fun updateClock () {
+    fun updateClock() {
         requestLayout()
         invalidate()
     }
@@ -32,5 +32,4 @@ abstract class ClockView(context: Context, attrs: AttributeSet) : View(context, 
     override fun onDraw(canvas: Canvas) = super.onDraw(canvas)
 
     abstract override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int)
-
 }

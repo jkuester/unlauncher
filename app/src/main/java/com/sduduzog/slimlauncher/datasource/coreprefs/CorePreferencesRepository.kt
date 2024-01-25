@@ -5,15 +5,16 @@ import androidx.datastore.core.DataStore
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
+import com.jkuester.unlauncher.datastore.AlignmentFormat
 import com.jkuester.unlauncher.datastore.ClockType
 import com.jkuester.unlauncher.datastore.CorePreferences
 import com.jkuester.unlauncher.datastore.SearchBarPosition
+import java.io.IOException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import java.io.IOException
 
 class CorePreferencesRepository(
     private val corePreferencesStore: DataStore<CorePreferences>,
@@ -96,6 +97,14 @@ class CorePreferencesRepository(
         lifecycleScope.launch {
             corePreferencesStore.updateData {
                 it.toBuilder().setClockType(clockType).build()
+            }
+        }
+    }
+
+    fun updateAlignmentFormat(alignmentFormat: AlignmentFormat) {
+        lifecycleScope.launch {
+            corePreferencesStore.updateData {
+                it.toBuilder().setAlignmentFormat(alignmentFormat).build()
             }
         }
     }

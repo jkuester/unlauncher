@@ -34,7 +34,9 @@ class AnalogClockView(context: Context, attrs: AttributeSet) : ClockView(context
         context.theme.obtainStyledAttributes(
             attrs,
             R.styleable.AnalogClockView,
-            0, 0).apply {
+            0,
+            0
+        ).apply {
             try {
                 radius = getDimension(R.styleable.AnalogClockView_radius, 200F)
                 border = getFloat(R.styleable.AnalogClockView_rim, 0F)
@@ -44,8 +46,7 @@ class AnalogClockView(context: Context, attrs: AttributeSet) : ClockView(context
         }
     }
 
-    override fun onDraw(canvas : Canvas)
-    {
+    override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         val calendar = Calendar.getInstance()
 
@@ -65,7 +66,7 @@ class AnalogClockView(context: Context, attrs: AttributeSet) : ClockView(context
         drawHand(canvas, cx, cy, radius * handLengthMinute, minute)
     }
 
-    private fun drawTicks(canvas: Canvas, cx : Float, cy : Float) {
+    private fun drawTicks(canvas: Canvas, cx: Float, cy: Float) {
         canvas.save()
         for (i in 1..12) {
             canvas.rotate(30f, cx, cy)
@@ -74,8 +75,8 @@ class AnalogClockView(context: Context, attrs: AttributeSet) : ClockView(context
         canvas.restore()
     }
 
-    private fun drawHand(canvas: Canvas, cx : Float, cy : Float, size : Float, minute : Int) {
-        val angle : Float = (minute.toFloat() * 6)
+    private fun drawHand(canvas: Canvas, cx: Float, cy: Float, size: Float, minute: Int) {
+        val angle: Float = (minute.toFloat() * 6)
 
         canvas.save()
         canvas.rotate(angle, cx, cy)
@@ -84,8 +85,10 @@ class AnalogClockView(context: Context, attrs: AttributeSet) : ClockView(context
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        val dim = max(min(suggestedMinimumWidth, suggestedMinimumHeight),
-            2 * radius.toInt()) + 4 * border.toInt()
+        val dim = max(
+            min(suggestedMinimumWidth, suggestedMinimumHeight),
+            2 * radius.toInt()
+        ) + 4 * border.toInt()
         val minw: Int = dim + paddingLeft + paddingRight + marginStart + marginEnd
         val w: Int = resolveSizeAndState(minw, widthMeasureSpec, 0)
 
@@ -94,5 +97,4 @@ class AnalogClockView(context: Context, attrs: AttributeSet) : ClockView(context
 
         setMeasuredDimension(w, h)
     }
-
 }

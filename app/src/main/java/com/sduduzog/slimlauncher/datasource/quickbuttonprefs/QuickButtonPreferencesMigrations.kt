@@ -56,7 +56,9 @@ class QuickButtonPreferencesMigrations {
                     )
                 }
 
-                override suspend fun migrate(currentData: QuickButtonPreferences): QuickButtonPreferences {
+                override suspend fun migrate(
+                    currentData: QuickButtonPreferences
+                ): QuickButtonPreferences {
                     val icons = QuickButtonPreferencesRepository.RES_BY_ICON.keys
                     val prefBuilder = currentData.toBuilder()
                     if (!icons.contains(currentData.leftButton.iconId)) {

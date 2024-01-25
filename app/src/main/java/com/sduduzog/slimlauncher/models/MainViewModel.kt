@@ -21,7 +21,8 @@ class MainViewModel @Inject constructor(
             .orEmpty()
             .filter { currentApp ->
                 updatedApps.find { updatedApp ->
-                    updatedApp.packageName == currentApp.packageName && updatedApp.activityName == currentApp.activityName
+                    updatedApp.packageName == currentApp.packageName &&
+                        updatedApp.activityName == currentApp.activityName
                 } == null
             }.forEach {
                 _baseRepository.remove(it)

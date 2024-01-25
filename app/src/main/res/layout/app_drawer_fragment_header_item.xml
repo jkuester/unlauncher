@@ -10,15 +10,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
-        android:padding="6dp"
+        android:padding="@dimen/padding"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textSize="@dimen/font_size_customize_group_header"
         tools:text="A" />
 
     <View
         android:id="@+id/divider"
-        android:layout_marginStart="6dp"
-        android:layout_marginEnd="6dp"
+        android:layout_marginStart="@dimen/margin_sides_small"
+        android:layout_marginEnd="@dimen/margin_sides_small"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"

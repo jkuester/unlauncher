@@ -64,8 +64,6 @@
     <string name="options_fragment_customize_app_drawer">Настроить выдвигающийся список</string>
     <string name="options_fragment_customize_quick_buttons">Настроить кнопки быстрого запуска</string>
     <string name="options_fragment_device_settings">Настройки устройства</string>
-    <string name="options_fragment_hide_status_bar">Скрыть строку состояния</string>
-    <string name="options_fragment_show_status_bar">Показать строку состояния</string>
     <string name="options_fragment_toggle_status_bar">Скрыть/показать строку состояния</string>
     <string name="remove_all_apps_dialog_message">"Это действие не удалит Ваши приложения."
     "Это только для того чтобы подвтердить, что Вы делаете это осмысленно."</string>

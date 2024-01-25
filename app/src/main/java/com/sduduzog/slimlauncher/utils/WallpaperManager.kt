@@ -10,13 +10,13 @@ import androidx.annotation.WorkerThread
 import androidx.lifecycle.lifecycleScope
 import com.sduduzog.slimlauncher.MainActivity
 import com.sduduzog.slimlauncher.datasource.UnlauncherDataSource
+import java.io.IOException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.io.IOException
 
 class WallpaperManager(private val mainActivity: MainActivity) {
     fun onApplyThemeResource(theme: Resources.Theme?, @StyleRes resid: Int) {
-        if(!isActivityDefaultLauncher(mainActivity)) {
+        if (!isActivityDefaultLauncher(mainActivity)) {
             return
         }
         // Cannot inject here because this is called too early in the lifecycle
@@ -42,7 +42,10 @@ class WallpaperManager(private val mainActivity: MainActivity) {
      */
     @ColorInt
     private fun getThemeBackgroundColor(theme: Resources.Theme?, @StyleRes themeRes: Int): Int {
-        val array =  theme?.obtainStyledAttributes(themeRes, intArrayOf(android.R.attr.colorBackground))
+        val array = theme?.obtainStyledAttributes(
+            themeRes,
+            intArrayOf(android.R.attr.colorBackground)
+        )
         try {
             return array?.getColor(0, Int.MIN_VALUE) ?: Int.MIN_VALUE
         } finally {
@@ -66,7 +69,11 @@ class WallpaperManager(private val mainActivity: MainActivity) {
         wallpaperManager.setBitmap(wallpaperBitmap)
     }
 
-    private fun createColoredWallpaperBitmap(@ColorInt color: Int, width: Int, height: Int): Bitmap {
+    private fun createColoredWallpaperBitmap(
+        @ColorInt color: Int,
+        width: Int,
+        height: Int
+    ): Bitmap {
         val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
         canvas.drawColor(color)

@@ -22,7 +22,10 @@ class ChooseSearchBarPositionDialog : DialogFragment() {
         val repo = unlauncherDataSource.corePreferencesRepo
         val active = repo.get().searchBarPosition.number
         builder.setTitle(R.string.choose_search_bar_position_dialog_title)
-        builder.setSingleChoiceItems(R.array.search_bar_position_array, active) { dialogInterface, i ->
+        builder.setSingleChoiceItems(
+            R.array.search_bar_position_array,
+            active
+        ) { dialogInterface, i ->
             dialogInterface.dismiss()
             repo.updateSearchBarPosition(SearchBarPosition.forNumber(i))
         }
@@ -30,6 +33,7 @@ class ChooseSearchBarPositionDialog : DialogFragment() {
     }
 
     companion object {
-        fun getSearchBarPositionChooser(): ChooseSearchBarPositionDialog = ChooseSearchBarPositionDialog()
+        fun getSearchBarPositionChooser(): ChooseSearchBarPositionDialog =
+            ChooseSearchBarPositionDialog()
     }
 }

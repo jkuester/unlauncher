@@ -7,12 +7,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import com.jkuester.unlauncher.datastore.QuickButtonPreferences
 import com.sduduzog.slimlauncher.R
+import java.io.IOException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import java.io.IOException
 
 class QuickButtonPreferencesRepository(
     private val quickButtonPreferencesStore: DataStore<QuickButtonPreferences>,

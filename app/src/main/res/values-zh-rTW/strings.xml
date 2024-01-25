@@ -29,8 +29,6 @@
     <string name="options_fragment_choose_time_format">選擇時間格式</string>
     <string name="options_fragment_customise_apps">挑選應用程序</string>
     <string name="options_fragment_device_settings">設備設置</string>
-    <string name="options_fragment_hide_status_bar">隱藏狀態欄</string>
-    <string name="options_fragment_show_status_bar">顯示狀態欄</string>
     <string name="options_fragment_toggle_status_bar">顯示或隱藏狀態欄</string>
     <string name="remove_all_apps_dialog_message">"這個選項不會卸載你的應用程序."
 "這只是爲了確定你想清空這個清單."</string>

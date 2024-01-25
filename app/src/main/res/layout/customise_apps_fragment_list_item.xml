@@ -4,18 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="6dp"
-    android:layout_marginBottom="6dp">
+    android:layout_marginTop="@dimen/margin_top_small"
+    android:layout_marginBottom="@dimen/margin_bottom_small">
 
     <TextView
         android:id="@+id/ca_list_item_drag_handle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:paddingStart="12dp"
-        android:paddingLeft="12dp"
-        android:paddingEnd="12dp"
-        android:paddingRight="12dp"
+        android:padding="@dimen/padding"
+        android:paddingStart="@dimen/padding"
+        android:paddingEnd="@dimen/padding"
         android:text="="
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textSize="@dimen/font_size_customize_apps_list_item"
@@ -42,7 +40,7 @@
         android:id="@+id/ca_list_item_more_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="8dp"
+        android:padding="@dimen/padding"
         app:layout_constraintBottom_toBottomOf="@+id/ca_list_item_app_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/ca_list_item_app_name"

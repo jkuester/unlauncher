@@ -5,9 +5,9 @@
     android:id="@+id/add_app_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="@dimen/_8sdp"
-    android:layout_marginStart="@dimen/_16sdp"
-    android:layout_marginEnd="@dimen/_16sdp"
+    android:layout_marginTop="@dimen/margin_top_small"
+    android:layout_marginStart="@dimen/margin_sides"
+    android:layout_marginEnd="@dimen/margin_sides"
     tools:context=".ui.options.AddAppFragment">
 
     <EditText
@@ -40,7 +40,7 @@
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="@dimen/margin_top_small"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

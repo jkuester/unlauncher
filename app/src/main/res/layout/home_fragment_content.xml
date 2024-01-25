@@ -3,18 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
-    android:layout_marginStart="8dp"
-    android:layout_marginLeft="8dp"
-    android:layout_marginEnd="8dp"
-    android:layout_marginRight="8dp"
+    android:layout_marginStart="@dimen/margin_sides_small"
+    android:layout_marginEnd="@dimen/margin_sides_small"
     tools:showIn="@layout/home_fragment_default">
 
 
     <EditText
         android:id="@+id/app_drawer_edit_text"
+        android:padding="@dimen/padding"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="@dimen/margin_top_large"
         android:ems="10"
         android:hint="@string/add_apps_fragment_search_apps"
         android:imeOptions="actionDone"
@@ -26,7 +25,7 @@
         android:id="@+id/home_fragment_call"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="@dimen/_8sdp"
+        android:padding="@dimen/padding"
         app:srcCompat="@drawable/ic_call"
         tools:ignore="ContentDescription" />
 
@@ -34,7 +33,7 @@
         android:id="@+id/home_fragment_camera"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="@dimen/_8sdp"
+        android:padding="@dimen/padding"
         app:srcCompat="@drawable/ic_photo_camera"
         tools:ignore="ContentDescription" />
 
@@ -42,7 +41,7 @@
         android:id="@+id/home_fragment_options"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="@dimen/_8sdp"
+        android:padding="@dimen/padding"
         app:srcCompat="@drawable/ic_cog"
         tools:ignore="ContentDescription" />
 

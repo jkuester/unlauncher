@@ -11,28 +11,32 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.jkuester.unlauncher.datastore.UnlauncherApp
 import com.sduduzog.slimlauncher.R
-import com.sduduzog.slimlauncher.datasource.apps.UnlauncherAppsRepository
-import com.sduduzog.slimlauncher.datasource.coreprefs.CorePreferencesRepository
+import com.sduduzog.slimlauncher.datasource.UnlauncherDataSource
 import com.sduduzog.slimlauncher.ui.main.HomeFragment
 import com.sduduzog.slimlauncher.utils.firstUppercase
+import com.sduduzog.slimlauncher.utils.gravity
 
 class AppDrawerAdapter(
     private val listener: HomeFragment.AppDrawerListener,
     lifecycleOwner: LifecycleOwner,
-    appsRepo: UnlauncherAppsRepository,
-    private val corePreferencesRepo: CorePreferencesRepository
+    private val unlauncherDataSource: UnlauncherDataSource
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    private val workAppPrefix = "\uD83C\uDD46 " // Unicode for boxed w
     private val regex = Regex("[!@#\$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/? ]")
     private var apps: List<UnlauncherApp> = listOf()
     private var filteredApps: List<AppDrawerRow> = listOf()
+    private var gravity = 3
 
     init {
-        appsRepo.liveData().observe(lifecycleOwner) { unlauncherApps ->
+        unlauncherDataSource.unlauncherAppsRepo.liveData().observe(
+            lifecycleOwner
+        ) { unlauncherApps ->
             apps = unlauncherApps.appsList
             updateFilteredApps()
         }
-        corePreferencesRepo.liveData().observe(lifecycleOwner) { _ ->
+        unlauncherDataSource.corePreferencesRepo.liveData().observe(lifecycleOwner) { corePrefs ->
+            gravity = corePrefs.alignmentFormat.gravity()
             updateFilteredApps()
         }
     }
@@ -75,9 +79,8 @@ class AppDrawerAdapter(
         }
     }
 
-
-    private fun onlyFirstStringStartsWith(first: String, second: String, query: String) : Boolean {
-        return first.startsWith(query, true) and !second.startsWith(query, true);
+    private fun onlyFirstStringStartsWith(first: String, second: String, query: String): Boolean {
+        return first.startsWith(query, true) and !second.startsWith(query, true)
     }
 
     fun setAppFilter(query: String = "") {
@@ -87,39 +90,54 @@ class AppDrawerAdapter(
 
     @SuppressLint("NotifyDataSetChanged")
     private fun updateFilteredApps(filterQuery: String = "") {
-        val showDrawerHeadings = corePreferencesRepo.get().showDrawerHeadings
-        val searchAllApps = corePreferencesRepo.get().searchAllAppsInDrawer && filterQuery != ""
+        val corePreferences = unlauncherDataSource.corePreferencesRepo.get()
+        val showDrawerHeadings = corePreferences.showDrawerHeadings
+        val searchAllApps = corePreferences.searchAllAppsInDrawer && filterQuery != ""
         val displayableApps = apps
             .filter { app ->
                 (app.displayInDrawer || searchAllApps) && regex.replace(app.displayName, "")
-                        .contains(filterQuery, ignoreCase = true)
+                    .contains(filterQuery, ignoreCase = true)
             }
 
         val includeHeadings = !showDrawerHeadings || filterQuery != ""
         val updatedApps = when (includeHeadings) {
-            true -> displayableApps
-                .sortedWith { a, b ->
-                    when {
-                        // if an app's name starts with the query prefer it
-                        onlyFirstStringStartsWith(a.displayName, b.displayName, filterQuery) -> -1
-                        onlyFirstStringStartsWith(b.displayName, a.displayName, filterQuery) -> 1
-                        // if both or none start with the query sort in normal oder
-                        else -> a.displayName.compareTo(b.displayName, true)
-                    }
-                }.map { AppDrawerRow.Item(it) }
+            true ->
+                displayableApps
+                    .sortedWith { a, b ->
+                        when {
+                            // if an app's name starts with the query prefer it
+                            onlyFirstStringStartsWith(
+                                a.displayName,
+                                b.displayName,
+                                filterQuery
+                            ) -> -1
+                            onlyFirstStringStartsWith(
+                                b.displayName,
+                                a.displayName,
+                                filterQuery
+                            ) -> 1
+                            // if both or none start with the query sort in normal oder
+                            else -> a.displayName.compareTo(b.displayName, true)
+                        }
+                    }.map { AppDrawerRow.Item(it) }
             // building a list with each letter and filtered app resulting in a list of
             // [
             // Header<"G">, App<"Gmail">, App<"Google Drive">, Header<"Y">, App<"YouTube">, ...
             // ]
-            false -> displayableApps
-                .groupBy {
-                    app -> app.displayName.firstUppercase()
-                }.flatMap { entry ->
-                    listOf(
+            false ->
+                displayableApps
+                    .groupBy { app ->
+                        if (app.displayName.startsWith(workAppPrefix)) {
+                            workAppPrefix
+                        } else {
+                            app.displayName.firstUppercase()
+                        }
+                    }.flatMap { entry ->
+                        listOf(
                             AppDrawerRow.Header(entry.key),
                             *(entry.value.map { AppDrawerRow.Item(it) }).toTypedArray()
-                    )
-                }
+                        )
+                    }
         }
         if (updatedApps != filteredApps) {
             filteredApps = updatedApps
@@ -151,6 +169,7 @@ class AppDrawerAdapter(
 
         fun bind(item: UnlauncherApp) {
             this.item.text = item.displayName
+            this.item.gravity = gravity
         }
     }
 
@@ -168,7 +187,8 @@ class AppDrawerAdapter(
 }
 
 enum class RowType {
-    Header, App
+    Header,
+    App
 }
 
 sealed class AppDrawerRow(val rowType: RowType) {

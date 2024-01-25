@@ -3,7 +3,7 @@
     android:id="@+id/aa_list_item_app_name"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="6dp"
+    android:padding="@dimen/padding"
     android:stateListAnimator="@xml/animate_scale"
     android:textAppearance="@style/TextAppearance.AppCompat"
     android:textSize="@dimen/font_size_apps_list_item">

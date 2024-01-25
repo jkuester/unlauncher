@@ -11,20 +11,26 @@ import androidx.navigation.Navigation
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.adapters.AddAppAdapter
 import com.sduduzog.slimlauncher.data.model.App
+import com.sduduzog.slimlauncher.databinding.AddAppFragmentBinding
 import com.sduduzog.slimlauncher.models.AddAppViewModel
 import com.sduduzog.slimlauncher.utils.BaseFragment
 import com.sduduzog.slimlauncher.utils.OnAppClickedListener
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.add_app_fragment.*
 
 @AndroidEntryPoint
 class AddAppFragment : BaseFragment(), OnAppClickedListener {
 
-    override fun getFragmentView(): ViewGroup = add_app_fragment
+    override fun getFragmentView(): ViewGroup = AddAppFragmentBinding.bind(
+        requireView()
+    ).addAppFragment
 
-    private  val viewModel: AddAppViewModel by viewModels()
+    private val viewModel: AddAppViewModel by viewModels()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.add_app_fragment, container, false)
     }
 
@@ -32,14 +38,15 @@ class AddAppFragment : BaseFragment(), OnAppClickedListener {
         super.onActivityCreated(savedInstanceState)
         val adapter = AddAppAdapter(this)
 
-        add_app_fragment_list.adapter = adapter
+        val addAppFragment = AddAppFragmentBinding.bind(requireView())
+        addAppFragment.addAppFragmentList.adapter = adapter
 
         viewModel.apps.observe(viewLifecycleOwner, {
             it?.let { apps ->
                 adapter.setItems(apps)
-                add_app_fragment_progress_bar.visibility = View.GONE
+                addAppFragment.addAppFragmentProgressBar.visibility = View.GONE
             } ?: run {
-                add_app_fragment_progress_bar.visibility = View.VISIBLE
+                addAppFragment.addAppFragmentProgressBar.visibility = View.VISIBLE
             }
         })
     }
@@ -48,12 +55,14 @@ class AddAppFragment : BaseFragment(), OnAppClickedListener {
         super.onResume()
         viewModel.setInstalledApps(getInstalledApps())
         viewModel.filterApps("")
-        add_app_fragment_edit_text.addTextChangedListener(onTextChangeListener)
+        val addAppFragment = AddAppFragmentBinding.bind(requireView())
+        addAppFragment.addAppFragmentEditText.addTextChangedListener(onTextChangeListener)
     }
 
     override fun onPause() {
         super.onPause()
-        add_app_fragment_edit_text?.removeTextChangedListener(onTextChangeListener)
+        val addAppFragment = AddAppFragmentBinding.bind(requireView())
+        addAppFragment.addAppFragmentEditText.removeTextChangedListener(onTextChangeListener)
     }
 
     private val onTextChangeListener: TextWatcher = object : TextWatcher {
@@ -73,6 +82,8 @@ class AddAppFragment : BaseFragment(), OnAppClickedListener {
 
     override fun onAppClicked(app: App) {
         viewModel.addAppToHomeScreen(app)
-        Navigation.findNavController(add_app_fragment).popBackStack()
+        Navigation.findNavController(
+            AddAppFragmentBinding.bind(requireView()).addAppFragment
+        ).popBackStack()
     }
 }

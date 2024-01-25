@@ -23,6 +23,5 @@ object CorePreferencesSerializer : Serializer<CorePreferences> {
     }
 
     @Suppress("BlockingMethodInNonBlockingContext")
-    override suspend fun writeTo(t: CorePreferences, output: OutputStream) =
-        t.writeTo(output)
+    override suspend fun writeTo(t: CorePreferences, output: OutputStream) = t.writeTo(output)
 }

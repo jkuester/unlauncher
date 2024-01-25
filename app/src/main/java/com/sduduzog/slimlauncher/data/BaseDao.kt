@@ -1,7 +1,13 @@
 package com.sduduzog.slimlauncher.data
 
 import androidx.lifecycle.LiveData
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Transaction
+import androidx.room.Update
 import com.sduduzog.slimlauncher.models.HomeApp
 
 @Dao
@@ -17,7 +23,7 @@ interface BaseDao {
     fun update(vararg apps: HomeApp)
 
     @Transaction
-    fun remove(app: HomeApp){
+    fun remove(app: HomeApp) {
         removeFromTable(app)
         updateIndices(app.sortingIndex)
     }
@@ -25,8 +31,10 @@ interface BaseDao {
     @Delete
     fun removeFromTable(app: HomeApp)
 
-    @Query("UPDATE home_apps SET sorting_index = sorting_index - 1 WHERE sorting_index > :sortingIndex")
-    fun updateIndices(sortingIndex : Int)
+    @Query(
+        "UPDATE home_apps SET sorting_index = sorting_index - 1 WHERE sorting_index > :sortingIndex"
+    )
+    fun updateIndices(sortingIndex: Int)
 
     @Query("DELETE FROM home_apps")
     fun clearTable()

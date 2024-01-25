@@ -23,6 +23,5 @@ object UnlauncherAppsSerializer : Serializer<UnlauncherApps> {
     }
 
     @Suppress("BlockingMethodInNonBlockingContext")
-    override suspend fun writeTo(t: UnlauncherApps, output: OutputStream) =
-        t.writeTo(output)
+    override suspend fun writeTo(t: UnlauncherApps, output: OutputStream) = t.writeTo(output)
 }

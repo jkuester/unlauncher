@@ -70,8 +70,6 @@
     <string name="options_fragment_customize_app_drawer">Appschublade</string>
     <string name="options_fragment_customize_quick_buttons">Knöpfe einstellen</string>
     <string name="options_fragment_device_settings">Geräteeinstellungen</string>
-    <string name="options_fragment_hide_status_bar">Statusleiste verstecken</string>
-    <string name="options_fragment_show_status_bar">Statusleiste zeigen</string>
     <string name="options_fragment_toggle_status_bar">Statusleiste umschalten</string>
     <string name="remove_all_apps_dialog_message">"Alle Apps bleiben installiert."
         "Bitte das Leeren der Liste bestätigen."</string>

@@ -11,7 +11,8 @@ import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.datasource.apps.UnlauncherAppsRepository
 
 class CustomizeAppDrawerAppsAdapter(
-    lifecycleOwner: LifecycleOwner, private val appsRepo: UnlauncherAppsRepository
+    lifecycleOwner: LifecycleOwner,
+    private val appsRepo: UnlauncherAppsRepository
 ) : RecyclerView.Adapter<CustomizeAppDrawerAppsAdapter.ViewHolder>() {
     private var apps: UnlauncherApps = UnlauncherApps.getDefaultInstance()
 

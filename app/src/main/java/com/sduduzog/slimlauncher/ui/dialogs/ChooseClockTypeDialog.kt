@@ -11,7 +11,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ChooseClockTypeDialog : DialogFragment(){
+class ChooseClockTypeDialog : DialogFragment() {
 
     @Inject
     lateinit var unlauncherDataSource: UnlauncherDataSource
@@ -22,7 +22,7 @@ class ChooseClockTypeDialog : DialogFragment(){
         val repo = unlauncherDataSource.corePreferencesRepo
         val active = repo.get().clockType.number
         builder.setTitle(R.string.choose_clock_type_dialog_title)
-        builder.setSingleChoiceItems(R.array.clock_type_array, active) {dialogInterface, i ->
+        builder.setSingleChoiceItems(R.array.clock_type_array, active) { dialogInterface, i ->
             dialogInterface.dismiss()
             repo.updateClockType(ClockType.forNumber(i))
         }

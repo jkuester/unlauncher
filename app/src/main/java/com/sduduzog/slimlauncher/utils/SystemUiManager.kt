@@ -122,11 +122,16 @@ open class SystemUiManager internal constructor(internal val context: Context) {
 
         @RequiresApi(Build.VERSION_CODES.O)
         open fun getLightUiBarFlags(): Int {
-            return if (isLightModeTheme()) View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR else 0
+            return if (isLightModeTheme()) {
+                View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+            } else {
+                0
+            }
         }
 
         private fun getToggleStatusBarFlags(): Int {
-            return View.SYSTEM_UI_FLAG_LAYOUT_STABLE or if (isSystemUiHidden()) View.SYSTEM_UI_FLAG_FULLSCREEN else 0
+            return View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                if (isSystemUiHidden()) View.SYSTEM_UI_FLAG_FULLSCREEN else 0
         }
     }
 

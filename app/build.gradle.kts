@@ -1,22 +1,22 @@
-import com.google.protobuf.gradle.*
+import com.google.protobuf.gradle.id
 
 plugins {
     id("com.android.application")
     id("dagger.hilt.android.plugin")
-    id("com.google.protobuf") version "0.9.0"
+    id("com.google.devtools.ksp")
+    id("com.google.protobuf")
+    id("org.jlleitschuh.gradle.ktlint")
     kotlin("android")
-    kotlin("android.extensions")
-    kotlin("kapt")
 }
 
 android {
-    compileSdkVersion(33)
+    compileSdk = 34
     defaultConfig {
         applicationId = "com.jkuester.unlauncher"
-        minSdkVersion(21)
-        targetSdkVersion(33)
-        versionName = "2.1.0"
-        versionCode = 19
+        minSdk = 21
+        targetSdk = 34
+        versionName = "2.2.0-beta.1"
+        versionCode = 22
         vectorDrawables { useSupportLibrary = true }
 //        signingConfigs {
 //            if (project.extra.has("RELEASE_STORE_FILE")) {
@@ -29,7 +29,10 @@ android {
 //            }
 //        }
     }
-
+    buildFeatures {
+        viewBinding = true
+        buildConfig = true
+    }
     buildTypes {
         named("release").configure {
             isMinifyEnabled = true
@@ -58,47 +61,55 @@ android {
     testOptions {
         unitTests.isIncludeAndroidResources = true
     }
+    lint {
+        warningsAsErrors = true
+        disable += "Typos" // Too many false positives
+        disable += "VectorPath" // Not planning to change "large" graphics for now
+        disable += "GradleDependency" // Do not fail linting due to new dependencies
+        checkDependencies = false
+    }
     namespace = "com.sduduzog.slimlauncher"
-    applicationVariants.all{
+    applicationVariants.all {
         outputs.all {
-            (this as com.android.build.gradle.internal.api.BaseVariantOutputImpl).outputFileName = "${applicationId}.apk"
+            (this as com.android.build.gradle.internal.api.BaseVariantOutputImpl).outputFileName =
+                "$applicationId.apk"
         }
+        assembleProvider.get().dependsOn.add("ktlintCheck")
     }
 }
 
 dependencies {
-    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-
     // Kotlin Libraries
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.7.22")
+    // This needs to match ksp and kotlin-gradle-plugin
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.22")
 
     // Support Libraries
     implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("androidx.recyclerview:recyclerview:1.3.0")
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.datastore:datastore:1.0.0")
     implementation("androidx.datastore:datastore-core:1.0.0")
-    implementation("com.google.protobuf:protobuf-javalite:3.23.3")
+    implementation("com.google.protobuf:protobuf-javalite:3.25.1")
 
     // Arch Components
-    implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.fragment:fragment-ktx:1.5.7")
+    implementation("androidx.core:core-ktx:1.12.0")
+    implementation("androidx.fragment:fragment-ktx:1.6.2")
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
-    implementation("androidx.navigation:navigation-fragment-ktx:2.5.3")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.5.1")
-    implementation("androidx.room:room-runtime:2.5.1")
-    kapt("androidx.room:room-compiler:2.5.1")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.7.6")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
+    implementation("androidx.room:room-runtime:2.6.1")
+    ksp("androidx.room:room-compiler:2.6.1")
 
-    //3rd party libs
+    // 3rd party libs
     implementation("com.intuit.sdp:sdp-android:1.0.6")
     implementation("com.intuit.ssp:ssp-android:1.0.6")
-    implementation("com.google.dagger:hilt-android:2.44.2")
-    kapt("androidx.hilt:hilt-compiler:1.0.0")
-    kapt("com.google.dagger:hilt-android-compiler:2.44")
+    implementation("com.google.dagger:hilt-android:2.50")
+    ksp("androidx.hilt:hilt-compiler:1.1.0")
+    ksp("com.google.dagger:hilt-android-compiler:2.50")
 }
 protobuf {
     protoc {
-        artifact = "com.google.protobuf:protoc:3.17.3"
+        artifact = "com.google.protobuf:protoc:3.25.1"
     }
     generateProtoTasks {
         all().forEach { task ->
@@ -109,4 +120,8 @@ protobuf {
             }
         }
     }
+}
+ktlint {
+    android = true
+    ignoreFailures = false
 }

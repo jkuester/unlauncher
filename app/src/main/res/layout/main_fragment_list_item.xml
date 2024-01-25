@@ -3,9 +3,9 @@
     android:id="@+id/home_fragment_list_item_app_name"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="4dp"
-    android:layout_marginBottom="4dp"
-    android:padding="12dp"
+    android:layout_marginTop="@dimen/margin_list_items_top"
+    android:layout_marginBottom="@dimen/margin_list_items_top"
+    android:padding="@dimen/padding"
     android:stateListAnimator="@xml/animate_scale"
     android:textAppearance="@style/TextAppearance.AppCompat"
     android:textSize="@dimen/font_size_home_app_list_item">

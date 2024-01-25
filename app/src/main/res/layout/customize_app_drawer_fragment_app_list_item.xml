@@ -3,6 +3,6 @@
     android:id="@+id/customize_app_drawer_fragment_app_list_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="6dp"
+    android:padding="@dimen/padding"
     android:textAppearance="@style/TextAppearance.AppCompat"
     android:textSize="@dimen/font_size_visible_app_list_item" />
