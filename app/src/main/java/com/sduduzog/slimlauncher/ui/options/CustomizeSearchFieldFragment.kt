@@ -67,6 +67,7 @@ class CustomizeSearchFieldFragment : BaseFragment() {
     private fun enableSearchBarOptions(enabled: Boolean) {
         customize_app_drawer_fragment_search_field_position.isEnabled = enabled
         customize_app_drawer_open_keyboard_switch.isEnabled = enabled
+        customize_app_drawer_search_all_switch.isEnabled = enabled
     }
 
     private fun setupSearchBarPositionOption() {
