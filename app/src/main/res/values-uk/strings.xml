@@ -1,17 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="add_apps_fragment_search_apps">Пошук застосунків</string>
-    <string name="choose_theme_dialog_title">Обрати тему</string>
-    <string name="choose_time_format_dialog_title">Обрати формат часу</string>
+    <string-array name="alignment_format_array">
+        <item>Ліворуч</item>
+        <item>У центрі</item>
+        <item>Праворуч</item>
+    </string-array>
+    <string-array name="clock_type_array">
+        <item>Без годинника</item>
+        <item>Цифровий</item>
+        <item>Стрілочний</item>
+        <item>Двійковий</item>
+    </string-array>
+    <string-array name="quick_button_array">
+        <item>Показати</item>
+        <item>Сховати</item>
+    </string-array>
+    <string-array name="search_bar_position_array">
+        <item>Зверху</item>
+        <item>Знизу</item>
+    </string-array>
+    <string-array name="themes_array">
+        <item>Системна</item>
+        <item>Північ</item>
+        <item>Юпітер</item>
+        <item>Морська</item>
+        <item>Цукерка</item>
+        <item>Пастель</item>
+        <item>День</item>
+        <item>Влад</item>
+        <item>Грув</item>
+    </string-array>
+    <string-array name="time_format_array">
+        <item>Системний</item>
+        <item>24-годинний</item>
+        <item>12-годинний</item>
+    </string-array>
+
+    <string name="add_apps_fragment_search_apps">Пошук програм</string>
+    <string name="app_info">Про програму</string>
+    <string name="choose_alignment_dialog_title">Вибрати вирівнювання</string>
+    <string name="choose_clock_type_dialog_title">Вибрати вид годинника</string>
+    <string name="choose_search_bar_position_dialog_title">Встановити розташування поля пошуку</string>
+    <string name="choose_theme_dialog_title">Вибрати тему</string>
+    <string name="choose_time_format_dialog_title">Вибрати формат часу</string>
+    <string name="content_description_back">Назад</string>
     <string name="customise_apps_fragment_add">Додати</string>
     <string name="customise_apps_fragment_remove_all">Видалити всі</string>
+    <string name="customize_app_drawer_fragment_auto_theme_wallpaper_subtext_no_default_launcher">Програма має бути встановлена за замовчуванням</string>
+    <string name="customize_app_drawer_fragment_auto_theme_wallpaper_text">Встановити задній фон теми як шпалери</string>
+    <string name="customize_app_drawer_fragment_open_keyboard">Відкривати клавіатуру</string>
+    <string name="customize_app_drawer_fragment_open_keyboard_subtitle">Показувати клавіатуру у панелі програм</string>
+    <string name="customize_app_drawer_fragment_search_all">Шукати усі програми</string>
+    <string name="customize_app_drawer_fragment_search_all_subtitle">Приховані програми можна знайти під час пошуку</string>
+    <string name="customize_app_drawer_fragment_search_bar_position">Розташування</string>
+    <string name="customize_app_drawer_fragment_search_field_options">Налаштування поля пошуку</string>
+    <string name="customize_app_drawer_fragment_search_field_options_subtitle_status_hidden">Поле пошуку приховано</string>
+    <string name="customize_app_drawer_fragment_search_field_options_subtitle_status_shown">%s, клавіатура %s</string>
+    <string name="customize_app_drawer_fragment_show_headings">Показувати групи</string>
+    <string name="customize_app_drawer_fragment_show_headings_subtitle">Поділити програми на групи за абеткою</string>
+    <string name="customize_app_drawer_fragment_show_search_bar">Показувати поле пошуку</string>
+    <string name="customize_app_drawer_fragment_visible_apps">Видимі програми</string>
+    <string name="hidden">прихована</string>
+    <string name="hide_app">Приховати застосунок</string>
     <string name="main_fragment_options">Налаштування</string>
     <string name="menu_remove">Видалити</string>
     <string name="menu_rename">Перейменувати</string>
-    <string name="menu_reset">Ясно</string>
+    <string name="menu_reset">Скинути</string>
+    <string name="open_app">Відкрити</string>
     <string name="options_fragment_change_theme">Змінити тему</string>
-    <string name="options_fragment_choose_time_format">Обрати формат часу</string>
+    <string name="options_fragment_choose_alignment">Вибрати вирівнювання</string>
+    <string name="options_fragment_choose_clock_type">Вибрати вид годинника</string>
+    <string name="options_fragment_choose_time_format">Вибрати формат часу</string>
     <string name="options_fragment_customise_apps">Налаштування програм</string>
+    <string name="options_fragment_customize_app_drawer">Налаштувати панель програм</string>
+    <string name="options_fragment_customize_quick_buttons">Налаштувати швидкі кнопки</string>
     <string name="options_fragment_device_settings">Налаштування пристрою</string>
-    <string name="options_fragment_toggle_status_bar">Вкл\\вимк смужку стану</string>
+    <string name="options_fragment_toggle_status_bar">Увімк./вимк. смужку стану</string>
+    <string name="remove_all_apps_dialog_message">"Ця дія не видалить ваші програми."
+    "Це лише для того, щоб підтвердити, що ви очищаєте цей список навмисно"</string>
+    <string name="remove_all_apps_dialog_title">Прибрати усі</string>
+    <string name="rename_app">Перейменувати</string>
+    <string name="shown">видима</string>
+    <string name="uninstall">Видалити</string>
 </resources>
