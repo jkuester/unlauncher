@@ -36,7 +36,7 @@
             app:layout_constraintTop_toTopOf="parent"/>
         <Constraint
             android:id="@+id/home_fragment_time"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_top_large"
             app:visibilityMode="ignore"
@@ -134,7 +134,7 @@
     <ConstraintSet android:id="@+id/home_motion_02">
         <Constraint
             android:id="@+id/home_fragment_time"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_top_large"
             android:alpha="-1"
