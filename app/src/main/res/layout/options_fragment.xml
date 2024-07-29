@@ -76,15 +76,15 @@
                 android:textSize="@dimen/font_size_customize_options"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/options_fragment_change_theme" />
-	        <TextView
-	            android:id="@+id/options_fragment_choose_clock_type"
-	            android:layout_width="match_parent"
-	            android:layout_height="wrap_content"
+            <TextView
+                android:id="@+id/options_fragment_choose_clock_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_list_items"
-	            android:text="@string/options_fragment_choose_clock_type"
-	            android:textAppearance="@style/TextAppearance.AppCompat"
-	            android:textSize="@dimen/font_size_customize_options"
-	            app:layout_constraintTop_toBottomOf="@id/options_fragment_choose_time_format" />
+                android:text="@string/options_fragment_choose_clock_type"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                android:textSize="@dimen/font_size_customize_options"
+                app:layout_constraintTop_toBottomOf="@id/options_fragment_choose_time_format" />
             <TextView
                 android:id="@+id/options_fragment_toggle_status_bar"
                 android:layout_width="match_parent"

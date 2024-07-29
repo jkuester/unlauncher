@@ -32,6 +32,11 @@
 
     <color name="colorAcidGreen">#B8BB26</color>
 
+    <color name="orangeAccentColor">#FFD000</color>
+    <color name="orangeControlColor">#FF6000</color>
+    <color name="orangeHintColor">#BB4000</color>
+    <color name="orangeHeaderColor">#FFE080</color>
+
     <!-- Default Primary Color   -->
     <color name="primaryColor">@color/lightPrimaryColor</color>
     <color name="primaryColorDark">@color/colorGray</color>
@@ -44,6 +49,5 @@
 
     <color name="darkPrimaryColor">@android:color/black</color>
     <color name="lightPrimaryColor">@android:color/white</color>
-
 
 </resources>

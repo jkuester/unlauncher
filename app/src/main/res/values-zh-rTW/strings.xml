@@ -9,6 +9,8 @@
         <item>主题中午</item>
         <item>弗拉德</item>
         <item>格罗维</item>
+        <item>黑橙色</item>
+        <item>黑橙色2</item>
     </string-array>
     <string-array name="time_format_array">
         <item>根據系統設置</item>

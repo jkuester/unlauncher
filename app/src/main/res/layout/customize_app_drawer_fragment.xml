@@ -56,6 +56,7 @@
                 android:textSize="@dimen/font_size_customize_options"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:id="@+id/customize_app_drawer_fragment_search_options"
                 android:layout_width="match_parent"
@@ -64,6 +65,7 @@
                 android:text="@string/customize_app_drawer_fragment_search_field_options"
                 android:textAppearance="@style/TextAppearance.AppCompat"
                 android:textSize="@dimen/font_size_customize_options"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/customize_app_drawer_fragment_visible_apps" />
             <androidx.appcompat.widget.SwitchCompat

@@ -3,13 +3,20 @@
 
     <style name="AppTheme" parent="@style/Theme.AppCompat.DayNight.NoActionBar">
         <item name="headerTextColor">@color/accentColor</item>
+        <item name="clockTextColor">@color/accentColor</item>
         <item name="switchTextColor">@color/accentColor</item>
+        <item name="launchTextColor">@color/accentColor</item>
+        <item name="controlTextColor">@color/accentColor</item>
+        <item name="controlHintColor">@color/darkAccentColor</item>
+        <item name="configTextColor">@color/accentColor</item>
         <item name="colorAccent">@color/accentColor</item>
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryDark">@color/primaryColor</item>
         <item name="android:colorBackground">@color/primaryColor</item>
         <item name="android:colorForeground">@color/accentColor</item>
         <item name="android:fontFamily">@font/ubuntu</item>
+        <item name="android:textColor">@color/accentColor</item>
+        <item name="android:textColorHint">@color/accentColor</item>
     </style>
 
 

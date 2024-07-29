@@ -10,7 +10,6 @@
 
     <EditText
         android:id="@+id/app_drawer_edit_text"
-        android:padding="@dimen/padding"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_top_large"
@@ -18,6 +17,9 @@
         android:hint="@string/add_apps_fragment_search_apps"
         android:imeOptions="actionDone"
         android:inputType="none|textNoSuggestions|textCapWords"
+        android:padding="@dimen/padding"
+        android:textColor="?controlTextColor"
+        android:textColorHint="?controlHintColor"
         android:textSize="@dimen/font_size_drawer_search"
         tools:ignore="Autofill,LabelFor" />
 
@@ -67,6 +69,7 @@
         android:layout_marginTop="@dimen/_64sdp"
         android:text="@string/main_placeholder_clock"
         android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textColor="?clockTextColor"
         android:textSize="@dimen/font_size_home_clock" />
 
     <TextView
@@ -76,6 +79,7 @@
         android:padding="@dimen/_4sdp"
         android:text="@string/main_placeholder_date"
         android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textColor="?clockTextColor"
         android:textSize="@dimen/font_size_home_date" />
 
     <androidx.recyclerview.widget.RecyclerView
