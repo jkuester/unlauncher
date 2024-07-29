@@ -4,10 +4,6 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.util.AttributeSet
-import androidx.core.view.marginBottom
-import androidx.core.view.marginEnd
-import androidx.core.view.marginStart
-import androidx.core.view.marginTop
 import com.sduduzog.slimlauncher.R
 import java.util.Calendar
 import kotlin.math.max
@@ -57,7 +53,7 @@ class AnalogClockView(context: Context, attrs: AttributeSet) : ClockView(context
         var hourF = (hour + minuteF) / 12F
 
         val cx = width / 2F
-        val cy = height / 2F + marginTop / 2F
+        val cy = height / 2F
 
         handPaint.strokeWidth = border
         if (border > 2) {
@@ -97,10 +93,10 @@ class AnalogClockView(context: Context, attrs: AttributeSet) : ClockView(context
             min(suggestedMinimumWidth, suggestedMinimumHeight),
             2 * radius.toInt()
         ) + 4 * border.toInt()
-        val minw: Int = dim + paddingLeft + paddingRight + marginStart + marginEnd
+        val minw: Int = dim + paddingLeft + paddingRight
         val w: Int = resolveSizeAndState(minw, widthMeasureSpec, 0)
 
-        val minh: Int = dim + paddingBottom + paddingTop + marginTop + marginBottom
+        val minh: Int = dim + paddingBottom + paddingTop
         val h: Int = resolveSizeAndState(minh, heightMeasureSpec, 0)
 
         setMeasuredDimension(w, h)
