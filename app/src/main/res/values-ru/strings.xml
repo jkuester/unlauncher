@@ -24,7 +24,9 @@
         <item>Влад</item>
         <item>Волнующая</item>
         <item>Чёрный оранжевый</item>
-        <item>Чёрный оранжевый 2</item>
+        <item>Чёрный красный</item>
+        <item>Чёрный бирюзовый</item>
+        <item>Чёрный синий</item>
     </string-array>
     <string-array name="time_format_array">
         <item>по умолчанию</item>

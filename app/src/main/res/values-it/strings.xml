@@ -14,7 +14,9 @@
         <item>Vlad</item>
         <item>Groovy</item>
         <item>Nero Arancio</item>
-        <item>Nero Arancio 2</item>
+        <item>Nero Rosso</item>
+        <item>Nero Ciano</item>
+        <item>Nero Blu</item>
     </string-array>
     <string-array name="time_format_array">
         <item>Come impostato nel dispositivo</item>

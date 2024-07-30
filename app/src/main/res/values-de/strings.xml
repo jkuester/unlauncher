@@ -23,8 +23,10 @@
         <item>Mittag</item>
         <item>Vlad</item>
         <item>Groovig</item>
-        <item>Schwarz-Orange</item>
-        <item>Schwarz-Orange 2</item>
+        <item>Schwarz Orange</item>
+        <item>Schwarz Rot</item>
+        <item>Schwarz Türkis</item>
+        <item>Schwarz Blau</item>
     </string-array>
     <string-array name="time_format_array">
         <item>Systemvorgabe</item>

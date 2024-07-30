@@ -10,7 +10,9 @@
         <item>Vlad</item>
         <item>Groovy</item>
         <item>Svart Oransje</item>
-        <item>Svart Oransje 2</item>
+        <item>Svart Rød</item>
+        <item>Svart Turkis</item>
+        <item>Svart Blå</item>
     </string-array>
     <string-array name="time_format_array">
         <item>Systeeminstellingen volgen</item>

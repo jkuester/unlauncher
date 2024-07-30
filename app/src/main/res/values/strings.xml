@@ -45,7 +45,9 @@
         <item>Vlad</item>
         <item>Groovy</item>
         <item>Black Orange</item>
-        <item>Black Orange 2</item>
+        <item>Black Red</item>
+        <item>Black Cyan</item>
+        <item>Black Blue</item>
     </string-array>
     <string-array name="time_format_array">
         <item>Follow system settings</item>

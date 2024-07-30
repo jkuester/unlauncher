@@ -37,7 +37,9 @@
         <item>Vlad</item>
         <item>Groovy</item>
         <item>Noir Orange</item>
-        <item>Noir Orange 2</item>
+        <item>Noir Rouge</item>
+        <item>Noir Cyan</item>
+        <item>Noir Bleu</item>
     </string-array>
     <string-array name="time_format_array">
         <item>Système</item>

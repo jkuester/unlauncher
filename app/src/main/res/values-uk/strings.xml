@@ -37,7 +37,9 @@
         <item>Влад</item>
         <item>Грув</item>
         <item>Чорний оранжевий</item>
-        <item>Чорний оранжевий 2</item>
+        <item>Чорний червоний</item>
+        <item>Чорний бірюзовий</item>
+        <item>Чорний синій</item>
     </string-array>
     <string-array name="time_format_array">
         <item>Системний</item>

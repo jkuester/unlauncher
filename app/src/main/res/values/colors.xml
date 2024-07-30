@@ -33,9 +33,9 @@
     <color name="colorAcidGreen">#B8BB26</color>
 
     <color name="orangeAccentColor">#FFD000</color>
-    <color name="orangeControlColor">#FF6000</color>
-    <color name="orangeHintColor">#BB4000</color>
-    <color name="orangeHeaderColor">#FFE080</color>
+    <color name="redAccentColor">#FF0000</color>
+    <color name="cyanAccentColor">#00F0FF</color>
+    <color name="blueAccentColor">#6060FF</color>
 
     <!-- Default Primary Color   -->
     <color name="primaryColor">@color/lightPrimaryColor</color>

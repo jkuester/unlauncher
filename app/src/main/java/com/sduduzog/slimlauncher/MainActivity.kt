@@ -157,7 +157,9 @@ class MainActivity :
                 7 -> R.style.AppDarculaTheme
                 8 -> R.style.AppGruvBoxDarkTheme
                 9 -> R.style.AppBlackOrangeTheme
-                10 -> R.style.AppBlackOrange2Theme
+                10 -> R.style.AppBlackRedTheme
+                11 -> R.style.AppBlackCyanTheme
+                12 -> R.style.AppBlackBlueTheme
                 else -> R.style.AppTheme
             }
         }
