@@ -25,6 +25,7 @@ class AnalogClockView(context: Context, attrs: AttributeSet) : ClockView(context
     private val handLengthMinute = .8F
     private val tickWidth = 4F
     private val tickLength = 1F - .1F
+    private var tickCount = 12
 
     init {
         handPaint.strokeWidth = handWidthMinute
@@ -50,34 +51,41 @@ class AnalogClockView(context: Context, attrs: AttributeSet) : ClockView(context
         super.onDraw(canvas)
         val calendar = Calendar.getInstance()
 
-        val hour = calendar[Calendar.HOUR]
+        val hour = calendar[Calendar.HOUR] % 12
         val minute = calendar[Calendar.MINUTE]
+        var minuteF = minute / 60F
+        var hourF = (hour + minuteF) / 12F
 
         val cx = width / 2F
         val cy = height / 2F + marginTop / 2F
 
         handPaint.strokeWidth = border
-        if (border > 2) canvas.drawCircle(cx, cy, radius, handPaint)
+        if (border > 2) {
+            canvas.drawCircle(cx, cy, radius, handPaint)
+        }
+
         handPaint.strokeWidth = tickWidth
         drawTicks(canvas, cx, cy)
+
         handPaint.strokeWidth = handWidthHour
-        drawHand(canvas, cx, cy, radius * handLengthHour, hour * 5)
+        drawHand(canvas, cx, cy, radius * handLengthHour, hourF)
+
         handPaint.strokeWidth = handWidthMinute
-        drawHand(canvas, cx, cy, radius * handLengthMinute, minute)
+        drawHand(canvas, cx, cy, radius * handLengthMinute, minuteF)
     }
 
     private fun drawTicks(canvas: Canvas, cx: Float, cy: Float) {
+        val rot = 360F / tickCount
         canvas.save()
-        for (i in 1..12) {
-            canvas.rotate(30f, cx, cy)
+        for (i in 1..tickCount) {
+            canvas.rotate(rot, cx, cy)
             canvas.drawLine(cx, cy + radius, cx, cy + (radius * tickLength), handPaint)
         }
         canvas.restore()
     }
 
-    private fun drawHand(canvas: Canvas, cx: Float, cy: Float, size: Float, minute: Int) {
-        val angle: Float = (minute.toFloat() * 6)
-
+    private fun drawHand(canvas: Canvas, cx: Float, cy: Float, size: Float, angleF: Float) {
+        var angle = 360F * angleF
         canvas.save()
         canvas.rotate(angle, cx, cy)
         canvas.drawLine(cx, cy, cx, cy - size, handPaint)
