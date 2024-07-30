@@ -6,6 +6,7 @@ import android.graphics.Paint
 import android.graphics.RectF
 import android.text.format.DateFormat
 import android.util.AttributeSet
+import com.jkuester.unlauncher.datastore.ClockType
 import com.sduduzog.slimlauncher.R
 import java.util.Calendar
 
@@ -98,8 +99,8 @@ class BinaryClockView(context: Context, attrs: AttributeSet) :
         setMeasuredDimension(w, h)
     }
 
-    override fun updateClock() {
-        super.updateClock()
+    override fun updateClock(newClockType: ClockType) {
+        super.updateClock(newClockType)
 
         val timeFormat = context.getSharedPreferences(
             context.getString(R.string.prefs_settings),

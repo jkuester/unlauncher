@@ -6,6 +6,7 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
+import com.jkuester.unlauncher.datastore.ClockType
 
 abstract class ClockView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
@@ -24,7 +25,7 @@ abstract class ClockView(context: Context, attrs: AttributeSet) : View(context, 
         return paint
     }
 
-    open fun updateClock() {
+    open fun updateClock(newClockType: ClockType) {
         requestLayout()
         invalidate()
     }

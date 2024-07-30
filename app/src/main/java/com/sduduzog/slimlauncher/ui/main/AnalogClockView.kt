@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.util.AttributeSet
+import com.jkuester.unlauncher.datastore.ClockType
 import com.sduduzog.slimlauncher.R
 import java.util.Calendar
 import kotlin.math.max
@@ -19,8 +20,12 @@ class AnalogClockView(context: Context, attrs: AttributeSet) : ClockView(context
     private val handWidthMinute = 5F
     private val handLengthHour = .6F
     private val handLengthMinute = .8F
+
     private val tickWidth = 4F
     private val tickLength = 1F - .1F
+    private val tickWidthMin = 2F
+    private val tickLengthMin = 1F - .05F
+
     private var tickCount = 12
 
     init {
@@ -70,14 +75,24 @@ class AnalogClockView(context: Context, attrs: AttributeSet) : ClockView(context
         drawHand(canvas, cx, cy, radius * handLengthMinute, minuteF)
     }
 
-    private fun drawTicks(canvas: Canvas, cx: Float, cy: Float) {
-        val rot = 360F / tickCount
+    private fun drawTicks(canvas: Canvas, cx: Float, cy: Float, cnt: Int, rad: Float, len: Float) {
+        val rot = 360F / cnt
         canvas.save()
         for (i in 1..tickCount) {
             canvas.rotate(rot, cx, cy)
-            canvas.drawLine(cx, cy + radius, cx, cy + (radius * tickLength), handPaint)
+            canvas.drawLine(cx, cy - rad, cx, cy - (rad * len), handPaint)
         }
         canvas.restore()
+    }
+
+    private fun drawTicks(canvas: Canvas, cx: Float, cy: Float) {
+        if (tickCount > 12) {
+            drawTicks(canvas, cx, cy, 12, radius, tickLength)
+            handPaint.strokeWidth = tickWidthMin
+            drawTicks(canvas, cx, cy, tickCount, radius, tickLengthMin)
+        } else {
+            drawTicks(canvas, cx, cy, tickCount, radius, tickLength)
+        }
     }
 
     private fun drawHand(canvas: Canvas, cx: Float, cy: Float, size: Float, angleF: Float) {
@@ -100,5 +115,20 @@ class AnalogClockView(context: Context, attrs: AttributeSet) : ClockView(context
         val h: Int = resolveSizeAndState(minh, heightMeasureSpec, 0)
 
         setMeasuredDimension(w, h)
+    }
+
+    override fun updateClock(newClockType: ClockType) {
+        tickCount = when (newClockType) {
+            ClockType.analog_0 -> 0
+            ClockType.analog_1 -> 1
+            ClockType.analog_2 -> 2
+            ClockType.analog_3 -> 3
+            ClockType.analog_4 -> 4
+            ClockType.analog_6 -> 6
+            ClockType.analog_12 -> 12
+            ClockType.analog_60 -> 60
+            else -> 12
+        }
+        super.updateClock(newClockType)
     }
 }

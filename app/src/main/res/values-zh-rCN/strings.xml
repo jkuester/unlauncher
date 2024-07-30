@@ -10,8 +10,15 @@
     <string-array name="clock_type_array">
         <item>无时钟</item>
         <item>数字时钟</item>
-        <item>指针时钟</item>
         <item>二进制时钟</item>
+        <item>指针时钟0</item>
+        <item>指针时钟1</item>
+        <item>指针时钟2</item>
+        <item>指针时钟3</item>
+        <item>指针时钟4</item>
+        <item>指针时钟6</item>
+        <item>指针时钟12</item>
+        <item>指针时钟60</item>
     </string-array>
     <string-array name="quick_button_array">
         <item>显示</item>

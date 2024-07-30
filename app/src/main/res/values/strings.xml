@@ -16,8 +16,15 @@
     <string-array name="clock_type_array">
         <item>None</item>
         <item>Digital</item>
-        <item>Analog</item>
         <item>Binary</item>
+        <item>Analog 0</item>
+        <item>Analog 1</item>
+        <item>Analog 2</item>
+        <item>Analog 3</item>
+        <item>Analog 4</item>
+        <item>Analog 6</item>
+        <item>Analog 12</item>
+        <item>Analog 60</item>
     </string-array>
     <string-array name="quick_button_array">
         <item>Show</item>

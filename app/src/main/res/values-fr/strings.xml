@@ -8,8 +8,15 @@
     <string-array name="clock_type_array">
         <item>Aucune</item>
         <item>Numérique</item>
-        <item>Analogue</item>
         <item>Binaire</item>
+        <item>Analogue 0</item>
+        <item>Analogue 1</item>
+        <item>Analogue 2</item>
+        <item>Analogue 3</item>
+        <item>Analogue 4</item>
+        <item>Analogue 6</item>
+        <item>Analogue 12</item>
+        <item>Analogue 60</item>
     </string-array>
     <string-array name="quick_button_array">
         <item>Afficher</item>
