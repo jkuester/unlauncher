@@ -60,19 +60,73 @@ abstract class BaseFragment : Fragment(), ISubscriber {
         ) as LauncherApps
         val myUserHandle = Process.myUserHandle()
 
+        // Remember the shortcuts: Öffi sends the same one three times.
+        var have = mutableSetOf<String>()
+
         for (profile in manager.userProfiles) {
             // Unicode for boxed w
             val prefix = if (profile.equals(myUserHandle)) "" else "\uD83C\uDD46 "
             val profileSerial = manager.getSerialNumberForUser(profile)
 
             for (activityInfo in launcher.getActivityList(null, profile)) {
+                // Handle app itself:
+                var label = activityInfo.label.toString()
+                val packName = activityInfo.applicationInfo.packageName
                 val app = App(
-                    appName = prefix + activityInfo.label.toString(),
-                    packageName = activityInfo.applicationInfo.packageName,
+                    appType = 0,
+                    appName = prefix + label,
+                    packageName = packName,
                     activityName = activityInfo.name,
                     userSerial = profileSerial
                 )
                 list.add(app)
+
+                // Now get pinned shortcuts:
+                try {
+                    val query = LauncherApps.ShortcutQuery()
+                    query.setQueryFlags(LauncherApps.ShortcutQuery.FLAG_MATCH_PINNED)
+                    query.setPackage(packName)
+                    launcher.getShortcuts(query, myUserHandle)?.map { s ->
+                        val shortCut = App(
+                            appType = 1,
+                            appName = prefix + label + ": " + s.shortLabel.toString(),
+                            packageName = s.`package`,
+                            activityName = s.id,
+                            userSerial = profileSerial
+                        )
+                        val key = s.`package` + ' ' + s.id
+                        if (have.add(key)) {
+                            list.add(shortCut)
+                        }
+                    }
+                } catch (e: SecurityException) {
+                    // ignore
+                }
+
+                // Now get other shortcuts:
+                try {
+                    val query = LauncherApps.ShortcutQuery()
+                    query.setQueryFlags(
+                        LauncherApps.ShortcutQuery.FLAG_MATCH_DYNAMIC or
+                            LauncherApps.ShortcutQuery.FLAG_MATCH_MANIFEST
+                    )
+                    query.setPackage(packName)
+                    launcher.getShortcuts(query, myUserHandle)?.map { s ->
+                        val shortCut = App(
+                            appType = 2,
+                            appName = prefix + label + ": " + s.shortLabel.toString(),
+                            packageName = s.`package`,
+                            activityName = s.id,
+                            userSerial = profileSerial
+                        )
+                        val key = s.`package` + ' ' + s.id
+                        if (have.add(key)) {
+                            list.add(shortCut)
+                        }
+                    }
+                } catch (e: SecurityException) {
+                    // ignore
+                }
             }
         }
 

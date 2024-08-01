@@ -36,4 +36,5 @@
     <string name="remove_all_apps_dialog_message">"這個選項不會卸載你的應用程序."
 "這只是爲了確定你想清空這個清單."</string>
     <string name="remove_all_apps_dialog_title">刪除所有應用</string>
+    <string name="action_add_shortcut">添加到應用程式抽屜</string>
 </resources>

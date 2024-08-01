@@ -90,4 +90,5 @@
     <string name="rename_app">Renommer l’application</string>
     <string name="shown">affiché</string>
     <string name="uninstall">Désinstaller</string>
+    <string name="action_add_shortcut">Ajouter au volet des applications</string>
 </resources>

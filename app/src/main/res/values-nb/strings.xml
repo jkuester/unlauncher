@@ -36,4 +36,5 @@
     <string name="remove_all_apps_dialog_message">"Programmene dine blir ikke avinstallert."
     "Dette bekrefter kun at du fjerner listen med overlegg."</string>
     <string name="remove_all_apps_dialog_title">Fjern alle programmer</string>
+    <string name="action_add_shortcut">Legg til app-skuffen</string>
 </resources>

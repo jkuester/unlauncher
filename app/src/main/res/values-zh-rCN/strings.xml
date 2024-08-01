@@ -93,4 +93,5 @@
     <string name="rename_app">重命名应用</string>
     <string name="shown">显示</string>
     <string name="uninstall">卸载</string>
+    <string name="action_add_shortcut">添加到应用程序抽屉</string>
 </resources>

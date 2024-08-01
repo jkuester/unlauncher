@@ -20,4 +20,8 @@
         android:id="@+id/uninstall"
         android:title="@string/uninstall"
         android:icon="@drawable/ic_uninstall_app" />
+    <item
+        android:id="@+id/remove"
+        android:title="@string/remove_shortcut"
+        android:icon="@drawable/ic_remove_shortcut" />
 </menu>

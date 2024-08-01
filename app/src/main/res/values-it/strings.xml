@@ -40,4 +40,5 @@
     <string name="options_fragment_customize_app_drawer">Elenco applicazioni</string>
     <string name="options_fragment_customize_quick_buttons">Pulsanti rapidi</string>
     <string name="options_fragment_toggle_status_bar">Mostra/nascondi barra di stato</string>
+    <string name="action_add_shortcut">Aggiungi a schermata Home</string>
 </resources>

@@ -90,4 +90,5 @@
     <string name="rename_app">Перейменувати</string>
     <string name="shown">видима</string>
     <string name="uninstall">Видалити</string>
+    <string name="action_add_shortcut">Додати на Домашній екран</string>
 </resources>

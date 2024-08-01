@@ -34,4 +34,5 @@
     <string name="options_fragment_choose_time_format">Kies de tijdopmaak</string>
     <string name="options_fragment_customise_apps">Apps aanpassen</string>
     <string name="options_fragment_toggle_status_bar">Statusbalk tonen/verbergen</string>
+    <string name="action_add_shortcut">Aan launcher toevoegen</string>
 </resources>

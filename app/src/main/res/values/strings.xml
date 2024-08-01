@@ -103,4 +103,12 @@
     <string name="rename_app">Rename App</string>
     <string name="shown">shown</string>
     <string name="uninstall">Uninstall</string>
+    <string name="remove_shortcut">Unpin</string>
+    <string name="action_add_shortcut">Add to App Drawer</string>
+    <string name="unhide_hint">Unhide under Options &gt; Drawer &gt; Visible Apps</string>
+    <string name="unable_to_unpin">Unable to unpin.</string>
+    <string name="shortcut_unpinned">Shortcut Unpinned</string>
+    <string name="couldnt_start_app">Unable to start app</string>
+    <string name="couldnt_start_shortcut">Unable to start shortcut</string>
+
 </resources>
