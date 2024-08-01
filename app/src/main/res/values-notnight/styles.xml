@@ -9,6 +9,7 @@
         <item name="controlTextColor">@color/accentColor</item>
         <item name="controlHintColor">@color/darkAccentColor</item>
         <item name="configTextColor">@color/accentColor</item>
+        <item name="thirdColor">@color/accentColor</item>
         <item name="colorAccent">@color/accentColor</item>
         <item name="android:colorForeground">@color/accentColor</item>
         <item name="colorPrimary">@color/primaryColor</item>

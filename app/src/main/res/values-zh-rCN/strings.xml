@@ -59,8 +59,6 @@
     <string name="content_description_back">返回</string>
     <string name="customise_apps_fragment_add">添加</string>
     <string name="customise_apps_fragment_remove_all">全部删除</string>
-    <string name="customize_app_drawer_fragment_auto_theme_wallpaper_subtext_no_default_launcher">需设为默认启动器</string>
-    <string name="customize_app_drawer_fragment_auto_theme_wallpaper_text">将主题背景设为壁纸</string>
     <string name="customize_app_drawer_fragment_open_keyboard">打开键盘</string>
     <string name="customize_app_drawer_fragment_open_keyboard_subtitle">显示应用抽屉时展示键盘</string>
     <string name="customize_app_drawer_fragment_search_all">搜索所有应用</string>
@@ -88,7 +86,6 @@
     <string name="options_fragment_customise_apps">自定义应用</string>
     <string name="options_fragment_customize_app_drawer">自定义抽屉</string>
     <string name="options_fragment_customize_quick_buttons">自定义快捷按钮</string>
-    <string name="options_fragment_device_settings">设备设置</string>
     <string name="options_fragment_toggle_status_bar">切换状态栏状态</string>
     <string name="remove_all_apps_dialog_message">"此操作不会卸载你的应用。"
     "只想确认一下你是否有意清除这个列表。"</string>

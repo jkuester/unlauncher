@@ -42,8 +42,6 @@
     <string name="choose_time_format_dialog_title">Выбрать формат времени</string>
     <string name="customise_apps_fragment_add">Добавить</string>
     <string name="customise_apps_fragment_remove_all">Удалить всё</string>
-    <string name="customize_app_drawer_fragment_auto_theme_wallpaper_subtext_no_default_launcher">Требуется чтобы приложение использовалось по умолчанию</string>
-    <string name="customize_app_drawer_fragment_auto_theme_wallpaper_text">Использовать фон темы как обои </string>
     <string name="customize_app_drawer_fragment_open_keyboard">Показывать клавиатуру</string>
     <string name="customize_app_drawer_fragment_open_keyboard_subtitle">Показывать клавиатуру, когда открыт выдвигающийся список</string>
     <string name="customize_app_drawer_fragment_search_bar_position">Расположение</string>
@@ -67,7 +65,6 @@
     <string name="options_fragment_customise_apps">Настроить приложения</string>
     <string name="options_fragment_customize_app_drawer">Настроить выдвигающийся список</string>
     <string name="options_fragment_customize_quick_buttons">Настроить кнопки быстрого запуска</string>
-    <string name="options_fragment_device_settings">Настройки устройства</string>
     <string name="options_fragment_toggle_status_bar">Скрыть/показать строку состояния</string>
     <string name="remove_all_apps_dialog_message">"Это действие не удалит Ваши приложения."
     "Это только для того чтобы подвтердить, что Вы делаете это осмысленно."</string>

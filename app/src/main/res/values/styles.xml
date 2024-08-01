@@ -9,6 +9,7 @@
         <item name="controlTextColor">@color/lightAccentColor</item>
         <item name="controlHintColor">@color/lightAccentColor</item>
         <item name="configTextColor">@color/lightAccentColor</item>
+        <item name="thirdColor">@color/lightAccentColor</item>
         <item name="colorAccent">@color/lightAccentColor</item>
         <item name="android:colorForeground">@color/lightAccentColor</item>
         <item name="colorPrimary">@color/lightPrimaryColor</item>
@@ -27,6 +28,7 @@
         <item name="controlTextColor">@color/darkAccentColor</item>
         <item name="controlHintColor">@color/darkAccentColor</item>
         <item name="configTextColor">@color/darkAccentColor</item>
+        <item name="thirdColor">@color/darkAccentColor</item>
         <item name="colorAccent">@color/darkAccentColor</item>
         <item name="colorPrimary">@color/darkPrimaryColor</item>
         <item name="colorPrimaryDark">@color/darkPrimaryColor</item>
@@ -40,21 +42,25 @@
     <style name="AppBlackOrangeTheme" parent="AppThemeDark">
         <item name="launchTextColor">@color/orangeAccentColor</item>
         <item name="headerTextColor">@color/orangeAccentColor</item>
+        <item name="colorAccent">@color/orangeAccentColor</item>
     </style>
 
     <style name="AppBlackRedTheme" parent="AppThemeDark">
         <item name="launchTextColor">@color/redAccentColor</item>
         <item name="headerTextColor">@color/redAccentColor</item>
+        <item name="colorAccent">@color/redAccentColor</item>
     </style>
 
     <style name="AppBlackCyanTheme" parent="AppThemeDark">
         <item name="launchTextColor">@color/cyanAccentColor</item>
         <item name="headerTextColor">@color/cyanAccentColor</item>
+        <item name="colorAccent">@color/cyanAccentColor</item>
     </style>
 
     <style name="AppBlackBlueTheme" parent="AppThemeDark">
         <item name="launchTextColor">@color/blueAccentColor</item>
         <item name="headerTextColor">@color/blueAccentColor</item>
+        <item name="colorAccent">@color/blueAccentColor</item>
     </style>
 
     <style name="AppWhiteOrangeTheme" parent="AppThemeLight">
@@ -115,6 +121,7 @@
         <item name="controlTextColor">@color/colorCultured</item>
         <item name="controlHintColor">@color/colorCultured</item>
         <item name="configTextColor">@color/colorCultured</item>
+        <item name="thirdColor">@color/colorCultured</item>
         <item name="colorAccent">@color/colorCultured</item>
         <item name="android:textColor">@color/colorCultured</item>
         <item name="android:colorForeground">@color/colorCultured</item>
@@ -132,6 +139,7 @@
         <item name="controlTextColor">@color/colorCookiesAndCream</item>
         <item name="controlHintColor">@color/colorCinereous</item>
         <item name="configTextColor">@color/colorCookiesAndCream</item>
+        <item name="thirdColor">@color/colorCookiesAndCream</item>
         <item name="colorAccent">@color/colorCookiesAndCream</item>
         <item name="android:textColor">@color/colorCookiesAndCream</item>
         <item name="android:textColorHint">@color/colorCinereous</item>

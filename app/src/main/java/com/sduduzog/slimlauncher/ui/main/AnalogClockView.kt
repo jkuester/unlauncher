@@ -22,7 +22,7 @@ class AnalogClockView(context: Context, attrs: AttributeSet) : ClockView(context
     @Inject
     lateinit var unlauncherDataSource: UnlauncherDataSource
 
-    private var handPaint = getColorPaint(R.attr.colorAccent)
+    private var handPaint = getColorPaint(R.attr.thirdColor)
     private var radius: Float
     private var border: Float
 

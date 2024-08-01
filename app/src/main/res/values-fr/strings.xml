@@ -56,8 +56,6 @@
     <string name="choose_time_format_dialog_title">Format de l’heure</string>
     <string name="customise_apps_fragment_add">Ajouter</string>
     <string name="customise_apps_fragment_remove_all">Supprimer tout</string>
-    <string name="customize_app_drawer_fragment_auto_theme_wallpaper_subtext_no_default_launcher">L’application nécessite d’être définie comme lanceur par défaut</string>
-    <string name="customize_app_drawer_fragment_auto_theme_wallpaper_text">Utiliser la couleur de fond du thème comme papier peint</string>
     <string name="customize_app_drawer_fragment_open_keyboard">Ouvrir le clavier</string>
     <string name="customize_app_drawer_fragment_open_keyboard_subtitle">Afficher le clavier lors de l’ouverture du volet des applications</string>
     <string name="customize_app_drawer_fragment_search_all">Chercher parmi toutes les applications</string>
@@ -85,7 +83,6 @@
     <string name="options_fragment_customise_apps">Applications personnalisées</string>
     <string name="options_fragment_customize_app_drawer">Personnaliser le volet des applications</string>
     <string name="options_fragment_customize_quick_buttons">Personnaliser les raccourcis</string>
-    <string name="options_fragment_device_settings">Paramètres système</string>
     <string name="options_fragment_toggle_status_bar">Afficher/cacher la barre de statut</string>
     <string name="remove_all_apps_dialog_message">"Cette action ne supprimera aucune application de l’appareil."
     "Il s’agit seulement de confirmer que vous souhaitez bien vider la liste."</string>
