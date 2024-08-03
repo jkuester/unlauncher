@@ -67,8 +67,8 @@
     <string name="choose_theme_dialog_title">Theme</string>
     <string name="choose_time_format_dialog_title">Time Format</string>
     <string name="content_description_back">Back</string>
-    <string name="customise_apps_fragment_add">Add</string>
-    <string name="customise_apps_fragment_remove_all">Remove all</string>
+    <string name="customize_apps_fragment_add">Add</string>
+    <string name="customize_apps_fragment_remove_all">Remove all</string>
     <string name="customize_app_drawer_fragment_open_keyboard">Open Keyboard</string>
     <string name="customize_app_drawer_fragment_open_keyboard_subtitle">Display keyboard when showing the app drawer</string>
     <string name="customize_app_drawer_fragment_search_all">Search all apps</string>
@@ -93,7 +93,7 @@
     <string name="options_fragment_choose_alignment">App Alignment</string>
     <string name="options_fragment_choose_clock_type">Clock Type</string>
     <string name="options_fragment_choose_time_format">Time Format</string>
-    <string name="options_fragment_customise_apps">Home Apps</string>
+    <string name="options_fragment_customize_apps">Home Apps</string>
     <string name="options_fragment_customize_app_drawer">Drawer</string>
     <string name="options_fragment_customize_quick_buttons">Quick Buttons</string>
     <string name="options_fragment_toggle_status_bar">Toggle Status Bar</string>

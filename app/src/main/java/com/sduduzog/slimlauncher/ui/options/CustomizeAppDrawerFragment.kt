@@ -32,28 +32,28 @@ class CustomizeAppDrawerFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val customiseAppDrawerFragment = CustomizeAppDrawerFragmentBinding.bind(view)
-        customiseAppDrawerFragment.customizeAppDrawerFragmentVisibleApps
+        val customizeAppDrawerFragment = CustomizeAppDrawerFragmentBinding.bind(view)
+        customizeAppDrawerFragment.customizeAppDrawerFragmentVisibleApps
             .setOnClickListener(
                 Navigation.createNavigateOnClickListener(
-                    R.id.action_customiseAppDrawerFragment_to_customiseAppDrawerAppListFragment
+                    R.id.action_customizeAppDrawerFragment_to_customizeAppDrawerAppListFragment
                 )
             )
 
-        customiseAppDrawerFragment.customizeAppDrawerFragmentBack.setOnClickListener {
+        customizeAppDrawerFragment.customizeAppDrawerFragmentBack.setOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
 
-        setupSearchFieldOptionsButton(customiseAppDrawerFragment)
-        setupHeadingSwitch(customiseAppDrawerFragment)
+        setupSearchFieldOptionsButton(customizeAppDrawerFragment)
+        setupHeadingSwitch(customizeAppDrawerFragment)
     }
 
     private fun setupSearchFieldOptionsButton(
-        customiseAppDrawerFragment: CustomizeAppDrawerFragmentBinding
+        customizeAppDrawerFragment: CustomizeAppDrawerFragmentBinding
     ) {
-        customiseAppDrawerFragment.customizeAppDrawerFragmentSearchOptions.setOnClickListener(
+        customizeAppDrawerFragment.customizeAppDrawerFragmentSearchOptions.setOnClickListener(
             Navigation.createNavigateOnClickListener(
-                R.id.action_customiseAppDrawerFragment_to_customizeSearchFieldFragment
+                R.id.action_customizeAppDrawerFragment_to_customizeSearchFieldFragment
             )
         )
         val preferencesRepository = unlauncherDataSource.corePreferencesRepo
@@ -88,22 +88,22 @@ class CustomizeAppDrawerFragment : BaseFragment() {
                 )
             }
 
-            customiseAppDrawerFragment.customizeAppDrawerFragmentSearchOptions.text =
+            customizeAppDrawerFragment.customizeAppDrawerFragmentSearchOptions.text =
                 createTitleAndSubtitleText(requireContext(), title, subtitle)
         }
     }
 
-    private fun setupHeadingSwitch(customiseAppDrawerFragment: CustomizeAppDrawerFragmentBinding) {
+    private fun setupHeadingSwitch(customizeAppDrawerFragment: CustomizeAppDrawerFragmentBinding) {
         val prefsRepo = unlauncherDataSource.corePreferencesRepo
-        customiseAppDrawerFragment.customizeAppDrawerFragmentShowHeadingsSwitch
+        customizeAppDrawerFragment.customizeAppDrawerFragmentShowHeadingsSwitch
             .setOnCheckedChangeListener { _, checked ->
                 prefsRepo.updateShowDrawerHeadings(checked)
             }
         prefsRepo.liveData().observe(viewLifecycleOwner) {
-            customiseAppDrawerFragment.customizeAppDrawerFragmentShowHeadingsSwitch.isChecked = it
+            customizeAppDrawerFragment.customizeAppDrawerFragmentShowHeadingsSwitch.isChecked = it
                 .showDrawerHeadings
         }
-        customiseAppDrawerFragment.customizeAppDrawerFragmentShowHeadingsSwitch.text =
+        customizeAppDrawerFragment.customizeAppDrawerFragmentShowHeadingsSwitch.text =
             createTitleAndSubtitleText(
                 requireContext(), R.string.customize_app_drawer_fragment_show_headings,
                 R.string.customize_app_drawer_fragment_show_headings_subtitle

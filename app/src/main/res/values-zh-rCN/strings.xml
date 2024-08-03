@@ -57,8 +57,8 @@
     <string name="choose_theme_dialog_title">选择主题</string>
     <string name="choose_time_format_dialog_title">选择时间格式</string>
     <string name="content_description_back">返回</string>
-    <string name="customise_apps_fragment_add">添加</string>
-    <string name="customise_apps_fragment_remove_all">全部删除</string>
+    <string name="customize_apps_fragment_add">添加</string>
+    <string name="customize_apps_fragment_remove_all">全部删除</string>
     <string name="customize_app_drawer_fragment_open_keyboard">打开键盘</string>
     <string name="customize_app_drawer_fragment_open_keyboard_subtitle">显示应用抽屉时展示键盘</string>
     <string name="customize_app_drawer_fragment_search_all">搜索所有应用</string>
@@ -83,7 +83,7 @@
     <string name="options_fragment_choose_alignment">选择对齐方向</string>
     <string name="options_fragment_choose_clock_type">选择时钟类型</string>
     <string name="options_fragment_choose_time_format">选择时间格式</string>
-    <string name="options_fragment_customise_apps">自定义应用</string>
+    <string name="options_fragment_customize_apps">自定义应用</string>
     <string name="options_fragment_customize_app_drawer">自定义抽屉</string>
     <string name="options_fragment_customize_quick_buttons">自定义快捷按钮</string>
     <string name="options_fragment_toggle_status_bar">切换状态栏状态</string>

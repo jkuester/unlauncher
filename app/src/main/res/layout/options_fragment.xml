@@ -48,11 +48,11 @@
             android:paddingBottom="@dimen/_100sdp">
 
             <TextView
-                android:id="@+id/options_fragment_customise_apps"
+                android:id="@+id/options_fragment_customize_apps"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_list_items"
-                android:text="@string/options_fragment_customise_apps"
+                android:text="@string/options_fragment_customize_apps"
                 android:textAppearance="@style/TextAppearance.AppCompat"
                 android:textSize="@dimen/font_size_customize_options"
                 app:layout_constraintStart_toStartOf="parent"
@@ -66,7 +66,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat"
                 android:textSize="@dimen/font_size_customize_options"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/options_fragment_customise_apps" />
+                app:layout_constraintTop_toBottomOf="@+id/options_fragment_customize_apps" />
             <TextView
                 android:id="@+id/options_fragment_choose_alignment"
                 android:layout_width="match_parent"

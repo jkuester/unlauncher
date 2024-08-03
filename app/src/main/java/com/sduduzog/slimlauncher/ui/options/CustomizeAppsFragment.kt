@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.adapters.CustomAppsAdapter
-import com.sduduzog.slimlauncher.databinding.CustomiseAppsFragmentBinding
-import com.sduduzog.slimlauncher.models.CustomiseAppsViewModel
+import com.sduduzog.slimlauncher.databinding.CustomizeAppsFragmentBinding
+import com.sduduzog.slimlauncher.models.CustomizeAppsViewModel
 import com.sduduzog.slimlauncher.models.HomeApp
 import com.sduduzog.slimlauncher.ui.dialogs.RemoveAllAppsDialog
 import com.sduduzog.slimlauncher.ui.dialogs.RenameAppDialog
@@ -23,26 +23,26 @@ import com.sduduzog.slimlauncher.utils.OnShitDoneToAppsListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class CustomiseAppsFragment : BaseFragment(), OnShitDoneToAppsListener {
+class CustomizeAppsFragment : BaseFragment(), OnShitDoneToAppsListener {
 
-    override fun getFragmentView(): ViewGroup = CustomiseAppsFragmentBinding.bind(
+    override fun getFragmentView(): ViewGroup = CustomizeAppsFragmentBinding.bind(
         requireView()
-    ).customiseAppsFragment
+    ).customizeAppsFragment
 
-    private val viewModel: CustomiseAppsViewModel by viewModels()
+    private val viewModel: CustomizeAppsViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.customise_apps_fragment, container, false)
+        return inflater.inflate(R.layout.customize_apps_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val customiseAppsFragment = CustomiseAppsFragmentBinding.bind(requireView())
-        customiseAppsFragment.customiseAppsFragmentBack.setOnClickListener {
+        val customizeAppsFragment = CustomizeAppsFragmentBinding.bind(requireView())
+        customizeAppsFragment.customizeAppsFragmentBack.setOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
     }
@@ -50,22 +50,22 @@ class CustomiseAppsFragment : BaseFragment(), OnShitDoneToAppsListener {
         super.onViewCreated(view, savedInstanceState)
         val adapter = CustomAppsAdapter(this)
 
-        val customiseAppsFragment = CustomiseAppsFragmentBinding.bind(view)
+        val customizeAppsFragment = CustomizeAppsFragmentBinding.bind(view)
         viewModel.apps.observe(viewLifecycleOwner) {
             it?.let { apps ->
                 adapter.setItems(apps)
-                customiseAppsFragment.customiseAppsFragmentAdd.visibility =
+                customizeAppsFragment.customizeAppsFragmentAdd.visibility =
                     if (apps.size < 6) View.VISIBLE else View.INVISIBLE
             } ?: adapter.setItems(listOf())
         }
-        customiseAppsFragment.customiseAppsFragmentRemoveAll.setOnClickListener {
+        customizeAppsFragment.customizeAppsFragmentRemoveAll.setOnClickListener {
             RemoveAllAppsDialog.getInstance(
                 viewModel.apps.value!!,
                 viewModel
             ).show(childFragmentManager, "REMOVE_APPS")
         }
 
-        customiseAppsFragment.customiseAppsFragmentList.adapter = adapter
+        customizeAppsFragment.customizeAppsFragmentList.adapter = adapter
         val listener: OnItemActionListener = adapter
         val simpleItemTouchCallback = object : ItemTouchHelper.Callback() {
 
@@ -128,20 +128,20 @@ class CustomiseAppsFragment : BaseFragment(), OnShitDoneToAppsListener {
 
         val itemTouchHelper = ItemTouchHelper(simpleItemTouchCallback)
 
-        itemTouchHelper.attachToRecyclerView(customiseAppsFragment.customiseAppsFragmentList)
+        itemTouchHelper.attachToRecyclerView(customizeAppsFragment.customizeAppsFragmentList)
 
         adapter.setItemTouchHelper(itemTouchHelper)
 
-        customiseAppsFragment.customiseAppsFragmentAdd.setOnClickListener(
+        customizeAppsFragment.customizeAppsFragmentAdd.setOnClickListener(
             Navigation.createNavigateOnClickListener(
-                R.id.action_customiseAppsFragment_to_addAppFragment
+                R.id.action_customizeAppsFragment_to_addAppFragment
             )
         )
     }
 
     private fun showPopupMenu(view: View): PopupMenu {
         val popup = PopupMenu(requireContext(), view)
-        popup.menuInflater.inflate(R.menu.customise_apps_popup_menu, popup.menu)
+        popup.menuInflater.inflate(R.menu.customize_apps_popup_menu, popup.menu)
         popup.setForceShowIcon(true)
         popup.show()
         return popup

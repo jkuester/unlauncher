@@ -20,22 +20,22 @@
         android:label="options_fragment"
         tools:layout="@layout/options_fragment">
         <action
-            android:id="@+id/action_optionsFragment_to_customiseAppsFragment"
-            app:destination="@id/customiseAppsFragment" />
+            android:id="@+id/action_optionsFragment_to_customizeAppsFragment"
+            app:destination="@id/customizeAppsFragment" />
         <action
-            android:id="@+id/action_optionsFragment_to_customiseQuickButtonsFragment"
-            app:destination="@id/customiseQuickButtonsFragment" />
+            android:id="@+id/action_optionsFragment_to_customizeQuickButtonsFragment"
+            app:destination="@id/customizeQuickButtonsFragment" />
         <action
-            android:id="@+id/action_optionsFragment_to_customiseAppDrawerFragment"
-            app:destination="@id/customiseAppDrawerFragment" />
+            android:id="@+id/action_optionsFragment_to_customizeAppDrawerFragment"
+            app:destination="@id/customizeAppDrawerFragment" />
     </fragment>
     <fragment
-        android:id="@+id/customiseAppsFragment"
-        android:name="com.sduduzog.slimlauncher.ui.options.CustomiseAppsFragment"
-        android:label="customise_apps_fragment"
-        tools:layout="@layout/customise_apps_fragment">
+        android:id="@+id/customizeAppsFragment"
+        android:name="com.sduduzog.slimlauncher.ui.options.CustomizeAppsFragment"
+        android:label="customize_apps_fragment"
+        tools:layout="@layout/customize_apps_fragment">
         <action
-            android:id="@+id/action_customiseAppsFragment_to_addAppFragment"
+            android:id="@+id/action_customizeAppsFragment_to_addAppFragment"
             app:destination="@id/addAppFragment" />
     </fragment>
     <fragment
@@ -44,26 +44,26 @@
         android:label="add_app_fragment"
         tools:layout="@layout/add_app_fragment" />
     <fragment
-        android:id="@+id/customiseQuickButtonsFragment"
+        android:id="@+id/customizeQuickButtonsFragment"
         android:name="com.sduduzog.slimlauncher.ui.options.CustomizeQuickButtonsFragment"
-        android:label="customise_quick_buttons_fragment"
+        android:label="customize_quick_buttons_fragment"
         tools:layout="@layout/customize_quick_buttons_fragment" />
     <fragment
-        android:id="@+id/customiseAppDrawerFragment"
+        android:id="@+id/customizeAppDrawerFragment"
         android:name="com.sduduzog.slimlauncher.ui.options.CustomizeAppDrawerFragment"
-        android:label="customise_app_drawer_fragment"
+        android:label="customize_app_drawer_fragment"
         tools:layout="@layout/customize_app_drawer_fragment">
         <action
-            android:id="@+id/action_customiseAppDrawerFragment_to_customiseAppDrawerAppListFragment"
-            app:destination="@id/customiseAppDrawerAppListFragment" />
+            android:id="@+id/action_customizeAppDrawerFragment_to_customizeAppDrawerAppListFragment"
+            app:destination="@id/customizeAppDrawerAppListFragment" />
         <action
-            android:id="@+id/action_customiseAppDrawerFragment_to_customizeSearchFieldFragment"
+            android:id="@+id/action_customizeAppDrawerFragment_to_customizeSearchFieldFragment"
             app:destination="@id/customizeSearchFieldFragment" />
     </fragment>
     <fragment
-        android:id="@+id/customiseAppDrawerAppListFragment"
+        android:id="@+id/customizeAppDrawerAppListFragment"
         android:name="com.sduduzog.slimlauncher.ui.options.CustomizeAppDrawerAppListFragment"
-        android:label="customise_app_drawer_app_list_fragment"
+        android:label="customize_app_drawer_app_list_fragment"
         tools:layout="@layout/customize_app_drawer_app_list_fragment" />
     <fragment
         android:id="@+id/customizeSearchFieldFragment"

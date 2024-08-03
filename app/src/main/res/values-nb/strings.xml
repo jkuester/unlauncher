@@ -23,15 +23,15 @@
     <string name="add_apps_fragment_search_apps">Søk etter programmer</string>
     <string name="choose_theme_dialog_title">Velg drakt</string>
     <string name="choose_time_format_dialog_title">Velg tidsformat</string>
-    <string name="customise_apps_fragment_add">Legg til</string>
-    <string name="customise_apps_fragment_remove_all">Fjern alle</string>
+    <string name="customize_apps_fragment_add">Legg til</string>
+    <string name="customize_apps_fragment_remove_all">Fjern alle</string>
     <string name="main_fragment_options">Innstillinger</string>
     <string name="menu_remove">Fjern</string>
     <string name="menu_rename">Gi nytt navn</string>
     <string name="menu_reset">Tilbakestill</string>
     <string name="options_fragment_change_theme">Drakt</string>
     <string name="options_fragment_choose_time_format">Tidsformat</string>
-    <string name="options_fragment_customise_apps">Tilpass programmer</string>
+    <string name="options_fragment_customize_apps">Tilpass programmer</string>
     <string name="options_fragment_toggle_status_bar">Statusfelt på/av</string>
     <string name="remove_all_apps_dialog_message">"Programmene dine blir ikke avinstallert."
     "Dette bekrefter kun at du fjerner listen med overlegg."</string>

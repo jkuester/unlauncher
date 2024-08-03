@@ -70,19 +70,19 @@ class OptionsFragment : BaseFragment() {
                 putBoolean(getString(R.string.prefs_settings_key_toggle_status_bar), !isHidden)
             }
         }
-        optionsFragment.optionsFragmentCustomiseApps.setOnClickListener(
+        optionsFragment.optionsFragmentCustomizeApps.setOnClickListener(
             Navigation.createNavigateOnClickListener(
-                R.id.action_optionsFragment_to_customiseAppsFragment
+                R.id.action_optionsFragment_to_customizeAppsFragment
             )
         )
         optionsFragment.optionsFragmentCustomizeQuickButtons.setOnClickListener(
             Navigation.createNavigateOnClickListener(
-                R.id.action_optionsFragment_to_customiseQuickButtonsFragment
+                R.id.action_optionsFragment_to_customizeQuickButtonsFragment
             )
         )
         optionsFragment.optionsFragmentCustomizeAppDrawer.setOnClickListener(
             Navigation.createNavigateOnClickListener(
-                R.id.action_optionsFragment_to_customiseAppDrawerFragment
+                R.id.action_optionsFragment_to_customizeAppDrawerFragment
             )
         )
     }

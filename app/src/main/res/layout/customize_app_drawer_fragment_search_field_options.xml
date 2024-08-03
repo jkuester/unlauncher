@@ -11,7 +11,7 @@
     tools:context=".ui.options.CustomizeSearchFieldFragment">
 
     <ImageView
-        android:id="@+id/customise_apps_fragment_back"
+        android:id="@+id/customize_apps_fragment_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="@dimen/padding"
@@ -22,14 +22,14 @@
         android:contentDescription="@string/content_description_back"
         tools:ignore="RtlSymmetry" />
     <TextView
-        android:id="@+id/customise_apps_fragment_title"
+        android:id="@+id/customize_apps_fragment_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textColor="?headerTextColor"
         android:text="@string/customize_app_drawer_fragment_search_field_options"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textSize="@dimen/font_size_customize_title"
-        app:layout_constraintStart_toEndOf="@+id/customise_apps_fragment_back"
+        app:layout_constraintStart_toEndOf="@+id/customize_apps_fragment_back"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -40,7 +40,7 @@
         android:layout_marginStart="@dimen/margin_sides_small"
         android:overScrollMode="ifContentScrolls"
         android:scrollbars="none"
-        app:layout_constraintTop_toBottomOf="@id/customise_apps_fragment_title">
+        app:layout_constraintTop_toBottomOf="@id/customize_apps_fragment_title">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

@@ -40,7 +40,7 @@ class CustomizeSearchFieldFragment : BaseFragment() {
         val options = CustomizeAppDrawerFragmentSearchFieldOptionsBinding.bind(
             view
         )
-        options.customiseAppsFragmentBack.setOnClickListener {
+        options.customizeAppsFragmentBack.setOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
 

@@ -5,13 +5,13 @@ import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import com.sduduzog.slimlauncher.R
-import com.sduduzog.slimlauncher.models.CustomiseAppsViewModel
+import com.sduduzog.slimlauncher.models.CustomizeAppsViewModel
 import com.sduduzog.slimlauncher.models.HomeApp
 
 class RemoveAllAppsDialog : DialogFragment() {
 
     private lateinit var apps: List<HomeApp>
-    private lateinit var model: CustomiseAppsViewModel
+    private lateinit var model: CustomizeAppsViewModel
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(requireContext())
@@ -24,7 +24,7 @@ class RemoveAllAppsDialog : DialogFragment() {
     }
 
     companion object {
-        fun getInstance(apps: List<HomeApp>, model: CustomiseAppsViewModel): RemoveAllAppsDialog {
+        fun getInstance(apps: List<HomeApp>, model: CustomizeAppsViewModel): RemoveAllAppsDialog {
             return RemoveAllAppsDialog().apply {
                 this.apps = apps
                 this.model = model

@@ -27,8 +27,8 @@
     <string name="add_apps_fragment_search_apps">Cerca applicazioni</string>
     <string name="choose_theme_dialog_title">Scegli il tema</string>
     <string name="choose_time_format_dialog_title">Formato dell\'ora</string>
-    <string name="customise_apps_fragment_add">Aggiungi</string>
-    <string name="customise_apps_fragment_remove_all">Rimuovi tutto</string>
+    <string name="customize_apps_fragment_add">Aggiungi</string>
+    <string name="customize_apps_fragment_remove_all">Rimuovi tutto</string>
     <string name="customize_app_drawer_fragment_search_bar_position">Posizione</string>
     <string name="main_fragment_options">Impostazioni</string>
     <string name="menu_remove">Rimuovi</string>
@@ -36,7 +36,7 @@
     <string name="menu_reset">Azzera modifiche</string>
     <string name="options_fragment_change_theme">Cambia il tema</string>
     <string name="options_fragment_choose_time_format">Formato dell\'ora</string>
-    <string name="options_fragment_customise_apps">Applicazioni preferite</string>
+    <string name="options_fragment_customize_apps">Applicazioni preferite</string>
     <string name="options_fragment_customize_app_drawer">Elenco applicazioni</string>
     <string name="options_fragment_customize_quick_buttons">Pulsanti rapidi</string>
     <string name="options_fragment_toggle_status_bar">Mostra/nascondi barra di stato</string>
