@@ -26,8 +26,8 @@
             android:id="@+id/action_optionsFragment_to_customizeQuickButtonsFragment"
             app:destination="@id/customizeQuickButtonsFragment" />
         <action
-            android:id="@+id/action_optionsFragment_to_customizeAppDrawerFragment"
-            app:destination="@id/customizeAppDrawerFragment" />
+            android:id="@+id/action_optionsFragment_to_customizeAppDrawerAppListFragment"
+            app:destination="@id/customizeAppDrawerAppListFragment" />
     </fragment>
     <fragment
         android:id="@+id/customizeAppsFragment"
@@ -49,26 +49,9 @@
         android:label="customize_quick_buttons_fragment"
         tools:layout="@layout/customize_quick_buttons_fragment" />
     <fragment
-        android:id="@+id/customizeAppDrawerFragment"
-        android:name="com.sduduzog.slimlauncher.ui.options.CustomizeAppDrawerFragment"
-        android:label="customize_app_drawer_fragment"
-        tools:layout="@layout/customize_app_drawer_fragment">
-        <action
-            android:id="@+id/action_customizeAppDrawerFragment_to_customizeAppDrawerAppListFragment"
-            app:destination="@id/customizeAppDrawerAppListFragment" />
-        <action
-            android:id="@+id/action_customizeAppDrawerFragment_to_customizeSearchFieldFragment"
-            app:destination="@id/customizeSearchFieldFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/customizeAppDrawerAppListFragment"
         android:name="com.sduduzog.slimlauncher.ui.options.CustomizeAppDrawerAppListFragment"
         android:label="customize_app_drawer_app_list_fragment"
         tools:layout="@layout/customize_app_drawer_app_list_fragment" />
-    <fragment
-        android:id="@+id/customizeSearchFieldFragment"
-        android:name="com.sduduzog.slimlauncher.ui.options.CustomizeSearchFieldFragment"
-        android:label="customize_app_drawer_search_field_fragment"
-        tools:layout="@layout/customize_app_drawer_fragment_search_field_options" />
 
 </navigation>

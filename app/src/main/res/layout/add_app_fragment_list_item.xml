@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<TextView
     android:id="@+id/aa_list_item_app_name"
-    android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_width="match_parent"
     android:padding="@dimen/padding"
     android:stateListAnimator="@xml/animate_scale"
     android:textAppearance="@style/TextAppearance.AppCompat"
     android:textColor="?launchTextColor"
-    android:textSize="@dimen/font_size_apps_list_item">
+    android:textSize="@dimen/font_size_apps_list_item"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
 </TextView>

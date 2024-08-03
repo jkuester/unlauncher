@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:custom="http://schemas.android.com/apk/res-auto"
-    android:layout_marginStart="@dimen/margin_sides_small"
+<merge
     android:layout_marginEnd="@dimen/margin_sides_small"
-    tools:showIn="@layout/home_fragment_default">
-
+    android:layout_marginStart="@dimen/margin_sides_small"
+    tools:showIn="@layout/home_fragment_default"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <EditText
-        android:id="@+id/app_drawer_edit_text"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_top_large"
         android:ems="10"
         android:hint="@string/add_apps_fragment_search_apps"
+        android:id="@+id/app_drawer_edit_text"
         android:imeOptions="actionDone"
         android:inputType="none|textNoSuggestions|textCapWords"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_top_large"
+        android:layout_width="0dp"
         android:padding="@dimen/padding"
         android:textColor="?controlTextColor"
         android:textColorHint="?controlHintColor"
@@ -25,48 +25,48 @@
 
     <ImageView
         android:id="@+id/home_fragment_call"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
         android:padding="@dimen/padding"
         app:srcCompat="@drawable/ic_call"
         tools:ignore="ContentDescription" />
 
     <ImageView
         android:id="@+id/home_fragment_camera"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
         android:padding="@dimen/padding"
         app:srcCompat="@drawable/ic_photo_camera"
         tools:ignore="ContentDescription" />
 
     <ImageView
         android:id="@+id/home_fragment_options"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
         android:padding="@dimen/padding"
         app:srcCompat="@drawable/ic_cog"
         tools:ignore="ContentDescription" />
 
     <com.sduduzog.slimlauncher.ui.main.BinaryClockView
         android:id="@+id/home_fragment_bin_time"
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_width="match_parent"
         custom:bitSize="20"
         custom:border="2"
         custom:distance="10" />
 
     <com.sduduzog.slimlauncher.ui.main.AnalogClockView
         android:id="@+id/home_fragment_analog_time"
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_width="match_parent"
         custom:radius="@dimen/_60sdp"
         custom:rim="0" />
 
     <TextView
         android:id="@+id/home_fragment_time"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_64sdp"
+        android:layout_width="wrap_content"
         android:text="@string/main_placeholder_clock"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textColor="?clockTextColor"
@@ -74,8 +74,8 @@
 
     <TextView
         android:id="@+id/home_fragment_date"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
         android:padding="@dimen/_4sdp"
         android:text="@string/main_placeholder_date"
         android:textAppearance="@style/TextAppearance.AppCompat"
@@ -84,24 +84,24 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/home_fragment_list"
-        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_width="0dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:itemCount="3"
         tools:listitem="@layout/main_fragment_list_item" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/home_fragment_list_exp"
-        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_width="0dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:itemCount="3"
         tools:listitem="@layout/main_fragment_list_item" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/app_drawer_fragment_list"
-        android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_width="0dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/add_app_fragment_list_item" />
 </merge>

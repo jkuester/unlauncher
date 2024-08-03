@@ -13,8 +13,10 @@ import com.sduduzog.slimlauncher.datasource.UnlauncherDataSource
 import com.sduduzog.slimlauncher.ui.dialogs.ChangeThemeDialog
 import com.sduduzog.slimlauncher.ui.dialogs.ChooseAlignmentDialog
 import com.sduduzog.slimlauncher.ui.dialogs.ChooseClockTypeDialog
+import com.sduduzog.slimlauncher.ui.dialogs.ChooseSearchBarPositionDialog
 import com.sduduzog.slimlauncher.ui.dialogs.ChooseTimeFormatDialog
 import com.sduduzog.slimlauncher.utils.BaseFragment
+import com.sduduzog.slimlauncher.utils.createTitleAndSubtitleText
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -75,15 +77,103 @@ class OptionsFragment : BaseFragment() {
                 R.id.action_optionsFragment_to_customizeAppsFragment
             )
         )
+        optionsFragment.optionsFragmentVisibleApps.setOnClickListener(
+            Navigation.createNavigateOnClickListener(
+                R.id.action_optionsFragment_to_customizeAppDrawerAppListFragment
+            )
+        )
+
         optionsFragment.optionsFragmentCustomizeQuickButtons.setOnClickListener(
             Navigation.createNavigateOnClickListener(
                 R.id.action_optionsFragment_to_customizeQuickButtonsFragment
             )
         )
-        optionsFragment.optionsFragmentCustomizeAppDrawer.setOnClickListener(
-            Navigation.createNavigateOnClickListener(
-                R.id.action_optionsFragment_to_customizeAppDrawerFragment
+        setupHeadingSwitch(optionsFragment)
+        setupShowSearchBarSwitch(optionsFragment)
+        setupSearchBarPositionOption(optionsFragment)
+        setupKeyboardSwitch(optionsFragment)
+        setupSearchAllAppsSwitch(optionsFragment)
+    }
+
+    private fun setupHeadingSwitch(optionsFragment: OptionsFragmentBinding) {
+        val prefsRepo = unlauncherDataSource.corePreferencesRepo
+        optionsFragment.optionsFragmentShowHeadingsSwitch
+            .setOnCheckedChangeListener { _, checked ->
+                prefsRepo.updateShowDrawerHeadings(checked)
+            }
+        prefsRepo.liveData().observe(viewLifecycleOwner) {
+            optionsFragment.optionsFragmentShowHeadingsSwitch.isChecked = it
+                .showDrawerHeadings
+        }
+        optionsFragment.optionsFragmentShowHeadingsSwitch.text =
+            createTitleAndSubtitleText(
+                requireContext(), R.string.customize_app_drawer_fragment_show_headings,
+                R.string.customize_app_drawer_fragment_show_headings_subtitle
             )
-        )
+    }
+
+    private fun setupShowSearchBarSwitch(options: OptionsFragmentBinding) {
+        val prefsRepo = unlauncherDataSource.corePreferencesRepo
+        options.optionsFragmentShowSearchFieldSwitch
+            .setOnCheckedChangeListener { _, checked ->
+                prefsRepo.updateShowSearchBar(checked)
+                enableSearchBarOptions(options, checked)
+            }
+        prefsRepo.liveData().observe(viewLifecycleOwner) {
+            val checked = it.showSearchBar
+            options.optionsFragmentShowSearchFieldSwitch.isChecked = checked
+            enableSearchBarOptions(options, checked)
+        }
+    }
+
+    private fun enableSearchBarOptions(options: OptionsFragmentBinding, enabled: Boolean) {
+        options.optionsFragmentSearchFieldPosition.isEnabled = enabled
+        options.optionsFragmentOpenKeyboardSwitch.isEnabled = enabled
+        options.optionsFragmentSearchAllSwitch.isEnabled = enabled
+    }
+
+    private fun setupSearchBarPositionOption(options: OptionsFragmentBinding) {
+        val prefRepo = unlauncherDataSource.corePreferencesRepo
+        options.optionsFragmentSearchFieldPosition.setOnClickListener {
+            val positionDialog = ChooseSearchBarPositionDialog.getSearchBarPositionChooser()
+            positionDialog.showNow(childFragmentManager, "POSITION_CHOOSER")
+        }
+        prefRepo.liveData().observe(viewLifecycleOwner) {
+            val position = it.searchBarPosition.number
+            val title = getText(R.string.options_fragment_search_bar_position)
+            val subtitle = resources.getTextArray(R.array.search_bar_position_array)[position]
+            options.optionsFragmentSearchFieldPosition.text =
+                createTitleAndSubtitleText(requireContext(), title, subtitle)
+        }
+    }
+
+    private fun setupKeyboardSwitch(options: OptionsFragmentBinding) {
+        val prefsRepo = unlauncherDataSource.corePreferencesRepo
+        options.optionsFragmentOpenKeyboardSwitch.setOnCheckedChangeListener { _, checked ->
+            prefsRepo.updateActivateKeyboardInDrawer(checked)
+        }
+        prefsRepo.liveData().observe(viewLifecycleOwner) {
+            options.optionsFragmentOpenKeyboardSwitch.isChecked = it.activateKeyboardInDrawer
+        }
+        options.optionsFragmentOpenKeyboardSwitch.text =
+            createTitleAndSubtitleText(
+                requireContext(), R.string.options_fragment_open_keyboard,
+                R.string.options_fragment_open_keyboard_subtitle
+            )
+    }
+
+    private fun setupSearchAllAppsSwitch(options: OptionsFragmentBinding) {
+        val prefsRepo = unlauncherDataSource.corePreferencesRepo
+        options.optionsFragmentSearchAllSwitch.setOnCheckedChangeListener { _, checked ->
+            prefsRepo.updateSearchAllAppsInDrawer(checked)
+        }
+        prefsRepo.liveData().observe(viewLifecycleOwner) {
+            options.optionsFragmentSearchAllSwitch.isChecked = it.searchAllAppsInDrawer
+        }
+        options.optionsFragmentSearchAllSwitch.text =
+            createTitleAndSubtitleText(
+                requireContext(), R.string.options_fragment_search_all,
+                R.string.options_fragment_search_all_subtitle
+            )
     }
 }
