@@ -53,7 +53,6 @@
             <TextView
                 android:id="@+id/options_fragment_customize_apps"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_list_items"
                 android:layout_width="match_parent"
                 android:text="@string/options_fragment_customize_apps"
                 android:textAppearance="@style/TextAppearance.AppCompat"

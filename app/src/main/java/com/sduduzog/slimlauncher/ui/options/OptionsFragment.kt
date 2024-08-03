@@ -1,6 +1,7 @@
 package com.sduduzog.slimlauncher.ui.options
 
 import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -21,9 +22,15 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class OptionsFragment : BaseFragment() {
+class OptionsFragment : BaseFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
     @Inject
     lateinit var unlauncherDataSource: UnlauncherDataSource
+    private lateinit var settings: SharedPreferences
+
+    override fun onDestroy() {
+        super.onDestroy()
+        settings.unregisterOnSharedPreferenceChangeListener(this)
+    }
 
     override fun getFragmentView(): ViewGroup = OptionsFragmentBinding.bind(
         requireView()
@@ -39,27 +46,56 @@ class OptionsFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val optionsFragment = OptionsFragmentBinding.bind(requireView())
-        optionsFragment.optionsFragmentBack.setOnClickListener {
+
+        settings = requireContext().getSharedPreferences(
+            getString(R.string.prefs_settings),
+            MODE_PRIVATE
+        )
+        settings.registerOnSharedPreferenceChangeListener(this)
+
+        val prefsRepo = unlauncherDataSource.corePreferencesRepo
+
+        val fragment = OptionsFragmentBinding.bind(requireView())
+        fragment.optionsFragmentBack.setOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
-        optionsFragment.optionsFragmentChangeTheme.setOnClickListener {
+        fragment.optionsFragmentChangeTheme.setOnClickListener {
             val changeThemeDialog = ChangeThemeDialog.getThemeChooser()
             changeThemeDialog.showNow(childFragmentManager, "THEME_CHOOSER")
         }
-        optionsFragment.optionsFragmentChooseTimeFormat.setOnClickListener {
+        updateThemeSubtitle()
+
+        fragment.optionsFragmentChooseTimeFormat.setOnClickListener {
             val chooseTimeFormatDialog = ChooseTimeFormatDialog.getInstance()
             chooseTimeFormatDialog.showNow(childFragmentManager, "TIME_FORMAT_CHOOSER")
         }
-        optionsFragment.optionsFragmentChooseClockType.setOnClickListener {
+        updateTimeFormatSubtitle()
+
+        fragment.optionsFragmentChooseClockType.setOnClickListener {
             val chooseClockTypeDialog = ChooseClockTypeDialog.getInstance()
             chooseClockTypeDialog.showNow(childFragmentManager, "CLOCK_TYPE_CHOOSER")
         }
-        optionsFragment.optionsFragmentChooseAlignment.setOnClickListener {
+        prefsRepo.liveData().observe(viewLifecycleOwner) {
+            val position = it.clockType.number
+            val title = getText(R.string.options_fragment_choose_clock_type)
+            val subtitle = resources.getTextArray(R.array.clock_type_array)[position]
+            fragment.optionsFragmentChooseClockType.text =
+                createTitleAndSubtitleText(requireContext(), title, subtitle)
+        }
+
+        fragment.optionsFragmentChooseAlignment.setOnClickListener {
             val chooseAlignmentDialog = ChooseAlignmentDialog.getInstance()
             chooseAlignmentDialog.showNow(childFragmentManager, "ALIGNMENT_CHOOSER")
         }
-        optionsFragment.optionsFragmentToggleStatusBar.setOnClickListener {
+        prefsRepo.liveData().observe(viewLifecycleOwner) {
+            val position = it.alignmentFormat.number
+            val title = getText(R.string.options_fragment_choose_alignment)
+            val subtitle = resources.getTextArray(R.array.alignment_format_array)[position]
+            fragment.optionsFragmentChooseAlignment.text =
+                createTitleAndSubtitleText(requireContext(), title, subtitle)
+        }
+
+        fragment.optionsFragmentToggleStatusBar.setOnClickListener {
             val settings = requireContext().getSharedPreferences(
                 getString(R.string.prefs_settings),
                 MODE_PRIVATE
@@ -72,108 +108,115 @@ class OptionsFragment : BaseFragment() {
                 putBoolean(getString(R.string.prefs_settings_key_toggle_status_bar), !isHidden)
             }
         }
-        optionsFragment.optionsFragmentCustomizeApps.setOnClickListener(
+        fragment.optionsFragmentCustomizeApps.setOnClickListener(
             Navigation.createNavigateOnClickListener(
                 R.id.action_optionsFragment_to_customizeAppsFragment
             )
         )
-        optionsFragment.optionsFragmentVisibleApps.setOnClickListener(
+        fragment.optionsFragmentVisibleApps.setOnClickListener(
             Navigation.createNavigateOnClickListener(
                 R.id.action_optionsFragment_to_customizeAppDrawerAppListFragment
             )
         )
 
-        optionsFragment.optionsFragmentCustomizeQuickButtons.setOnClickListener(
+        fragment.optionsFragmentCustomizeQuickButtons.setOnClickListener(
             Navigation.createNavigateOnClickListener(
                 R.id.action_optionsFragment_to_customizeQuickButtonsFragment
             )
         )
-        setupHeadingSwitch(optionsFragment)
-        setupShowSearchBarSwitch(optionsFragment)
-        setupSearchBarPositionOption(optionsFragment)
-        setupKeyboardSwitch(optionsFragment)
-        setupSearchAllAppsSwitch(optionsFragment)
-    }
 
-    private fun setupHeadingSwitch(optionsFragment: OptionsFragmentBinding) {
-        val prefsRepo = unlauncherDataSource.corePreferencesRepo
-        optionsFragment.optionsFragmentShowHeadingsSwitch
+        fragment.optionsFragmentShowHeadingsSwitch
             .setOnCheckedChangeListener { _, checked ->
                 prefsRepo.updateShowDrawerHeadings(checked)
             }
         prefsRepo.liveData().observe(viewLifecycleOwner) {
-            optionsFragment.optionsFragmentShowHeadingsSwitch.isChecked = it
+            fragment.optionsFragmentShowHeadingsSwitch.isChecked = it
                 .showDrawerHeadings
         }
-        optionsFragment.optionsFragmentShowHeadingsSwitch.text =
+        fragment.optionsFragmentShowHeadingsSwitch.text =
             createTitleAndSubtitleText(
                 requireContext(), R.string.customize_app_drawer_fragment_show_headings,
                 R.string.customize_app_drawer_fragment_show_headings_subtitle
             )
-    }
 
-    private fun setupShowSearchBarSwitch(options: OptionsFragmentBinding) {
-        val prefsRepo = unlauncherDataSource.corePreferencesRepo
-        options.optionsFragmentShowSearchFieldSwitch
+        fragment.optionsFragmentShowSearchFieldSwitch
             .setOnCheckedChangeListener { _, checked ->
                 prefsRepo.updateShowSearchBar(checked)
-                enableSearchBarOptions(options, checked)
+                enableSearchBarOptions(fragment, checked)
             }
         prefsRepo.liveData().observe(viewLifecycleOwner) {
             val checked = it.showSearchBar
-            options.optionsFragmentShowSearchFieldSwitch.isChecked = checked
-            enableSearchBarOptions(options, checked)
+            fragment.optionsFragmentShowSearchFieldSwitch.isChecked = checked
+            enableSearchBarOptions(fragment, checked)
         }
-    }
 
-    private fun enableSearchBarOptions(options: OptionsFragmentBinding, enabled: Boolean) {
-        options.optionsFragmentSearchFieldPosition.isEnabled = enabled
-        options.optionsFragmentOpenKeyboardSwitch.isEnabled = enabled
-        options.optionsFragmentSearchAllSwitch.isEnabled = enabled
-    }
-
-    private fun setupSearchBarPositionOption(options: OptionsFragmentBinding) {
-        val prefRepo = unlauncherDataSource.corePreferencesRepo
-        options.optionsFragmentSearchFieldPosition.setOnClickListener {
+        fragment.optionsFragmentSearchFieldPosition.setOnClickListener {
             val positionDialog = ChooseSearchBarPositionDialog.getSearchBarPositionChooser()
             positionDialog.showNow(childFragmentManager, "POSITION_CHOOSER")
         }
-        prefRepo.liveData().observe(viewLifecycleOwner) {
+        prefsRepo.liveData().observe(viewLifecycleOwner) {
             val position = it.searchBarPosition.number
             val title = getText(R.string.options_fragment_search_bar_position)
             val subtitle = resources.getTextArray(R.array.search_bar_position_array)[position]
-            options.optionsFragmentSearchFieldPosition.text =
+            fragment.optionsFragmentSearchFieldPosition.text =
                 createTitleAndSubtitleText(requireContext(), title, subtitle)
         }
-    }
 
-    private fun setupKeyboardSwitch(options: OptionsFragmentBinding) {
-        val prefsRepo = unlauncherDataSource.corePreferencesRepo
-        options.optionsFragmentOpenKeyboardSwitch.setOnCheckedChangeListener { _, checked ->
+        fragment.optionsFragmentOpenKeyboardSwitch.setOnCheckedChangeListener { _, checked ->
             prefsRepo.updateActivateKeyboardInDrawer(checked)
         }
         prefsRepo.liveData().observe(viewLifecycleOwner) {
-            options.optionsFragmentOpenKeyboardSwitch.isChecked = it.activateKeyboardInDrawer
+            fragment.optionsFragmentOpenKeyboardSwitch.isChecked = it.activateKeyboardInDrawer
         }
-        options.optionsFragmentOpenKeyboardSwitch.text =
+        fragment.optionsFragmentOpenKeyboardSwitch.text =
             createTitleAndSubtitleText(
                 requireContext(), R.string.options_fragment_open_keyboard,
                 R.string.options_fragment_open_keyboard_subtitle
             )
-    }
 
-    private fun setupSearchAllAppsSwitch(options: OptionsFragmentBinding) {
-        val prefsRepo = unlauncherDataSource.corePreferencesRepo
-        options.optionsFragmentSearchAllSwitch.setOnCheckedChangeListener { _, checked ->
+        fragment.optionsFragmentSearchAllSwitch.setOnCheckedChangeListener { _, checked ->
             prefsRepo.updateSearchAllAppsInDrawer(checked)
         }
         prefsRepo.liveData().observe(viewLifecycleOwner) {
-            options.optionsFragmentSearchAllSwitch.isChecked = it.searchAllAppsInDrawer
+            fragment.optionsFragmentSearchAllSwitch.isChecked = it.searchAllAppsInDrawer
         }
-        options.optionsFragmentSearchAllSwitch.text =
+        fragment.optionsFragmentSearchAllSwitch.text =
             createTitleAndSubtitleText(
                 requireContext(), R.string.options_fragment_search_all,
                 R.string.options_fragment_search_all_subtitle
             )
+    }
+
+    private fun updateThemeSubtitle() {
+        val fragment = OptionsFragmentBinding.bind(requireView())
+        val position = settings.getInt(getString(R.string.prefs_settings_key_theme), 0)
+        val title = getText(R.string.options_fragment_change_theme)
+        val subtitle = resources.getTextArray(R.array.themes_array)[position]
+        fragment.optionsFragmentChangeTheme.text =
+            createTitleAndSubtitleText(requireContext(), title, subtitle)
+    }
+
+    private fun updateTimeFormatSubtitle() {
+        val fragment = OptionsFragmentBinding.bind(requireView())
+        val position = settings.getInt(getString(R.string.prefs_settings_key_time_format), 0)
+        val title = getText(R.string.options_fragment_choose_time_format)
+        val subtitle = resources.getTextArray(R.array.time_format_array)[position]
+        fragment.optionsFragmentChooseTimeFormat.text =
+            createTitleAndSubtitleText(requireContext(), title, subtitle)
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, s: String?) {
+        if (s.equals(getString(R.string.prefs_settings_key_theme), true)) {
+            updateThemeSubtitle()
+        }
+        if (s.equals(getString(R.string.prefs_settings_key_time_format), true)) {
+            updateTimeFormatSubtitle()
+        }
+    }
+
+    private fun enableSearchBarOptions(fragment: OptionsFragmentBinding, enabled: Boolean) {
+        fragment.optionsFragmentSearchFieldPosition.isEnabled = enabled
+        fragment.optionsFragmentOpenKeyboardSwitch.isEnabled = enabled
+        fragment.optionsFragmentSearchAllSwitch.isEnabled = enabled
     }
 }

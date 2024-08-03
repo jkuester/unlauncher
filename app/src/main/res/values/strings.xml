@@ -9,9 +9,9 @@
     <string name="prefs_settings_key_toggle_status_bar" translatable="false">hide_status_bar</string>
 
     <string-array name="alignment_format_array">
-        <item>left</item>
-        <item>center</item>
-        <item>right</item>
+        <item>Left</item>
+        <item>Center</item>
+        <item>Right</item>
     </string-array>
     <string-array name="clock_type_array">
         <item>None</item>
