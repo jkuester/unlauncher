@@ -1,15 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
 
-    <string name="app_name" translatable="false">Unlauncher</string>
-    <string name="main_placeholder_clock" translatable="false">00:00</string>
-    <string name="main_placeholder_date" translatable="false">Sat, Apr 20</string>
-    <string name="prefs_settings" translatable="false">settings</string>
-    <string name="prefs_settings_key_theme" translatable="false">key_theme</string>
-    <string name="prefs_settings_key_time_format" translatable="false">time_format</string>
-    <string name="prefs_settings_key_date_format" translatable="false">date_format</string>
-    <string name="prefs_settings_key_lead0_modif" translatable="false">lead0_modif</string>
-    <string name="prefs_settings_key_toggle_status_bar" translatable="false">hide_status_bar</string>
-
     <string-array name="alignment_format_array">
         <item>Left</item>
         <item>Center</item>
@@ -55,13 +45,11 @@
         <item>White Cyan</item>
         <item>White Blue</item>
     </string-array>
-
     <string-array name="time_format_array">
         <item>Follow system settings</item>
         <item>24 Hour</item>
         <item>12 Hour</item>
     </string-array>
-
     <string-array name="date_format_array">
         <item>Follow system settings</item>
         <item>No date</item>
@@ -71,12 +59,21 @@
         <item>Mon 2024-04-01</item>
         <item>Monday</item>
     </string-array>
-
     <string-array name="lead0_modif_array">
         <item>Follow system settings</item>
         <item>Prefer 1, 2, 3, ...</item>
         <item>Prefer 01, 02, 03, ...</item>
     </string-array>
+
+    <string name="app_name" translatable="false">Unlauncher</string>
+    <string name="main_placeholder_clock" translatable="false">00:00</string>
+    <string name="main_placeholder_date" translatable="false">Sat, Apr 20</string>
+    <string name="prefs_settings" translatable="false">settings</string>
+    <string name="prefs_settings_key_theme" translatable="false">key_theme</string>
+    <string name="prefs_settings_key_time_format" translatable="false">time_format</string>
+    <string name="prefs_settings_key_date_format" translatable="false">date_format</string>
+    <string name="prefs_settings_key_lead0_modif" translatable="false">lead0_modif</string>
+    <string name="prefs_settings_key_toggle_status_bar" translatable="false">hide_status_bar</string>
 
     <string name="add_apps_fragment_search_apps">Search apps</string>
     <string name="app_info">App info</string>

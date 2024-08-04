@@ -1,13 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string-array name="alignment_format_array">
         <item>Links</item>
         <item>Mitte</item>
         <item>Rechts</item>
     </string-array>
+    <string-array name="clock_type_array">
+        <item>Keine</item>
+        <item>Digital</item>
+        <item>Analog 12</item>
+        <item>Binär</item>
+        <item>Analog 0</item>
+        <item>Analog 1</item>
+        <item>Analog 2</item>
+        <item>Analog 3</item>
+        <item>Analog 4</item>
+        <item>Analog 6</item>
+        <item>Analog 60</item>
+    </string-array>
     <string-array name="quick_button_array">
         <item>Zeigen</item>
-        <item>Verstecken</item>
+        <item>Ausblenden</item>
     </string-array>
     <string-array name="search_bar_position_array">
         <item>Oben</item>
@@ -33,18 +47,19 @@
         <item>24 Stunden</item>
         <item>12 Stunden</item>
     </string-array>
-    <string-array name="clock_type_array">
-        <item>Keine</item>
-        <item>Digital</item>
-        <item>Analog 12</item>
-        <item>Binär</item>
-        <item>Analog 0</item>
-        <item>Analog 1</item>
-        <item>Analog 2</item>
-        <item>Analog 3</item>
-        <item>Analog 4</item>
-        <item>Analog 6</item>
-        <item>Analog 60</item>
+    <string-array name="date_format_array">
+        <item>Systemvorgabe</item>
+        <item>Kein Datum</item>
+        <item>Kurzes Systemformat</item>
+        <item>Mittellanges Systemformat</item>
+        <item>2024-04-01</item>
+        <item>Mon 2024-04-01</item>
+        <item>Montag</item>
+    </string-array>
+    <string-array name="lead0_modif_array">
+        <item>Systemvorgabe</item>
+        <item>Lieber 1, 2, 3, ...</item>
+        <item>Lieber 01, 02, 03, ...</item>
     </string-array>
 
     <string name="add_apps_fragment_search_apps">Appsuche</string>
@@ -54,14 +69,17 @@
     <string name="choose_search_bar_position_dialog_title">Position des Suchfelds</string>
     <string name="choose_theme_dialog_title">Stil</string>
     <string name="choose_time_format_dialog_title">Zeitformat</string>
+    <string name="choose_date_format_dialog_title">Datumsformat</string>
+    <string name="choose_lead0_modif_dialog_title">Führende 0</string>
     <string name="content_description_back">Zurück</string>
     <string name="customize_apps_fragment_add">Hinzufügen</string>
     <string name="customize_apps_fragment_remove_all">Alle entfernen</string>
     <string name="options_fragment_open_keyboard">Tastatur anzeigen</string>
     <string name="options_fragment_open_keyboard_subtitle">Tastatur anzeigen, wenn Appschublade geöffnet wird</string>
     <string name="options_fragment_search_all">In allen Apps suchen</string>
-    <string name="options_fragment_search_all_subtitle">Versteckte Apps in der Suche anzeigen</string>
+    <string name="options_fragment_search_all_subtitle">Ausgeblendete Apps bei der Suche anzeigen</string>
     <string name="options_fragment_search_bar_position">Position</string>
+    <string name="options_fragment_choose_lead0_modif">Führende 0</string>
     <string name="customize_app_drawer_fragment_show_headings">Apps gruppieren</string>
     <string name="customize_app_drawer_fragment_show_headings_subtitle">Apps nach Anfangsbuchstaben gruppieren</string>
     <string name="customize_app_drawer_fragment_show_search_bar">Suchfeld anzeigen</string>
@@ -77,8 +95,11 @@
     <string name="options_fragment_change_theme">Stil</string>
     <string name="options_fragment_choose_alignment">Textausrichtung</string>
     <string name="options_fragment_choose_clock_type">Art der Uhr</string>
+    <string name="options_fragment_choose_date_format">Datumsformat</string>
     <string name="options_fragment_choose_time_format">Zeitformat</string>
     <string name="options_fragment_customize_apps">Hauptapps</string>
+    <string name="options_fragment_appearance">Erscheinungsbild</string>
+    <string name="options_fragment_clock">Uhr</string>
     <string name="options_fragment_drawer">Appschublade</string>
     <string name="options_fragment_customize_quick_buttons">Knöpfe</string>
     <string name="options_fragment_toggle_status_bar">Statusleiste ein-/ausblenden</string>
@@ -88,5 +109,11 @@
     <string name="rename_app">Umbenennen</string>
     <string name="shown">angezeigt</string>
     <string name="uninstall">Deinstallieren</string>
+    <string name="remove_shortcut">Entfernen</string>
     <string name="action_add_shortcut">Zur Appschublade hinzufügen</string>
+    <string name="unhide_hint">Wieder einblenden unter Optionen &gt; Schubladenapps</string>
+    <string name="unable_to_unpin">Fehler beim Entfernen</string>
+    <string name="shortcut_unpinned">Verknüpfung entfernt</string>
+    <string name="couldnt_start_app">Fehler beim Starten der App</string>
+    <string name="couldnt_start_shortcut">Fehler beim Starten der Verknüpfung</string>
 </resources>

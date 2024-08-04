@@ -21,11 +21,14 @@
     </string-array>
 
     <string name="add_apps_fragment_search_apps">Zoeken naar apps</string>
+    <string name="app_info">App-info</string>
     <string name="choose_theme_dialog_title">Thema kiezen</string>
     <string name="choose_time_format_dialog_title">Kies de tijdopmaak</string>
+    <string name="content_description_back">Terug</string>
     <string name="customize_apps_fragment_add">Toevoegen</string>
     <string name="customize_apps_fragment_remove_all">Alles verwijderen</string>
     <string name="options_fragment_search_bar_position">Positie</string>
+    <string name="main_date_format">EEE, d MMM</string>
     <string name="main_fragment_options">Opties</string>
     <string name="menu_remove">Verwijderen</string>
     <string name="menu_rename">Naam wijzigen</string>
@@ -34,5 +37,7 @@
     <string name="options_fragment_choose_time_format">Kies de tijdopmaak</string>
     <string name="options_fragment_customize_apps">Apps aanpassen</string>
     <string name="options_fragment_toggle_status_bar">Statusbalk tonen/verbergen</string>
+    <string name="remove_all_apps_dialog_title">Allen verwijderen</string>
+    <string name="rename_app">Naam wijzigen</string>
     <string name="action_add_shortcut">Aan launcher toevoegen</string>
 </resources>
