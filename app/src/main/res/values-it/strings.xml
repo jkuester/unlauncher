@@ -1,7 +1,30 @@
 <resources>
+
+    <string-array name="alignment_format_array">
+        <item>Sinistra</item>
+        <item>Centro</item>
+        <item>Destra</item>
+    </string-array>
+    <string-array name="clock_type_array">
+        <item>Nessun orologio</item>
+        <item>Digitale</item>
+        <item>Binario</item>
+        <item>Analogico 0</item>
+        <item>Analogico 1</item>
+        <item>Analogico 2</item>
+        <item>Analogico 3</item>
+        <item>Analogico 4</item>
+        <item>Analogico 6</item>
+        <item>Analogico 12</item>
+        <item>Analogico 60</item>
+    </string-array>
     <string-array name="quick_button_array">
         <item>Mostra</item>
         <item>Nascondi</item>
+    </string-array>
+    <string-array name="search_bar_position_array">
+        <item>In alto</item>
+        <item>In basso</item>
     </string-array>
     <string-array name="themes_array">
         <item>Predefinito</item>
@@ -19,26 +42,74 @@
         <item>Nero Blu</item>
     </string-array>
     <string-array name="time_format_array">
-        <item>Come impostato nel dispositivo</item>
+        <item>Predefinito</item>
         <item>24 ore</item>
         <item>12 ore</item>
     </string-array>
+    <string-array name="date_format_array">
+        <item>Predefinito</item>
+        <item>Nessuna data</item>
+        <item>Formato breve predefinito</item>
+        <item>Formato medio predefinito</item>
+        <item>2024-04-01</item>
+        <item>Lun 2024-04-01</item>
+        <item>Lunedi</item>
+    </string-array>
+    <string-array name="lead0_modif_array">
+        <item>Predefinito</item>
+        <item>Mostra 1, 2, 3, ...</item>
+        <item>Mostra 01, 02, 03, ...</item>
+    </string-array>
 
     <string name="add_apps_fragment_search_apps">Cerca applicazioni</string>
+    <string name="app_info">Informazioni sull\'applicazione</string>
+    <string name="choose_alignment_dialog_title">Allineamento del testo</string>
+    <string name="choose_clock_type_dialog_title">Tipo di orologio</string>
+    <string name="choose_search_bar_position_dialog_title">Posizione barra di ricerca</string>
     <string name="choose_theme_dialog_title">Scegli il tema</string>
     <string name="choose_time_format_dialog_title">Formato dell\'ora</string>
     <string name="customize_apps_fragment_add">Aggiungi</string>
     <string name="customize_apps_fragment_remove_all">Rimuovi tutto</string>
+    <string name="options_fragment_open_keyboard">Avviare tastiera</string>
+    <string name="options_fragment_open_keyboard_subtitle">Mostra la tastiera all\'apertura dell\'elenco</string>
+    <string name="options_fragment_search_all">Cerca tutte le applicazioni</string>
+    <string name="options_fragment_search_all_subtitle">"Le applicazioni nascoste possono essere trovate durante la ricerca "</string>
     <string name="options_fragment_search_bar_position">Posizione</string>
+    <string name="customize_app_drawer_fragment_show_headings">Raggruppare per iniziale</string>
+    <string name="customize_app_drawer_fragment_show_headings_subtitle">Raggruppare le applicazioni i mostra l\'iniziale in titolo</string>
+    <string name="customize_app_drawer_fragment_show_search_bar">Barra di ricerca</string>
+    <string name="options_fragment_visible_apps">Applicazioni elenco</string>
+    <string name="hidden">nascosta</string>
+    <string name="hide_app">Nascondi l\'applicazione</string>
+    <string name="main_date_format">EEE, d MMM</string>
     <string name="main_fragment_options">Impostazioni</string>
     <string name="menu_remove">Rimuovi</string>
     <string name="menu_rename">Rinomina</string>
     <string name="menu_reset">Azzera modifiche</string>
+    <string name="open_app">Avviare applicazione</string>
     <string name="options_fragment_change_theme">Cambia il tema</string>
+    <string name="options_fragment_choose_alignment">Allineamento del testo</string>
+    <string name="options_fragment_choose_clock_type">Tipo di orologio</string>
     <string name="options_fragment_choose_time_format">Formato dell\'ora</string>
     <string name="options_fragment_customize_apps">Applicazioni preferite</string>
     <string name="options_fragment_drawer">Elenco applicazioni</string>
     <string name="options_fragment_customize_quick_buttons">Pulsanti rapidi</string>
     <string name="options_fragment_toggle_status_bar">Mostra/nascondi barra di stato</string>
+    <string name="remove_all_apps_dialog_message">Ciò non disinstallerà le applicazioni, ma cancellerà solo l\'elenco.</string>
+    <string name="remove_all_apps_dialog_title">Rimuovi tutte le applicazioni</string>
+    <string name="rename_app">Rinomina l\'applicazione</string>
+    <string name="shown">mostrata</string>
+    <string name="uninstall">Disinstallare</string>
     <string name="action_add_shortcut">Aggiungi a schermata Home</string>
+    <string name="content_description_back">Indientro</string>
+    <string name="choose_date_format_dialog_title">Formato data</string>
+    <string name="choose_lead0_modif_dialog_title">0 iniziale</string>
+    <string name="options_fragment_choose_lead0_modif">Zero iniziale</string>
+    <string name="options_fragment_choose_date_format">Formato data</string>
+    <string name="options_fragment_appearance">Aspetto</string>
+    <string name="options_fragment_clock">Orologio</string>
+    <string name="unhide_hint">Disfare in Optioni > Applicationi elenco</string>
+    <string name="unable_to_unpin">Impossibile</string>
+    <string name="couldnt_start_app">Impossibile avviare l\'applicazione</string>
+    <string name="couldnt_start_shortcut">Impossibile avviare</string>
 </resources>
