@@ -8,12 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.edit
 import androidx.navigation.Navigation
+import com.jkuester.unlauncher.datastore.ClockType
+import com.jkuester.unlauncher.datastore.MyDateFormat
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.databinding.OptionsFragmentBinding
 import com.sduduzog.slimlauncher.datasource.UnlauncherDataSource
 import com.sduduzog.slimlauncher.ui.dialogs.ChangeThemeDialog
 import com.sduduzog.slimlauncher.ui.dialogs.ChooseAlignmentDialog
 import com.sduduzog.slimlauncher.ui.dialogs.ChooseClockTypeDialog
+import com.sduduzog.slimlauncher.ui.dialogs.ChooseDateFormatDialog
+import com.sduduzog.slimlauncher.ui.dialogs.ChooseLead0ModifDialog
 import com.sduduzog.slimlauncher.ui.dialogs.ChooseSearchBarPositionDialog
 import com.sduduzog.slimlauncher.ui.dialogs.ChooseTimeFormatDialog
 import com.sduduzog.slimlauncher.utils.BaseFragment
@@ -60,16 +64,28 @@ class OptionsFragment : BaseFragment(), SharedPreferences.OnSharedPreferenceChan
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
         fragment.optionsFragmentChangeTheme.setOnClickListener {
-            val changeThemeDialog = ChangeThemeDialog.getThemeChooser()
-            changeThemeDialog.showNow(childFragmentManager, "THEME_CHOOSER")
+            val dialog = ChangeThemeDialog.getThemeChooser()
+            dialog.showNow(childFragmentManager, "THEME_CHOOSER")
         }
         updateThemeSubtitle()
 
         fragment.optionsFragmentChooseTimeFormat.setOnClickListener {
-            val chooseTimeFormatDialog = ChooseTimeFormatDialog.getInstance()
-            chooseTimeFormatDialog.showNow(childFragmentManager, "TIME_FORMAT_CHOOSER")
+            val dialog = ChooseTimeFormatDialog.getInstance()
+            dialog.showNow(childFragmentManager, "TIME_FORMAT_CHOOSER")
         }
         updateTimeFormatSubtitle()
+
+        fragment.optionsFragmentChooseDateFormat.setOnClickListener {
+            val dialog = ChooseDateFormatDialog.getInstance()
+            dialog.showNow(childFragmentManager, "DATE_FORMAT_CHOOSER")
+        }
+        updateDateFormatSubtitle()
+
+        fragment.optionsFragmentChooseLead0Modif.setOnClickListener {
+            val dialog = ChooseLead0ModifDialog.getInstance()
+            dialog.showNow(childFragmentManager, "LEAD0_MODIF_CHOOSER")
+        }
+        updateLead0ModifSubtitle()
 
         fragment.optionsFragmentChooseClockType.setOnClickListener {
             val chooseClockTypeDialog = ChooseClockTypeDialog.getInstance()
@@ -81,6 +97,7 @@ class OptionsFragment : BaseFragment(), SharedPreferences.OnSharedPreferenceChan
             val subtitle = resources.getTextArray(R.array.clock_type_array)[position]
             fragment.optionsFragmentChooseClockType.text =
                 createTitleAndSubtitleText(requireContext(), title, subtitle)
+            enableTimeOptions()
         }
 
         fragment.optionsFragmentChooseAlignment.setOnClickListener {
@@ -205,6 +222,24 @@ class OptionsFragment : BaseFragment(), SharedPreferences.OnSharedPreferenceChan
             createTitleAndSubtitleText(requireContext(), title, subtitle)
     }
 
+    private fun updateDateFormatSubtitle() {
+        val fragment = OptionsFragmentBinding.bind(requireView())
+        val position = settings.getInt(getString(R.string.prefs_settings_key_date_format), 0)
+        val title = getText(R.string.options_fragment_choose_date_format)
+        val subtitle = resources.getTextArray(R.array.date_format_array)[position]
+        fragment.optionsFragmentChooseDateFormat.text =
+            createTitleAndSubtitleText(requireContext(), title, subtitle)
+    }
+
+    private fun updateLead0ModifSubtitle() {
+        val fragment = OptionsFragmentBinding.bind(requireView())
+        val position = settings.getInt(getString(R.string.prefs_settings_key_lead0_modif), 0)
+        val title = getText(R.string.options_fragment_choose_lead0_modif)
+        val subtitle = resources.getTextArray(R.array.lead0_modif_array)[position]
+        fragment.optionsFragmentChooseLead0Modif.text =
+            createTitleAndSubtitleText(requireContext(), title, subtitle)
+    }
+
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, s: String?) {
         if (s.equals(getString(R.string.prefs_settings_key_theme), true)) {
             updateThemeSubtitle()
@@ -212,11 +247,33 @@ class OptionsFragment : BaseFragment(), SharedPreferences.OnSharedPreferenceChan
         if (s.equals(getString(R.string.prefs_settings_key_time_format), true)) {
             updateTimeFormatSubtitle()
         }
+        if (s.equals(getString(R.string.prefs_settings_key_date_format), true)) {
+            updateDateFormatSubtitle()
+            enableTimeOptions()
+        }
+        if (s.equals(getString(R.string.prefs_settings_key_lead0_modif), true)) {
+            updateLead0ModifSubtitle()
+        }
     }
 
     private fun enableSearchBarOptions(fragment: OptionsFragmentBinding, enabled: Boolean) {
         fragment.optionsFragmentSearchFieldPosition.isEnabled = enabled
         fragment.optionsFragmentOpenKeyboardSwitch.isEnabled = enabled
         fragment.optionsFragmentSearchAllSwitch.isEnabled = enabled
+    }
+
+    private fun enableTimeOptions() {
+        val fragment = OptionsFragmentBinding.bind(requireView())
+        val prefsRepo = unlauncherDataSource.corePreferencesRepo
+        val clockType = prefsRepo.get().clockType.number
+        val isDigital = (clockType == ClockType.digital.number)
+        val haveClock = (clockType != ClockType.none.number)
+
+        val position = settings.getInt(getString(R.string.prefs_settings_key_date_format), 0)
+        val haveDate = (position != MyDateFormat.date_none.number)
+
+        fragment.optionsFragmentChooseTimeFormat.isEnabled = haveClock && isDigital
+        fragment.optionsFragmentChooseDateFormat.isEnabled = haveClock
+        fragment.optionsFragmentChooseLead0Modif.isEnabled = haveClock && (haveDate || isDigital)
     }
 }

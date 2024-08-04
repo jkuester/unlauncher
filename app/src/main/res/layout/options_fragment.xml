@@ -82,6 +82,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/options_fragment_visible_apps" />
 
+            <!-- Drawer -->
             <TextView
                 android:id="@+id/options_section_drawer"
                 android:layout_height="wrap_content"
@@ -153,6 +154,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/options_fragment_open_keyboard_switch" />
 
+            <!-- Appearance -->
             <TextView
                 android:id="@+id/options_section_appearance"
                 android:layout_height="wrap_content"
@@ -188,6 +190,30 @@
                 app:layout_constraintTop_toBottomOf="@+id/options_fragment_change_theme" />
 
             <TextView
+                android:id="@+id/options_fragment_toggle_status_bar"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_list_items"
+                android:layout_width="match_parent"
+                android:text="@string/options_fragment_toggle_status_bar"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                android:textSize="@dimen/font_size_customize_options"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/options_fragment_choose_alignment" />
+
+            <!-- Clock -->
+            <TextView
+                android:id="@+id/options_section_clock"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_list_items"
+                android:layout_width="match_parent"
+                android:text="@string/options_fragment_clock"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                android:textColor="?headerTextColor"
+                android:textSize="@dimen/font_size_customize_title2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/options_fragment_toggle_status_bar" />
+
+            <TextView
                 android:id="@+id/options_fragment_choose_clock_type"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_list_items"
@@ -196,7 +222,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat"
                 android:textSize="@dimen/font_size_customize_options"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/options_fragment_choose_alignment" />
+                app:layout_constraintTop_toBottomOf="@+id/options_section_clock" />
 
             <TextView
                 android:id="@+id/options_fragment_choose_time_format"
@@ -210,15 +236,26 @@
                 app:layout_constraintTop_toBottomOf="@+id/options_fragment_choose_clock_type" />
 
             <TextView
-                android:id="@+id/options_fragment_toggle_status_bar"
+                android:id="@+id/options_fragment_choose_date_format"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_list_items"
                 android:layout_width="match_parent"
-                android:text="@string/options_fragment_toggle_status_bar"
+                android:text="@string/options_fragment_choose_date_format"
                 android:textAppearance="@style/TextAppearance.AppCompat"
                 android:textSize="@dimen/font_size_customize_options"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/options_fragment_choose_time_format" />
+
+            <TextView
+                android:id="@+id/options_fragment_choose_lead0_modif"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_list_items"
+                android:layout_width="match_parent"
+                android:text="@string/options_fragment_choose_lead0_modif"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                android:textSize="@dimen/font_size_customize_options"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/options_fragment_choose_date_format" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

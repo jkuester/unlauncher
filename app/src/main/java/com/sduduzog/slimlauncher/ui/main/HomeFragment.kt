@@ -8,6 +8,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.SharedPreferences
 import android.content.pm.LauncherApps
 import android.net.Uri
 import android.os.Bundle
@@ -36,6 +37,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jkuester.unlauncher.datastore.ClockType
+import com.jkuester.unlauncher.datastore.MyDateFormat
 import com.jkuester.unlauncher.datastore.SearchBarPosition
 import com.jkuester.unlauncher.datastore.UnlauncherApp
 import com.sduduzog.slimlauncher.R
@@ -160,8 +162,13 @@ class HomeFragment :
             }
             homeFragmentContent.homeFragmentBinTime
                 .visibility = if (clockType == ClockType.binary) View.VISIBLE else View.GONE
-            homeFragmentContent.homeFragmentDate
-                .visibility = if (clockType != ClockType.none) View.VISIBLE else View.GONE
+
+            val dateFormat = sharedPrefs()
+                ?.getInt(getString(R.string.prefs_settings_key_date_format), 0)
+            val haveClock = (clockType != ClockType.none)
+            val haveDate = (dateFormat != MyDateFormat.date_none.number)
+            homeFragmentContent.homeFragmentDate.visibility =
+                if (haveClock && haveDate) View.VISIBLE else View.GONE
         }
     }
 
@@ -397,11 +404,13 @@ class HomeFragment :
         }
     }
 
+    private fun sharedPrefs(): SharedPreferences? = context?.getSharedPreferences(
+        getString(R.string.prefs_settings),
+        Context.MODE_PRIVATE
+    )
+
     private fun updateClockDigital() {
-        val timeFormat = context?.getSharedPreferences(
-            getString(R.string.prefs_settings),
-            Context.MODE_PRIVATE
-        )
+        val timeFormat = sharedPrefs()
             ?.getInt(getString(R.string.prefs_settings_key_time_format), 0)
         val fWatchTime = when (timeFormat) {
             1 -> SimpleDateFormat("H:mm", Locale.getDefault())
@@ -409,13 +418,79 @@ class HomeFragment :
             else -> DateFormat.getTimeFormat(context)
         }
         val homeFragmentContent = HomeFragmentContentBinding.bind(requireView())
-        homeFragmentContent.homeFragmentTime.text = fWatchTime.format(Date())
+        homeFragmentContent.homeFragmentTime.text = fixLead0(fWatchTime.format(Date()))
+    }
+
+    private fun strDate(dateTempl: String): String =
+        SimpleDateFormat(dateTempl, Locale.getDefault()).format(Date())
+
+    private fun removeLead0(s: String): String {
+        var t = StringBuilder()
+        var start = true
+        for (c in s) {
+            if (start && c.isDigit() && (c.digitToInt() == 0)) {
+                continue
+            }
+            t.append(c)
+            start = !(c.isDigit() || (c == ':'))
+        }
+        return t.toString()
+    }
+
+    private fun prefixLead0(s: String): String {
+        var t = StringBuilder()
+        var start = true
+        var lastDigit = ' '
+        for (c in s) {
+            if (start && c.isDigit() && (c.digitToInt() != 0)) {
+                lastDigit = c
+                start = false
+                continue
+            }
+            if (lastDigit != ' ') {
+                if (!c.isDigit()) {
+                    t.append('0')
+                }
+                t.append(lastDigit)
+            }
+            t.append(c)
+            start = !c.isDigit()
+            lastDigit = ' '
+        }
+        if (lastDigit != ' ') {
+            t.append('0')
+            t.append(lastDigit)
+        }
+        return t.toString()
+    }
+
+    private fun fixLead0(s: String): String {
+        val lead0Modif = sharedPrefs()
+            ?.getInt(getString(R.string.prefs_settings_key_lead0_modif), 0)
+        return when (lead0Modif) {
+            1 -> removeLead0(s)
+            2 -> prefixLead0(s)
+            else -> s
+        }
     }
 
     private fun updateDate() {
-        val fWatchDate = SimpleDateFormat(getString(R.string.main_date_format), Locale.getDefault())
+        val dateFormat = sharedPrefs()
+            ?.getInt(getString(R.string.prefs_settings_key_date_format), 0)
+        val dateStr = when (dateFormat) {
+            MyDateFormat.date_short.number -> {
+                android.text.format.DateFormat.getDateFormat(context).format(Date())
+            }
+            MyDateFormat.date_medium.number -> {
+                android.text.format.DateFormat.getMediumDateFormat(context).format(Date())
+            }
+            MyDateFormat.date_iso.number -> strDate(getString(R.string.iso_date_format))
+            MyDateFormat.date_iso_wday.number -> strDate(getString(R.string.iso_wday_date_format))
+            MyDateFormat.date_wday.number -> strDate(getString(R.string.wday_date_format))
+            else -> strDate(getString(R.string.main_date_format))
+        }
         val homeFragmentContent = HomeFragmentContentBinding.bind(requireView())
-        homeFragmentContent.homeFragmentDate.text = fWatchDate.format(Date())
+        homeFragmentContent.homeFragmentDate.text = fixLead0(dateStr)
     }
 
     override fun onLaunch(app: HomeApp, view: View) {

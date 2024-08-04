@@ -6,6 +6,8 @@
     <string name="prefs_settings" translatable="false">settings</string>
     <string name="prefs_settings_key_theme" translatable="false">key_theme</string>
     <string name="prefs_settings_key_time_format" translatable="false">time_format</string>
+    <string name="prefs_settings_key_date_format" translatable="false">date_format</string>
+    <string name="prefs_settings_key_lead0_modif" translatable="false">lead0_modif</string>
     <string name="prefs_settings_key_toggle_status_bar" translatable="false">hide_status_bar</string>
 
     <string-array name="alignment_format_array">
@@ -53,10 +55,27 @@
         <item>White Cyan</item>
         <item>White Blue</item>
     </string-array>
+
     <string-array name="time_format_array">
         <item>Follow system settings</item>
         <item>24 Hour</item>
         <item>12 Hour</item>
+    </string-array>
+
+    <string-array name="date_format_array">
+        <item>Follow system settings</item>
+        <item>No date</item>
+        <item>Short system format</item>
+        <item>Medium system format</item>
+        <item>2024-04-01</item>
+        <item>Mon 2024-04-01</item>
+        <item>Monday</item>
+    </string-array>
+
+    <string-array name="lead0_modif_array">
+        <item>Follow system settings</item>
+        <item>Prefer 1, 2, 3, ...</item>
+        <item>Prefer 01, 02, 03, ...</item>
     </string-array>
 
     <string name="add_apps_fragment_search_apps">Search apps</string>
@@ -66,6 +85,8 @@
     <string name="choose_search_bar_position_dialog_title">Search bar position</string>
     <string name="choose_theme_dialog_title">Theme</string>
     <string name="choose_time_format_dialog_title">Time format</string>
+    <string name="choose_date_format_dialog_title">Date format</string>
+    <string name="choose_lead0_modif_dialog_title">Leading 0</string>
     <string name="content_description_back">Back</string>
     <string name="customize_apps_fragment_add">Add</string>
     <string name="customize_apps_fragment_remove_all">Remove all</string>
@@ -74,13 +95,17 @@
     <string name="options_fragment_search_all">Search all apps</string>
     <string name="options_fragment_search_all_subtitle">Hidden apps can be found when searching</string>
     <string name="options_fragment_search_bar_position">Search bar position</string>
+    <string name="options_fragment_choose_lead0_modif">Leading zero</string>
     <string name="customize_app_drawer_fragment_show_headings">Group by initial</string>
     <string name="customize_app_drawer_fragment_show_headings_subtitle">Group apps and show heading for each initial</string>
     <string name="customize_app_drawer_fragment_show_search_bar">Search bar</string>
     <string name="options_fragment_visible_apps">Drawer apps</string>
     <string name="hidden">hidden</string>
     <string name="hide_app">Hide app</string>
-    <string name="main_date_format">EEE, MMM d</string>
+    <string name="main_date_format">EEE, MMM dd</string>
+    <string name="iso_date_format" translatable="false">yyyy-MM-dd</string>
+    <string name="iso_wday_date_format" translatable="false">EEE yyyy-MM-dd</string>
+    <string name="wday_date_format" translatable="false">EEEE</string>
     <string name="main_fragment_options">Options</string>
     <string name="menu_remove">Remove</string>
     <string name="menu_rename">Rename</string>
@@ -89,9 +114,11 @@
     <string name="options_fragment_change_theme">Theme</string>
     <string name="options_fragment_choose_alignment">App alignment</string>
     <string name="options_fragment_choose_clock_type">Clock type</string>
+    <string name="options_fragment_choose_date_format">Date format</string>
     <string name="options_fragment_choose_time_format">Time format</string>
     <string name="options_fragment_customize_apps">Home apps</string>
     <string name="options_fragment_appearance">Appearance</string>
+    <string name="options_fragment_clock">Clock</string>
     <string name="options_fragment_drawer">Drawer</string>
     <string name="options_fragment_customize_quick_buttons">Quick buttons</string>
     <string name="options_fragment_toggle_status_bar">Toggle Status Bar</string>

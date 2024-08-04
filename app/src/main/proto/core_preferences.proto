@@ -33,6 +33,16 @@ enum ClockType {
   analog_60 = 10;
 }
 
+enum MyDateFormat {
+  date_system = 0;
+  date_none = 1;
+  date_short = 2;
+  date_medium = 3;
+  date_iso = 4;
+  date_iso_wday = 5;
+  date_wday = 6;
+}
+
 enum AlignmentFormat {
   left = 0;
   center = 1;
