@@ -26,6 +26,9 @@
     <dimen name="margin_top_small">@dimen/_8sdp</dimen>
     <dimen name="margin_top_large">@dimen/_32sdp</dimen>
 
+    <dimen name="margin_left">@dimen/_16sdp</dimen>
+    <dimen name="margin_left_small">@dimen/_8sdp</dimen>
+
     <dimen name="margin_bottom_small">@dimen/_8sdp</dimen>
     <dimen name="margin_bottom">@dimen/_16sdp</dimen>
 

@@ -2,13 +2,27 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- for launching the clock -->
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
+
+    <!-- for receiving pinned shortcuts (maybe older Android versions) -->
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT"/>
     <uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT"/>
+
+    <!-- launchers need the list of apps -->
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
         tools:ignore="QueryAllPackagesPermission" />
+
+    <!-- launchers can delete apps, if requrested -->
     <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
+
+    <!-- we have an option to hide the status bar for clarity, if the user wants this -->
     <uses-permission android:name="android.permission.EXPAND_STATUS_BAR" />
+
+    <!-- for fonts from sdcards -->
+    <!-- I did not manage to get this to work yet...
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    -->
 
     <application
         android:name=".App"

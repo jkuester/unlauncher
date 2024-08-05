@@ -76,7 +76,7 @@
     <string name="customize_apps_fragment_remove_all">Alle entfernen</string>
     <string name="options_fragment_open_keyboard">Tastatur anzeigen</string>
     <string name="options_fragment_open_keyboard_subtitle">Tastatur anzeigen, wenn Appschublade geöffnet wird</string>
-    <string name="options_fragment_search_all">In allen Apps suchen</string>
+    <string name="options_fragment_search_all">Nach allen Apps suchen</string>
     <string name="options_fragment_search_all_subtitle">Ausgeblendete Apps bei der Suche anzeigen</string>
     <string name="options_fragment_search_bar_position">Position</string>
     <string name="options_fragment_choose_lead0_modif">Führende 0</string>

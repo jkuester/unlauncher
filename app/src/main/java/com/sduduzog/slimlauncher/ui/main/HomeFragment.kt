@@ -530,8 +530,37 @@ class HomeFragment :
             val launcher = getLauncher()
             val userHandle = getUserHandle(userSerial)
             launcher.startShortcut(packageName, activityName, view?.clipBounds, null, userHandle)
+            // FIXME: For some apps, this always fails:
+            //     - camera (e.g. take picture)
+            // For some apps, this sometimes does nothing (does not fail either), but only
+            // the second, same activity works:
+            //     - Clock (e.g., start)
+            // For some apps, this always seems to work:
+            //     - browser (e.g., new incognito tab)
+            // What's the difference?  Is it our fault?
+            // The problems above are usually for the static and/or dynamic shortcuts, but
+            // do not seem to appear for pinned shortcuts.  Maybe I should check which one
+            // it is, static or dynamic and depending on that, change something here?
         } catch (e: Exception) {
             Toast.makeText(context, R.string.couldnt_start_shortcut, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun launchActionAux(packageName: String, activityName: String, userSerial: Long) {
+        val intent = Intent(activityName)
+        try {
+            val pm = context?.packageManager!!
+            val componentName = intent.resolveActivity(pm)
+            // FIXME: use launchActivity(view, intent), probably.
+            if (componentName == null) {
+                startActivity(intent)
+            } else {
+                pm.getLaunchIntentForPackage(componentName.packageName)?.let {
+                    startActivity(it)
+                } ?: run { startActivity(intent) }
+            }
+        } catch (e: Exception) {
+            // Do nothing
         }
     }
 
@@ -540,6 +569,7 @@ class HomeFragment :
             0 -> launchAppAux(packageName, activityName, userSerial)
             1,
             2 -> launchShortcutAux(packageName, activityName, userSerial)
+            3 -> launchActionAux(packageName, activityName, userSerial)
         }
     }
 
@@ -563,10 +593,12 @@ class HomeFragment :
                         onAppClicked(app)
                     }
                     R.id.info -> {
-                        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-                        intent.addCategory(Intent.CATEGORY_DEFAULT)
-                        intent.data = Uri.parse("package:" + app.packageName)
-                        startActivity(intent)
+                        if (app.appType <= 2) {
+                            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                            intent.addCategory(Intent.CATEGORY_DEFAULT)
+                            intent.data = Uri.parse("package:" + app.packageName)
+                            startActivity(intent)
+                        }
                     }
                     R.id.hide -> {
                         unlauncherDataSource.unlauncherAppsRepo.updateDisplayInDrawer(app, false)
@@ -636,17 +668,28 @@ class HomeFragment :
         }
 
         private fun hideOptionsMaybe(app: UnlauncherApp, popupMenu: PopupMenu) {
-            val pm = requireContext().packageManager
-            val info = pm.getApplicationInfo(app.packageName, 0)
-            // System apps and shortcuts cannot be uninstalled
-            if (info.isSystemApp() || (app.appType != 0)) {
-                val item = popupMenu.menu.findItem(R.id.uninstall)
-                item.isVisible = false
-            }
-            // Except for pinned shortcuts, nothing else can be removed:
-            if (app.appType != 1) {
-                val item = popupMenu.menu.findItem(R.id.remove)
-                item.isVisible = false
+            if (app.appType <= 2) {
+                val pm = requireContext().packageManager
+                val info = pm.getApplicationInfo(app.packageName, 0)
+                // System apps and shortcuts cannot be uninstalled
+                if (info.isSystemApp() || (app.appType != 0)) {
+                    val item = popupMenu.menu.findItem(R.id.uninstall)
+                    item.isVisible = false
+                }
+                // Except for pinned shortcuts, nothing else can be removed:
+                if (app.appType != 1) {
+                    val item = popupMenu.menu.findItem(R.id.remove)
+                    item.isVisible = false
+                }
+            } else {
+                val item0 = popupMenu.menu.findItem(R.id.info)
+                item0.isVisible = false
+
+                val item1 = popupMenu.menu.findItem(R.id.uninstall)
+                item1.isVisible = false
+
+                val item2 = popupMenu.menu.findItem(R.id.remove)
+                item2.isVisible = false
             }
         }
 
