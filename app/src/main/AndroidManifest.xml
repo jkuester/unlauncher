@@ -16,8 +16,11 @@
     <!-- launchers can delete apps, if requrested -->
     <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
 
-    <!-- we have an option to hide the status bar for clarity, if the user wants this -->
+    <!-- optionally  hide the status bar for clarity, if the user wants this -->
     <uses-permission android:name="android.permission.EXPAND_STATUS_BAR" />
+
+    <!-- optionally set wallpaper according to our theme -->
+    <uses-permission android:name="android.permission.SET_WALLPAPER"/>
 
     <!-- for fonts from sdcards -->
     <!-- I did not manage to get this to work yet...

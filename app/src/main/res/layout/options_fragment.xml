@@ -178,6 +178,18 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/options_section_appearance" />
 
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/options_fragment_auto_device_theme_wallpaper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_list_items"
+                android:textColor="?switchTextColor"
+                android:text="@string/customize_app_drawer_fragment_wallpaper_text"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                android:textSize="@dimen/font_size_customize_options"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/options_fragment_change_theme" />
+
             <TextView
                 android:id="@+id/options_fragment_choose_alignment"
                 android:layout_height="wrap_content"
@@ -187,7 +199,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat"
                 android:textSize="@dimen/font_size_customize_options"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/options_fragment_change_theme" />
+                app:layout_constraintTop_toBottomOf="@+id/options_fragment_auto_device_theme_wallpaper" />
 
             <TextView
                 android:id="@+id/options_fragment_toggle_status_bar"

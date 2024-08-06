@@ -62,12 +62,12 @@
         <item>Lieber 01, 02, 03, ...</item>
     </string-array>
 
-    <string name="add_apps_fragment_search_apps">Appsuche</string>
+    <string name="add_apps_fragment_search_apps">Suche</string>
     <string name="app_info">App-Info</string>
     <string name="choose_alignment_dialog_title">Textausrichtung</string>
     <string name="choose_clock_type_dialog_title">Art der Uhr</string>
     <string name="choose_search_bar_position_dialog_title">Position des Suchfelds</string>
-    <string name="choose_theme_dialog_title">Stil</string>
+    <string name="choose_theme_dialog_title">Farbschema</string>
     <string name="choose_time_format_dialog_title">Zeitformat</string>
     <string name="choose_date_format_dialog_title">Datumsformat</string>
     <string name="choose_lead0_modif_dialog_title">Führende 0</string>
@@ -92,7 +92,7 @@
     <string name="menu_rename">Umbenennen</string>
     <string name="menu_reset">Zurücksetzen</string>
     <string name="open_app">Öffnen</string>
-    <string name="options_fragment_change_theme">Stil</string>
+    <string name="options_fragment_change_theme">Farbschema</string>
     <string name="options_fragment_choose_alignment">Textausrichtung</string>
     <string name="options_fragment_choose_clock_type">Art der Uhr</string>
     <string name="options_fragment_choose_date_format">Datumsformat</string>
@@ -116,4 +116,10 @@
     <string name="shortcut_unpinned">Verknüpfung entfernt</string>
     <string name="couldnt_start_app">Fehler beim Starten der App</string>
     <string name="couldnt_start_shortcut">Fehler beim Starten der Verknüpfung</string>
+    <string name="customize_app_drawer_fragment_wallpaper_not_default_launcher">Unlauncher muss die Standard-Start-App sein</string>
+    <string name="customize_app_drawer_fragment_wallpaper_enabled">Der Hintergrund wird ans Farbschema angepaßt.</string>
+    <string name="customize_app_drawer_fragment_wallpaper_disabled">Der Hintergrund bleibt beim Farbschema unberührt.</string>
+    <string name="customize_app_drawer_fragment_wallpaper_text">Hintergrund an Farbschema anpassen</string>
+    <string name="customize_app_drawer_search_bar_enabled">Der Suchbalken wird angezeigt.</string>
+    <string name="customize_app_drawer_search_bar_disabled">Der Suchbalken ist ausgeblendet.</string>
 </resources>

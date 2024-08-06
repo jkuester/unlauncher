@@ -75,7 +75,7 @@
     <string name="prefs_settings_key_lead0_modif" translatable="false">lead0_modif</string>
     <string name="prefs_settings_key_toggle_status_bar" translatable="false">hide_status_bar</string>
 
-    <string name="add_apps_fragment_search_apps">Search apps</string>
+    <string name="add_apps_fragment_search_apps">Search</string>
     <string name="app_info">App info</string>
     <string name="choose_alignment_dialog_title">Alignment</string>
     <string name="choose_clock_type_dialog_title">Clock type</string>
@@ -132,5 +132,10 @@
     <string name="shortcut_unpinned">Shortcut unpinned</string>
     <string name="couldnt_start_app">Unable to start app</string>
     <string name="couldnt_start_shortcut">Unable to start shortcut</string>
-
+    <string name="customize_app_drawer_fragment_wallpaper_not_default_launcher">App needs to be default launcher</string>
+    <string name="customize_app_drawer_fragment_wallpaper_enabled">Theme background defines the wallpaper.</string>
+    <string name="customize_app_drawer_fragment_wallpaper_disabled">The wallpaper is left as is.</string>
+    <string name="customize_app_drawer_fragment_wallpaper_text">Manage wallpaper</string>
+    <string name="customize_app_drawer_search_bar_enabled">Search bar is shown.</string>
+    <string name="customize_app_drawer_search_bar_disabled">Search bar is hidden.</string>
 </resources>

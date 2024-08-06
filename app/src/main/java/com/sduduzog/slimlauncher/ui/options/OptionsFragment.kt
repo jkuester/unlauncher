@@ -22,6 +22,7 @@ import com.sduduzog.slimlauncher.ui.dialogs.ChooseSearchBarPositionDialog
 import com.sduduzog.slimlauncher.ui.dialogs.ChooseTimeFormatDialog
 import com.sduduzog.slimlauncher.utils.BaseFragment
 import com.sduduzog.slimlauncher.utils.createTitleAndSubtitleText
+import com.sduduzog.slimlauncher.utils.isActivityDefaultLauncher
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -260,6 +261,15 @@ class OptionsFragment : BaseFragment(), SharedPreferences.OnSharedPreferenceChan
         fragment.optionsFragmentSearchFieldPosition.isEnabled = enabled
         fragment.optionsFragmentOpenKeyboardSwitch.isEnabled = enabled
         fragment.optionsFragmentSearchAllSwitch.isEnabled = enabled
+
+        val title = R.string.customize_app_drawer_fragment_show_search_bar
+        val sub = if (enabled) {
+            R.string.customize_app_drawer_search_bar_enabled
+        } else {
+            R.string.customize_app_drawer_search_bar_disabled
+        }
+        fragment.optionsFragmentShowSearchFieldSwitch.text =
+            createTitleAndSubtitleText(requireContext(), getText(title), getText(sub))
     }
 
     private fun enableTimeOptions() {
@@ -275,5 +285,55 @@ class OptionsFragment : BaseFragment(), SharedPreferences.OnSharedPreferenceChan
         fragment.optionsFragmentChooseTimeFormat.isEnabled = haveClock && isDigital
         fragment.optionsFragmentChooseDateFormat.isEnabled = haveClock
         fragment.optionsFragmentChooseLead0Modif.isEnabled = haveClock && (haveDate || isDigital)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        // setting up the switch text, since changing the default launcher re-starts the activity
+        // this should able to adapt to it.
+        setupAutomaticDeviceWallpaperSwitch()
+    }
+
+    private fun setupAutomaticDeviceWallpaperSwitch() {
+        val prefsRepo = unlauncherDataSource.corePreferencesRepo
+        val appIsDefaultLauncher = isActivityDefaultLauncher(activity)
+        val optionsFragment = OptionsFragmentBinding.bind(requireView())
+        setupDeviceWallpaperSwitchText(optionsFragment, appIsDefaultLauncher)
+        optionsFragment.optionsFragmentAutoDeviceThemeWallpaper.isEnabled = appIsDefaultLauncher
+
+        prefsRepo.liveData().observe(viewLifecycleOwner) {
+            // always uncheck once app isn't default launcher
+            val enabled = appIsDefaultLauncher && !it.keepDeviceWallpaper
+            optionsFragment.optionsFragmentAutoDeviceThemeWallpaper.isChecked = enabled
+            setupDeviceWallpaperSwitchText(optionsFragment, appIsDefaultLauncher)
+        }
+        optionsFragment.optionsFragmentAutoDeviceThemeWallpaper
+            .setOnCheckedChangeListener { _, checked ->
+                prefsRepo.updateKeepDeviceWallpaper(!checked)
+            }
+    }
+
+    /**
+     * Adds a hint text underneath the default text when app is not the default launcher.
+     */
+    private fun setupDeviceWallpaperSwitchText(
+        optionsFragment: OptionsFragmentBinding,
+        appIsDefaultLauncher: Boolean
+    ) {
+        val titleText = getText(R.string.customize_app_drawer_fragment_wallpaper_text)
+        val subTitleText = getText(
+            if (appIsDefaultLauncher) {
+                val prefsRepo = unlauncherDataSource.corePreferencesRepo
+                if (prefsRepo.get().keepDeviceWallpaper) {
+                    R.string.customize_app_drawer_fragment_wallpaper_disabled
+                } else {
+                    R.string.customize_app_drawer_fragment_wallpaper_enabled
+                }
+            } else {
+                R.string.customize_app_drawer_fragment_wallpaper_not_default_launcher
+            }
+        )
+        optionsFragment.optionsFragmentAutoDeviceThemeWallpaper.text =
+            createTitleAndSubtitleText(requireContext(), titleText, subTitleText)
     }
 }

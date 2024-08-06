@@ -88,4 +88,6 @@
     <string name="shown">affiché</string>
     <string name="uninstall">Désinstaller</string>
     <string name="action_add_shortcut">Ajouter au volet des applications</string>
+    <string name="customize_app_drawer_fragment_wallpaper_not_default_launcher">L’application nécessite d’être définie comme lanceur par défaut</string>
+    <string name="customize_app_drawer_fragment_wallpaper_text">Utiliser la couleur de fond du thème comme papier peint</string>
 </resources>

@@ -91,4 +91,6 @@
     <string name="shown">显示</string>
     <string name="uninstall">卸载</string>
     <string name="action_add_shortcut">添加到应用程序抽屉</string>
+    <string name="customize_app_drawer_fragment_wallpaper_not_default_launcher">需设为默认启动器</string>
+    <string name="customize_app_drawer_fragment_wallpaper_text">将主题背景设为壁纸</string>
 </resources>

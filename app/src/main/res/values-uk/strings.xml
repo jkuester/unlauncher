@@ -87,4 +87,6 @@
     <string name="shown">видима</string>
     <string name="uninstall">Видалити</string>
     <string name="action_add_shortcut">Додати на Домашній екран</string>
+    <string name="customize_app_drawer_fragment_wallpaper_not_default_launcher">Програма має бути встановлена за замовчуванням</string>
+    <string name="customize_app_drawer_fragment_wallpaper_text">Встановити задній фон теми як шпалери</string>
 </resources>

@@ -61,7 +61,7 @@
         <item>Mostra 01, 02, 03, ...</item>
     </string-array>
 
-    <string name="add_apps_fragment_search_apps">Cerca applicazioni</string>
+    <string name="add_apps_fragment_search_apps">Cerca</string>
     <string name="app_info">Informazioni sull\'applicazione</string>
     <string name="choose_alignment_dialog_title">Allineamento del testo</string>
     <string name="choose_clock_type_dialog_title">Tipo di orologio</string>
@@ -100,6 +100,7 @@
     <string name="rename_app">Rinomina l\'applicazione</string>
     <string name="shown">mostrata</string>
     <string name="uninstall">Disinstallare</string>
+    <string name="remove_shortcut">Rimuovi</string>
     <string name="action_add_shortcut">Aggiungi a schermata Home</string>
     <string name="content_description_back">Indientro</string>
     <string name="choose_date_format_dialog_title">Formato data</string>
@@ -110,6 +111,13 @@
     <string name="options_fragment_clock">Orologio</string>
     <string name="unhide_hint">Disfare in Optioni > Applicationi elenco</string>
     <string name="unable_to_unpin">Impossibile</string>
+    <string name="shortcut_unpinned">Scorciatoia rimossa</string>
     <string name="couldnt_start_app">Impossibile avviare l\'applicazione</string>
     <string name="couldnt_start_shortcut">Impossibile avviare</string>
+    <string name="customize_app_drawer_fragment_wallpaper_not_default_launcher">App dev\'essere l\'avviatore.</string>
+    <string name="customize_app_drawer_fragment_wallpaper_enabled">Lo sfondo si adatta al tema.</string>
+    <string name="customize_app_drawer_fragment_wallpaper_disabled">Lo sfondo viene lasciato così com\'è.</string>
+    <string name="customize_app_drawer_fragment_wallpaper_text">Gestisci lo sfondo</string>
+    <string name="customize_app_drawer_search_bar_enabled">Mostrata</string>
+    <string name="customize_app_drawer_search_bar_disabled">Nascosta</string>
 </resources>
