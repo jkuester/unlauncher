@@ -48,6 +48,10 @@
         <item>Black Red</item>
         <item>Black Cyan</item>
         <item>Black Blue</item>
+        <item>White Orange</item>
+        <item>White Red</item>
+        <item>White Cyan</item>
+        <item>White Blue</item>
     </string-array>
     <string-array name="time_format_array">
         <item>Follow system settings</item>

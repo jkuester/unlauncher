@@ -57,6 +57,30 @@
         <item name="headerTextColor">@color/blueAccentColor</item>
     </style>
 
+    <style name="AppWhiteOrangeTheme" parent="AppThemeLight">
+        <item name="launchTextColor">@color/orangeAccentColor</item>
+        <item name="headerTextColor">@color/orangeAccentColor</item>
+        <item name="colorAccent">@color/orangeAccentColor</item>
+    </style>
+
+    <style name="AppWhiteRedTheme" parent="AppThemeLight">
+        <item name="launchTextColor">@color/redAccentColor</item>
+        <item name="headerTextColor">@color/redAccentColor</item>
+        <item name="colorAccent">@color/redAccentColor</item>
+    </style>
+
+    <style name="AppWhiteCyanTheme" parent="AppThemeLight">
+        <item name="launchTextColor">@color/cyanAccentColor</item>
+        <item name="headerTextColor">@color/cyanAccentColor</item>
+        <item name="colorAccent">@color/cyanAccentColor</item>
+    </style>
+
+    <style name="AppWhiteBlueTheme" parent="AppThemeLight">
+        <item name="launchTextColor">@color/blueAccentColor</item>
+        <item name="headerTextColor">@color/blueAccentColor</item>
+        <item name="colorAccent">@color/blueAccentColor</item>
+    </style>
+
     <style name="AppGreyTheme" parent="AppThemeDark">
         <item name="colorPrimary">@color/colorBlueGrey</item>
         <item name="colorPrimaryDark">@color/colorBlueGrey</item>

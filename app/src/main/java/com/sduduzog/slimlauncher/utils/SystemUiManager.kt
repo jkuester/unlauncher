@@ -109,7 +109,11 @@ open class SystemUiManager internal constructor(internal val context: Context) {
         return listOf(
             6,
             3,
-            5
+            5,
+            13,
+            14,
+            15,
+            16
         ).contains(theme) || (theme == 0 && uiMode == Configuration.UI_MODE_NIGHT_NO)
     }
 

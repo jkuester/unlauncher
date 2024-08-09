@@ -160,6 +160,10 @@ class MainActivity :
                 10 -> R.style.AppBlackRedTheme
                 11 -> R.style.AppBlackCyanTheme
                 12 -> R.style.AppBlackBlueTheme
+                13 -> R.style.AppWhiteOrangeTheme
+                14 -> R.style.AppWhiteRedTheme
+                15 -> R.style.AppWhiteCyanTheme
+                16 -> R.style.AppWhiteBlueTheme
                 else -> R.style.AppTheme
             }
         }
