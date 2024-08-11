@@ -2,7 +2,6 @@ package com.sduduzog.slimlauncher.ui.main
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.ActivityNotFoundException
 import android.content.BroadcastReceiver
 import android.content.ComponentName
 import android.content.Context
@@ -216,16 +215,29 @@ class HomeFragment :
         resetAppDrawerEditText()
     }
 
+    private fun launchActivityAux(view: View, intent: Intent) {
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        val pm = context?.packageManager!!
+        val comp = intent.resolveActivity(pm)
+        try {
+            if (comp == null) {
+                launchActivity(view, intent)
+            } else {
+                pm.getLaunchIntentForPackage(comp.packageName)?.let {
+                    launchActivity(view, it)
+                } ?: run { launchActivity(view, intent) }
+            }
+            // launchActivity(it, intent)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            // Do nothing, we've failed :(
+        }
+    }
+
     private fun setEventListeners() {
         val launchShowAlarms = OnClickListener {
-            try {
-                val intent = Intent(AlarmClock.ACTION_SHOW_ALARMS)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                launchActivity(it, intent)
-            } catch (e: ActivityNotFoundException) {
-                e.printStackTrace()
-                // Do nothing, we've failed :(
-            }
+            val intent = Intent(AlarmClock.ACTION_SHOW_ALARMS)
+            launchActivityAux(it, intent)
         }
         val homeFragmentContent = HomeFragmentContentBinding.bind(requireView())
         homeFragmentContent.homeFragmentTime.setOnClickListener(launchShowAlarms)
@@ -233,14 +245,9 @@ class HomeFragment :
         homeFragmentContent.homeFragmentBinTime.setOnClickListener(launchShowAlarms)
 
         homeFragmentContent.homeFragmentDate.setOnClickListener {
-            try {
-                val builder = CalendarContract.CONTENT_URI.buildUpon().appendPath("time")
-                val intent = Intent(Intent.ACTION_VIEW, builder.build())
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                launchActivity(it, intent)
-            } catch (e: ActivityNotFoundException) {
-                // Do nothing, we've failed :(
-            }
+            val builder = CalendarContract.CONTENT_URI.buildUpon().appendPath("time")
+            val intent = Intent(Intent.ACTION_VIEW, builder.build())
+            launchActivityAux(it, intent)
         }
 
         unlauncherDataSource.quickButtonPreferencesRepo.liveData()
@@ -253,20 +260,8 @@ class HomeFragment :
                 if (leftButtonIcon != R.drawable.ic_empty) {
                     anyOn = true
                     homeFragmentContent.homeFragmentCall.setOnClickListener { view ->
-                        try {
-                            val pm = context?.packageManager!!
-                            val intent = Intent(Intent.ACTION_DIAL)
-                            val componentName = intent.resolveActivity(pm)
-                            if (componentName == null) {
-                                launchActivity(view, intent)
-                            } else {
-                                pm.getLaunchIntentForPackage(componentName.packageName)?.let {
-                                    launchActivity(view, it)
-                                } ?: run { launchActivity(view, intent) }
-                            }
-                        } catch (e: Exception) {
-                            // Do nothing
-                        }
+                        val intent = Intent(Intent.ACTION_DIAL)
+                        launchActivityAux(view, intent)
                     }
                 }
 
@@ -290,12 +285,8 @@ class HomeFragment :
                 if (rightButtonIcon != R.drawable.ic_empty) {
                     anyOn = true
                     homeFragmentContent.homeFragmentCamera.setOnClickListener {
-                        try {
-                            val intent = Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA)
-                            launchActivity(it, intent)
-                        } catch (e: Exception) {
-                            // Do nothing
-                        }
+                        val intent = Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA)
+                        launchActivityAux(it, intent)
                     }
                 }
 
@@ -517,9 +508,9 @@ class HomeFragment :
     private fun launchAppAux(packageName: String, activityName: String, userSerial: Long) {
         try {
             val launcher = getLauncher()
-            val componentName = ComponentName(packageName, activityName)
+            val comp = ComponentName(packageName, activityName)
             val userHandle = getUserHandle(userSerial)
-            launcher.startMainActivity(componentName, userHandle, view?.clipBounds, null)
+            launcher.startMainActivity(comp, userHandle, view?.clipBounds, null)
         } catch (e: Exception) {
             Toast.makeText(context, R.string.couldnt_start_app, Toast.LENGTH_LONG).show()
         }
@@ -549,18 +540,8 @@ class HomeFragment :
     private fun launchActionAux(packageName: String, activityName: String, userSerial: Long) {
         val intent = Intent(activityName)
         try {
-            val pm = context?.packageManager!!
-            val componentName = intent.resolveActivity(pm)
-            // FIXME: use launchActivity(view, intent), probably.
-            if (componentName == null) {
-                startActivity(intent)
-            } else {
-                pm.getLaunchIntentForPackage(componentName.packageName)?.let {
-                    startActivity(it)
-                } ?: run { startActivity(intent) }
-            }
+            launchActivityAux(view!!, intent)
         } catch (e: Exception) {
-            // Do nothing
         }
     }
 
