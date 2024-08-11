@@ -296,11 +296,12 @@ class OptionsFragment : BaseFragment(), SharedPreferences.OnSharedPreferenceChan
         val haveClock = (clockType != ClockType.none.number)
 
         val position = settings.getInt(getString(R.string.prefs_settings_key_date_format), 0)
-        val haveDate = (position != MyDateFormat.date_none.number)
+        val numDate = (position != MyDateFormat.date_none.number) &&
+            (position != MyDateFormat.date_wday.number)
 
         fragment.optionsFragmentChooseTimeFormat.isEnabled = haveClock && isDigital
         fragment.optionsFragmentChooseDateFormat.isEnabled = haveClock
-        fragment.optionsFragmentChooseLead0Modif.isEnabled = haveClock && (haveDate || isDigital)
+        fragment.optionsFragmentChooseLead0Modif.isEnabled = haveClock && (numDate || isDigital)
     }
 
     override fun onStart() {
