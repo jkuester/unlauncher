@@ -46,6 +46,13 @@
         <item>Dark</item>
         <item>Light</item>
     </string-array>
+    <string-array name="font_array">
+        <item>Ubuntu</item>
+        <item>Sans Serif</item>
+        <item>Serif</item>
+        <item>Monospace</item>
+        <item>Cursive</item>
+    </string-array>
     <string-array name="time_format_array">
         <item>Follow system settings</item>
         <item>24 Hour</item>
@@ -72,6 +79,7 @@
     <string name="prefs_settings" translatable="false">settings</string>
     <string name="prefs_settings_key_theme" translatable="false">key_theme</string>
     <string name="prefs_settings_key_dark_mode" translatable="false">dark_mode</string>
+    <string name="prefs_settings_key_font" translatable="false">theme_font</string>
     <string name="prefs_settings_key_time_format" translatable="false">time_format</string>
     <string name="prefs_settings_key_date_format" translatable="false">date_format</string>
     <string name="prefs_settings_key_lead0_modif" translatable="false">lead0_modif</string>
@@ -112,6 +120,8 @@
     <string name="options_fragment_change_theme">Theme</string>
     <string name="options_fragment_dark_mode">Dark mode</string>
     <string name="choose_dark_mode_dialog_title">Dark mode</string>
+    <string name="options_fragment_font">Font</string>
+    <string name="choose_font_dialog_title">Font</string>
     <string name="options_fragment_choose_alignment">App alignment</string>
     <string name="options_fragment_choose_clock_type">Clock type</string>
     <string name="options_fragment_choose_date_format">Date format</string>

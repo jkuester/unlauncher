@@ -112,7 +112,8 @@ class MainActivity :
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, s: String?) {
         if (
             s.equals(getString(R.string.prefs_settings_key_theme), true) ||
-            s.equals(getString(R.string.prefs_settings_key_dark_mode), true)
+            s.equals(getString(R.string.prefs_settings_key_dark_mode), true) ||
+            s.equals(getString(R.string.prefs_settings_key_font), true)
         ) {
             recreate()
         }
@@ -156,8 +157,9 @@ class MainActivity :
     @StyleRes
     fun getUserSelectedThemeRes(): Int {
         settings = getSharedPreferences(getString(R.string.prefs_settings), MODE_PRIVATE)
-        val active = settings.getInt(getString(R.string.prefs_settings_key_theme), 0)
-        return resolveTheme(active)
+        val themeId = settings.getInt(getString(R.string.prefs_settings_key_theme), 0)
+        val fontId = settings.getInt(getString(R.string.prefs_settings_key_font), 0)
+        return resolveTheme(themeId, fontId)
     }
 
     fun getDarkMode(): Int {
@@ -176,21 +178,99 @@ class MainActivity :
 
     companion object {
         @StyleRes
-        fun resolveTheme(i: Int): Int {
-            return when (i) {
-                1 -> R.style.AppThemeDark
-                2 -> R.style.AppGreyTheme
-                3 -> R.style.AppTealTheme
-                4 -> R.style.AppCandyTheme
-                5 -> R.style.AppPinkTheme
-                6 -> R.style.AppThemeLight
-                7 -> R.style.AppDarculaTheme
-                8 -> R.style.AppGruvBoxDarkTheme
-                9 -> R.style.AppBlackOrangeTheme
-                10 -> R.style.AppBlackRedTheme
-                11 -> R.style.AppBlackCyanTheme
-                12 -> R.style.AppBlackBlueTheme
-                else -> R.style.AppTheme
+        fun resolveTheme(theme: Int, font: Int): Int {
+            return when (theme) {
+                1 -> when (font) {
+                    1 -> R.style.AppThemeDark
+                    2 -> R.style.AppThemeDarkSerif
+                    3 -> R.style.AppThemeDarkMono
+                    4 -> R.style.AppThemeDarkCursive
+                    else -> R.style.AppThemeDarkUbuntu
+                }
+                2 -> when (font) {
+                    1 -> R.style.AppGreyTheme
+                    2 -> R.style.AppGreyThemeSerif
+                    3 -> R.style.AppGreyThemeMono
+                    4 -> R.style.AppGreyThemeCursive
+                    else -> R.style.AppGreyThemeUbuntu
+                }
+                3 -> when (font) {
+                    1 -> R.style.AppTealTheme
+                    2 -> R.style.AppTealThemeSerif
+                    3 -> R.style.AppTealThemeMono
+                    4 -> R.style.AppTealThemeCursive
+                    else -> R.style.AppTealThemeUbuntu
+                }
+                4 -> when (font) {
+                    1 -> R.style.AppCandyTheme
+                    2 -> R.style.AppCandyThemeSerif
+                    3 -> R.style.AppCandyThemeMono
+                    4 -> R.style.AppCandyThemeCursive
+                    else -> R.style.AppCandyThemeUbuntu
+                }
+                5 -> when (font) {
+                    1 -> R.style.AppPinkTheme
+                    2 -> R.style.AppPinkThemeSerif
+                    3 -> R.style.AppPinkThemeMono
+                    4 -> R.style.AppPinkThemeCursive
+                    else -> R.style.AppPinkThemeUbuntu
+                }
+                6 -> when (font) {
+                    1 -> R.style.AppThemeLight
+                    2 -> R.style.AppThemeLightSerif
+                    3 -> R.style.AppThemeLightMono
+                    4 -> R.style.AppThemeLightCursive
+                    else -> R.style.AppThemeLightUbuntu
+                }
+                7 -> when (font) {
+                    1 -> R.style.AppDarculaTheme
+                    2 -> R.style.AppDarculaThemeSerif
+                    3 -> R.style.AppDarculaThemeMono
+                    4 -> R.style.AppDarculaThemeCursive
+                    else -> R.style.AppDarculaThemeUbuntu
+                }
+                8 -> when (font) {
+                    1 -> R.style.AppGruvBoxDarkTheme
+                    2 -> R.style.AppGruvBoxDarkThemeSerif
+                    3 -> R.style.AppGruvBoxDarkThemeMono
+                    4 -> R.style.AppGruvBoxDarkThemeCursive
+                    else -> R.style.AppGruvBoxDarkThemeUbuntu
+                }
+                9 -> when (font) {
+                    1 -> R.style.AppBlackOrangeTheme
+                    2 -> R.style.AppBlackOrangeThemeSerif
+                    3 -> R.style.AppBlackOrangeThemeMono
+                    4 -> R.style.AppBlackOrangeThemeCursive
+                    else -> R.style.AppBlackOrangeThemeUbuntu
+                }
+                10 -> when (font) {
+                    1 -> R.style.AppBlackRedTheme
+                    2 -> R.style.AppBlackRedThemeSerif
+                    3 -> R.style.AppBlackRedThemeMono
+                    4 -> R.style.AppBlackRedThemeCursive
+                    else -> R.style.AppBlackRedThemeUbuntu
+                }
+                11 -> when (font) {
+                    1 -> R.style.AppBlackCyanTheme
+                    2 -> R.style.AppBlackCyanThemeSerif
+                    3 -> R.style.AppBlackCyanThemeMono
+                    4 -> R.style.AppBlackCyanThemeCursive
+                    else -> R.style.AppBlackCyanThemeUbuntu
+                }
+                12 -> when (font) {
+                    1 -> R.style.AppBlackBlueTheme
+                    2 -> R.style.AppBlackBlueThemeSerif
+                    3 -> R.style.AppBlackBlueThemeMono
+                    4 -> R.style.AppBlackBlueThemeCursive
+                    else -> R.style.AppBlackBlueThemeUbuntu
+                }
+                else -> when (font) {
+                    1 -> R.style.AppTheme
+                    2 -> R.style.AppThemeSerif
+                    3 -> R.style.AppThemeMono
+                    4 -> R.style.AppThemeCursive
+                    else -> R.style.AppThemeUbuntu
+                }
             }
         }
     }

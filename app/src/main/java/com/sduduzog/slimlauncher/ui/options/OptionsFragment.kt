@@ -18,6 +18,7 @@ import com.sduduzog.slimlauncher.ui.dialogs.ChooseAlignmentDialog
 import com.sduduzog.slimlauncher.ui.dialogs.ChooseClockTypeDialog
 import com.sduduzog.slimlauncher.ui.dialogs.ChooseDarkModeDialog
 import com.sduduzog.slimlauncher.ui.dialogs.ChooseDateFormatDialog
+import com.sduduzog.slimlauncher.ui.dialogs.ChooseFontDialog
 import com.sduduzog.slimlauncher.ui.dialogs.ChooseLead0ModifDialog
 import com.sduduzog.slimlauncher.ui.dialogs.ChooseSearchBarPositionDialog
 import com.sduduzog.slimlauncher.ui.dialogs.ChooseTimeFormatDialog
@@ -76,6 +77,12 @@ class OptionsFragment : BaseFragment(), SharedPreferences.OnSharedPreferenceChan
             dialog.showNow(childFragmentManager, "DARK_MODE_CHOOSER")
         }
         updateDarkModeSubtitle()
+
+        fragment.optionsFragmentFont.setOnClickListener {
+            val dialog = ChooseFontDialog.getInstance()
+            dialog.showNow(childFragmentManager, "FONT_CHOOSER")
+        }
+        updateFontSubtitle()
 
         fragment.optionsFragmentChooseTimeFormat.setOnClickListener {
             val dialog = ChooseTimeFormatDialog.getInstance()
@@ -230,6 +237,15 @@ class OptionsFragment : BaseFragment(), SharedPreferences.OnSharedPreferenceChan
             createTitleAndSubtitleText(requireContext(), title, subtitle)
     }
 
+    private fun updateFontSubtitle() {
+        val fragment = OptionsFragmentBinding.bind(requireView())
+        val position = settings.getInt(getString(R.string.prefs_settings_key_font), 0)
+        val title = getText(R.string.options_fragment_font)
+        val subtitle = resources.getTextArray(R.array.font_array)[position]
+        fragment.optionsFragmentFont.text =
+            createTitleAndSubtitleText(requireContext(), title, subtitle)
+    }
+
     private fun updateTimeFormatSubtitle() {
         val fragment = OptionsFragmentBinding.bind(requireView())
         val position = settings.getInt(getString(R.string.prefs_settings_key_time_format), 0)
@@ -260,6 +276,12 @@ class OptionsFragment : BaseFragment(), SharedPreferences.OnSharedPreferenceChan
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, s: String?) {
         if (s.equals(getString(R.string.prefs_settings_key_theme), true)) {
             updateThemeSubtitle()
+        }
+        if (s.equals(getString(R.string.prefs_settings_key_dark_mode), true)) {
+            updateDarkModeSubtitle()
+        }
+        if (s.equals(getString(R.string.prefs_settings_key_font), true)) {
+            updateFontSubtitle()
         }
         if (s.equals(getString(R.string.prefs_settings_key_time_format), true)) {
             updateTimeFormatSubtitle()
