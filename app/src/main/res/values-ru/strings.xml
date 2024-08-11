@@ -17,16 +17,16 @@
         <item>Системная</item>
         <item>Полночь</item>
         <item>Юпитер</item>
-        <item>Бирюзовая</item>
+        <item>Бирюзовая 1</item>
         <item>Леденец</item>
         <item>Пастель</item>
         <item>Полдень</item>
         <item>Влад</item>
         <item>Волнующая</item>
-        <item>Чёрный оранжевый</item>
-        <item>Чёрный красный</item>
-        <item>Чёрный бирюзовый</item>
-        <item>Чёрный синий</item>
+        <item>оранжевая</item>
+        <item>красная</item>
+        <item>Бирюзовая</item>
+        <item>Синий</item>
     </string-array>
     <string-array name="time_format_array">
         <item>по умолчанию</item>
@@ -57,6 +57,8 @@
     <string name="menu_reset">Сбросить</string>
     <string name="open_app">Открыть приложение</string>
     <string name="options_fragment_change_theme">Изменить тему</string>
+    <string name="options_fragment_dark_mode">Темный режим</string>
+    <string name="choose_dark_mode_dialog_title">Темный режим</string>
     <string name="options_fragment_choose_alignment">Настроить выравнивание</string>
     <string name="options_fragment_choose_time_format">Изменить формат времени</string>
     <string name="options_fragment_customize_apps">Настроить приложения</string>

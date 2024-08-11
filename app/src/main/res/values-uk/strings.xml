@@ -36,10 +36,10 @@
         <item>День</item>
         <item>Влад</item>
         <item>Грув</item>
-        <item>Чорний оранжевий</item>
-        <item>Чорний червоний</item>
-        <item>Чорний бірюзовий</item>
-        <item>Чорний синій</item>
+        <item>оранжевий</item>
+        <item>Червоний</item>
+        <item>Бірюзовий</item>
+        <item>Синій</item>
     </string-array>
     <string-array name="time_format_array">
         <item>Системний</item>
@@ -74,6 +74,8 @@
     <string name="menu_reset">Скинути</string>
     <string name="open_app">Відкрити</string>
     <string name="options_fragment_change_theme">Змінити тему</string>
+    <string name="options_fragment_dark_mode">Темний режим</string>
+    <string name="choose_dark_mode_dialog_title">Темний режим</string>
     <string name="options_fragment_choose_alignment">Вибрати вирівнювання</string>
     <string name="options_fragment_choose_clock_type">Вибрати вид годинника</string>
     <string name="options_fragment_choose_time_format">Вибрати формат часу</string>

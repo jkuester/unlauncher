@@ -36,10 +36,15 @@
         <item>Midi</item>
         <item>Vlad</item>
         <item>Groovy</item>
-        <item>Noir Orange</item>
-        <item>Noir Rouge</item>
-        <item>Noir Cyan</item>
-        <item>Noir Bleu</item>
+        <item>Orange</item>
+        <item>Rouge</item>
+        <item>Cyan</item>
+        <item>Bleu</item>
+    </string-array>
+    <string-array name="dark_mode_array">
+        <item>Système</item>
+        <item>Sombre</item>
+        <item>Lumineux</item>
     </string-array>
     <string-array name="time_format_array">
         <item>Système</item>
@@ -73,9 +78,11 @@
     <string name="menu_rename">Renommer</string>
     <string name="menu_reset">Réinitialiser</string>
     <string name="open_app">Ouvrir l’application</string>
-    <string name="options_fragment_change_theme">Changer le thème</string>
-    <string name="options_fragment_choose_alignment">Changer l’alignement de l’application</string>
-    <string name="options_fragment_choose_clock_type">Changer le type d’horloge</string>
+    <string name="options_fragment_change_theme">Thème</string>
+    <string name="options_fragment_dark_mode">Mode sombre</string>
+    <string name="choose_dark_mode_dialog_title">Mode sombre</string>
+    <string name="options_fragment_choose_alignment">Alignement de l’application</string>
+    <string name="options_fragment_choose_clock_type">Type d’horloge</string>
     <string name="options_fragment_choose_time_format">Format de l’heure</string>
     <string name="options_fragment_customize_apps">Applications personnalisées</string>
     <string name="options_fragment_drawer">Volet des applications</string>

@@ -1,8 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <color name="primaryColor">@color/darkPrimaryColor</color>
-
-    <color name="accentColor">@color/darkAccentColor</color>
-
+    <color name="accentColor">#FFFFFF</color>
+    <color name="blueAccentColor">#6060FF</color>
+    <color name="colorAcidGreen">#B8BB26</color>
+    <color name="colorBlueGrey">#37474f</color>
+    <color name="colorCandy">#f06292</color>
+    <color name="colorCharlestonGreen">#282828</color>
+    <color name="colorCinereous">#938274</color>
+    <color name="colorCookiesAndCream">#EBDBB2</color>
+    <color name="colorCultured">#F8F8F2</color>
+    <color name="colorDarkBlueGray">#6272A4</color>
+    <color name="colorGunmetal">#282A36</color>
+    <color name="colorPink">#1B030B</color>
+    <color name="colorTeal">#0D1F1E</color>
+    <color name="cyanAccentColor">#00F0FF</color>
+    <color name="orangeAccentColor">#FFD000</color>
+    <color name="primaryColor">#000000</color>
+    <color name="primaryColorDark">#000000</color>
+    <color name="primaryColorLight">#808080</color>
+    <color name="redAccentColor">#CF0000</color>
 </resources>

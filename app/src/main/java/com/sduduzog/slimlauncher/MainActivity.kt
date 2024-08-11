@@ -1,9 +1,11 @@
 package com.sduduzog.slimlauncher
 
 import android.annotation.SuppressLint
+import android.app.UiModeManager
 import android.content.SharedPreferences
 import android.content.res.Resources
 import android.graphics.Rect
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.GestureDetector
@@ -12,6 +14,7 @@ import android.view.MotionEvent
 import android.view.View
 import androidx.annotation.StyleRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.navigation.NavController
 import androidx.navigation.Navigation.findNavController
@@ -107,7 +110,10 @@ class MainActivity :
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, s: String?) {
-        if (s.equals(getString(R.string.prefs_settings_key_theme), true)) {
+        if (
+            s.equals(getString(R.string.prefs_settings_key_theme), true) ||
+            s.equals(getString(R.string.prefs_settings_key_dark_mode), true)
+        ) {
             recreate()
         }
         if (s.equals(getString(R.string.prefs_settings_key_toggle_status_bar), true)) {
@@ -126,6 +132,25 @@ class MainActivity :
 
     override fun setTheme(resId: Int) {
         super.setTheme(getUserSelectedThemeRes())
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+            AppCompatDelegate.setDefaultNightMode(
+                when (getDarkMode()) {
+                    1 -> AppCompatDelegate.MODE_NIGHT_YES
+                    2 -> AppCompatDelegate.MODE_NIGHT_NO
+                    else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+                }
+            )
+        } else {
+            val uimm = getSystemService(UI_MODE_SERVICE) as UiModeManager
+            uimm.setApplicationNightMode(
+                when (getDarkMode()) {
+                    1 -> UiModeManager.MODE_NIGHT_YES
+                    2 -> UiModeManager.MODE_NIGHT_NO
+                    else -> UiModeManager.MODE_NIGHT_AUTO
+                }
+            )
+        }
     }
 
     @StyleRes
@@ -133,6 +158,11 @@ class MainActivity :
         settings = getSharedPreferences(getString(R.string.prefs_settings), MODE_PRIVATE)
         val active = settings.getInt(getString(R.string.prefs_settings_key_theme), 0)
         return resolveTheme(active)
+    }
+
+    fun getDarkMode(): Int {
+        settings = getSharedPreferences(getString(R.string.prefs_settings), MODE_PRIVATE)
+        return settings.getInt(getString(R.string.prefs_settings_key_dark_mode), 0)
     }
 
     override fun onBackPressed() {
@@ -160,10 +190,6 @@ class MainActivity :
                 10 -> R.style.AppBlackRedTheme
                 11 -> R.style.AppBlackCyanTheme
                 12 -> R.style.AppBlackBlueTheme
-                13 -> R.style.AppWhiteOrangeTheme
-                14 -> R.style.AppWhiteRedTheme
-                15 -> R.style.AppWhiteCyanTheme
-                16 -> R.style.AppWhiteBlueTheme
                 else -> R.style.AppTheme
             }
         }

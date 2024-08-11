@@ -16,6 +16,7 @@ import com.sduduzog.slimlauncher.datasource.UnlauncherDataSource
 import com.sduduzog.slimlauncher.ui.dialogs.ChangeThemeDialog
 import com.sduduzog.slimlauncher.ui.dialogs.ChooseAlignmentDialog
 import com.sduduzog.slimlauncher.ui.dialogs.ChooseClockTypeDialog
+import com.sduduzog.slimlauncher.ui.dialogs.ChooseDarkModeDialog
 import com.sduduzog.slimlauncher.ui.dialogs.ChooseDateFormatDialog
 import com.sduduzog.slimlauncher.ui.dialogs.ChooseLead0ModifDialog
 import com.sduduzog.slimlauncher.ui.dialogs.ChooseSearchBarPositionDialog
@@ -69,6 +70,12 @@ class OptionsFragment : BaseFragment(), SharedPreferences.OnSharedPreferenceChan
             dialog.showNow(childFragmentManager, "THEME_CHOOSER")
         }
         updateThemeSubtitle()
+
+        fragment.optionsFragmentDarkMode.setOnClickListener {
+            val dialog = ChooseDarkModeDialog.getInstance()
+            dialog.showNow(childFragmentManager, "DARK_MODE_CHOOSER")
+        }
+        updateDarkModeSubtitle()
 
         fragment.optionsFragmentChooseTimeFormat.setOnClickListener {
             val dialog = ChooseTimeFormatDialog.getInstance()
@@ -211,6 +218,15 @@ class OptionsFragment : BaseFragment(), SharedPreferences.OnSharedPreferenceChan
         val title = getText(R.string.options_fragment_change_theme)
         val subtitle = resources.getTextArray(R.array.themes_array)[position]
         fragment.optionsFragmentChangeTheme.text =
+            createTitleAndSubtitleText(requireContext(), title, subtitle)
+    }
+
+    private fun updateDarkModeSubtitle() {
+        val fragment = OptionsFragmentBinding.bind(requireView())
+        val position = settings.getInt(getString(R.string.prefs_settings_key_dark_mode), 0)
+        val title = getText(R.string.options_fragment_dark_mode)
+        val subtitle = resources.getTextArray(R.array.dark_mode_array)[position]
+        fragment.optionsFragmentDarkMode.text =
             createTitleAndSubtitleText(requireContext(), title, subtitle)
     }
 

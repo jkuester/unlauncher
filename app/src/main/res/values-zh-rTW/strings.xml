@@ -9,10 +9,10 @@
         <item>主题中午</item>
         <item>弗拉德</item>
         <item>格罗维</item>
-        <item>黑橙色</item>
-        <item>黑紅色</item>
-        <item>黑青色</item>
-        <item>黑藍色</item>
+        <item>橙色</item>
+        <item>紅色</item>
+        <item>青色</item>
+        <item>藍色</item>
     </string-array>
     <string-array name="time_format_array">
         <item>根據系統設置</item>
@@ -30,6 +30,8 @@
     <string name="menu_rename">更改名字</string>
     <string name="menu_reset">還原名字</string>
     <string name="options_fragment_change_theme">更換主題</string>
+    <string name="options_fragment_dark_mode">暗黑模式</string>
+    <string name="choose_dark_mode_dialog_title">暗黑模式</string>
     <string name="options_fragment_choose_time_format">選擇時間格式</string>
     <string name="options_fragment_customize_apps">挑選應用程序</string>
     <string name="options_fragment_toggle_status_bar">顯示或隱藏狀態欄</string>

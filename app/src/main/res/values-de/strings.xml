@@ -37,10 +37,15 @@
         <item>Mittag</item>
         <item>Vlad</item>
         <item>Groovig</item>
-        <item>Schwarz Orange</item>
-        <item>Schwarz Rot</item>
-        <item>Schwarz Türkis</item>
-        <item>Schwarz Blau</item>
+        <item>Orange</item>
+        <item>Rot</item>
+        <item>Türkis</item>
+        <item>Blau</item>
+    </string-array>
+    <string-array name="dark_mode_array">
+        <item>Systemvorgabe</item>
+        <item>Dunkel</item>
+        <item>Hell</item>
     </string-array>
     <string-array name="time_format_array">
         <item>Systemvorgabe</item>
@@ -93,6 +98,8 @@
     <string name="menu_reset">Zurücksetzen</string>
     <string name="open_app">Öffnen</string>
     <string name="options_fragment_change_theme">Farbschema</string>
+    <string name="options_fragment_dark_mode">Dunkler Modus</string>
+    <string name="choose_dark_mode_dialog_title">Dunkler Modus</string>
     <string name="options_fragment_choose_alignment">Textausrichtung</string>
     <string name="options_fragment_choose_clock_type">Art der Uhr</string>
     <string name="options_fragment_choose_date_format">Datumsformat</string>

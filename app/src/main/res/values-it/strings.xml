@@ -36,10 +36,15 @@
         <item>Mezzogiorno</item>
         <item>Vlad</item>
         <item>Groovy</item>
-        <item>Nero Arancio</item>
-        <item>Nero Rosso</item>
-        <item>Nero Ciano</item>
-        <item>Nero Blu</item>
+        <item>Arancio</item>
+        <item>Rosso</item>
+        <item>Ciano</item>
+        <item>Blu</item>
+    </string-array>
+    <string-array name="dark_mode_array">
+        <item>Predefinito</item>
+        <item>Oscuro</item>
+        <item>Brilliante</item>
     </string-array>
     <string-array name="time_format_array">
         <item>Predefinito</item>
@@ -88,6 +93,8 @@
     <string name="menu_reset">Azzera modifiche</string>
     <string name="open_app">Avviare applicazione</string>
     <string name="options_fragment_change_theme">Cambia il tema</string>
+    <string name="options_fragment_dark_mode">Modalità oscura</string>
+    <string name="choose_dark_mode_dialog_title">Modalità oscura</string>
     <string name="options_fragment_choose_alignment">Allineamento del testo</string>
     <string name="options_fragment_choose_clock_type">Tipo di orologio</string>
     <string name="options_fragment_choose_time_format">Formato dell\'ora</string>

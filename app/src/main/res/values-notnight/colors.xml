@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="accentColor">#000000</color>
+    <color name="blueAccentColor">#2020BF</color>
+    <color name="colorAcidGreen">#B6B924</color>
+    <color name="colorBlueGrey">#B0C0C8</color>
+    <color name="colorCandy">#9D0F3E</color>
+    <color name="colorCharlestonGreen">#D7D7D7</color>
+    <color name="colorCinereous">#8B7A6C</color>
+    <color name="colorCookiesAndCream">#4D3C13</color>
+    <color name="colorCultured">#0D0D07</color>
+    <color name="colorDarkBlueGray">#5A6A9D</color>
+    <color name="colorGunmetal">#C9CBD7</color>
+    <color name="colorPink">#fce4ec</color>
+    <color name="colorTeal">#E0F2F1</color>
+    <color name="cyanAccentColor">#00D0DF</color>
+    <color name="orangeAccentColor">#EFC000</color>
+    <color name="primaryColor">#FFFFFF</color>
+    <color name="primaryColorDark">#C0C0C0</color>
+    <color name="primaryColorLight">#FFFFFF</color>
+    <color name="redAccentColor">#FF3030</color>
+</resources>

@@ -1,150 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <style name="AppThemeLight" parent="@style/Theme.AppCompat.Light.NoActionBar">
-        <item name="headerTextColor">@color/lightAccentColor</item>
-        <item name="clockTextColor">@color/lightAccentColor</item>
-        <item name="switchTextColor">@color/lightAccentColor</item>
-        <item name="launchTextColor">@color/lightAccentColor</item>
-        <item name="controlTextColor">@color/lightAccentColor</item>
-        <item name="controlHintColor">@color/lightAccentColor</item>
-        <item name="configTextColor">@color/lightAccentColor</item>
-        <item name="thirdColor">@color/lightAccentColor</item>
-        <item name="colorAccent">@color/lightAccentColor</item>
-        <item name="android:colorForeground">@color/lightAccentColor</item>
-        <item name="colorPrimary">@color/lightPrimaryColor</item>
-        <item name="colorPrimaryDark">@color/primaryColorDark</item>
-        <item name="android:colorBackground">@color/lightPrimaryColor</item>
-        <item name="android:fontFamily">@font/ubuntu</item>
-        <item name="android:textColor">@color/lightAccentColor</item>
-        <item name="android:textColorHint">@color/lightAccentColor</item>
-    </style>
-
-    <style name="AppThemeDark" parent="@style/Theme.AppCompat.NoActionBar">
-        <item name="headerTextColor">@color/darkAccentColor</item>
-        <item name="clockTextColor">@color/darkAccentColor</item>
-        <item name="switchTextColor">@color/darkAccentColor</item>
-        <item name="launchTextColor">@color/darkAccentColor</item>
-        <item name="controlTextColor">@color/darkAccentColor</item>
-        <item name="controlHintColor">@color/darkAccentColor</item>
-        <item name="configTextColor">@color/darkAccentColor</item>
-        <item name="thirdColor">@color/darkAccentColor</item>
-        <item name="colorAccent">@color/darkAccentColor</item>
-        <item name="colorPrimary">@color/darkPrimaryColor</item>
-        <item name="colorPrimaryDark">@color/darkPrimaryColor</item>
-        <item name="android:colorBackground">@color/darkPrimaryColor</item>
-        <item name="android:colorForeground">@color/darkAccentColor</item>
-        <item name="android:fontFamily">@font/ubuntu</item>
-        <item name="android:textColor">@color/darkAccentColor</item>
-        <item name="android:textColorHint">@color/darkAccentColor</item>
-    </style>
-
-    <style name="AppBlackOrangeTheme" parent="AppThemeDark">
-        <item name="launchTextColor">@color/orangeAccentColor</item>
-        <item name="headerTextColor">@color/orangeAccentColor</item>
-        <item name="colorAccent">@color/orangeAccentColor</item>
-    </style>
-
-    <style name="AppBlackRedTheme" parent="AppThemeDark">
-        <item name="launchTextColor">@color/redAccentColor</item>
-        <item name="headerTextColor">@color/redAccentColor</item>
-        <item name="colorAccent">@color/redAccentColor</item>
-    </style>
-
-    <style name="AppBlackCyanTheme" parent="AppThemeDark">
-        <item name="launchTextColor">@color/cyanAccentColor</item>
-        <item name="headerTextColor">@color/cyanAccentColor</item>
-        <item name="colorAccent">@color/cyanAccentColor</item>
-    </style>
-
-    <style name="AppBlackBlueTheme" parent="AppThemeDark">
-        <item name="launchTextColor">@color/blueAccentColor</item>
-        <item name="headerTextColor">@color/blueAccentColor</item>
+    <style name="AppBlackBlueTheme" parent="AppTheme">
         <item name="colorAccent">@color/blueAccentColor</item>
-    </style>
-
-    <style name="AppWhiteOrangeTheme" parent="AppThemeLight">
-        <item name="launchTextColor">@color/orangeAccentColor</item>
-        <item name="headerTextColor">@color/orangeAccentColor</item>
-        <item name="colorAccent">@color/orangeAccentColor</item>
-    </style>
-
-    <style name="AppWhiteRedTheme" parent="AppThemeLight">
-        <item name="launchTextColor">@color/redAccentColor</item>
-        <item name="headerTextColor">@color/redAccentColor</item>
-        <item name="colorAccent">@color/redAccentColor</item>
-    </style>
-
-    <style name="AppWhiteCyanTheme" parent="AppThemeLight">
-        <item name="launchTextColor">@color/cyanAccentColor</item>
-        <item name="headerTextColor">@color/cyanAccentColor</item>
-        <item name="colorAccent">@color/cyanAccentColor</item>
-    </style>
-
-    <style name="AppWhiteBlueTheme" parent="AppThemeLight">
-        <item name="launchTextColor">@color/blueAccentColor</item>
         <item name="headerTextColor">@color/blueAccentColor</item>
-        <item name="colorAccent">@color/blueAccentColor</item>
+        <item name="launchTextColor">@color/blueAccentColor</item>
     </style>
-
-    <style name="AppGreyTheme" parent="AppThemeDark">
-        <item name="colorPrimary">@color/colorBlueGrey</item>
-        <item name="colorPrimaryDark">@color/colorBlueGrey</item>
-        <item name="android:colorBackground">@color/colorBlueGrey</item>
+    <style name="AppBlackCyanTheme" parent="AppTheme">
+        <item name="colorAccent">@color/cyanAccentColor</item>
+        <item name="headerTextColor">@color/cyanAccentColor</item>
+        <item name="launchTextColor">@color/cyanAccentColor</item>
     </style>
-
-    <style name="AppCandyTheme" parent="AppThemeDark">
-        <item name="colorPrimary">@color/colorCandy</item>
-        <item name="colorPrimaryDark">@color/colorCandy</item>
+    <style name="AppBlackOrangeTheme" parent="AppTheme">
+        <item name="colorAccent">@color/orangeAccentColor</item>
+        <item name="headerTextColor">@color/orangeAccentColor</item>
+        <item name="launchTextColor">@color/orangeAccentColor</item>
+    </style>
+    <style name="AppBlackRedTheme" parent="AppTheme">
+        <item name="colorAccent">@color/redAccentColor</item>
+        <item name="headerTextColor">@color/redAccentColor</item>
+        <item name="launchTextColor">@color/redAccentColor</item>
+    </style>
+    <style name="AppCandyTheme" parent="AppTheme">
         <item name="android:colorBackground">@color/colorCandy</item>
+        <item name="colorPrimary">@color/colorCandy</item>
     </style>
-
-    <style name="AppPinkTheme" parent="AppThemeLight">
-        <item name="colorPrimary">@color/colorPink</item>
-        <item name="colorPrimaryDark">@color/colorPink</item>
-        <item name="android:colorBackground">@color/colorPink</item>
-    </style>
-
-    <style name="AppTealTheme" parent="AppThemeLight">
-        <item name="colorPrimary">@color/colorTeal</item>
-        <item name="colorPrimaryDark">@color/colorTeal</item>
-        <item name="android:colorBackground">@color/colorTeal</item>
-    </style>
-
-    <style name="AppDarculaTheme" parent="AppThemeDark">
-        <item name="headerTextColor">@color/colorDarkBlueGray</item>
-        <item name="colorPrimary">@color/colorGunmetal</item>
-        <item name="colorPrimaryDark">@color/colorOuterSpace</item>
+    <style name="AppDarculaTheme" parent="AppTheme">
         <item name="android:colorBackground">@color/colorGunmetal</item>
-        <item name="launchTextColor">@color/colorCultured</item>
-        <item name="clockTextColor">@color/colorCultured</item>
-        <item name="controlTextColor">@color/colorCultured</item>
-        <item name="controlHintColor">@color/colorCultured</item>
-        <item name="configTextColor">@color/colorCultured</item>
-        <item name="thirdColor">@color/colorCultured</item>
-        <item name="colorAccent">@color/colorCultured</item>
-        <item name="android:textColor">@color/colorCultured</item>
         <item name="android:colorForeground">@color/colorCultured</item>
-        <item name="android:navigationBarColor">@color/colorGunmetal</item>
+        <item name="android:textColor">@color/colorCultured</item>
+        <item name="clockTextColor">@color/colorCultured</item>
+        <item name="colorAccent">@color/colorCultured</item>
+        <item name="colorPrimary">@color/colorGunmetal</item>
+        <item name="configTextColor">@color/colorCultured</item>
+        <item name="controlHintColor">@color/colorCultured</item>
+        <item name="controlTextColor">@color/colorCultured</item>
+        <item name="headerTextColor">@color/colorDarkBlueGray</item>
+        <item name="launchTextColor">@color/colorCultured</item>
+        <item name="thirdColor">@color/colorCultured</item>
     </style>
-
-    <style name="AppGruvBoxDarkTheme" parent="AppThemeDark">
-        <item name="headerTextColor">@color/colorAcidGreen</item>
-        <item name="switchTextColor">@color/colorCookiesAndCream</item>
-        <item name="colorPrimary">@color/colorCharlestonGreen</item>
-        <item name="colorPrimaryDark">@color/colorCinereous</item>
+    <style name="AppGreyTheme" parent="AppTheme">
+        <item name="android:colorBackground">@color/colorBlueGrey</item>
+        <item name="colorPrimary">@color/colorBlueGrey</item>
+    </style>
+    <style name="AppGruvBoxDarkTheme" parent="AppTheme">
         <item name="android:colorBackground">@color/colorCharlestonGreen</item>
-        <item name="launchTextColor">@color/colorCookiesAndCream</item>
-        <item name="clockTextColor">@color/colorCookiesAndCream</item>
-        <item name="controlTextColor">@color/colorCookiesAndCream</item>
-        <item name="controlHintColor">@color/colorCinereous</item>
-        <item name="configTextColor">@color/colorCookiesAndCream</item>
-        <item name="thirdColor">@color/colorCookiesAndCream</item>
-        <item name="colorAccent">@color/colorCookiesAndCream</item>
+        <item name="android:colorForeground">@color/colorCookiesAndCream</item>
         <item name="android:textColor">@color/colorCookiesAndCream</item>
         <item name="android:textColorHint">@color/colorCinereous</item>
-        <item name="android:colorForeground">@color/colorCookiesAndCream</item>
-        <item name="android:navigationBarColor">@color/colorCharlestonGreen</item>
+        <item name="clockTextColor">@color/colorCookiesAndCream</item>
+        <item name="colorAccent">@color/colorCookiesAndCream</item>
+        <item name="colorPrimary">@color/colorCharlestonGreen</item>
+        <item name="configTextColor">@color/colorCookiesAndCream</item>
+        <item name="controlHintColor">@color/colorCinereous</item>
+        <item name="controlTextColor">@color/colorCookiesAndCream</item>
+        <item name="headerTextColor">@color/colorAcidGreen</item>
+        <item name="launchTextColor">@color/colorCookiesAndCream</item>
+        <item name="switchTextColor">@color/colorCookiesAndCream</item>
+        <item name="thirdColor">@color/colorCookiesAndCream</item>
     </style>
-
+    <style name="AppPinkTheme" parent="AppTheme">
+        <item name="android:colorBackground">@color/colorPink</item>
+        <item name="colorPrimary">@color/colorPink</item>
+    </style>
+    <style name="AppTealTheme" parent="AppTheme">
+        <item name="android:colorBackground">@color/colorTeal</item>
+        <item name="colorPrimary">@color/colorTeal</item>
+    </style>
+    <style name="AppThemeDark" parent="AppTheme">
+        <item name="android:colorBackground">@color/primaryColorDark</item>
+        <item name="colorPrimary">@color/primaryColorDark</item>
+    </style>
+    <style name="AppThemeLight" parent="AppTheme">
+        <item name="android:colorBackground">@color/primaryColorLight</item>
+        <item name="colorPrimary">@color/primaryColorLight</item>
+    </style>
+    <style name="AppTheme" parent="@style/Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:colorBackground">@color/primaryColor</item>
+        <item name="android:colorForeground">@color/accentColor</item>
+        <item name="android:fontFamily">@font/ubuntu</item>
+        <item name="android:textColor">@color/accentColor</item>
+        <item name="android:textColorHint">@color/accentColor</item>
+        <item name="clockTextColor">@color/accentColor</item>
+        <item name="colorAccent">@color/accentColor</item>
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="configTextColor">@color/accentColor</item>
+        <item name="controlHintColor">@color/accentColor</item>
+        <item name="controlTextColor">@color/accentColor</item>
+        <item name="headerTextColor">@color/accentColor</item>
+        <item name="launchTextColor">@color/accentColor</item>
+        <item name="switchTextColor">@color/accentColor</item>
+        <item name="thirdColor">@color/accentColor</item>
+    </style>
 </resources>

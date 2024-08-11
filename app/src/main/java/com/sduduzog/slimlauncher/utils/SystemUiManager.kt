@@ -104,17 +104,8 @@ open class SystemUiManager internal constructor(internal val context: Context) {
     }
 
     internal fun isLightModeTheme(): Boolean {
-        val theme = settings.getInt(context.getString(R.string.prefs_settings_key_theme), 0)
         val uiMode = context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
-        return listOf(
-            6,
-            3,
-            5,
-            13,
-            14,
-            15,
-            16
-        ).contains(theme) || (theme == 0 && uiMode == Configuration.UI_MODE_NIGHT_NO)
+        return uiMode == Configuration.UI_MODE_NIGHT_NO
     }
 
     private open class OSystemUiManager(context: Context) : SystemUiManager(context) {

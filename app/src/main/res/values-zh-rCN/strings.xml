@@ -38,10 +38,10 @@
         <item>正午</item>
         <item>弗拉德</item>
         <item>格罗维</item>
-        <item>黑橙色</item>
-        <item>黑红色</item>
-        <item>黑青色</item>
-        <item>黑蓝色</item>
+        <item>橙色</item>
+        <item>红色</item>
+        <item>青色</item>
+        <item>蓝色</item>
     </string-array>
     <string-array name="time_format_array">
         <item>跟随系统设置</item>
@@ -77,6 +77,8 @@
     <string name="menu_reset">重设</string>
     <string name="open_app">打开应用</string>
     <string name="options_fragment_change_theme">更改主题</string>
+    <string name="options_fragment_dark_mode">深色模式</string>
+    <string name="choose_dark_mode_dialog_title">深色模式</string>
     <string name="options_fragment_choose_alignment">选择对齐方向</string>
     <string name="options_fragment_choose_clock_type">选择时钟类型</string>
     <string name="options_fragment_choose_time_format">选择时间格式</string>
