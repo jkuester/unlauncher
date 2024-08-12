@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="textColor">#000000</color>
+    <color name="disabledColor">#B0B0B0</color>
+    <color name="hintColor">#606060</color>
     <color name="accentColor">#000000</color>
     <color name="blueAccentColor">#2020BF</color>
     <color name="colorAcidGreen">#B6B924</color>

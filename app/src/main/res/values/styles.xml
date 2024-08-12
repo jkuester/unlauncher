@@ -44,18 +44,18 @@
     </style>
     <style name="AppGruvBoxDarkTheme" parent="AppTheme">
         <item name="android:colorBackground">@color/colorCharlestonGreen</item>
-        <item name="android:colorForeground">@color/colorCookiesAndCream</item>
-        <item name="android:textColor">@color/colorCookiesAndCream</item>
+        <item name="android:colorForeground">@color/on_off_groove</item>
+        <item name="android:textColor">@color/on_off_groove</item>
         <item name="android:textColorHint">@color/colorCinereous</item>
         <item name="clockTextColor">@color/colorCookiesAndCream</item>
         <item name="colorAccent">@color/colorCookiesAndCream</item>
         <item name="colorPrimary">@color/colorCharlestonGreen</item>
-        <item name="configTextColor">@color/colorCookiesAndCream</item>
+        <item name="configTextColor">@color/on_off_groove</item>
         <item name="controlHintColor">@color/colorCinereous</item>
-        <item name="controlTextColor">@color/colorCookiesAndCream</item>
+        <item name="controlTextColor">@color/on_off_groove</item>
         <item name="headerTextColor">@color/colorAcidGreen</item>
         <item name="launchTextColor">@color/colorCookiesAndCream</item>
-        <item name="switchTextColor">@color/colorCookiesAndCream</item>
+        <item name="switchTextColor">@color/on_off_groove</item>
         <item name="thirdColor">@color/colorCookiesAndCream</item>
     </style>
     <style name="AppPinkTheme" parent="AppTheme">
@@ -76,19 +76,19 @@
     </style>
     <style name="AppTheme" parent="@style/Theme.AppCompat.DayNight.NoActionBar">
         <item name="android:colorBackground">@color/primaryColor</item>
-        <item name="android:colorForeground">@color/accentColor</item>
+        <item name="android:colorForeground">@color/on_off_color</item>
         <item name="android:fontFamily">@font/ubuntu</item>
-        <item name="android:textColor">@color/accentColor</item>
-        <item name="android:textColorHint">@color/accentColor</item>
+        <item name="android:textColor">@color/on_off_color</item>
+        <item name="android:textColorHint">@color/hintColor</item>
         <item name="clockTextColor">@color/accentColor</item>
         <item name="colorAccent">@color/accentColor</item>
         <item name="colorPrimary">@color/primaryColor</item>
-        <item name="configTextColor">@color/accentColor</item>
-        <item name="controlHintColor">@color/accentColor</item>
-        <item name="controlTextColor">@color/accentColor</item>
+        <item name="configTextColor">@color/on_off_color</item>
+        <item name="controlHintColor">@color/hintColor</item>
+        <item name="controlTextColor">@color/on_off_color</item>
+        <item name="switchTextColor">@color/on_off_color</item>
         <item name="headerTextColor">@color/accentColor</item>
         <item name="launchTextColor">@color/accentColor</item>
-        <item name="switchTextColor">@color/accentColor</item>
         <item name="thirdColor">@color/accentColor</item>
     </style>
 </resources>
