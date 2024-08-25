@@ -21,6 +21,11 @@
         <item name="headerTextColor">@color/redAccentColor</item>
         <item name="launchTextColor">@color/redAccentColor</item>
     </style>
+    <style name="AppBlackLilacTheme" parent="AppTheme">
+        <item name="colorAccent">@color/lilacAccentColor</item>
+        <item name="headerTextColor">@color/lilacAccentColor</item>
+        <item name="launchTextColor">@color/lilacAccentColor</item>
+    </style>
     <style name="AppCandyTheme" parent="AppTheme">
         <item name="android:colorBackground">@color/colorCandy</item>
         <item name="colorPrimary">@color/colorCandy</item>
@@ -106,6 +111,9 @@
     <style name="AppBlackRedThemeUbuntu" parent="AppBlackRedTheme">
         <item name="android:fontFamily">@font/ubuntu</item>
     </style>
+    <style name="AppBlackLilacThemeUbuntu" parent="AppBlackLilacTheme">
+        <item name="android:fontFamily">@font/ubuntu</item>
+    </style>
     <style name="AppCandyThemeUbuntu" parent="AppCandyTheme">
         <item name="android:fontFamily">@font/ubuntu</item>
     </style>
@@ -145,6 +153,9 @@
         <item name="android:fontFamily">serif</item>
     </style>
     <style name="AppBlackRedThemeSerif" parent="AppBlackRedTheme">
+        <item name="android:fontFamily">serif</item>
+    </style>
+    <style name="AppBlackLilacThemeSerif" parent="AppBlackLilacTheme">
         <item name="android:fontFamily">serif</item>
     </style>
     <style name="AppCandyThemeSerif" parent="AppCandyTheme">
@@ -188,6 +199,9 @@
     <style name="AppBlackRedThemeMono" parent="AppBlackRedTheme">
         <item name="android:fontFamily">monospace</item>
     </style>
+    <style name="AppBlackLilacThemeMono" parent="AppBlackLilacTheme">
+        <item name="android:fontFamily">monospace</item>
+    </style>
     <style name="AppCandyThemeMono" parent="AppCandyTheme">
         <item name="android:fontFamily">monospace</item>
     </style>
@@ -227,6 +241,9 @@
         <item name="android:fontFamily">cursive</item>
     </style>
     <style name="AppBlackRedThemeCursive" parent="AppBlackRedTheme">
+        <item name="android:fontFamily">cursive</item>
+    </style>
+    <style name="AppBlackLilacThemeCursive" parent="AppBlackLilacTheme">
         <item name="android:fontFamily">cursive</item>
     </style>
     <style name="AppCandyThemeCursive" parent="AppCandyTheme">

@@ -264,6 +264,13 @@ class MainActivity :
                     4 -> R.style.AppBlackBlueThemeCursive
                     else -> R.style.AppBlackBlueThemeUbuntu
                 }
+                13 -> when (font) {
+                    1 -> R.style.AppBlackLilacTheme
+                    2 -> R.style.AppBlackLilacThemeSerif
+                    3 -> R.style.AppBlackLilacThemeMono
+                    4 -> R.style.AppBlackLilacThemeCursive
+                    else -> R.style.AppBlackLilacThemeUbuntu
+                }
                 else -> when (font) {
                     1 -> R.style.AppTheme
                     2 -> R.style.AppThemeSerif

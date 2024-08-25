@@ -22,4 +22,5 @@
     <color name="primaryColorDark">#C0C0C0</color>
     <color name="primaryColorLight">#FFFFFF</color>
     <color name="redAccentColor">#FF3030</color>
+    <color name="lilacAccentColor">#8020EF</color>
 </resources>

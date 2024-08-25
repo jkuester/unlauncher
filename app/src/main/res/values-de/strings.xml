@@ -41,6 +41,7 @@
         <item>Rot</item>
         <item>Türkis</item>
         <item>Blau</item>
+        <item>Flieder</item>
     </string-array>
     <string-array name="dark_mode_array">
         <item>Systemvorgabe</item>

@@ -40,6 +40,7 @@
         <item>Red</item>
         <item>Cyan</item>
         <item>Blue</item>
+        <item>Lilac</item>
     </string-array>
     <string-array name="dark_mode_array">
         <item>System default</item>
