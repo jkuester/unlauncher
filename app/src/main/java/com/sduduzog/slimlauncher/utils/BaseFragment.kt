@@ -3,6 +3,7 @@ package com.sduduzog.slimlauncher.utils
 import android.content.Context
 import android.content.Intent
 import android.content.pm.LauncherApps
+import android.os.Build
 import android.os.Process
 import android.os.UserManager
 import android.provider.MediaStore
@@ -131,51 +132,53 @@ abstract class BaseFragment : Fragment(), ISubscriber {
                 )
                 list.add(app)
 
-                // Now get pinned shortcuts:
-                try {
-                    val query = LauncherApps.ShortcutQuery()
-                    query.setQueryFlags(LauncherApps.ShortcutQuery.FLAG_MATCH_PINNED)
-                    query.setPackage(packName)
-                    launcher.getShortcuts(query, myUserHandle)?.map { s ->
-                        val shortCut = App(
-                            appType = 1,
-                            appName = prefix + label + ": " + s.shortLabel.toString(),
-                            packageName = s.`package`,
-                            activityName = s.id,
-                            userSerial = profileSerial
-                        )
-                        val key = s.`package` + ' ' + s.id
-                        if (have.add(key)) {
-                            list.add(shortCut)
+                if (Build.VERSION.SDK_INT >= 25) {
+                    // Now get pinned shortcuts:
+                    try {
+                        val query = LauncherApps.ShortcutQuery()
+                        query.setQueryFlags(LauncherApps.ShortcutQuery.FLAG_MATCH_PINNED)
+                        query.setPackage(packName)
+                        launcher.getShortcuts(query, myUserHandle)?.map { s ->
+                            val shortCut = App(
+                                appType = 1,
+                                appName = prefix + label + ": " + s.shortLabel.toString(),
+                                packageName = s.`package`,
+                                activityName = s.id,
+                                userSerial = profileSerial
+                            )
+                            val key = s.`package` + ' ' + s.id
+                            if (have.add(key)) {
+                                list.add(shortCut)
+                            }
                         }
+                    } catch (e: SecurityException) {
+                        // ignore
                     }
-                } catch (e: SecurityException) {
-                    // ignore
-                }
 
-                // Now get other shortcuts:
-                try {
-                    val query = LauncherApps.ShortcutQuery()
-                    query.setQueryFlags(
-                        LauncherApps.ShortcutQuery.FLAG_MATCH_DYNAMIC or
-                            LauncherApps.ShortcutQuery.FLAG_MATCH_MANIFEST
-                    )
-                    query.setPackage(packName)
-                    launcher.getShortcuts(query, myUserHandle)?.map { s ->
-                        val shortCut = App(
-                            appType = 2,
-                            appName = prefix + label + ": " + s.shortLabel.toString(),
-                            packageName = s.`package`,
-                            activityName = s.id,
-                            userSerial = profileSerial
+                    // Now get other shortcuts:
+                    try {
+                        val query = LauncherApps.ShortcutQuery()
+                        query.setQueryFlags(
+                            LauncherApps.ShortcutQuery.FLAG_MATCH_DYNAMIC or
+                                LauncherApps.ShortcutQuery.FLAG_MATCH_MANIFEST
                         )
-                        val key = s.`package` + ' ' + s.id
-                        if (have.add(key)) {
-                            list.add(shortCut)
+                        query.setPackage(packName)
+                        launcher.getShortcuts(query, myUserHandle)?.map { s ->
+                            val shortCut = App(
+                                appType = 2,
+                                appName = prefix + label + ": " + s.shortLabel.toString(),
+                                packageName = s.`package`,
+                                activityName = s.id,
+                                userSerial = profileSerial
+                            )
+                            val key = s.`package` + ' ' + s.id
+                            if (have.add(key)) {
+                                list.add(shortCut)
+                            }
                         }
+                    } catch (e: SecurityException) {
+                        // ignore
                     }
-                } catch (e: SecurityException) {
-                    // ignore
                 }
             }
         }

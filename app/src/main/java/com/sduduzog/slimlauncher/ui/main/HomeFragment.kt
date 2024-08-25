@@ -10,6 +10,7 @@ import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.content.pm.LauncherApps
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.UserHandle
 import android.os.UserManager
@@ -215,19 +216,18 @@ class HomeFragment :
         resetAppDrawerEditText()
     }
 
+    private fun packageIntent(intent: Intent) = try {
+        val pm = context!!.packageManager
+        val comp = intent.resolveActivity(pm)
+        pm.getLaunchIntentForPackage(comp.packageName)!!
+    } catch (e: Exception) {
+        intent
+    }
+
     private fun launchActivityAux(view: View, intent: Intent) {
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-        val pm = context?.packageManager!!
-        val comp = intent.resolveActivity(pm)
         try {
-            if (comp == null) {
-                launchActivity(view, intent)
-            } else {
-                pm.getLaunchIntentForPackage(comp.packageName)?.let {
-                    launchActivity(view, it)
-                } ?: run { launchActivity(view, intent) }
-            }
-            // launchActivity(it, intent)
+            launchActivity(view, intent)
         } catch (e: Exception) {
             e.printStackTrace()
             // Do nothing, we've failed :(
@@ -260,8 +260,10 @@ class HomeFragment :
                 if (leftButtonIcon != R.drawable.ic_empty) {
                     anyOn = true
                     homeFragmentContent.homeFragmentCall.setOnClickListener { view ->
+                        /* avoid getting a numeric dial from ACTION_DIAL, so launch
+                         *  the phone app instead (via packageIntent) */
                         val intent = Intent(Intent.ACTION_DIAL)
-                        launchActivityAux(view, intent)
+                        launchActivityAux(view, packageIntent(intent))
                     }
                 }
 
@@ -520,7 +522,15 @@ class HomeFragment :
         try {
             val launcher = getLauncher()
             val userHandle = getUserHandle(userSerial)
-            launcher.startShortcut(packageName, activityName, view?.clipBounds, null, userHandle)
+            if (Build.VERSION.SDK_INT >= 25) {
+                launcher.startShortcut(
+                    packageName,
+                    activityName,
+                    view?.clipBounds,
+                    null,
+                    userHandle
+                )
+            }
             // FIXME: For some apps, this always fails:
             //     - camera (e.g. take picture)
             // For some apps, this sometimes does nothing (does not fail either), but only
