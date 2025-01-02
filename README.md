@@ -32,6 +32,7 @@ Features:
 - Show/Hide the notification bar on your home screen
 - No wallpapers
 - Multiple color themes
+- Shortcut support
 
 ## What people are saying
 

@@ -1,33 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/add_app_fragment"
-    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="@dimen/margin_top_small"
-    android:layout_marginStart="@dimen/margin_sides"
     android:layout_marginEnd="@dimen/margin_sides"
-    tools:context=".ui.options.AddAppFragment">
+    android:layout_marginStart="@dimen/margin_sides"
+    android:layout_marginTop="@dimen/margin_top_small"
+    android:layout_width="match_parent"
+    tools:context=".ui.options.AddAppFragment"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <EditText
-        android:id="@+id/add_app_fragment_edit_text"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
         android:ems="10"
+        android:hint="@string/add_apps_fragment_search_apps"
+        android:id="@+id/add_app_fragment_edit_text"
         android:imeOptions="actionDone"
         android:inputType="none|textNoSuggestions|textCapWords"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
         android:textSize="@dimen/font_size_add_apps_search"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="Autofill,LabelFor"
-        android:hint="@string/add_apps_fragment_search_apps" />
+        tools:ignore="Autofill,LabelFor" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/add_app_fragment_list"
-        android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_width="0dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -37,13 +38,13 @@
 
     <ProgressBar
         android:id="@+id/add_app_fragment_progress_bar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_top_small"
+        android:layout_width="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.25" />
+        app:layout_constraintTop_toBottomOf="@+id/add_app_fragment_list"
+        app:layout_constraintVertical_bias="0.25"
+        style="?android:attr/progressBarStyle" />
 </androidx.constraintlayout.widget.ConstraintLayout>

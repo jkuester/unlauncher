@@ -46,14 +46,19 @@ class UnlauncherAppsRepository(
             apps.filter { app ->
                 findApp(
                     unlauncherAppsBuilder.appsList,
+                    app.appType,
                     app.packageName,
                     app.activityName
                 ) == null
             }.forEach { app ->
+                // Apps and Pinned Shortcuts are visible by default.
+                // Other shortcuts are by default not visible.
+                val defaultVisible = (app.appType == 0) || (app.appType == 1)
                 unlauncherAppsBuilder.addApps(
                     UnlauncherApp.newBuilder().setPackageName(app.packageName)
                         .setClassName(app.activityName).setUserSerial(app.userSerial)
-                        .setDisplayName(app.appName).setDisplayInDrawer(true)
+                        .setDisplayName(app.appName).setDisplayInDrawer(defaultVisible)
+                        .setAppType(app.appType)
                 )
                 appAdded = true
             }
@@ -61,7 +66,8 @@ class UnlauncherAppsRepository(
             unlauncherApps.appsList.filter { unlauncherApp ->
                 apps.find { app ->
                     unlauncherApp.packageName == app.packageName &&
-                        unlauncherApp.className == app.activityName
+                        unlauncherApp.className == app.activityName &&
+                        unlauncherApp.appType == app.appType
                 } == null
             }.forEach { unlauncherApp ->
                 unlauncherAppsBuilder.removeApps(
@@ -87,6 +93,7 @@ class UnlauncherAppsRepository(
             apps.forEach { homeApp ->
                 findApp(
                     unlauncherAppsBuilder.appsList,
+                    homeApp.appType,
                     homeApp.packageName,
                     homeApp.activityName
                 )?.let { unlauncherApp ->
@@ -107,7 +114,9 @@ class UnlauncherAppsRepository(
 
             // Clear out old home apps
             unlauncherAppsBuilder.appsList
-                .filter { findApp(unlauncherHomeApps, it.packageName, it.className) == null }
+                .filter {
+                    findApp(unlauncherHomeApps, it.appType, it.packageName, it.className) == null
+                }
                 .filter { it.homeApp }
                 .forEach { unlauncherApp ->
                     val index = unlauncherAppsBuilder.appsList.indexOf(unlauncherApp)
@@ -160,18 +169,19 @@ class UnlauncherAppsRepository(
 
     private fun findApp(
         unlauncherApps: List<UnlauncherApp>,
+        appType: Int,
         packageName: String,
         className: String
     ): UnlauncherApp? {
         return unlauncherApps.firstOrNull { app ->
-            packageName == app.packageName && className == app.className
+            packageName == app.packageName && className == app.className && appType == app.appType
         }
     }
 }
 
 fun sortAppsAlphabetically(unlauncherAppsBuilder: UnlauncherApps.Builder) {
     val sortedApps =
-        unlauncherAppsBuilder.appsList.sortedBy { it.displayName.toUpperCase(Locale.getDefault()) }
+        unlauncherAppsBuilder.appsList.sortedBy { it.displayName.uppercase(Locale.getDefault()) }
     unlauncherAppsBuilder.clearApps()
     unlauncherAppsBuilder.addAllApps(sortedApps)
 }

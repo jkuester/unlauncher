@@ -4,17 +4,14 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.util.AttributeSet
-import androidx.core.view.marginBottom
-import androidx.core.view.marginEnd
-import androidx.core.view.marginStart
-import androidx.core.view.marginTop
+import com.jkuester.unlauncher.datastore.ClockType
 import com.sduduzog.slimlauncher.R
 import java.util.Calendar
 import kotlin.math.max
 import kotlin.math.min
 
 class AnalogClockView(context: Context, attrs: AttributeSet) : ClockView(context, attrs) {
-    private var handPaint = getColorPaint(R.attr.colorAccent)
+    private var handPaint = getColorPaint(R.attr.thirdColor)
     private var radius: Float
     private var border: Float
 
@@ -22,9 +19,14 @@ class AnalogClockView(context: Context, attrs: AttributeSet) : ClockView(context
     private val handWidthHour = 10F
     private val handWidthMinute = 5F
     private val handLengthHour = .6F
-    private val handLengthMinute = .8F
+    private val handLengthMinute = .91F
+
     private val tickWidth = 4F
     private val tickLength = 1F - .1F
+    private val tickWidthMin = 2F
+    private val tickLengthMin = 1F - .05F
+
+    private var tickCount = 12
 
     init {
         handPaint.strokeWidth = handWidthMinute
@@ -52,32 +54,49 @@ class AnalogClockView(context: Context, attrs: AttributeSet) : ClockView(context
 
         val hour = calendar[Calendar.HOUR]
         val minute = calendar[Calendar.MINUTE]
+        var minuteF = minute / 60F
+        var hourF = (hour + minuteF) / 12F
 
         val cx = width / 2F
-        val cy = height / 2F + marginTop / 2F
+        val cy = height / 2F
 
         handPaint.strokeWidth = border
-        if (border > 2) canvas.drawCircle(cx, cy, radius, handPaint)
+        if (border > 2) {
+            canvas.drawCircle(cx, cy, radius, handPaint)
+        }
+
         handPaint.strokeWidth = tickWidth
         drawTicks(canvas, cx, cy)
+
         handPaint.strokeWidth = handWidthHour
-        drawHand(canvas, cx, cy, radius * handLengthHour, hour * 5)
+        drawHand(canvas, cx, cy, radius * handLengthHour, hourF)
+
         handPaint.strokeWidth = handWidthMinute
-        drawHand(canvas, cx, cy, radius * handLengthMinute, minute)
+        drawHand(canvas, cx, cy, radius * handLengthMinute, minuteF)
     }
 
-    private fun drawTicks(canvas: Canvas, cx: Float, cy: Float) {
+    private fun drawTicks(canvas: Canvas, cx: Float, cy: Float, cnt: Int, rad: Float, len: Float) {
+        val rot = 360F / cnt
         canvas.save()
-        for (i in 1..12) {
-            canvas.rotate(30f, cx, cy)
-            canvas.drawLine(cx, cy + radius, cx, cy + (radius * tickLength), handPaint)
+        for (i in 1..tickCount) {
+            canvas.rotate(rot, cx, cy)
+            canvas.drawLine(cx, cy - rad, cx, cy - (rad * len), handPaint)
         }
         canvas.restore()
     }
 
-    private fun drawHand(canvas: Canvas, cx: Float, cy: Float, size: Float, minute: Int) {
-        val angle: Float = (minute.toFloat() * 6)
+    private fun drawTicks(canvas: Canvas, cx: Float, cy: Float) {
+        if (tickCount > 12) {
+            drawTicks(canvas, cx, cy, 12, radius, tickLength)
+            handPaint.strokeWidth = tickWidthMin
+            drawTicks(canvas, cx, cy, tickCount, radius, tickLengthMin)
+        } else {
+            drawTicks(canvas, cx, cy, tickCount, radius, tickLength)
+        }
+    }
 
+    private fun drawHand(canvas: Canvas, cx: Float, cy: Float, size: Float, angleF: Float) {
+        var angle = 360F * angleF
         canvas.save()
         canvas.rotate(angle, cx, cy)
         canvas.drawLine(cx, cy, cx, cy - size, handPaint)
@@ -89,12 +108,27 @@ class AnalogClockView(context: Context, attrs: AttributeSet) : ClockView(context
             min(suggestedMinimumWidth, suggestedMinimumHeight),
             2 * radius.toInt()
         ) + 4 * border.toInt()
-        val minw: Int = dim + paddingLeft + paddingRight + marginStart + marginEnd
+        val minw: Int = dim + paddingLeft + paddingRight
         val w: Int = resolveSizeAndState(minw, widthMeasureSpec, 0)
 
-        val minh: Int = dim + paddingBottom + paddingTop + marginTop + marginBottom
+        val minh: Int = dim + paddingBottom + paddingTop
         val h: Int = resolveSizeAndState(minh, heightMeasureSpec, 0)
 
         setMeasuredDimension(w, h)
+    }
+
+    override fun updateClock(newClockType: ClockType) {
+        tickCount = when (newClockType) {
+            ClockType.analog_0 -> 0
+            ClockType.analog_1 -> 1
+            ClockType.analog_2 -> 2
+            ClockType.analog_3 -> 3
+            ClockType.analog_4 -> 4
+            ClockType.analog_6 -> 6
+            ClockType.analog_12 -> 12
+            ClockType.analog_60 -> 60
+            else -> 12
+        }
+        super.updateClock(newClockType)
     }
 }

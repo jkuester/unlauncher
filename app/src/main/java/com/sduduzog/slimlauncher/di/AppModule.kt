@@ -28,7 +28,8 @@ class AppModule {
             BaseDatabase.MIGRATION_5_6,
             BaseDatabase.MIGRATION_6_7,
             BaseDatabase.MIGRATION_7_8,
-            BaseDatabase.MIGRATION_8_9
+            BaseDatabase.MIGRATION_8_9,
+            BaseDatabase.MIGRATION_9_10
         ).build()
     }
 

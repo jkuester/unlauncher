@@ -6,19 +6,27 @@ import android.graphics.Paint
 import android.graphics.RectF
 import android.text.format.DateFormat
 import android.util.AttributeSet
+import com.jkuester.unlauncher.datastore.ClockType
 import com.sduduzog.slimlauncher.R
 import java.util.Calendar
 
 class BinaryClockView(context: Context, attrs: AttributeSet) :
     ClockView(context, attrs) {
 
-    private var offPaint = getColorPaint(R.attr.colorAccent)
-    private var onPaint = getColorPaint(R.attr.colorAccent)
+    private var offPaint = getColorPaint(R.attr.thirdColor)
+    private var onPaint = getColorPaint(R.attr.thirdColor)
     private var bitSize: Float
     private var border: Float
     private var distance: Float
     private val bounds = RectF(0F, 0F, 0F, 0F)
     private var is24Hour: Boolean = false
+
+    // HACK:
+    // it does not seem to be possible to consider bottom margins in
+    // layouting (or I don't know how layout_marginBottom is not
+    // considered (the boxes touch without it, but the margin is drawn
+    // in debug view)), so we add 20 pixels here.
+    private var extraPaddingBottom = 20
 
     init {
         onPaint.style = Paint.Style.FILL_AND_STROKE
@@ -85,14 +93,14 @@ class BinaryClockView(context: Context, attrs: AttributeSet) :
         // Whatever the width is, ask for a height that lets the pie get as big as
         // it can.
         val minh: Int = paddingBottom + paddingTop +
-            4 * bitSize.toInt() + 5 * distance.toInt()
+            4 * bitSize.toInt() + 5 * distance.toInt() + extraPaddingBottom
         val h: Int = resolveSizeAndState(minh, heightMeasureSpec, 0)
 
         setMeasuredDimension(w, h)
     }
 
-    override fun updateClock() {
-        super.updateClock()
+    override fun updateClock(newClockType: ClockType) {
+        super.updateClock(newClockType)
 
         val timeFormat = context.getSharedPreferences(
             context.getString(R.string.prefs_settings),

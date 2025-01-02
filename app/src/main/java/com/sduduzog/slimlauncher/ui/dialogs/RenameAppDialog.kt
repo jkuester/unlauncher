@@ -8,13 +8,13 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.databinding.RenameDialogEditTextBinding
-import com.sduduzog.slimlauncher.models.CustomiseAppsViewModel
+import com.sduduzog.slimlauncher.models.CustomizeAppsViewModel
 import com.sduduzog.slimlauncher.models.HomeApp
 
 class RenameAppDialog : DialogFragment() {
 
     private lateinit var app: HomeApp
-    private lateinit var model: CustomiseAppsViewModel
+    private lateinit var model: CustomizeAppsViewModel
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val view = RenameDialogEditTextBinding.inflate(layoutInflater).root
@@ -51,7 +51,7 @@ class RenameAppDialog : DialogFragment() {
     }
 
     companion object {
-        fun getInstance(app: HomeApp, model: CustomiseAppsViewModel): RenameAppDialog {
+        fun getInstance(app: HomeApp, model: CustomizeAppsViewModel): RenameAppDialog {
             return RenameAppDialog().apply {
                 this.model = model
                 this.app = app

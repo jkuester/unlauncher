@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+<LinearLayout
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <EditText
-        android:id="@+id/rename_editText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_sides"
-        android:layout_marginEnd="@dimen/margin_sides"
-        android:layout_marginTop="@dimen/margin_top_small"
-        android:layout_marginBottom="0dp"
         android:ems="10"
+        android:id="@+id/rename_editText"
         android:imeOptions="actionDone"
         android:inputType="text|textCapWords"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:layout_marginEnd="@dimen/margin_sides"
+        android:layout_marginStart="@dimen/margin_sides"
+        android:layout_marginTop="@dimen/margin_top_small"
+        android:layout_width="match_parent"
         tools:ignore="Autofill,LabelFor" />
 </LinearLayout>
