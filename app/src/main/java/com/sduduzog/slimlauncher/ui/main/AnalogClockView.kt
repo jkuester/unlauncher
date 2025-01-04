@@ -6,11 +6,18 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import com.jkuester.unlauncher.datastore.ClockType
 import com.sduduzog.slimlauncher.R
+import com.sduduzog.slimlauncher.datasource.UnlauncherDataSource
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
+import javax.inject.Inject
 import kotlin.math.max
 import kotlin.math.min
 
+@AndroidEntryPoint
 class AnalogClockView(context: Context, attrs: AttributeSet) : ClockView(context, attrs) {
+    @Inject
+    lateinit var unlauncherDataSource: UnlauncherDataSource
+
     private var handPaint = getColorPaint(R.attr.colorAccent)
     private var radius: Float
     private var border: Float
@@ -54,8 +61,8 @@ class AnalogClockView(context: Context, attrs: AttributeSet) : ClockView(context
 
         val hour = calendar[Calendar.HOUR] % 12
         val minute = calendar[Calendar.MINUTE]
-        var minuteF = minute / 60F
-        var hourF = (hour + minuteF) / 12F
+        val minuteF = minute / 60F
+        val hourF = (hour + minuteF) / 12F
 
         val cx = width / 2F
         val cy = height / 2F
@@ -96,7 +103,7 @@ class AnalogClockView(context: Context, attrs: AttributeSet) : ClockView(context
     }
 
     private fun drawHand(canvas: Canvas, cx: Float, cy: Float, size: Float, angleF: Float) {
-        var angle = 360F * angleF
+        val angle = 360F * angleF
         canvas.save()
         canvas.rotate(angle, cx, cy)
         canvas.drawLine(cx, cy, cx, cy - size, handPaint)
@@ -117,8 +124,10 @@ class AnalogClockView(context: Context, attrs: AttributeSet) : ClockView(context
         setMeasuredDimension(w, h)
     }
 
-    override fun updateClock(newClockType: ClockType) {
-        tickCount = when (newClockType) {
+    override fun updateClock() {
+        super.updateClock()
+        val clockType = unlauncherDataSource.corePreferencesRepo.get().clockType
+        tickCount = when (clockType) {
             ClockType.analog_0 -> 0
             ClockType.analog_1 -> 1
             ClockType.analog_2 -> 2
@@ -129,6 +138,5 @@ class AnalogClockView(context: Context, attrs: AttributeSet) : ClockView(context
             ClockType.analog_60 -> 60
             else -> 12
         }
-        super.updateClock(newClockType)
     }
 }

@@ -6,12 +6,10 @@ import android.graphics.Paint
 import android.graphics.RectF
 import android.text.format.DateFormat
 import android.util.AttributeSet
-import com.jkuester.unlauncher.datastore.ClockType
 import com.sduduzog.slimlauncher.R
 import java.util.Calendar
 
-class BinaryClockView(context: Context, attrs: AttributeSet) :
-    ClockView(context, attrs) {
+class BinaryClockView(context: Context, attrs: AttributeSet) : ClockView(context, attrs) {
 
     private var offPaint = getColorPaint(R.attr.colorAccent)
     private var onPaint = getColorPaint(R.attr.colorAccent)
@@ -99,8 +97,8 @@ class BinaryClockView(context: Context, attrs: AttributeSet) :
         setMeasuredDimension(w, h)
     }
 
-    override fun updateClock(newClockType: ClockType) {
-        super.updateClock(newClockType)
+    override fun updateClock() {
+        super.updateClock()
 
         val timeFormat = context.getSharedPreferences(
             context.getString(R.string.prefs_settings),

@@ -62,7 +62,9 @@ import kotlinx.coroutines.launch
 private const val APP_TILE_SIZE: Int = 3
 
 @AndroidEntryPoint
-class HomeFragment : BaseFragment(), OnLaunchAppListener {
+class HomeFragment :
+    BaseFragment(),
+    OnLaunchAppListener {
     @Inject
     lateinit var unlauncherDataSource: UnlauncherDataSource
 
@@ -368,9 +370,9 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
             ClockType.analog_6,
             ClockType.analog_12,
             ClockType.analog_60 -> {
-                homeFragmentContent.homeFragmentAnalogTime.updateClock(clockType)
+                homeFragmentContent.homeFragmentAnalogTime.updateClock()
             }
-            ClockType.binary -> homeFragmentContent.homeFragmentBinTime.updateClock(clockType)
+            ClockType.binary -> homeFragmentContent.homeFragmentBinTime.updateClock()
             else -> {}
         }
     }
