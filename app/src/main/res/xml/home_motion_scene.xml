@@ -50,10 +50,11 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/padding"
             android:textSize="@dimen/font_size_home_date"
+            android:layout_marginTop="@dimen/_88sdp"
             app:visibilityMode="ignore"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/home_fragment_time" />
+            app:layout_constraintEnd_toEndOf="@+id/home_fragment_time"
+            app:layout_constraintStart_toStartOf="@+id/home_fragment_time"
+            app:layout_constraintTop_toTopOf="parent" />
         <Constraint
             android:id="@+id/home_fragment_list"
             android:layout_width="0dp"
