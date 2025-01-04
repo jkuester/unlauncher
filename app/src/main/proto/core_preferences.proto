@@ -22,8 +22,15 @@ enum SearchBarPosition {
 enum ClockType {
   none = 0;
   digital = 1;
-  analog = 2;
+  analog_12 = 2;
   binary = 3;
+  analog_0 = 4;
+  analog_1 = 5;
+  analog_2 = 6;
+  analog_3 = 7;
+  analog_4 = 8;
+  analog_6 = 9;
+  analog_60 = 10;
 }
 
 enum AlignmentFormat {

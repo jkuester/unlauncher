@@ -62,7 +62,9 @@ import kotlinx.coroutines.launch
 private const val APP_TILE_SIZE: Int = 3
 
 @AndroidEntryPoint
-class HomeFragment : BaseFragment(), OnLaunchAppListener {
+class HomeFragment :
+    BaseFragment(),
+    OnLaunchAppListener {
     @Inject
     lateinit var unlauncherDataSource: UnlauncherDataSource
 
@@ -140,7 +142,17 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
             homeFragmentContent.homeFragmentTime
                 .visibility = if (clockType == ClockType.digital) View.VISIBLE else View.GONE
             homeFragmentContent.homeFragmentAnalogTime
-                .visibility = if (clockType == ClockType.analog) View.VISIBLE else View.GONE
+                .visibility = when (clockType) {
+                ClockType.analog_0,
+                ClockType.analog_1,
+                ClockType.analog_2,
+                ClockType.analog_3,
+                ClockType.analog_4,
+                ClockType.analog_6,
+                ClockType.analog_12,
+                ClockType.analog_60 -> View.VISIBLE
+                else -> View.GONE
+            }
             homeFragmentContent.homeFragmentBinTime
                 .visibility = if (clockType == ClockType.binary) View.VISIBLE else View.GONE
             homeFragmentContent.homeFragmentDate
@@ -347,9 +359,19 @@ class HomeFragment : BaseFragment(), OnLaunchAppListener {
     fun updateClock() {
         updateDate()
         val homeFragmentContent = HomeFragmentContentBinding.bind(requireView())
-        when (unlauncherDataSource.corePreferencesRepo.get().clockType) {
+        val clockType = unlauncherDataSource.corePreferencesRepo.get().clockType
+        when (clockType) {
             ClockType.digital -> updateClockDigital()
-            ClockType.analog -> homeFragmentContent.homeFragmentAnalogTime.updateClock()
+            ClockType.analog_0,
+            ClockType.analog_1,
+            ClockType.analog_2,
+            ClockType.analog_3,
+            ClockType.analog_4,
+            ClockType.analog_6,
+            ClockType.analog_12,
+            ClockType.analog_60 -> {
+                homeFragmentContent.homeFragmentAnalogTime.updateClock()
+            }
             ClockType.binary -> homeFragmentContent.homeFragmentBinTime.updateClock()
             else -> {}
         }

@@ -29,6 +29,19 @@
         <item>24 Stunden</item>
         <item>12 Stunden</item>
     </string-array>
+    <string-array name="clock_type_array">
+        <item>Keine</item>
+        <item>Digital</item>
+        <item>Analog 12</item>
+        <item>Binär</item>
+        <item>Analog 0</item>
+        <item>Analog 1</item>
+        <item>Analog 2</item>
+        <item>Analog 3</item>
+        <item>Analog 4</item>
+        <item>Analog 6</item>
+        <item>Analog 60</item>
+    </string-array>
 
     <string name="add_apps_fragment_search_apps">Appsuche</string>
     <string name="app_info">App-Info</string>
