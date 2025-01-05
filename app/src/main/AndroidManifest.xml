@@ -2,22 +2,44 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- for launching the clock -->
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
+
+    <!-- for receiving pinned shortcuts (maybe older Android versions) -->
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT"/>
+    <uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT"/>
+
+    <!-- launchers need the list of apps -->
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
         tools:ignore="QueryAllPackagesPermission" />
+
+    <!-- launchers can delete apps, if requrested -->
     <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
+
+    <!-- optionally  hide the status bar for clarity, if the user wants this -->
     <uses-permission android:name="android.permission.EXPAND_STATUS_BAR" />
+
+    <!-- optionally set wallpaper according to our theme -->
     <uses-permission android:name="android.permission.SET_WALLPAPER"/>
+
+    <!-- for fonts from sdcards -->
+    <!-- I did not manage to get this to work yet...
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    -->
 
     <application
         android:name=".App"
+        android:allowBackup="true"
         android:configChanges="orientation|keyboardHidden|screenSize"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning">
+        android:localeConfig="@xml/locales_config"
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:targetApi="tiramisu">
+<!-- TODO fix this  -->
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTask"
@@ -33,6 +55,36 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".AddShortcutActivity"
+            android:excludeFromRecents="true"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.content.pm.action.CONFIRM_PIN_SHORTCUT" />
+            </intent-filter>
+        </activity>
+
+<!--        <receiver-->
+<!--            android:name=".InstallShortcutReceiver"-->
+<!--            android:enabled="true"-->
+<!--            android:permission="com.android.launcher.permission.INSTALL_SHORTCUT"-->
+<!--            android:exported="true">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="com.android.launcher.action.INSTALL_SHORTCUT" />-->
+<!--            </intent-filter>-->
+<!--        </receiver>-->
+
+<!--        <receiver-->
+<!--            android:name=".UninstallShortcutReceiver"-->
+<!--            android:enabled="true"-->
+<!--            android:permission="com.android.launcher.permission.UNINSTALL_SHORTCUT"-->
+<!--            android:exported="true">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="com.android.launcher.action.UNINSTALL_SHORTCUT" />-->
+<!--            </intent-filter>-->
+<!--        </receiver>-->
     </application>
 
 </manifest>

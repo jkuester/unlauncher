@@ -11,8 +11,8 @@ import java.util.Calendar
 
 class BinaryClockView(context: Context, attrs: AttributeSet) : ClockView(context, attrs) {
 
-    private var offPaint = getColorPaint(R.attr.colorAccent)
-    private var onPaint = getColorPaint(R.attr.colorAccent)
+    private var offPaint = getColorPaint(R.attr.thirdColor)
+    private var onPaint = getColorPaint(R.attr.thirdColor)
     private var bitSize: Float
     private var border: Float
     private var distance: Float

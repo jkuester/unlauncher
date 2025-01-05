@@ -3,8 +3,11 @@ package com.sduduzog.slimlauncher.utils
 import android.content.Context
 import android.content.Intent
 import android.content.pm.LauncherApps
+import android.os.Build
 import android.os.Process
 import android.os.UserManager
+import android.provider.MediaStore
+import android.provider.Settings
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityOptionsCompat
@@ -51,14 +54,65 @@ abstract class BaseFragment : Fragment(), ISubscriber {
 
     open fun onHome() {}
 
-    protected fun getInstalledApps(): List<App> {
-        val list = mutableListOf<App>()
+    private fun listActions(list: MutableList<App>, us: Long) {
+        // Hmm, I thought there were more, but most Actions either need
+        // an argument, which we cannot know or would need to query,
+        // or can be started by just launching some app.  Or can be
+        // composed with an activity tool as a shortcut.  Or don't work
+        // as advertised and just start the app (on my phone, all the
+        // camera actions just start the camera).
+        // Here are a few:
+        list.add(
+            App(
+                appType = 3,
+                appName = "Camera: Photo",
+                packageName = "",
+                activityName = MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA,
+                userSerial = us
+            )
+        )
+        list.add(
+            App(
+                appType = 3,
+                appName = "Camera: Video",
+                packageName = "",
+                activityName = MediaStore.INTENT_ACTION_VIDEO_CAMERA,
+                userSerial = us
+            )
+        )
+        list.add(
+            App(
+                appType = 3,
+                appName = "Settings: Home",
+                packageName = "",
+                activityName = Settings.ACTION_HOME_SETTINGS,
+                userSerial = us
+            )
+        )
+        list.add(
+            App(
+                appType = 3,
+                appName = "Telephone: Dial",
+                packageName = "",
+                activityName = Intent.ACTION_DIAL,
+                userSerial = us
+            )
+        )
+    }
 
-        val manager = requireContext().getSystemService(Context.USER_SERVICE) as UserManager
+    protected fun getInstalledApps(): List<App> {
         val launcher = requireContext().getSystemService(
             Context.LAUNCHER_APPS_SERVICE
         ) as LauncherApps
         val myUserHandle = Process.myUserHandle()
+        val manager = requireContext().getSystemService(Context.USER_SERVICE) as UserManager
+        val us = manager.getSerialNumberForUser(myUserHandle)
+
+        val list = mutableListOf<App>()
+        listActions(list, us)
+
+        // Remember the shortcuts: Öffi sends the same one three times.
+        var have = mutableSetOf<String>()
 
         for (profile in manager.userProfiles) {
             // Unicode for boxed w
@@ -66,13 +120,66 @@ abstract class BaseFragment : Fragment(), ISubscriber {
             val profileSerial = manager.getSerialNumberForUser(profile)
 
             for (activityInfo in launcher.getActivityList(null, profile)) {
+                // Handle app itself:
+                var label = activityInfo.label.toString()
+                val packName = activityInfo.applicationInfo.packageName
                 val app = App(
-                    appName = prefix + activityInfo.label.toString(),
-                    packageName = activityInfo.applicationInfo.packageName,
+                    appType = 0,
+                    appName = prefix + label,
+                    packageName = packName,
                     activityName = activityInfo.name,
                     userSerial = profileSerial
                 )
                 list.add(app)
+
+                if (Build.VERSION.SDK_INT >= 25) {
+                    // Now get pinned shortcuts:
+                    try {
+                        val query = LauncherApps.ShortcutQuery()
+                        query.setQueryFlags(LauncherApps.ShortcutQuery.FLAG_MATCH_PINNED)
+                        query.setPackage(packName)
+                        launcher.getShortcuts(query, myUserHandle)?.map { s ->
+                            val shortCut = App(
+                                appType = 1,
+                                appName = prefix + label + ": " + s.shortLabel.toString(),
+                                packageName = s.`package`,
+                                activityName = s.id,
+                                userSerial = profileSerial
+                            )
+                            val key = s.`package` + ' ' + s.id
+                            if (have.add(key)) {
+                                list.add(shortCut)
+                            }
+                        }
+                    } catch (e: SecurityException) {
+                        // ignore
+                    }
+
+                    // Now get other shortcuts:
+                    try {
+                        val query = LauncherApps.ShortcutQuery()
+                        query.setQueryFlags(
+                            LauncherApps.ShortcutQuery.FLAG_MATCH_DYNAMIC or
+                                LauncherApps.ShortcutQuery.FLAG_MATCH_MANIFEST
+                        )
+                        query.setPackage(packName)
+                        launcher.getShortcuts(query, myUserHandle)?.map { s ->
+                            val shortCut = App(
+                                appType = 2,
+                                appName = prefix + label + ": " + s.shortLabel.toString(),
+                                packageName = s.`package`,
+                                activityName = s.id,
+                                userSerial = profileSerial
+                            )
+                            val key = s.`package` + ' ' + s.id
+                            if (have.add(key)) {
+                                list.add(shortCut)
+                            }
+                        }
+                    } catch (e: SecurityException) {
+                        // ignore
+                    }
+                }
             }
         }
 

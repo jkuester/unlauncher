@@ -9,6 +9,10 @@
         <item>主题中午</item>
         <item>弗拉德</item>
         <item>格罗维</item>
+        <item>橙色</item>
+        <item>紅色</item>
+        <item>青色</item>
+        <item>藍色</item>
     </string-array>
     <string-array name="time_format_array">
         <item>根據系統設置</item>
@@ -19,16 +23,17 @@
     <string name="add_apps_fragment_search_apps">搜索應用程序</string>
     <string name="choose_theme_dialog_title">選擇主題</string>
     <string name="choose_time_format_dialog_title">選擇時間格式</string>
-    <string name="customise_apps_fragment_add">添加</string>
-    <string name="customise_apps_fragment_remove_all">刪除全部</string>
+    <string name="customize_apps_fragment_add">添加</string>
+    <string name="customize_apps_fragment_remove_all">刪除全部</string>
     <string name="main_fragment_options">選項</string>
     <string name="menu_remove">刪除</string>
     <string name="menu_rename">更改名字</string>
     <string name="menu_reset">還原名字</string>
     <string name="options_fragment_change_theme">更換主題</string>
+    <string name="options_fragment_dark_mode">暗黑模式</string>
+    <string name="choose_dark_mode_dialog_title">暗黑模式</string>
     <string name="options_fragment_choose_time_format">選擇時間格式</string>
-    <string name="options_fragment_customise_apps">挑選應用程序</string>
-    <string name="options_fragment_device_settings">設備設置</string>
+    <string name="options_fragment_customize_apps">挑選應用程序</string>
     <string name="options_fragment_toggle_status_bar">顯示或隱藏狀態欄</string>
     <string name="remove_all_apps_dialog_message">"這個選項不會卸載你的應用程序."
 "這只是爲了確定你想清空這個清單."</string>

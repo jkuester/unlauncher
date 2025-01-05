@@ -9,7 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @HiltViewModel
-class CustomiseAppsViewModel @Inject constructor(
+class CustomizeAppsViewModel @Inject constructor(
     private val repository: Repository
 ) : ViewModel() {
 

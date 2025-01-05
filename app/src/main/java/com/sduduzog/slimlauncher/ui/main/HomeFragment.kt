@@ -2,15 +2,17 @@ package com.sduduzog.slimlauncher.ui.main
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.ActivityNotFoundException
 import android.content.BroadcastReceiver
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.SharedPreferences
 import android.content.pm.LauncherApps
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.UserHandle
 import android.os.UserManager
 import android.provider.AlarmClock
 import android.provider.CalendarContract
@@ -35,11 +37,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jkuester.unlauncher.datastore.ClockType
+import com.jkuester.unlauncher.datastore.MyDateFormat
 import com.jkuester.unlauncher.datastore.SearchBarPosition
 import com.jkuester.unlauncher.datastore.UnlauncherApp
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.adapters.AppDrawerAdapter
 import com.sduduzog.slimlauncher.adapters.HomeAdapter
+import com.sduduzog.slimlauncher.data.model.App
 import com.sduduzog.slimlauncher.databinding.HomeFragmentBottomBinding
 import com.sduduzog.slimlauncher.databinding.HomeFragmentContentBinding
 import com.sduduzog.slimlauncher.databinding.HomeFragmentDefaultBinding
@@ -73,6 +77,9 @@ class HomeFragment :
     private lateinit var receiver: BroadcastReceiver
     private lateinit var appDrawerAdapter: AppDrawerAdapter
     private lateinit var uninstallAppLauncher: ActivityResultLauncher<Intent>
+
+    // cached list of Apps list time we get it from BaseFragment
+    private var curPinnedShortcuts = listOf<App>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -155,8 +162,13 @@ class HomeFragment :
             }
             homeFragmentContent.homeFragmentBinTime
                 .visibility = if (clockType == ClockType.binary) View.VISIBLE else View.GONE
-            homeFragmentContent.homeFragmentDate
-                .visibility = if (clockType != ClockType.none) View.VISIBLE else View.GONE
+
+            val dateFormat = sharedPrefs()
+                ?.getInt(getString(R.string.prefs_settings_key_date_format), 0)
+            val haveClock = (clockType != ClockType.none)
+            val haveDate = (dateFormat != MyDateFormat.date_none.number)
+            homeFragmentContent.homeFragmentDate.visibility =
+                if (haveClock && haveDate) View.VISIBLE else View.GONE
         }
     }
 
@@ -191,6 +203,7 @@ class HomeFragment :
 
     private fun refreshApps() {
         val installedApps = getInstalledApps()
+        curPinnedShortcuts = installedApps.filter { it.appType == 1 }
         lifecycleScope.launch(Dispatchers.IO) {
             unlauncherDataSource.unlauncherAppsRepo.setApps(installedApps)
             viewModel.filterHomeApps(installedApps)
@@ -203,16 +216,28 @@ class HomeFragment :
         resetAppDrawerEditText()
     }
 
+    private fun packageIntent(intent: Intent) = try {
+        val pm = requireContext().packageManager
+        val comp = intent.resolveActivity(pm)
+        pm.getLaunchIntentForPackage(comp.packageName)!!
+    } catch (e: Exception) {
+        intent
+    }
+
+    private fun launchActivityAux(view: View, intent: Intent) {
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        try {
+            launchActivity(view, intent)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            // Do nothing, we've failed :(
+        }
+    }
+
     private fun setEventListeners() {
         val launchShowAlarms = OnClickListener {
-            try {
-                val intent = Intent(AlarmClock.ACTION_SHOW_ALARMS)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                launchActivity(it, intent)
-            } catch (e: ActivityNotFoundException) {
-                e.printStackTrace()
-                // Do nothing, we've failed :(
-            }
+            val intent = Intent(AlarmClock.ACTION_SHOW_ALARMS)
+            launchActivityAux(it, intent)
         }
         val homeFragmentContent = HomeFragmentContentBinding.bind(requireView())
         homeFragmentContent.homeFragmentTime.setOnClickListener(launchShowAlarms)
@@ -220,14 +245,9 @@ class HomeFragment :
         homeFragmentContent.homeFragmentBinTime.setOnClickListener(launchShowAlarms)
 
         homeFragmentContent.homeFragmentDate.setOnClickListener {
-            try {
-                val builder = CalendarContract.CONTENT_URI.buildUpon().appendPath("time")
-                val intent = Intent(Intent.ACTION_VIEW, builder.build())
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                launchActivity(it, intent)
-            } catch (e: ActivityNotFoundException) {
-                // Do nothing, we've failed :(
-            }
+            val builder = CalendarContract.CONTENT_URI.buildUpon().appendPath("time")
+            val intent = Intent(Intent.ACTION_VIEW, builder.build())
+            launchActivityAux(it, intent)
         }
 
         unlauncherDataSource.quickButtonPreferencesRepo.liveData()
@@ -236,22 +256,14 @@ class HomeFragment :
                     prefs.leftButton.iconId
                 )
                 homeFragmentContent.homeFragmentCall.setImageResource(leftButtonIcon)
+                var anyOn = false
                 if (leftButtonIcon != R.drawable.ic_empty) {
+                    anyOn = true
                     homeFragmentContent.homeFragmentCall.setOnClickListener { view ->
-                        try {
-                            val pm = context?.packageManager!!
-                            val intent = Intent(Intent.ACTION_DIAL)
-                            val componentName = intent.resolveActivity(pm)
-                            if (componentName == null) {
-                                launchActivity(view, intent)
-                            } else {
-                                pm.getLaunchIntentForPackage(componentName.packageName)?.let {
-                                    launchActivity(view, it)
-                                } ?: run { launchActivity(view, intent) }
-                            }
-                        } catch (e: Exception) {
-                            // Do nothing
-                        }
+                        /* avoid getting a numeric dial from ACTION_DIAL, so launch
+                         *  the phone app instead (via packageIntent) */
+                        val intent = Intent(Intent.ACTION_DIAL)
+                        launchActivityAux(view, packageIntent(intent))
                     }
                 }
 
@@ -260,6 +272,7 @@ class HomeFragment :
                 )
                 homeFragmentContent.homeFragmentOptions.setImageResource(centerButtonIcon)
                 if (centerButtonIcon != R.drawable.ic_empty) {
+                    anyOn = true
                     homeFragmentContent.homeFragmentOptions.setOnClickListener(
                         Navigation.createNavigateOnClickListener(
                             R.id.action_homeFragment_to_optionsFragment
@@ -272,15 +285,17 @@ class HomeFragment :
                 )
                 homeFragmentContent.homeFragmentCamera.setImageResource(rightButtonIcon)
                 if (rightButtonIcon != R.drawable.ic_empty) {
+                    anyOn = true
                     homeFragmentContent.homeFragmentCamera.setOnClickListener {
-                        try {
-                            val intent = Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA)
-                            launchActivity(it, intent)
-                        } catch (e: Exception) {
-                            // Do nothing
-                        }
+                        val intent = Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA)
+                        launchActivityAux(it, intent)
                     }
                 }
+
+                val vis = if (anyOn) View.VISIBLE else View.GONE
+                homeFragmentContent.homeFragmentCall.visibility = vis
+                homeFragmentContent.homeFragmentOptions.visibility = vis
+                homeFragmentContent.homeFragmentCamera.visibility = vis
             }
 
         homeFragmentContent.appDrawerEditText.addTextChangedListener(
@@ -291,7 +306,12 @@ class HomeFragment :
         homeFragmentContent.appDrawerEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE && appDrawerAdapter.itemCount > 0) {
                 val firstApp = appDrawerAdapter.getFirstApp()
-                launchApp(firstApp.packageName, firstApp.className, firstApp.userSerial)
+                launch(
+                    firstApp.appType,
+                    firstApp.packageName,
+                    firstApp.className,
+                    firstApp.userSerial
+                )
                 homeFragment.transitionToStart()
                 true
             } else {
@@ -377,11 +397,13 @@ class HomeFragment :
         }
     }
 
+    private fun sharedPrefs(): SharedPreferences? = context?.getSharedPreferences(
+        getString(R.string.prefs_settings),
+        Context.MODE_PRIVATE
+    )
+
     private fun updateClockDigital() {
-        val timeFormat = context?.getSharedPreferences(
-            getString(R.string.prefs_settings),
-            Context.MODE_PRIVATE
-        )
+        val timeFormat = sharedPrefs()
             ?.getInt(getString(R.string.prefs_settings_key_time_format), 0)
         val fWatchTime = when (timeFormat) {
             1 -> SimpleDateFormat("H:mm", Locale.getDefault())
@@ -389,17 +411,83 @@ class HomeFragment :
             else -> DateFormat.getTimeFormat(context)
         }
         val homeFragmentContent = HomeFragmentContentBinding.bind(requireView())
-        homeFragmentContent.homeFragmentTime.text = fWatchTime.format(Date())
+        homeFragmentContent.homeFragmentTime.text = fixLead0(fWatchTime.format(Date()))
+    }
+
+    private fun strDate(dateTempl: String): String =
+        SimpleDateFormat(dateTempl, Locale.getDefault()).format(Date())
+
+    private fun removeLead0(s: String): String {
+        var t = StringBuilder()
+        var start = true
+        for (c in s) {
+            if (start && c.isDigit() && (c.digitToInt() == 0)) {
+                continue
+            }
+            t.append(c)
+            start = !(c.isDigit() || (c == ':'))
+        }
+        return t.toString()
+    }
+
+    private fun prefixLead0(s: String): String {
+        var t = StringBuilder()
+        var start = true
+        var lastDigit = ' '
+        for (c in s) {
+            if (start && c.isDigit() && (c.digitToInt() != 0)) {
+                lastDigit = c
+                start = false
+                continue
+            }
+            if (lastDigit != ' ') {
+                if (!c.isDigit()) {
+                    t.append('0')
+                }
+                t.append(lastDigit)
+            }
+            t.append(c)
+            start = !c.isDigit()
+            lastDigit = ' '
+        }
+        if (lastDigit != ' ') {
+            t.append('0')
+            t.append(lastDigit)
+        }
+        return t.toString()
+    }
+
+    private fun fixLead0(s: String): String {
+        val lead0Modif = sharedPrefs()
+            ?.getInt(getString(R.string.prefs_settings_key_lead0_modif), 0)
+        return when (lead0Modif) {
+            1 -> removeLead0(s)
+            2 -> prefixLead0(s)
+            else -> s
+        }
     }
 
     private fun updateDate() {
-        val fWatchDate = SimpleDateFormat(getString(R.string.main_date_format), Locale.getDefault())
+        val dateFormat = sharedPrefs()
+            ?.getInt(getString(R.string.prefs_settings_key_date_format), 0)
+        val dateStr = when (dateFormat) {
+            MyDateFormat.date_short.number -> {
+                android.text.format.DateFormat.getDateFormat(context).format(Date())
+            }
+            MyDateFormat.date_medium.number -> {
+                android.text.format.DateFormat.getMediumDateFormat(context).format(Date())
+            }
+            MyDateFormat.date_iso.number -> strDate(getString(R.string.iso_date_format))
+            MyDateFormat.date_iso_wday.number -> strDate(getString(R.string.iso_wday_date_format))
+            MyDateFormat.date_wday.number -> strDate(getString(R.string.wday_date_format))
+            else -> strDate(getString(R.string.main_date_format))
+        }
         val homeFragmentContent = HomeFragmentContentBinding.bind(requireView())
-        homeFragmentContent.homeFragmentDate.text = fWatchDate.format(Date())
+        homeFragmentContent.homeFragmentDate.text = fixLead0(dateStr)
     }
 
     override fun onLaunch(app: HomeApp, view: View) {
-        launchApp(app.packageName, app.activityName, app.userSerial)
+        launch(app.appType, app.packageName, app.activityName, app.userSerial)
     }
 
     override fun onBack(): Boolean {
@@ -419,19 +507,60 @@ class HomeFragment :
         }
     }
 
-    private fun launchApp(packageName: String, activityName: String, userSerial: Long) {
+    private fun launchAppAux(packageName: String, activityName: String, userSerial: Long) {
         try {
-            val manager = requireContext().getSystemService(Context.USER_SERVICE) as UserManager
-            val launcher = requireContext().getSystemService(
-                Context.LAUNCHER_APPS_SERVICE
-            ) as LauncherApps
-
-            val componentName = ComponentName(packageName, activityName)
-            val userHandle = manager.getUserForSerialNumber(userSerial)
-
-            launcher.startMainActivity(componentName, userHandle, view?.clipBounds, null)
+            val launcher = getLauncher()
+            val comp = ComponentName(packageName, activityName)
+            val userHandle = getUserHandle(userSerial)
+            launcher.startMainActivity(comp, userHandle, view?.clipBounds, null)
         } catch (e: Exception) {
-            // Do no shit yet
+            Toast.makeText(context, R.string.couldnt_start_app, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun launchShortcutAux(packageName: String, activityName: String, userSerial: Long) {
+        try {
+            val launcher = getLauncher()
+            val userHandle = getUserHandle(userSerial)
+            if (Build.VERSION.SDK_INT >= 25) {
+                launcher.startShortcut(
+                    packageName,
+                    activityName,
+                    view?.clipBounds,
+                    null,
+                    userHandle
+                )
+            }
+            // FIXME: For some apps, this always fails:
+            //     - camera (e.g. take picture)
+            // For some apps, this sometimes does nothing (does not fail either), but only
+            // the second, same activity works:
+            //     - Clock (e.g., start)
+            // For some apps, this always seems to work:
+            //     - browser (e.g., new incognito tab)
+            // What's the difference?  Is it our fault?
+            // The problems above are usually for the static and/or dynamic shortcuts, but
+            // do not seem to appear for pinned shortcuts.  Maybe I should check which one
+            // it is, static or dynamic and depending on that, change something here?
+        } catch (e: Exception) {
+            Toast.makeText(context, R.string.couldnt_start_shortcut, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun launchActionAux(packageName: String, activityName: String, userSerial: Long) {
+        val intent = Intent(activityName)
+        try {
+            launchActivityAux(requireView(), intent)
+        } catch (e: Exception) {
+        }
+    }
+
+    private fun launch(appType: Int, packageName: String, activityName: String, userSerial: Long) {
+        when (appType) {
+            0 -> launchAppAux(packageName, activityName, userSerial)
+            1,
+            2 -> launchShortcutAux(packageName, activityName, userSerial)
+            3 -> launchActionAux(packageName, activityName, userSerial)
         }
     }
 
@@ -443,29 +572,30 @@ class HomeFragment :
     }
 
     inner class AppDrawerListener {
-        @SuppressLint("DiscouragedPrivateApi")
+        @SuppressLint("DiscouragedPrivateApi", "NewApi")
         fun onAppLongClicked(app: UnlauncherApp, view: View): Boolean {
             val popupMenu = PopupMenu(context, view)
             popupMenu.inflate(R.menu.app_long_press_menu)
-            hideUninstallOptionIfSystemApp(app, popupMenu)
+            hideOptionsMaybe(app, popupMenu)
 
             popupMenu.setOnMenuItemClickListener { item: MenuItem? ->
-
                 when (item!!.itemId) {
                     R.id.open -> {
                         onAppClicked(app)
                     }
                     R.id.info -> {
-                        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-                        intent.addCategory(Intent.CATEGORY_DEFAULT)
-                        intent.data = Uri.parse("package:" + app.packageName)
-                        startActivity(intent)
+                        if (app.appType <= 2) {
+                            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                            intent.addCategory(Intent.CATEGORY_DEFAULT)
+                            intent.data = Uri.parse("package:" + app.packageName)
+                            startActivity(intent)
+                        }
                     }
                     R.id.hide -> {
                         unlauncherDataSource.unlauncherAppsRepo.updateDisplayInDrawer(app, false)
                         Toast.makeText(
                             context,
-                            "Unhide under Unlauncher's Options > Customize Drawer > Visible Apps",
+                            R.string.unhide_hint,
                             Toast.LENGTH_LONG
                         ).show()
                     }
@@ -476,9 +606,43 @@ class HomeFragment :
                         ).show(childFragmentManager, "AppListAdapter")
                     }
                     R.id.uninstall -> {
-                        val intent = Intent(Intent.ACTION_DELETE)
-                        intent.data = Uri.parse("package:" + app.packageName)
-                        uninstallAppLauncher.launch(intent)
+                        if (app.appType == 0) {
+                            val intent = Intent(Intent.ACTION_DELETE)
+                            intent.data = Uri.parse("package:" + app.packageName)
+                            uninstallAppLauncher.launch(intent)
+                        }
+                    }
+                    R.id.remove -> {
+                        if (app.appType == 1) {
+                            var ids = curPinnedShortcuts.filter {
+                                it.packageName == app.packageName &&
+                                    it.activityName != app.className
+                            }.map {
+                                it.activityName
+                            }
+                            val userHandle = getUserHandle(app.userSerial)
+                            try {
+                                val launcher = getLauncher()
+                                // TODO Need to handle this
+                                launcher.pinShortcuts(app.packageName, ids, userHandle)
+                            } catch (e: IllegalStateException) {
+                                Toast.makeText(
+                                    context,
+                                    R.string.unable_to_unpin,
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            } catch (e: SecurityException) {
+                                Toast.makeText(
+                                    context,
+                                    R.string.unable_to_unpin,
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
+                            refreshApps()
+                            Toast.makeText(context, R.string.shortcut_unpinned, Toast.LENGTH_LONG)
+                                .show()
+                            backHome()
+                        }
                     }
                 }
                 true
@@ -495,19 +659,50 @@ class HomeFragment :
             return true
         }
 
-        private fun hideUninstallOptionIfSystemApp(app: UnlauncherApp, popupMenu: PopupMenu) {
-            val pm = requireContext().packageManager
-            val info = pm.getApplicationInfo(app.packageName, 0)
-            if (info.isSystemApp()) {
-                val uninstallMenuItem = popupMenu.menu.findItem(R.id.uninstall)
-                uninstallMenuItem.isVisible = false
+        private fun hideOptionsMaybe(app: UnlauncherApp, popupMenu: PopupMenu) {
+            if (app.appType <= 2) {
+                val pm = requireContext().packageManager
+                val info = pm.getApplicationInfo(app.packageName, 0)
+                // System apps and shortcuts cannot be uninstalled
+                if (info.isSystemApp() || (app.appType != 0)) {
+                    val item = popupMenu.menu.findItem(R.id.uninstall)
+                    item.isVisible = false
+                }
+                // Except for pinned shortcuts, nothing else can be removed:
+                if (app.appType != 1) {
+                    val item = popupMenu.menu.findItem(R.id.remove)
+                    item.isVisible = false
+                }
+            } else {
+                val item0 = popupMenu.menu.findItem(R.id.info)
+                item0.isVisible = false
+
+                val item1 = popupMenu.menu.findItem(R.id.uninstall)
+                item1.isVisible = false
+
+                val item2 = popupMenu.menu.findItem(R.id.remove)
+                item2.isVisible = false
             }
         }
 
         fun onAppClicked(app: UnlauncherApp) {
-            launchApp(app.packageName, app.className, app.userSerial)
+            launch(app.appType, app.packageName, app.className, app.userSerial)
+            backHome()
+        }
+
+        fun backHome() {
             val homeFragment = HomeFragmentDefaultBinding.bind(requireView()).root
             homeFragment.transitionToStart()
         }
     }
+
+    private fun getManager(): UserManager =
+        requireContext().getSystemService(Context.USER_SERVICE) as UserManager
+
+    private fun getLauncher(): LauncherApps = requireContext().getSystemService(
+        Context.LAUNCHER_APPS_SERVICE
+    ) as LauncherApps
+
+    private fun getUserHandle(userSerial: Long): UserHandle =
+        getManager().getUserForSerialNumber(userSerial)
 }

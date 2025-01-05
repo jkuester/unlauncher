@@ -32,21 +32,21 @@ class CustomizeAppDrawerAppListFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val unlauncherAppsRepo = unlauncherDataSource.unlauncherAppsRepo
-        val customiseAppDrawerAppListFragment = CustomizeAppDrawerAppListFragmentBinding.bind(
+        val customizeAppDrawerAppListFragment = CustomizeAppDrawerAppListFragmentBinding.bind(
             requireView()
         )
-        customiseAppDrawerAppListFragment.customizeAppDrawerFragmentAppList.adapter =
+        customizeAppDrawerAppListFragment.customizeAppDrawerFragmentAppList.adapter =
             CustomizeAppDrawerAppsAdapter(viewLifecycleOwner, unlauncherAppsRepo)
         unlauncherAppsRepo.liveData().observe(viewLifecycleOwner) {
             it?.let {
-                customiseAppDrawerAppListFragment.customizeAppDrawerFragmentAppProgressBar
+                customizeAppDrawerAppListFragment.customizeAppDrawerFragmentAppProgressBar
                     .visibility = View.GONE
             } ?: run {
-                customiseAppDrawerAppListFragment.customizeAppDrawerFragmentAppProgressBar
+                customizeAppDrawerAppListFragment.customizeAppDrawerFragmentAppProgressBar
                     .visibility = View.VISIBLE
             }
         }
-        customiseAppDrawerAppListFragment.customizeAppDrawerFragmentBack.setOnClickListener {
+        customizeAppDrawerAppListFragment.customizeAppDrawerFragmentBack.setOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
     }

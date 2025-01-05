@@ -87,6 +87,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_bottom_small"
             android:alpha="1"
+            app:visibilityMode="ignore"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/home_fragment_camera"
             app:layout_constraintStart_toEndOf="@+id/home_fragment_call" />
@@ -96,6 +97,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_sides_small"
             android:layout_marginBottom="@dimen/margin_bottom_small"
+            app:visibilityMode="ignore"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
         <Constraint
@@ -104,6 +106,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/margin_sides_small"
             android:layout_marginBottom="@dimen/margin_bottom_small"
+            app:visibilityMode="ignore"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
         <Constraint

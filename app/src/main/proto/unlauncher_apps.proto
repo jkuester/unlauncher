@@ -10,6 +10,7 @@ message UnlauncherApp {
   string display_name = 4;
   bool display_in_drawer = 5;
   bool home_app = 6;
+  int32 app_type = 7;
 }
 
 message UnlauncherApps {
