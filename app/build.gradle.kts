@@ -101,15 +101,15 @@ dependencies {
     ksp("androidx.room:room-compiler:2.6.1")
 
     // 3rd party libs
-    implementation("com.intuit.sdp:sdp-android:1.0.6")
-    implementation("com.intuit.ssp:ssp-android:1.0.6")
+    implementation("com.intuit.sdp:sdp-android:1.1.1")
+    implementation("com.intuit.ssp:ssp-android:1.1.1")
     implementation("com.google.dagger:hilt-android:2.54")
     ksp("androidx.hilt:hilt-compiler:1.2.0")
     ksp("com.google.dagger:hilt-android-compiler:2.54")
 }
 protobuf {
     protoc {
-        artifact = "com.google.protobuf:protoc:3.25.1"
+        artifact = "com.google.protobuf:protoc:4.29.2"
     }
     generateProtoTasks {
         all().forEach { task ->

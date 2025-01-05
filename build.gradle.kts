@@ -30,5 +30,5 @@ tasks.register("clean", Delete::class) {
 plugins {
     id("com.google.devtools.ksp") version "2.1.0-1.0.29" apply false // This needs to match kotlin-stdlib
     id("com.google.protobuf") version "0.9.4" apply false
-    id("org.jlleitschuh.gradle.ktlint") version "12.0.3"
+    id("org.jlleitschuh.gradle.ktlint") version "12.1.2"
 }
