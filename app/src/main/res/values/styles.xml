@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- System sans serif (probably Roboto) -->
     <style name="AppBlackBlueTheme" parent="AppTheme">
         <item name="colorAccent">@color/blueAccentColor</item>
         <item name="headerTextColor">@color/blueAccentColor</item>
@@ -19,6 +20,11 @@
         <item name="colorAccent">@color/redAccentColor</item>
         <item name="headerTextColor">@color/redAccentColor</item>
         <item name="launchTextColor">@color/redAccentColor</item>
+    </style>
+    <style name="AppBlackLilacTheme" parent="AppTheme">
+        <item name="colorAccent">@color/lilacAccentColor</item>
+        <item name="headerTextColor">@color/lilacAccentColor</item>
+        <item name="launchTextColor">@color/lilacAccentColor</item>
     </style>
     <style name="AppCandyTheme" parent="AppTheme">
         <item name="android:colorBackground">@color/colorCandy</item>
@@ -76,10 +82,10 @@
     </style>
     <style name="AppTheme" parent="@style/Theme.AppCompat.DayNight.NoActionBar">
         <item name="android:colorBackground">@color/primaryColor</item>
-        <item name="android:colorForeground">@color/on_off_color</item>
-        <item name="android:fontFamily">@font/ubuntu</item>
-        <item name="android:textColor">@color/on_off_color</item>
-        <item name="android:textColorHint">@color/hintColor</item>
+        <item name="android:colorForeground">@color/accentColor</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">@color/accentColor</item>
+        <item name="android:textColorHint">@color/accentColor</item>
         <item name="clockTextColor">@color/accentColor</item>
         <item name="colorAccent">@color/accentColor</item>
         <item name="colorPrimary">@color/primaryColor</item>
@@ -90,5 +96,181 @@
         <item name="headerTextColor">@color/accentColor</item>
         <item name="launchTextColor">@color/accentColor</item>
         <item name="thirdColor">@color/accentColor</item>
+    </style>
+
+    <!-- Ubuntu font -->
+    <style name="AppBlackBlueThemeUbuntu" parent="AppBlackBlueTheme">
+        <item name="android:fontFamily">@font/ubuntu</item>
+    </style>
+    <style name="AppBlackCyanThemeUbuntu" parent="AppBlackCyanTheme">
+        <item name="android:fontFamily">@font/ubuntu</item>
+    </style>
+    <style name="AppBlackOrangeThemeUbuntu" parent="AppBlackOrangeTheme">
+        <item name="android:fontFamily">@font/ubuntu</item>
+    </style>
+    <style name="AppBlackRedThemeUbuntu" parent="AppBlackRedTheme">
+        <item name="android:fontFamily">@font/ubuntu</item>
+    </style>
+    <style name="AppBlackLilacThemeUbuntu" parent="AppBlackLilacTheme">
+        <item name="android:fontFamily">@font/ubuntu</item>
+    </style>
+    <style name="AppCandyThemeUbuntu" parent="AppCandyTheme">
+        <item name="android:fontFamily">@font/ubuntu</item>
+    </style>
+    <style name="AppDarculaThemeUbuntu" parent="AppDarculaTheme">
+        <item name="android:fontFamily">@font/ubuntu</item>
+    </style>
+    <style name="AppGreyThemeUbuntu" parent="AppGreyTheme">
+        <item name="android:fontFamily">@font/ubuntu</item>
+    </style>
+    <style name="AppGruvBoxDarkThemeUbuntu" parent="AppGruvBoxDarkTheme">
+        <item name="android:fontFamily">@font/ubuntu</item>
+    </style>
+    <style name="AppPinkThemeUbuntu" parent="AppPinkTheme">
+        <item name="android:fontFamily">@font/ubuntu</item>
+    </style>
+    <style name="AppTealThemeUbuntu" parent="AppTealTheme">
+        <item name="android:fontFamily">@font/ubuntu</item>
+    </style>
+    <style name="AppThemeDarkUbuntu" parent="AppThemeDark">
+        <item name="android:fontFamily">@font/ubuntu</item>
+    </style>
+    <style name="AppThemeLightUbuntu" parent="AppThemeLight">
+        <item name="android:fontFamily">@font/ubuntu</item>
+    </style>
+    <style name="AppThemeUbuntu" parent="AppTheme">
+        <item name="android:fontFamily">@font/ubuntu</item>
+    </style>
+
+    <!-- System Serif font (probably Noto) -->
+    <style name="AppBlackBlueThemeSerif" parent="AppBlackBlueTheme">
+        <item name="android:fontFamily">serif</item>
+    </style>
+    <style name="AppBlackCyanThemeSerif" parent="AppBlackCyanTheme">
+        <item name="android:fontFamily">serif</item>
+    </style>
+    <style name="AppBlackOrangeThemeSerif" parent="AppBlackOrangeTheme">
+        <item name="android:fontFamily">serif</item>
+    </style>
+    <style name="AppBlackRedThemeSerif" parent="AppBlackRedTheme">
+        <item name="android:fontFamily">serif</item>
+    </style>
+    <style name="AppBlackLilacThemeSerif" parent="AppBlackLilacTheme">
+        <item name="android:fontFamily">serif</item>
+    </style>
+    <style name="AppCandyThemeSerif" parent="AppCandyTheme">
+        <item name="android:fontFamily">serif</item>
+    </style>
+    <style name="AppDarculaThemeSerif" parent="AppDarculaTheme">
+        <item name="android:fontFamily">serif</item>
+    </style>
+    <style name="AppGreyThemeSerif" parent="AppGreyTheme">
+        <item name="android:fontFamily">serif</item>
+    </style>
+    <style name="AppGruvBoxDarkThemeSerif" parent="AppGruvBoxDarkTheme">
+        <item name="android:fontFamily">serif</item>
+    </style>
+    <style name="AppPinkThemeSerif" parent="AppPinkTheme">
+        <item name="android:fontFamily">serif</item>
+    </style>
+    <style name="AppTealThemeSerif" parent="AppTealTheme">
+        <item name="android:fontFamily">serif</item>
+    </style>
+    <style name="AppThemeDarkSerif" parent="AppThemeDark">
+        <item name="android:fontFamily">serif</item>
+    </style>
+    <style name="AppThemeLightSerif" parent="AppThemeLight">
+        <item name="android:fontFamily">serif</item>
+    </style>
+    <style name="AppThemeSerif" parent="AppTheme">
+        <item name="android:fontFamily">serif</item>
+    </style>
+
+    <!-- System monospace (probably Droid Sans Mono) -->
+    <style name="AppBlackBlueThemeMono" parent="AppBlackBlueTheme">
+        <item name="android:fontFamily">monospace</item>
+    </style>
+    <style name="AppBlackCyanThemeMono" parent="AppBlackCyanTheme">
+        <item name="android:fontFamily">monospace</item>
+    </style>
+    <style name="AppBlackOrangeThemeMono" parent="AppBlackOrangeTheme">
+        <item name="android:fontFamily">monospace</item>
+    </style>
+    <style name="AppBlackRedThemeMono" parent="AppBlackRedTheme">
+        <item name="android:fontFamily">monospace</item>
+    </style>
+    <style name="AppBlackLilacThemeMono" parent="AppBlackLilacTheme">
+        <item name="android:fontFamily">monospace</item>
+    </style>
+    <style name="AppCandyThemeMono" parent="AppCandyTheme">
+        <item name="android:fontFamily">monospace</item>
+    </style>
+    <style name="AppDarculaThemeMono" parent="AppDarculaTheme">
+        <item name="android:fontFamily">monospace</item>
+    </style>
+    <style name="AppGreyThemeMono" parent="AppGreyTheme">
+        <item name="android:fontFamily">monospace</item>
+    </style>
+    <style name="AppGruvBoxDarkThemeMono" parent="AppGruvBoxDarkTheme">
+        <item name="android:fontFamily">monospace</item>
+    </style>
+    <style name="AppPinkThemeMono" parent="AppPinkTheme">
+        <item name="android:fontFamily">monospace</item>
+    </style>
+    <style name="AppTealThemeMono" parent="AppTealTheme">
+        <item name="android:fontFamily">monospace</item>
+    </style>
+    <style name="AppThemeDarkMono" parent="AppThemeDark">
+        <item name="android:fontFamily">monospace</item>
+    </style>
+    <style name="AppThemeLightMono" parent="AppThemeLight">
+        <item name="android:fontFamily">monospace</item>
+    </style>
+    <style name="AppThemeMono" parent="AppTheme">
+        <item name="android:fontFamily">monospace</item>
+    </style>
+
+    <!-- System cursive font (probably DancingScript) -->
+    <style name="AppBlackBlueThemeCursive" parent="AppBlackBlueTheme">
+        <item name="android:fontFamily">cursive</item>
+    </style>
+    <style name="AppBlackCyanThemeCursive" parent="AppBlackCyanTheme">
+        <item name="android:fontFamily">cursive</item>
+    </style>
+    <style name="AppBlackOrangeThemeCursive" parent="AppBlackOrangeTheme">
+        <item name="android:fontFamily">cursive</item>
+    </style>
+    <style name="AppBlackRedThemeCursive" parent="AppBlackRedTheme">
+        <item name="android:fontFamily">cursive</item>
+    </style>
+    <style name="AppBlackLilacThemeCursive" parent="AppBlackLilacTheme">
+        <item name="android:fontFamily">cursive</item>
+    </style>
+    <style name="AppCandyThemeCursive" parent="AppCandyTheme">
+        <item name="android:fontFamily">cursive</item>
+    </style>
+    <style name="AppDarculaThemeCursive" parent="AppDarculaTheme">
+        <item name="android:fontFamily">cursive</item>
+    </style>
+    <style name="AppGreyThemeCursive" parent="AppGreyTheme">
+        <item name="android:fontFamily">cursive</item>
+    </style>
+    <style name="AppGruvBoxDarkThemeCursive" parent="AppGruvBoxDarkTheme">
+        <item name="android:fontFamily">cursive</item>
+    </style>
+    <style name="AppPinkThemeCursive" parent="AppPinkTheme">
+        <item name="android:fontFamily">cursive</item>
+    </style>
+    <style name="AppTealThemeCursive" parent="AppTealTheme">
+        <item name="android:fontFamily">cursive</item>
+    </style>
+    <style name="AppThemeDarkCursive" parent="AppThemeDark">
+        <item name="android:fontFamily">cursive</item>
+    </style>
+    <style name="AppThemeLightCursive" parent="AppThemeLight">
+        <item name="android:fontFamily">cursive</item>
+    </style>
+    <style name="AppThemeCursive" parent="AppTheme">
+        <item name="android:fontFamily">cursive</item>
     </style>
 </resources>

@@ -10,12 +10,13 @@ import android.graphics.Rect
 import android.os.Build
 import android.text.SpannableStringBuilder
 import android.text.Spanned
-import android.text.style.TextAppearanceSpan
+import android.text.style.RelativeSizeSpan
 import android.util.DisplayMetrics
 import android.view.WindowInsets
 import androidx.annotation.StringRes
 import com.jkuester.unlauncher.datastore.AlignmentFormat
 import com.sduduzog.slimlauncher.R
+// import android.text.style.TextAppearanceSpan
 
 private fun isAppDefaultLauncher(context: Context?): Boolean {
     val intent = Intent(Intent.ACTION_MAIN)
@@ -98,13 +99,13 @@ fun createTitleAndSubtitleText(
 ): CharSequence {
     val spanBuilder = SpannableStringBuilder("$title\n$subtitle")
     spanBuilder.setSpan(
-        TextAppearanceSpan(context, R.style.TextAppearance_AppCompat_Large),
+        RelativeSizeSpan(0.8F),
         0,
         title.length,
         Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
     )
     spanBuilder.setSpan(
-        TextAppearanceSpan(context, R.style.TextAppearance_AppCompat_Small),
+        RelativeSizeSpan(0.6F),
         title.length + 1,
         title.length + 1 + subtitle.length,
         Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
