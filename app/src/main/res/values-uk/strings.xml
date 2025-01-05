@@ -66,7 +66,6 @@
     <string name="customize_app_drawer_fragment_show_headings_subtitle">Поділити програми на групи за абеткою</string>
     <string name="customize_app_drawer_fragment_show_search_bar">Показувати поле пошуку</string>
     <string name="options_fragment_visible_apps">Видимі програми</string>
-    <string name="hidden">прихована</string>
     <string name="hide_app">Приховати застосунок</string>
     <string name="main_fragment_options">Налаштування</string>
     <string name="menu_remove">Видалити</string>
@@ -86,9 +85,7 @@
     "Це лише для того, щоб підтвердити, що ви очищаєте цей список навмисно"</string>
     <string name="remove_all_apps_dialog_title">Прибрати усі</string>
     <string name="rename_app">Перейменувати</string>
-    <string name="shown">видима</string>
     <string name="uninstall">Видалити</string>
-    <string name="action_add_shortcut">Додати на Домашній екран</string>
     <string name="customize_app_drawer_fragment_wallpaper_not_default_launcher">Програма має бути встановлена за замовчуванням</string>
     <string name="customize_app_drawer_fragment_wallpaper_text">Встановити задній фон теми як шпалери</string>
 </resources>

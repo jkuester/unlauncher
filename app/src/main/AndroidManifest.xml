@@ -37,7 +37,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:localeConfig="@xml/locales_config"
-        tools:ignore="GoogleAppIndexingWarning">
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:targetApi="tiramisu">
+<!-- TODO fix this  -->
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTask"
@@ -64,29 +66,25 @@
             </intent-filter>
         </activity>
 
-        <receiver
-            android:name=".InstallShortcutReceiver"
-            android:enabled="true"
-            android:permission="com.android.launcher.permission.INSTALL_SHORTCUT"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="com.android.launcher.action.INSTALL_SHORTCUT" />
-            </intent-filter>
-        </receiver>
+<!--        <receiver-->
+<!--            android:name=".InstallShortcutReceiver"-->
+<!--            android:enabled="true"-->
+<!--            android:permission="com.android.launcher.permission.INSTALL_SHORTCUT"-->
+<!--            android:exported="true">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="com.android.launcher.action.INSTALL_SHORTCUT" />-->
+<!--            </intent-filter>-->
+<!--        </receiver>-->
 
-        <receiver
-            android:name=".UninstallShortcutReceiver"
-            android:enabled="true"
-            android:permission="com.android.launcher.permission.UNINSTALL_SHORTCUT"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="com.android.launcher.action.UNINSTALL_SHORTCUT" />
-            </intent-filter>
-        </receiver>
-
-        <meta-data
-            android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts" />
+<!--        <receiver-->
+<!--            android:name=".UninstallShortcutReceiver"-->
+<!--            android:enabled="true"-->
+<!--            android:permission="com.android.launcher.permission.UNINSTALL_SHORTCUT"-->
+<!--            android:exported="true">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="com.android.launcher.action.UNINSTALL_SHORTCUT" />-->
+<!--            </intent-filter>-->
+<!--        </receiver>-->
     </application>
 
 </manifest>

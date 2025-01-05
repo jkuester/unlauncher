@@ -46,5 +46,4 @@
     <string name="options_fragment_toggle_status_bar">Statusbalk tonen/verbergen</string>
     <string name="remove_all_apps_dialog_title">Allen verwijderen</string>
     <string name="rename_app">Naam wijzigen</string>
-    <string name="action_add_shortcut">Aan launcher toevoegen</string>
 </resources>

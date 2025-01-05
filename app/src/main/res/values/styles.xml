@@ -44,18 +44,18 @@
     </style>
     <style name="AppGruvBoxDarkTheme" parent="AppTheme">
         <item name="android:colorBackground">@color/colorCharlestonGreen</item>
-        <item name="android:colorForeground">@color/on_off_groove</item>
-        <item name="android:textColor">@color/on_off_groove</item>
+        <item name="android:colorForeground">@color/colorCultured</item>
+        <item name="android:textColor">@color/colorCultured</item>
         <item name="android:textColorHint">@color/colorCinereous</item>
         <item name="clockTextColor">@color/colorCookiesAndCream</item>
         <item name="colorAccent">@color/colorCookiesAndCream</item>
         <item name="colorPrimary">@color/colorCharlestonGreen</item>
-        <item name="configTextColor">@color/on_off_groove</item>
+        <item name="configTextColor">@color/colorCultured</item>
         <item name="controlHintColor">@color/colorCinereous</item>
-        <item name="controlTextColor">@color/on_off_groove</item>
+        <item name="controlTextColor">@color/colorCultured</item>
         <item name="headerTextColor">@color/colorAcidGreen</item>
         <item name="launchTextColor">@color/colorCookiesAndCream</item>
-        <item name="switchTextColor">@color/on_off_groove</item>
+        <item name="switchTextColor">@color/colorCultured</item>
         <item name="thirdColor">@color/colorCookiesAndCream</item>
     </style>
     <style name="AppPinkTheme" parent="AppTheme">

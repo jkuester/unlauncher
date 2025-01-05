@@ -68,7 +68,6 @@
     <string name="customize_app_drawer_fragment_show_headings_subtitle">按应用英文名首字母将应用分组</string>
     <string name="customize_app_drawer_fragment_show_search_bar">显示搜索栏</string>
     <string name="options_fragment_visible_apps">可见的应用</string>
-    <string name="hidden">隐藏的</string>
     <string name="hide_app">隐藏应用</string>
     <string name="main_date_format">EEE, MMM dd</string>
     <string name="main_fragment_options">选项</string>
@@ -90,9 +89,7 @@
     "只想确认一下你是否有意清除这个列表。"</string>
     <string name="remove_all_apps_dialog_title">删除全部应用</string>
     <string name="rename_app">重命名应用</string>
-    <string name="shown">显示</string>
     <string name="uninstall">卸载</string>
-    <string name="action_add_shortcut">添加到应用程序抽屉</string>
     <string name="customize_app_drawer_fragment_wallpaper_not_default_launcher">需设为默认启动器</string>
     <string name="customize_app_drawer_fragment_wallpaper_text">将主题背景设为壁纸</string>
 </resources>

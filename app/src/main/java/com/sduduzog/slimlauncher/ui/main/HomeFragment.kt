@@ -217,7 +217,7 @@ class HomeFragment :
     }
 
     private fun packageIntent(intent: Intent) = try {
-        val pm = context!!.packageManager
+        val pm = requireContext().packageManager
         val comp = intent.resolveActivity(pm)
         pm.getLaunchIntentForPackage(comp.packageName)!!
     } catch (e: Exception) {
@@ -550,7 +550,7 @@ class HomeFragment :
     private fun launchActionAux(packageName: String, activityName: String, userSerial: Long) {
         val intent = Intent(activityName)
         try {
-            launchActivityAux(view!!, intent)
+            launchActivityAux(requireView(), intent)
         } catch (e: Exception) {
         }
     }
@@ -572,7 +572,7 @@ class HomeFragment :
     }
 
     inner class AppDrawerListener {
-        @SuppressLint("DiscouragedPrivateApi")
+        @SuppressLint("DiscouragedPrivateApi", "NewApi")
         fun onAppLongClicked(app: UnlauncherApp, view: View): Boolean {
             val popupMenu = PopupMenu(context, view)
             popupMenu.inflate(R.menu.app_long_press_menu)
@@ -623,6 +623,7 @@ class HomeFragment :
                             val userHandle = getUserHandle(app.userSerial)
                             try {
                                 val launcher = getLauncher()
+                                // TODO Need to handle this
                                 launcher.pinShortcuts(app.packageName, ids, userHandle)
                             } catch (e: IllegalStateException) {
                                 Toast.makeText(
@@ -695,17 +696,13 @@ class HomeFragment :
         }
     }
 
-    private fun getManager(): UserManager {
-        return requireContext().getSystemService(Context.USER_SERVICE) as UserManager
-    }
+    private fun getManager(): UserManager =
+        requireContext().getSystemService(Context.USER_SERVICE) as UserManager
 
-    private fun getLauncher(): LauncherApps {
-        return requireContext().getSystemService(
-            Context.LAUNCHER_APPS_SERVICE
-        ) as LauncherApps
-    }
+    private fun getLauncher(): LauncherApps = requireContext().getSystemService(
+        Context.LAUNCHER_APPS_SERVICE
+    ) as LauncherApps
 
-    private fun getUserHandle(userSerial: Long): UserHandle {
-        return getManager().getUserForSerialNumber(userSerial)
-    }
+    private fun getUserHandle(userSerial: Long): UserHandle =
+        getManager().getUserForSerialNumber(userSerial)
 }

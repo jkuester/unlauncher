@@ -56,14 +56,14 @@
         <item>No date</item>
         <item>Short system format</item>
         <item>Medium system format</item>
-        <item>2024-04-01</item>
-        <item>Mon 2024-04-01</item>
+        <item>2024–04–01</item>
+        <item>Mon 2024–04–01</item>
         <item>Monday</item>
     </string-array>
     <string-array name="lead0_modif_array">
         <item>Follow system settings</item>
-        <item>Prefer 1, 2, 3, ...</item>
-        <item>Prefer 01, 02, 03, ...</item>
+        <item>Prefer 1, 2, 3, …</item>
+        <item>Prefer 01, 02, 03, …</item>
     </string-array>
 
     <string name="app_name" translatable="false">Unlauncher</string>
@@ -99,7 +99,6 @@
     <string name="customize_app_drawer_fragment_show_headings_subtitle">Group apps and show heading for each initial</string>
     <string name="customize_app_drawer_fragment_show_search_bar">Search bar</string>
     <string name="options_fragment_visible_apps">Drawer apps</string>
-    <string name="hidden">hidden</string>
     <string name="hide_app">Hide app</string>
     <string name="main_date_format">EEE, MMM dd</string>
     <string name="iso_date_format" translatable="false">yyyy-MM-dd</string>
@@ -127,10 +126,8 @@
     "It is just to confirm if you're clearing this list on purpose"</string>
     <string name="remove_all_apps_dialog_title">Remove all apps</string>
     <string name="rename_app">Rename app</string>
-    <string name="shown">shown</string>
     <string name="uninstall">Uninstall</string>
     <string name="remove_shortcut">Unpin</string>
-    <string name="action_add_shortcut">Add to app drawer</string>
     <string name="unhide_hint">Unhide under Options &gt; Drawer apps</string>
     <string name="unable_to_unpin">Unable to unpin.</string>
     <string name="shortcut_unpinned">Shortcut unpinned</string>

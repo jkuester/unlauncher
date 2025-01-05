@@ -56,14 +56,14 @@
         <item>Nessuna data</item>
         <item>Formato breve predefinito</item>
         <item>Formato medio predefinito</item>
-        <item>2024-04-01</item>
-        <item>Lun 2024-04-01</item>
+        <item>2024–04–01</item>
+        <item>Lun 2024–04–01</item>
         <item>Lunedi</item>
     </string-array>
     <string-array name="lead0_modif_array">
         <item>Predefinito</item>
-        <item>Mostra 1, 2, 3, ...</item>
-        <item>Mostra 01, 02, 03, ...</item>
+        <item>Mostra 1, 2, 3, …</item>
+        <item>Mostra 01, 02, 03, …</item>
     </string-array>
 
     <string name="add_apps_fragment_search_apps">Cerca</string>
@@ -84,7 +84,6 @@
     <string name="customize_app_drawer_fragment_show_headings_subtitle">Raggruppare le applicazioni i mostra l\'iniziale in titolo</string>
     <string name="customize_app_drawer_fragment_show_search_bar">Barra di ricerca</string>
     <string name="options_fragment_visible_apps">Applicazioni elenco</string>
-    <string name="hidden">nascosta</string>
     <string name="hide_app">Nascondi l\'applicazione</string>
     <string name="main_date_format">EEE, d MMM</string>
     <string name="main_fragment_options">Impostazioni</string>
@@ -105,10 +104,8 @@
     <string name="remove_all_apps_dialog_message">Ciò non disinstallerà le applicazioni, ma cancellerà solo l\'elenco.</string>
     <string name="remove_all_apps_dialog_title">Rimuovi tutte le applicazioni</string>
     <string name="rename_app">Rinomina l\'applicazione</string>
-    <string name="shown">mostrata</string>
     <string name="uninstall">Disinstallare</string>
     <string name="remove_shortcut">Rimuovi</string>
-    <string name="action_add_shortcut">Aggiungi a schermata Home</string>
     <string name="content_description_back">Indientro</string>
     <string name="choose_date_format_dialog_title">Formato data</string>
     <string name="choose_lead0_modif_dialog_title">0 iniziale</string>

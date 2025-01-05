@@ -70,7 +70,6 @@
     <string name="customize_app_drawer_fragment_show_headings_subtitle">Séparer les applications par groupes alphabétiques</string>
     <string name="customize_app_drawer_fragment_show_search_bar">Afficher le champ de recherche</string>
     <string name="options_fragment_visible_apps">Applications du volet</string>
-    <string name="hidden">masqué</string>
     <string name="hide_app">Masquer l’application</string>
     <string name="main_date_format">EEE d MMM</string>
     <string name="main_fragment_options">Options</string>
@@ -92,9 +91,7 @@
     "Il s’agit seulement de confirmer que vous souhaitez bien vider la liste."</string>
     <string name="remove_all_apps_dialog_title">Supprimer toutes les applications</string>
     <string name="rename_app">Renommer l’application</string>
-    <string name="shown">affiché</string>
     <string name="uninstall">Désinstaller</string>
-    <string name="action_add_shortcut">Ajouter au volet des applications</string>
     <string name="customize_app_drawer_fragment_wallpaper_not_default_launcher">L’application nécessite d’être définie comme lanceur par défaut</string>
     <string name="customize_app_drawer_fragment_wallpaper_text">Utiliser la couleur de fond du thème comme papier peint</string>
 </resources>
