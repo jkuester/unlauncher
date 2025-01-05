@@ -35,10 +35,9 @@ class OptionsFragment : BaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.options_fragment, container, false)
-    }
+    ): View? = inflater.inflate(R.layout.options_fragment, container, false)
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val optionsFragment = OptionsFragmentBinding.bind(requireView())

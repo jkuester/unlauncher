@@ -23,7 +23,9 @@ import com.sduduzog.slimlauncher.utils.OnShitDoneToAppsListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class CustomiseAppsFragment : BaseFragment(), OnShitDoneToAppsListener {
+class CustomiseAppsFragment :
+    BaseFragment(),
+    OnShitDoneToAppsListener {
 
     override fun getFragmentView(): ViewGroup = CustomiseAppsFragmentBinding.bind(
         requireView()
@@ -35,10 +37,9 @@ class CustomiseAppsFragment : BaseFragment(), OnShitDoneToAppsListener {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.customise_apps_fragment, container, false)
-    }
+    ): View? = inflater.inflate(R.layout.customise_apps_fragment, container, false)
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val customiseAppsFragment = CustomiseAppsFragmentBinding.bind(requireView())
@@ -115,9 +116,7 @@ class CustomiseAppsFragment : BaseFragment(), OnShitDoneToAppsListener {
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
-            ): Boolean {
-                return listener.onViewMoved(viewHolder.adapterPosition, target.adapterPosition)
-            }
+            ): Boolean = listener.onViewMoved(viewHolder.adapterPosition, target.adapterPosition)
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 listener.onViewSwiped(viewHolder.adapterPosition)

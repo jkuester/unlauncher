@@ -135,6 +135,7 @@ class MainActivity :
         return resolveTheme(active)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         dispatchBack()
     }
@@ -146,18 +147,16 @@ class MainActivity :
 
     companion object {
         @StyleRes
-        fun resolveTheme(i: Int): Int {
-            return when (i) {
-                1 -> R.style.AppThemeDark
-                2 -> R.style.AppGreyTheme
-                3 -> R.style.AppTealTheme
-                4 -> R.style.AppCandyTheme
-                5 -> R.style.AppPinkTheme
-                6 -> R.style.AppThemeLight
-                7 -> R.style.AppDarculaTheme
-                8 -> R.style.AppGruvBoxDarkTheme
-                else -> R.style.AppTheme
-            }
+        fun resolveTheme(i: Int): Int = when (i) {
+            1 -> R.style.AppThemeDark
+            2 -> R.style.AppGreyTheme
+            3 -> R.style.AppTealTheme
+            4 -> R.style.AppCandyTheme
+            5 -> R.style.AppPinkTheme
+            6 -> R.style.AppThemeLight
+            7 -> R.style.AppDarculaTheme
+            8 -> R.style.AppGruvBoxDarkTheme
+            else -> R.style.AppTheme
         }
     }
 

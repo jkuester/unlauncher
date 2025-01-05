@@ -81,7 +81,7 @@ android {
 dependencies {
     // Kotlin Libraries
     // This needs to match ksp and kotlin-gradle-plugin
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.22")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:2.1.0")
 
     // Support Libraries
     implementation("androidx.appcompat:appcompat:1.6.1")
@@ -103,9 +103,9 @@ dependencies {
     // 3rd party libs
     implementation("com.intuit.sdp:sdp-android:1.0.6")
     implementation("com.intuit.ssp:ssp-android:1.0.6")
-    implementation("com.google.dagger:hilt-android:2.50")
-    ksp("androidx.hilt:hilt-compiler:1.1.0")
-    ksp("com.google.dagger:hilt-android-compiler:2.50")
+    implementation("com.google.dagger:hilt-android:2.54")
+    ksp("androidx.hilt:hilt-compiler:1.2.0")
+    ksp("com.google.dagger:hilt-android-compiler:2.54")
 }
 protobuf {
     protoc {

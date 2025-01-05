@@ -25,10 +25,9 @@ class CustomizeAppDrawerAppListFragment : BaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.customize_app_drawer_app_list_fragment, container, false)
-    }
+    ): View? = inflater.inflate(R.layout.customize_app_drawer_app_list_fragment, container, false)
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val unlauncherAppsRepo = unlauncherDataSource.unlauncherAppsRepo
