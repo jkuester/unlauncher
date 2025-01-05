@@ -84,12 +84,12 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:2.1.0")
 
     // Support Libraries
-    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("androidx.appcompat:appcompat:1.7.0")
     implementation("androidx.recyclerview:recyclerview:1.3.2")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("androidx.datastore:datastore:1.0.0")
-    implementation("androidx.datastore:datastore-core:1.0.0")
-    implementation("com.google.protobuf:protobuf-javalite:3.25.1")
+    implementation("androidx.constraintlayout:constraintlayout:2.2.0")
+    implementation("androidx.datastore:datastore:1.1.1")
+    implementation("androidx.datastore:datastore-core:1.1.1")
+    implementation("com.google.protobuf:protobuf-javalite:4.29.2")
 
     // Arch Components
     implementation("androidx.core:core-ktx:1.12.0")
