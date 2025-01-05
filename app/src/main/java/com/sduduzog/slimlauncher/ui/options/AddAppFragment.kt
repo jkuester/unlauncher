@@ -18,7 +18,9 @@ import com.sduduzog.slimlauncher.utils.OnAppClickedListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AddAppFragment : BaseFragment(), OnAppClickedListener {
+class AddAppFragment :
+    BaseFragment(),
+    OnAppClickedListener {
 
     override fun getFragmentView(): ViewGroup = AddAppFragmentBinding.bind(
         requireView()
@@ -30,10 +32,9 @@ class AddAppFragment : BaseFragment(), OnAppClickedListener {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.add_app_fragment, container, false)
-    }
+    ): View? = inflater.inflate(R.layout.add_app_fragment, container, false)
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val adapter = AddAppAdapter(this)

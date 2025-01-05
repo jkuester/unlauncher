@@ -34,9 +34,7 @@ class UnlauncherAppsRepository(
                 }
             }
 
-    fun liveData(): LiveData<UnlauncherApps> {
-        return unlauncherAppsFlow.asLiveData()
-    }
+    fun liveData(): LiveData<UnlauncherApps> = unlauncherAppsFlow.asLiveData()
 
     suspend fun setApps(apps: List<App>) {
         unlauncherAppsStore.updateData { unlauncherApps ->
@@ -162,16 +160,14 @@ class UnlauncherAppsRepository(
         unlauncherApps: List<UnlauncherApp>,
         packageName: String,
         className: String
-    ): UnlauncherApp? {
-        return unlauncherApps.firstOrNull { app ->
-            packageName == app.packageName && className == app.className
-        }
+    ): UnlauncherApp? = unlauncherApps.firstOrNull { app ->
+        packageName == app.packageName && className == app.className
     }
 }
 
 fun sortAppsAlphabetically(unlauncherAppsBuilder: UnlauncherApps.Builder) {
     val sortedApps =
-        unlauncherAppsBuilder.appsList.sortedBy { it.displayName.toUpperCase(Locale.getDefault()) }
+        unlauncherAppsBuilder.appsList.sortedBy { it.displayName.uppercase(Locale.getDefault()) }
     unlauncherAppsBuilder.clearApps()
     unlauncherAppsBuilder.addAllApps(sortedApps)
 }
