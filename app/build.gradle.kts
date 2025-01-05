@@ -106,6 +106,11 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.54")
     ksp("androidx.hilt:hilt-compiler:1.2.0")
     ksp("com.google.dagger:hilt-android-compiler:2.54")
+
+    // Test libs
+    testImplementation(kotlin("test"))
+    testImplementation("org.junit.jupiter:junit-jupiter:5.11.4")
+    testImplementation("io.mockk:mockk:1.13.14")
 }
 protobuf {
     protoc {
