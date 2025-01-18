@@ -26,9 +26,6 @@ allprojects {
 tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)
 }
-tasks.register("test", Test::class) {
-    useJUnitPlatform()
-}
 
 plugins {
     id("com.google.devtools.ksp") version "2.1.0-1.0.29" apply false // This needs to match kotlin-stdlib

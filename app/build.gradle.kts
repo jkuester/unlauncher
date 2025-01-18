@@ -59,7 +59,9 @@ android {
         jvmTarget = JavaVersion.VERSION_17.toString()
     }
     testOptions {
-        unitTests.isIncludeAndroidResources = true
+        unitTests.all {
+            it.useJUnitPlatform()
+        }
     }
     lint {
         warningsAsErrors = true
@@ -110,7 +112,8 @@ dependencies {
     // Test libs
     testImplementation(kotlin("test"))
     testImplementation("org.junit.jupiter:junit-jupiter:5.11.4")
-    testImplementation("io.mockk:mockk:1.13.14")
+    testImplementation("io.mockk:mockk-android:1.13.14")
+    testImplementation("io.mockk:mockk-agent:1.13.14")
 }
 protobuf {
     protoc {
