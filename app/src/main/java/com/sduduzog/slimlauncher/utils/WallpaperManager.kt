@@ -1,5 +1,6 @@
 package com.sduduzog.slimlauncher.utils
 
+import android.app.Activity
 import android.app.WallpaperManager
 import android.content.res.Resources
 import android.graphics.Bitmap
@@ -9,19 +10,23 @@ import androidx.annotation.StyleRes
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.lifecycleScope
 import com.sduduzog.slimlauncher.MainActivity
-import com.sduduzog.slimlauncher.datasource.UnlauncherDataSource
+import com.sduduzog.slimlauncher.datasource.coreprefs.CorePreferencesRepository
 import java.io.IOException
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class WallpaperManager(private val mainActivity: MainActivity) {
+class WallpaperManager @Inject constructor(
+    activity: Activity,
+    private val corePreferencesRepo: CorePreferencesRepository
+) {
+    private val mainActivity = (activity as MainActivity)
+
     fun onApplyThemeResource(theme: Resources.Theme?, @StyleRes resid: Int) {
         if (!isActivityDefaultLauncher(mainActivity)) {
             return
         }
-        // Cannot inject here because this is called too early in the lifecycle
-        val unlauncherDataSource = UnlauncherDataSource(mainActivity, mainActivity.lifecycleScope)
-        unlauncherDataSource.corePreferencesRepo.liveData().observe(mainActivity) {
+        corePreferencesRepo.liveData().observe(mainActivity) {
             if (it.keepDeviceWallpaper && mainActivity.getUserSelectedThemeRes() == resid) {
                 // only change the wallpaper when user has allowed it and
                 // preventing to change the wallpaper multiple times once it is rechecked in the settings

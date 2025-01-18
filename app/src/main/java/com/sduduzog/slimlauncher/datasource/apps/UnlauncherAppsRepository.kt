@@ -1,24 +1,30 @@
 package com.sduduzog.slimlauncher.datasource.apps
 
+import android.app.Activity
 import android.util.Log
+import androidx.activity.ComponentActivity
 import androidx.datastore.core.DataStore
-import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.lifecycleScope
 import com.jkuester.unlauncher.datastore.UnlauncherApp
 import com.jkuester.unlauncher.datastore.UnlauncherApps
 import com.sduduzog.slimlauncher.data.model.App
 import com.sduduzog.slimlauncher.models.HomeApp
+import dagger.hilt.android.scopes.ActivityScoped
 import java.io.IOException
 import java.util.Locale
+import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
-class UnlauncherAppsRepository(
+@ActivityScoped
+class UnlauncherAppsRepository @Inject constructor(
     private val unlauncherAppsStore: DataStore<UnlauncherApps>,
-    private val lifecycleScope: LifecycleCoroutineScope
+    activity: Activity
 ) {
+    private val lifecycleScope = (activity as ComponentActivity).lifecycleScope
     private val unlauncherAppsFlow: Flow<UnlauncherApps> =
         unlauncherAppsStore.data
             .catch { exception ->

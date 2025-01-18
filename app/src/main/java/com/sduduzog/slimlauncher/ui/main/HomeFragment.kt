@@ -43,7 +43,8 @@ import com.sduduzog.slimlauncher.adapters.HomeAdapter
 import com.sduduzog.slimlauncher.databinding.HomeFragmentBottomBinding
 import com.sduduzog.slimlauncher.databinding.HomeFragmentContentBinding
 import com.sduduzog.slimlauncher.databinding.HomeFragmentDefaultBinding
-import com.sduduzog.slimlauncher.datasource.UnlauncherDataSource
+import com.sduduzog.slimlauncher.datasource.apps.UnlauncherAppsRepository
+import com.sduduzog.slimlauncher.datasource.coreprefs.CorePreferencesRepository
 import com.sduduzog.slimlauncher.datasource.quickbuttonprefs.QuickButtonPreferencesRepository
 import com.sduduzog.slimlauncher.models.HomeApp
 import com.sduduzog.slimlauncher.models.MainViewModel
@@ -66,7 +67,13 @@ class HomeFragment :
     BaseFragment(),
     OnLaunchAppListener {
     @Inject
-    lateinit var unlauncherDataSource: UnlauncherDataSource
+    lateinit var corePreferencesRepo: CorePreferencesRepository
+
+    @Inject
+    lateinit var unlauncherAppsRepo: UnlauncherAppsRepository
+
+    @Inject
+    lateinit var quickButtonPreferencesRepo: QuickButtonPreferencesRepository
 
     private val viewModel: MainViewModel by viewModels()
 
@@ -83,24 +90,19 @@ class HomeFragment :
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        val coreRepository = unlauncherDataSource.corePreferencesRepo
-        return if (coreRepository.get().searchBarPosition == SearchBarPosition.bottom) {
-            HomeFragmentBottomBinding.inflate(layoutInflater, container, false).root
-        } else {
-            HomeFragmentDefaultBinding.inflate(layoutInflater, container, false).root
-        }
+    ): View = if (corePreferencesRepo.get().searchBarPosition == SearchBarPosition.bottom) {
+        HomeFragmentBottomBinding.inflate(layoutInflater, container, false).root
+    } else {
+        HomeFragmentDefaultBinding.inflate(layoutInflater, container, false).root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter1 = HomeAdapter(this, unlauncherDataSource)
-        val adapter2 = HomeAdapter(this, unlauncherDataSource)
+        val adapter1 = HomeAdapter(this, corePreferencesRepo)
+        val adapter2 = HomeAdapter(this, corePreferencesRepo)
         val homeFragmentContent = HomeFragmentContentBinding.bind(view)
         homeFragmentContent.homeFragmentList.adapter = adapter1
         homeFragmentContent.homeFragmentListExp.adapter = adapter2
-
-        val unlauncherAppsRepo = unlauncherDataSource.unlauncherAppsRepo
 
         viewModel.apps.observe(viewLifecycleOwner) { list ->
             list?.let { apps ->
@@ -125,14 +127,15 @@ class HomeFragment :
         appDrawerAdapter = AppDrawerAdapter(
             AppDrawerListener(),
             viewLifecycleOwner,
-            unlauncherDataSource
+            unlauncherAppsRepo,
+            corePreferencesRepo
         )
 
         setEventListeners()
 
         homeFragmentContent.appDrawerFragmentList.adapter = appDrawerAdapter
 
-        unlauncherDataSource.corePreferencesRepo.liveData().observe(
+        corePreferencesRepo.liveData().observe(
             viewLifecycleOwner
         ) { corePreferences ->
             homeFragmentContent.appDrawerEditText
@@ -192,7 +195,7 @@ class HomeFragment :
     private fun refreshApps() {
         val installedApps = getInstalledApps()
         lifecycleScope.launch(Dispatchers.IO) {
-            unlauncherDataSource.unlauncherAppsRepo.setApps(installedApps)
+            unlauncherAppsRepo.setApps(installedApps)
             viewModel.filterHomeApps(installedApps)
         }
     }
@@ -230,7 +233,7 @@ class HomeFragment :
             }
         }
 
-        unlauncherDataSource.quickButtonPreferencesRepo.liveData()
+        quickButtonPreferencesRepo.liveData()
             .observe(viewLifecycleOwner) { prefs ->
                 val leftButtonIcon = QuickButtonPreferencesRepository.RES_BY_ICON.getValue(
                     prefs.leftButton.iconId
@@ -313,7 +316,7 @@ class HomeFragment :
                     }
 
                     motionLayout?.endState -> {
-                        val preferences = unlauncherDataSource.corePreferencesRepo.get()
+                        val preferences = corePreferencesRepo.get()
                         // Check for preferences to open the keyboard
                         // only if the search field is shown
                         if (preferences.showSearchBar && preferences.activateKeyboardInDrawer) {
@@ -359,7 +362,7 @@ class HomeFragment :
     fun updateClock() {
         updateDate()
         val homeFragmentContent = HomeFragmentContentBinding.bind(requireView())
-        val clockType = unlauncherDataSource.corePreferencesRepo.get().clockType
+        val clockType = corePreferencesRepo.get().clockType
         when (clockType) {
             ClockType.digital -> updateClockDigital()
             ClockType.analog_0,
@@ -462,7 +465,7 @@ class HomeFragment :
                         startActivity(intent)
                     }
                     R.id.hide -> {
-                        unlauncherDataSource.unlauncherAppsRepo.updateDisplayInDrawer(app, false)
+                        unlauncherAppsRepo.updateDisplayInDrawer(app, false)
                         Toast.makeText(
                             context,
                             "Unhide under Unlauncher's Options > Customize Drawer > Visible Apps",
@@ -472,7 +475,7 @@ class HomeFragment :
                     R.id.rename -> {
                         RenameAppDisplayNameDialog.getInstance(
                             app,
-                            unlauncherDataSource.unlauncherAppsRepo
+                            unlauncherAppsRepo
                         ).show(childFragmentManager, "AppListAdapter")
                     }
                     R.id.uninstall -> {

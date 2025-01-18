@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.adapters.CustomizeAppDrawerAppsAdapter
 import com.sduduzog.slimlauncher.databinding.CustomizeAppDrawerAppListFragmentBinding
-import com.sduduzog.slimlauncher.datasource.UnlauncherDataSource
+import com.sduduzog.slimlauncher.datasource.apps.UnlauncherAppsRepository
 import com.sduduzog.slimlauncher.utils.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -15,7 +15,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class CustomizeAppDrawerAppListFragment : BaseFragment() {
     @Inject
-    lateinit var unlauncherDataSource: UnlauncherDataSource
+    lateinit var unlauncherAppsRepo: UnlauncherAppsRepository
 
     override fun getFragmentView(): ViewGroup = CustomizeAppDrawerAppListFragmentBinding.bind(
         requireView()
@@ -30,7 +30,6 @@ class CustomizeAppDrawerAppListFragment : BaseFragment() {
     @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val unlauncherAppsRepo = unlauncherDataSource.unlauncherAppsRepo
         val customiseAppDrawerAppListFragment = CustomizeAppDrawerAppListFragmentBinding.bind(
             requireView()
         )

@@ -7,14 +7,14 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.sduduzog.slimlauncher.R
-import com.sduduzog.slimlauncher.datasource.UnlauncherDataSource
+import com.sduduzog.slimlauncher.datasource.coreprefs.CorePreferencesRepository
 import com.sduduzog.slimlauncher.models.HomeApp
 import com.sduduzog.slimlauncher.ui.main.HomeFragment
 import com.sduduzog.slimlauncher.utils.gravity
 
 class HomeAdapter(
     private val listener: HomeFragment,
-    private val unlauncherDataSource: UnlauncherDataSource
+    private val corePreferencesRepo: CorePreferencesRepository
 ) : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
 
     private var apps: List<HomeApp> = listOf()
@@ -31,7 +31,7 @@ class HomeAdapter(
         holder.mLabelView.setOnClickListener {
             listener.onLaunch(item, it)
         }
-        unlauncherDataSource.corePreferencesRepo.liveData().observe(listener.viewLifecycleOwner) {
+        corePreferencesRepo.liveData().observe(listener.viewLifecycleOwner) {
             holder.mLabelView.gravity = it.alignmentFormat.gravity()
         }
     }
@@ -47,8 +47,6 @@ class HomeAdapter(
     inner class ViewHolder(mView: View) : RecyclerView.ViewHolder(mView) {
         val mLabelView: TextView = mView.findViewById(R.id.home_fragment_list_item_app_name)
 
-        override fun toString(): String {
-            return super.toString() + " '" + mLabelView.text + "'"
-        }
+        override fun toString(): String = super.toString() + " '" + mLabelView.text + "'"
     }
 }

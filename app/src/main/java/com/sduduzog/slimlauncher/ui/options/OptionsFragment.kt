@@ -11,7 +11,7 @@ import androidx.core.content.edit
 import androidx.navigation.Navigation
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.databinding.OptionsFragmentBinding
-import com.sduduzog.slimlauncher.datasource.UnlauncherDataSource
+import com.sduduzog.slimlauncher.datasource.coreprefs.CorePreferencesRepository
 import com.sduduzog.slimlauncher.ui.dialogs.ChangeThemeDialog
 import com.sduduzog.slimlauncher.ui.dialogs.ChooseAlignmentDialog
 import com.sduduzog.slimlauncher.ui.dialogs.ChooseClockTypeDialog
@@ -25,7 +25,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class OptionsFragment : BaseFragment() {
     @Inject
-    lateinit var unlauncherDataSource: UnlauncherDataSource
+    lateinit var corePreferencesRepo: CorePreferencesRepository
 
     override fun getFragmentView(): ViewGroup = OptionsFragmentBinding.bind(
         requireView()
@@ -107,20 +107,19 @@ class OptionsFragment : BaseFragment() {
     }
 
     private fun setupAutomaticDeviceWallpaperSwitch() {
-        val prefsRepo = unlauncherDataSource.corePreferencesRepo
         val appIsDefaultLauncher = isActivityDefaultLauncher(activity)
         val optionsFragment = OptionsFragmentBinding.bind(requireView())
         setupDeviceWallpaperSwitchText(optionsFragment, appIsDefaultLauncher)
         optionsFragment.optionsFragmentAutoDeviceThemeWallpaper.isEnabled = appIsDefaultLauncher
 
-        prefsRepo.liveData().observe(viewLifecycleOwner) {
+        corePreferencesRepo.liveData().observe(viewLifecycleOwner) {
             // always uncheck once app isn't default launcher
             optionsFragment.optionsFragmentAutoDeviceThemeWallpaper
                 .isChecked = appIsDefaultLauncher && !it.keepDeviceWallpaper
         }
         optionsFragment.optionsFragmentAutoDeviceThemeWallpaper
             .setOnCheckedChangeListener { _, checked ->
-                prefsRepo.updateKeepDeviceWallpaper(!checked)
+                corePreferencesRepo.updateKeepDeviceWallpaper(!checked)
             }
     }
 
