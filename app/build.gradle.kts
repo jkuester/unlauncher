@@ -63,7 +63,6 @@ android {
     testOptions {
         unitTests.all {
             it.useJUnitPlatform()
-            it.finalizedBy("jacocoCoverageVerification")
         }
     }
     lint {
@@ -154,7 +153,6 @@ val jacocoExecutionData =
     files(fileTree(layout.buildDirectory) { include(listOf("**/*.exec", "**/*.ec")) })
 tasks.register<JacocoCoverageVerification>("jacocoCoverageVerification") {
     dependsOn(listOf("testDebugUnitTest", "createDebugUnitTestCoverageReport"))
-    mustRunAfter("jacocoCoverageReport")
     group = "Verification"
     violationRules {
         rule {
@@ -167,6 +165,7 @@ tasks.register<JacocoCoverageVerification>("jacocoCoverageVerification") {
     classDirectories.setFrom(jacocoClassDirs)
     executionData.setFrom(jacocoExecutionData)
 }
+tasks.build { finalizedBy("jacocoCoverageVerification") }
 tasks.register<JacocoReport>("jacocoCoverageReport") {
     dependsOn(listOf("testDebugUnitTest", "createDebugUnitTestCoverageReport"))
     group = "Reporting"
