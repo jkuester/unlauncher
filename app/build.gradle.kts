@@ -6,6 +6,7 @@ plugins {
     id("com.google.devtools.ksp")
     id("com.google.protobuf")
     id("org.jlleitschuh.gradle.ktlint")
+    id("jacoco")
     kotlin("android")
 }
 
@@ -45,6 +46,7 @@ android {
         }
         named("debug").configure {
             isMinifyEnabled = false
+            enableUnitTestCoverage = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -61,6 +63,7 @@ android {
     testOptions {
         unitTests.all {
             it.useJUnitPlatform()
+            it.finalizedBy("jacocoCoverageVerification")
         }
     }
     lint {
@@ -132,4 +135,42 @@ protobuf {
 ktlint {
     android = true
     ignoreFailures = false
+}
+tasks.withType(Test::class) {
+    configure<JacocoTaskExtension> {
+        isIncludeNoLocationClasses = true
+        excludes = listOf("jdk.internal.*")
+    }
+}
+
+val jacocoExclusions = listOf("**/sduduzog/*")
+val jacocoSourceDirs = layout.projectDirectory.dir("src/main")
+val jacocoClassDirs = files(
+    fileTree(layout.buildDirectory.dir("tmp/kotlin-classes/debug")) {
+        exclude(jacocoExclusions)
+    }
+)
+val jacocoExecutionData =
+    files(fileTree(layout.buildDirectory) { include(listOf("**/*.exec", "**/*.ec")) })
+tasks.register<JacocoCoverageVerification>("jacocoCoverageVerification") {
+    dependsOn(listOf("testDebugUnitTest", "createDebugUnitTestCoverageReport"))
+    mustRunAfter("jacocoCoverageReport")
+    group = "Verification"
+    violationRules {
+        rule {
+            limit {
+                minimum = "1".toBigDecimal()
+            }
+        }
+    }
+    sourceDirectories.setFrom(jacocoSourceDirs)
+    classDirectories.setFrom(jacocoClassDirs)
+    executionData.setFrom(jacocoExecutionData)
+}
+tasks.register<JacocoReport>("jacocoCoverageReport") {
+    dependsOn(listOf("testDebugUnitTest", "createDebugUnitTestCoverageReport"))
+    group = "Reporting"
+    sourceDirectories.setFrom(jacocoSourceDirs)
+    classDirectories.setFrom(jacocoClassDirs)
+    executionData.setFrom(jacocoExecutionData)
 }
