@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.databinding.CustomizeQuickButtonsFragmentBinding
-import com.sduduzog.slimlauncher.datasource.UnlauncherDataSource
 import com.sduduzog.slimlauncher.datasource.quickbuttonprefs.QuickButtonPreferencesRepository
 import com.sduduzog.slimlauncher.ui.dialogs.ChooseQuickButtonDialog
 import com.sduduzog.slimlauncher.utils.BaseFragment
@@ -16,7 +15,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class CustomizeQuickButtonsFragment : BaseFragment() {
     @Inject
-    lateinit var unlauncherDataSource: UnlauncherDataSource
+    lateinit var quickButtonPreferencesRepo: QuickButtonPreferencesRepository
 
     override fun getFragmentView(): ViewGroup = CustomizeQuickButtonsFragmentBinding.bind(
         requireView()
@@ -30,10 +29,8 @@ class CustomizeQuickButtonsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val prefsRepo = unlauncherDataSource.quickButtonPreferencesRepo
-
         val customizeQuickButtonsFragment = CustomizeQuickButtonsFragmentBinding.bind(view)
-        prefsRepo.liveData().observe(viewLifecycleOwner) { prefs ->
+        quickButtonPreferencesRepo.liveData().observe(viewLifecycleOwner) { prefs ->
             customizeQuickButtonsFragment.customizeQuickButtonsFragmentLeft
                 .setImageResource(
                     QuickButtonPreferencesRepository.RES_BY_ICON.getValue(prefs.leftButton.iconId)
@@ -53,19 +50,19 @@ class CustomizeQuickButtonsFragment : BaseFragment() {
         }
         customizeQuickButtonsFragment.customizeQuickButtonsFragmentLeft.setOnClickListener {
             ChooseQuickButtonDialog(
-                prefsRepo,
+                quickButtonPreferencesRepo,
                 QuickButtonPreferencesRepository.IC_CALL
             ).showNow(childFragmentManager, "QUICK_BUTTON_CHOOSER")
         }
         customizeQuickButtonsFragment.customizeQuickButtonsFragmentCenter.setOnClickListener {
             ChooseQuickButtonDialog(
-                prefsRepo,
+                quickButtonPreferencesRepo,
                 QuickButtonPreferencesRepository.IC_COG
             ).showNow(childFragmentManager, "QUICK_BUTTON_CHOOSER")
         }
         customizeQuickButtonsFragment.customizeQuickButtonsFragmentRight.setOnClickListener {
             ChooseQuickButtonDialog(
-                prefsRepo,
+                quickButtonPreferencesRepo,
                 QuickButtonPreferencesRepository.IC_PHOTO_CAMERA
             ).showNow(childFragmentManager, "QUICK_BUTTON_CHOOSER")
         }

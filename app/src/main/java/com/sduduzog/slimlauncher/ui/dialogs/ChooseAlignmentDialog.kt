@@ -6,7 +6,7 @@ import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import com.jkuester.unlauncher.datastore.AlignmentFormat
 import com.sduduzog.slimlauncher.R
-import com.sduduzog.slimlauncher.datasource.UnlauncherDataSource
+import com.sduduzog.slimlauncher.datasource.coreprefs.CorePreferencesRepository
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -14,17 +14,16 @@ import javax.inject.Inject
 class ChooseAlignmentDialog : DialogFragment() {
 
     @Inject
-    lateinit var unlauncherDataSource: UnlauncherDataSource
+    lateinit var corePreferencesRepo: CorePreferencesRepository
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(requireContext())
 
-        val repo = unlauncherDataSource.corePreferencesRepo
-        val active = repo.get().alignmentFormat.number
+        val active = corePreferencesRepo.get().alignmentFormat.number
         builder.setTitle(R.string.choose_alignment_dialog_title)
         builder.setSingleChoiceItems(R.array.alignment_format_array, active) { dialogInterface, i ->
             dialogInterface.dismiss()
-            repo.updateAlignmentFormat(AlignmentFormat.forNumber(i))
+            corePreferencesRepo.updateAlignmentFormat(AlignmentFormat.forNumber(i))
         }
         return builder.create()
     }

@@ -11,7 +11,8 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.jkuester.unlauncher.datastore.UnlauncherApp
 import com.sduduzog.slimlauncher.R
-import com.sduduzog.slimlauncher.datasource.UnlauncherDataSource
+import com.sduduzog.slimlauncher.datasource.apps.UnlauncherAppsRepository
+import com.sduduzog.slimlauncher.datasource.coreprefs.CorePreferencesRepository
 import com.sduduzog.slimlauncher.ui.main.HomeFragment
 import com.sduduzog.slimlauncher.utils.firstUppercase
 import com.sduduzog.slimlauncher.utils.gravity
@@ -19,7 +20,8 @@ import com.sduduzog.slimlauncher.utils.gravity
 class AppDrawerAdapter(
     private val listener: HomeFragment.AppDrawerListener,
     lifecycleOwner: LifecycleOwner,
-    private val unlauncherDataSource: UnlauncherDataSource
+    unlauncherAppsRepo: UnlauncherAppsRepository,
+    private val corePreferencesRepo: CorePreferencesRepository
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val workAppPrefix = "\uD83C\uDD46 " // Unicode for boxed w
@@ -29,13 +31,13 @@ class AppDrawerAdapter(
     private var gravity = 3
 
     init {
-        unlauncherDataSource.unlauncherAppsRepo.liveData().observe(
+        unlauncherAppsRepo.liveData().observe(
             lifecycleOwner
         ) { unlauncherApps ->
             apps = unlauncherApps.appsList
             updateFilteredApps()
         }
-        unlauncherDataSource.corePreferencesRepo.liveData().observe(lifecycleOwner) { corePrefs ->
+        corePreferencesRepo.liveData().observe(lifecycleOwner) { corePrefs ->
             gravity = corePrefs.alignmentFormat.gravity()
             updateFilteredApps()
         }
@@ -60,9 +62,8 @@ class AppDrawerAdapter(
         }
     }
 
-    fun getFirstApp(): UnlauncherApp {
-        return filteredApps.filterIsInstance<AppDrawerRow.Item>().first().app
-    }
+    fun getFirstApp(): UnlauncherApp =
+        filteredApps.filterIsInstance<AppDrawerRow.Item>().first().app
 
     override fun getItemViewType(position: Int): Int = filteredApps[position].rowType.ordinal
 
@@ -79,9 +80,8 @@ class AppDrawerAdapter(
         }
     }
 
-    private fun onlyFirstStringStartsWith(first: String, second: String, query: String): Boolean {
-        return first.startsWith(query, true) and !second.startsWith(query, true)
-    }
+    private fun onlyFirstStringStartsWith(first: String, second: String, query: String): Boolean =
+        first.startsWith(query, true) and !second.startsWith(query, true)
 
     fun setAppFilter(query: String = "") {
         val filterQuery = regex.replace(query, "")
@@ -90,13 +90,14 @@ class AppDrawerAdapter(
 
     @SuppressLint("NotifyDataSetChanged")
     private fun updateFilteredApps(filterQuery: String = "") {
-        val corePreferences = unlauncherDataSource.corePreferencesRepo.get()
+        val corePreferences = corePreferencesRepo.get()
         val showDrawerHeadings = corePreferences.showDrawerHeadings
         val searchAllApps = corePreferences.searchAllAppsInDrawer && filterQuery != ""
         val displayableApps = apps
             .filter { app ->
-                (app.displayInDrawer || searchAllApps) && regex.replace(app.displayName, "")
-                    .contains(filterQuery, ignoreCase = true)
+                (app.displayInDrawer || searchAllApps) &&
+                    regex.replace(app.displayName, "")
+                        .contains(filterQuery, ignoreCase = true)
             }
 
         val includeHeadings = !showDrawerHeadings || filterQuery != ""
@@ -163,9 +164,7 @@ class AppDrawerAdapter(
 
         val item: TextView = itemView.findViewById(R.id.aa_list_item_app_name)
 
-        override fun toString(): String {
-            return "${super.toString()} '${item.text}'"
-        }
+        override fun toString(): String = "${super.toString()} '${item.text}'"
 
         fun bind(item: UnlauncherApp) {
             this.item.text = item.displayName
@@ -176,9 +175,7 @@ class AppDrawerAdapter(
     inner class HeaderViewHolder(headerView: View) : RecyclerView.ViewHolder(headerView) {
         private val header: TextView = itemView.findViewById(R.id.aa_list_header_letter)
 
-        override fun toString(): String {
-            return "${super.toString()} '${header.text}'"
-        }
+        override fun toString(): String = "${super.toString()} '${header.text}'"
 
         fun bind(letter: String) {
             header.text = letter

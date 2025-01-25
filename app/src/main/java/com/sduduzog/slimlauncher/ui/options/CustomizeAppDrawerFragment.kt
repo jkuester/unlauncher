@@ -8,7 +8,7 @@ import androidx.navigation.Navigation
 import com.jkuester.unlauncher.datastore.SearchBarPosition
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.databinding.CustomizeAppDrawerFragmentBinding
-import com.sduduzog.slimlauncher.datasource.UnlauncherDataSource
+import com.sduduzog.slimlauncher.datasource.coreprefs.CorePreferencesRepository
 import com.sduduzog.slimlauncher.utils.BaseFragment
 import com.sduduzog.slimlauncher.utils.createTitleAndSubtitleText
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,7 +18,7 @@ import javax.inject.Inject
 class CustomizeAppDrawerFragment : BaseFragment() {
 
     @Inject
-    lateinit var unlauncherDataSource: UnlauncherDataSource
+    lateinit var corePreferencesRepo: CorePreferencesRepository
 
     override fun getFragmentView(): ViewGroup = CustomizeAppDrawerFragmentBinding.bind(
         requireView()
@@ -56,9 +56,8 @@ class CustomizeAppDrawerFragment : BaseFragment() {
                 R.id.action_customiseAppDrawerFragment_to_customizeSearchFieldFragment
             )
         )
-        val preferencesRepository = unlauncherDataSource.corePreferencesRepo
         val title = getText(R.string.customize_app_drawer_fragment_search_field_options)
-        preferencesRepository.liveData().observe(viewLifecycleOwner) {
+        corePreferencesRepo.liveData().observe(viewLifecycleOwner) {
             val subtitle = if (!it.hasShowSearchBar() || it.showSearchBar) {
                 val pos =
                     if (it.searchBarPosition == SearchBarPosition.UNRECOGNIZED) {
@@ -94,18 +93,18 @@ class CustomizeAppDrawerFragment : BaseFragment() {
     }
 
     private fun setupHeadingSwitch(customiseAppDrawerFragment: CustomizeAppDrawerFragmentBinding) {
-        val prefsRepo = unlauncherDataSource.corePreferencesRepo
         customiseAppDrawerFragment.customizeAppDrawerFragmentShowHeadingsSwitch
             .setOnCheckedChangeListener { _, checked ->
-                prefsRepo.updateShowDrawerHeadings(checked)
+                corePreferencesRepo.updateShowDrawerHeadings(checked)
             }
-        prefsRepo.liveData().observe(viewLifecycleOwner) {
+        corePreferencesRepo.liveData().observe(viewLifecycleOwner) {
             customiseAppDrawerFragment.customizeAppDrawerFragmentShowHeadingsSwitch.isChecked = it
                 .showDrawerHeadings
         }
         customiseAppDrawerFragment.customizeAppDrawerFragmentShowHeadingsSwitch.text =
             createTitleAndSubtitleText(
-                requireContext(), R.string.customize_app_drawer_fragment_show_headings,
+                requireContext(),
+                R.string.customize_app_drawer_fragment_show_headings,
                 R.string.customize_app_drawer_fragment_show_headings_subtitle
             )
     }

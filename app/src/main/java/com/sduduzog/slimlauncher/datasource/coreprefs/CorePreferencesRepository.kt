@@ -1,25 +1,31 @@
 package com.sduduzog.slimlauncher.datasource.coreprefs
 
+import android.app.Activity
 import android.util.Log
+import androidx.activity.ComponentActivity
 import androidx.datastore.core.DataStore
-import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.lifecycleScope
 import com.jkuester.unlauncher.datastore.AlignmentFormat
 import com.jkuester.unlauncher.datastore.ClockType
 import com.jkuester.unlauncher.datastore.CorePreferences
 import com.jkuester.unlauncher.datastore.SearchBarPosition
+import dagger.hilt.android.scopes.ActivityScoped
 import java.io.IOException
+import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
-class CorePreferencesRepository(
+@ActivityScoped
+class CorePreferencesRepository @Inject constructor(
     private val corePreferencesStore: DataStore<CorePreferences>,
-    private val lifecycleScope: LifecycleCoroutineScope
+    activity: Activity
 ) {
+    private val lifecycleScope = (activity as ComponentActivity).lifecycleScope
     private val corereferencesFlow: Flow<CorePreferences> =
         corePreferencesStore.data
             .catch { exception ->
@@ -35,14 +41,10 @@ class CorePreferencesRepository(
                 }
             }
 
-    fun liveData(): LiveData<CorePreferences> {
-        return corereferencesFlow.asLiveData()
-    }
+    fun liveData(): LiveData<CorePreferences> = corereferencesFlow.asLiveData()
 
-    fun get(): CorePreferences {
-        return runBlocking {
-            corereferencesFlow.first()
-        }
+    fun get(): CorePreferences = runBlocking {
+        corereferencesFlow.first()
     }
 
     fun updateActivateKeyboardInDrawer(activateKeyboardInDrawer: Boolean) {

@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.databinding.CustomizeAppDrawerFragmentSearchFieldOptionsBinding
-import com.sduduzog.slimlauncher.datasource.UnlauncherDataSource
+import com.sduduzog.slimlauncher.datasource.coreprefs.CorePreferencesRepository
 import com.sduduzog.slimlauncher.ui.dialogs.ChooseSearchBarPositionDialog
 import com.sduduzog.slimlauncher.utils.BaseFragment
 import com.sduduzog.slimlauncher.utils.createTitleAndSubtitleText
@@ -17,7 +17,7 @@ import javax.inject.Inject
 class CustomizeSearchFieldFragment : BaseFragment() {
 
     @Inject
-    lateinit var unlauncherDataSource: UnlauncherDataSource
+    lateinit var corePreferencesRepo: CorePreferencesRepository
 
     override fun getFragmentView(): ViewGroup =
         CustomizeAppDrawerFragmentSearchFieldOptionsBinding.bind(
@@ -53,13 +53,12 @@ class CustomizeSearchFieldFragment : BaseFragment() {
     private fun setupShowSearchBarSwitch(
         options: CustomizeAppDrawerFragmentSearchFieldOptionsBinding
     ) {
-        val prefsRepo = unlauncherDataSource.corePreferencesRepo
         options.customizeAppDrawerFragmentShowSearchFieldSwitch
             .setOnCheckedChangeListener { _, checked ->
-                prefsRepo.updateShowSearchBar(checked)
+                corePreferencesRepo.updateShowSearchBar(checked)
                 enableSearchBarOptions(options, checked)
             }
-        prefsRepo.liveData().observe(viewLifecycleOwner) {
+        corePreferencesRepo.liveData().observe(viewLifecycleOwner) {
             val checked = it.showSearchBar
             options.customizeAppDrawerFragmentShowSearchFieldSwitch.isChecked = checked
             enableSearchBarOptions(options, checked)
@@ -78,12 +77,11 @@ class CustomizeSearchFieldFragment : BaseFragment() {
     private fun setupSearchBarPositionOption(
         options: CustomizeAppDrawerFragmentSearchFieldOptionsBinding
     ) {
-        val prefRepo = unlauncherDataSource.corePreferencesRepo
         options.customizeAppDrawerFragmentSearchFieldPosition.setOnClickListener {
             val positionDialog = ChooseSearchBarPositionDialog.getSearchBarPositionChooser()
             positionDialog.showNow(childFragmentManager, "POSITION_CHOOSER")
         }
-        prefRepo.liveData().observe(viewLifecycleOwner) {
+        corePreferencesRepo.liveData().observe(viewLifecycleOwner) {
             val position = it.searchBarPosition.number
             val title = getText(R.string.customize_app_drawer_fragment_search_bar_position)
             val subtitle = resources.getTextArray(R.array.search_bar_position_array)[position]
@@ -93,16 +91,16 @@ class CustomizeSearchFieldFragment : BaseFragment() {
     }
 
     private fun setupKeyboardSwitch(options: CustomizeAppDrawerFragmentSearchFieldOptionsBinding) {
-        val prefsRepo = unlauncherDataSource.corePreferencesRepo
         options.customizeAppDrawerOpenKeyboardSwitch.setOnCheckedChangeListener { _, checked ->
-            prefsRepo.updateActivateKeyboardInDrawer(checked)
+            corePreferencesRepo.updateActivateKeyboardInDrawer(checked)
         }
-        prefsRepo.liveData().observe(viewLifecycleOwner) {
+        corePreferencesRepo.liveData().observe(viewLifecycleOwner) {
             options.customizeAppDrawerOpenKeyboardSwitch.isChecked = it.activateKeyboardInDrawer
         }
         options.customizeAppDrawerOpenKeyboardSwitch.text =
             createTitleAndSubtitleText(
-                requireContext(), R.string.customize_app_drawer_fragment_open_keyboard,
+                requireContext(),
+                R.string.customize_app_drawer_fragment_open_keyboard,
                 R.string.customize_app_drawer_fragment_open_keyboard_subtitle
             )
     }
@@ -110,16 +108,16 @@ class CustomizeSearchFieldFragment : BaseFragment() {
     private fun setupSearchAllAppsSwitch(
         options: CustomizeAppDrawerFragmentSearchFieldOptionsBinding
     ) {
-        val prefsRepo = unlauncherDataSource.corePreferencesRepo
         options.customizeAppDrawerSearchAllSwitch.setOnCheckedChangeListener { _, checked ->
-            prefsRepo.updateSearchAllAppsInDrawer(checked)
+            corePreferencesRepo.updateSearchAllAppsInDrawer(checked)
         }
-        prefsRepo.liveData().observe(viewLifecycleOwner) {
+        corePreferencesRepo.liveData().observe(viewLifecycleOwner) {
             options.customizeAppDrawerSearchAllSwitch.isChecked = it.searchAllAppsInDrawer
         }
         options.customizeAppDrawerSearchAllSwitch.text =
             createTitleAndSubtitleText(
-                requireContext(), R.string.customize_app_drawer_fragment_search_all,
+                requireContext(),
+                R.string.customize_app_drawer_fragment_search_all,
                 R.string.customize_app_drawer_fragment_search_all_subtitle
             )
     }

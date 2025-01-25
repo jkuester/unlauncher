@@ -13,17 +13,24 @@ import android.view.View
 import androidx.annotation.StyleRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.motion.widget.MotionLayout
+import androidx.datastore.core.DataStore
 import androidx.navigation.NavController
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.RecyclerView
+import com.jkuester.unlauncher.datastore.CorePreferences
+import com.sduduzog.slimlauncher.datasource.coreprefs.CorePreferencesRepository
 import com.sduduzog.slimlauncher.utils.BaseFragment
 import com.sduduzog.slimlauncher.utils.HomeWatcher
 import com.sduduzog.slimlauncher.utils.IPublisher
 import com.sduduzog.slimlauncher.utils.ISubscriber
 import com.sduduzog.slimlauncher.utils.SystemUiManager
 import com.sduduzog.slimlauncher.utils.WallpaperManager
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.EntryPointAccessors
+import dagger.hilt.android.components.ActivityComponent
 import java.lang.reflect.Method
 import javax.inject.Inject
 import kotlin.math.absoluteValue
@@ -35,10 +42,21 @@ class MainActivity :
     HomeWatcher.OnHomePressedListener,
     IPublisher {
 
-    private val wallpaperManager = WallpaperManager(this)
+    @Inject
+    lateinit var corePresRepo: CorePreferencesRepository
 
     @Inject
     lateinit var systemUiManager: SystemUiManager
+
+    @Inject
+    lateinit var corePreferencesStore: DataStore<CorePreferences>
+
+    @EntryPoint
+    @InstallIn(ActivityComponent::class)
+    interface WallpaperManagerFactory {
+        fun getWallpaperManager(): WallpaperManager
+    }
+
     private lateinit var settings: SharedPreferences
     private lateinit var navigator: NavController
     private lateinit var homeWatcher: HomeWatcher
@@ -121,6 +139,9 @@ class MainActivity :
         first: Boolean
     ) {
         super.onApplyThemeResource(theme, resid, first)
+        // This function is called too early in the lifecycle for normal injection so we do it the hard way
+        val factory = EntryPointAccessors.fromActivity(this, WallpaperManagerFactory::class.java)
+        val wallpaperManager = factory.getWallpaperManager()
         wallpaperManager.onApplyThemeResource(theme, resid)
     }
 

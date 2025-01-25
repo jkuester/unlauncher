@@ -10,7 +10,7 @@ import androidx.core.view.marginStart
 import androidx.core.view.marginTop
 import com.jkuester.unlauncher.datastore.ClockType
 import com.sduduzog.slimlauncher.R
-import com.sduduzog.slimlauncher.datasource.UnlauncherDataSource
+import com.sduduzog.slimlauncher.datasource.coreprefs.CorePreferencesRepository
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
 import javax.inject.Inject
@@ -20,7 +20,7 @@ import kotlin.math.min
 @AndroidEntryPoint
 class AnalogClockView(context: Context, attrs: AttributeSet) : ClockView(context, attrs) {
     @Inject
-    lateinit var unlauncherDataSource: UnlauncherDataSource
+    lateinit var corePreferencesRepo: CorePreferencesRepository
 
     private var handPaint = getColorPaint(R.attr.colorAccent)
     private var radius: Float
@@ -130,7 +130,7 @@ class AnalogClockView(context: Context, attrs: AttributeSet) : ClockView(context
 
     override fun updateClock() {
         super.updateClock()
-        val clockType = unlauncherDataSource.corePreferencesRepo.get().clockType
+        val clockType = corePreferencesRepo.get().clockType
         tickCount = when (clockType) {
             ClockType.analog_0 -> 0
             ClockType.analog_1 -> 1
