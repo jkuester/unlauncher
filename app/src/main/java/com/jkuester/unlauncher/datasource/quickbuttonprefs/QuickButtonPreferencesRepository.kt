@@ -1,4 +1,4 @@
-package com.sduduzog.slimlauncher.datasource.quickbuttonprefs
+package com.jkuester.unlauncher.datasource.quickbuttonprefs
 
 import android.app.Activity
 import android.util.Log
@@ -58,39 +58,30 @@ class QuickButtonPreferencesRepository @Inject constructor(
         quickButtonPreferencesFlow.first()
     }
 
-    fun updateLeftIconId(iconId: Int) {
+    fun updateAsync(transform: suspend (t: QuickButtonPreferences) -> QuickButtonPreferences) {
         lifecycleScope.launch {
-            quickButtonPreferencesStore.updateData { currentPreferences ->
-                currentPreferences.toBuilder()
-                    .setLeftButton(
-                        currentPreferences.leftButton.toBuilder().setIconId(iconId).build()
-                    )
-                    .build()
-            }
+            quickButtonPreferencesStore.updateData(transform)
         }
     }
 
-    fun updateCenterIconId(iconId: Int) {
-        lifecycleScope.launch {
-            quickButtonPreferencesStore.updateData { currentPreferences ->
-                currentPreferences.toBuilder()
-                    .setCenterButton(
-                        currentPreferences.centerButton.toBuilder().setIconId(iconId).build()
-                    )
-                    .build()
-            }
-        }
+    fun updateLeftIconId(iconId: Int) = this.updateAsync { currentPreferences ->
+        currentPreferences
+            .toBuilder()
+            .setLeftButton(currentPreferences.leftButton.toBuilder().setIconId(iconId).build())
+            .build()
     }
 
-    fun updateRightIconId(iconId: Int) {
-        lifecycleScope.launch {
-            quickButtonPreferencesStore.updateData { currentPreferences ->
-                currentPreferences.toBuilder()
-                    .setRightButton(
-                        currentPreferences.rightButton.toBuilder().setIconId(iconId).build()
-                    )
-                    .build()
-            }
-        }
+    fun updateCenterIconId(iconId: Int) = this.updateAsync { currentPreferences ->
+        currentPreferences
+            .toBuilder()
+            .setCenterButton(currentPreferences.centerButton.toBuilder().setIconId(iconId).build())
+            .build()
+    }
+
+    fun updateRightIconId(iconId: Int) = this.updateAsync { currentPreferences ->
+        currentPreferences
+            .toBuilder()
+            .setRightButton(currentPreferences.rightButton.toBuilder().setIconId(iconId).build())
+            .build()
     }
 }

@@ -3,6 +3,8 @@ package com.jkuester.unlauncher.datasource
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.dataStore
+import com.jkuester.unlauncher.datasource.quickbuttonprefs.QuickButtonPreferencesMigrations
+import com.jkuester.unlauncher.datasource.quickbuttonprefs.QuickButtonPreferencesSerializer
 import com.jkuester.unlauncher.datastore.CorePreferences
 import com.jkuester.unlauncher.datastore.QuickButtonPreferences
 import com.jkuester.unlauncher.datastore.UnlauncherApps
@@ -10,8 +12,6 @@ import com.sduduzog.slimlauncher.datasource.apps.UnlauncherAppsMigrations
 import com.sduduzog.slimlauncher.datasource.apps.UnlauncherAppsSerializer
 import com.sduduzog.slimlauncher.datasource.coreprefs.CorePreferencesMigrations
 import com.sduduzog.slimlauncher.datasource.coreprefs.CorePreferencesSerializer
-import com.sduduzog.slimlauncher.datasource.quickbuttonprefs.QuickButtonPreferencesMigrations
-import com.sduduzog.slimlauncher.datasource.quickbuttonprefs.QuickButtonPreferencesSerializer
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

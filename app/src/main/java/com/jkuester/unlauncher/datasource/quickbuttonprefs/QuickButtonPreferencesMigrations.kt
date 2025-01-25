@@ -1,4 +1,4 @@
-package com.sduduzog.slimlauncher.datasource.quickbuttonprefs
+package com.jkuester.unlauncher.datasource.quickbuttonprefs
 
 import android.content.Context
 import androidx.datastore.core.DataMigration
@@ -46,15 +46,14 @@ class QuickButtonPreferencesMigrations {
                 prefBuilder.build()
             },
             object : DataMigration<QuickButtonPreferences> {
-                override suspend fun shouldMigrate(currentData: QuickButtonPreferences): Boolean {
-                    return !QuickButtonPreferencesRepository.RES_BY_ICON.keys.containsAll(
+                override suspend fun shouldMigrate(currentData: QuickButtonPreferences): Boolean =
+                    !QuickButtonPreferencesRepository.RES_BY_ICON.keys.containsAll(
                         listOf(
                             currentData.leftButton.iconId,
                             currentData.centerButton.iconId,
                             currentData.rightButton.iconId
                         )
                     )
-                }
 
                 override suspend fun migrate(
                     currentData: QuickButtonPreferences

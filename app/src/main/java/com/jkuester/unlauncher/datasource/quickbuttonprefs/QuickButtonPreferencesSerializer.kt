@@ -1,4 +1,4 @@
-package com.sduduzog.slimlauncher.datasource.quickbuttonprefs
+package com.jkuester.unlauncher.datasource.quickbuttonprefs
 
 import androidx.datastore.core.CorruptionException
 import androidx.datastore.core.Serializer
