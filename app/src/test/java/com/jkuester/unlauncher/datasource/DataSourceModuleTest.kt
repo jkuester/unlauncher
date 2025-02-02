@@ -30,9 +30,7 @@ class DataSourceModuleTest {
     }
 
     @AfterEach
-    fun afterEach() {
-        verify { appContext.applicationContext }
-    }
+    fun afterEach() = verify { appContext.applicationContext }
 
     @Test
     fun provideQuickButtonPreferencesStore() {

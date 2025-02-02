@@ -116,6 +116,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter:5.11.4")
     testImplementation("io.mockk:mockk-android:1.13.14")
     testImplementation("io.mockk:mockk-agent:1.13.14")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.1")
 }
 protobuf {
     protoc {

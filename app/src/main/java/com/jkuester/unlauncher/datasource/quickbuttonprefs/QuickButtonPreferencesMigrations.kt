@@ -4,79 +4,88 @@ import android.content.Context
 import androidx.datastore.core.DataMigration
 import androidx.datastore.migrations.SharedPreferencesMigration
 import androidx.datastore.migrations.SharedPreferencesView
+import com.jkuester.unlauncher.datasource.quickbuttonprefs.SharedPrefButton.CENTER
+import com.jkuester.unlauncher.datasource.quickbuttonprefs.SharedPrefButton.LEFT
+import com.jkuester.unlauncher.datasource.quickbuttonprefs.SharedPrefButton.RIGHT
 import com.jkuester.unlauncher.datastore.QuickButtonPreferences
 
-class QuickButtonPreferencesMigrations {
-    fun get(context: Context): List<DataMigration<QuickButtonPreferences>> {
-        return listOf(
-            SharedPreferencesMigration(
-                context,
-                "settings",
-                setOf("quick_button_left", "quick_button_center", "quick_button_right")
-            ) { sharedPrefs: SharedPreferencesView, currentData: QuickButtonPreferences ->
-                val prefBuilder = currentData.toBuilder()
-                if (!currentData.hasLeftButton()) {
-                    prefBuilder.leftButton =
-                        QuickButtonPreferences.QuickButton.newBuilder().setIconId(
-                            sharedPrefs.getInt(
-                                "quick_button_left",
-                                QuickButtonPreferencesRepository.IC_CALL
-                            )
-                        ).build()
-                }
+private const val SHARED_PREF_GROUP_NAME = "settings"
+private enum class SharedPrefButton(val key: String) {
+    LEFT("quick_button_left"),
+    CENTER("quick_button_center"),
+    RIGHT("quick_button_right")
+}
 
-                if (!currentData.hasCenterButton()) {
-                    prefBuilder.centerButton =
-                        QuickButtonPreferences.QuickButton.newBuilder().setIconId(
-                            sharedPrefs.getInt(
-                                "quick_button_center",
-                                QuickButtonPreferencesRepository.IC_COG
-                            )
-                        ).build()
-                }
-                if (!currentData.hasRightButton()) {
-                    prefBuilder.rightButton =
-                        QuickButtonPreferences.QuickButton.newBuilder().setIconId(
-                            sharedPrefs.getInt(
-                                "quick_button_right",
-                                QuickButtonPreferencesRepository.IC_PHOTO_CAMERA
-                            )
-                        ).build()
-                }
-                prefBuilder.build()
-            },
-            object : DataMigration<QuickButtonPreferences> {
-                override suspend fun shouldMigrate(currentData: QuickButtonPreferences): Boolean =
-                    !QuickButtonPreferencesRepository.RES_BY_ICON.keys.containsAll(
-                        listOf(
-                            currentData.leftButton.iconId,
-                            currentData.centerButton.iconId,
-                            currentData.rightButton.iconId
-                        )
-                    )
-
-                override suspend fun migrate(
-                    currentData: QuickButtonPreferences
-                ): QuickButtonPreferences {
-                    val icons = QuickButtonPreferencesRepository.RES_BY_ICON.keys
-                    val prefBuilder = currentData.toBuilder()
-                    if (!icons.contains(currentData.leftButton.iconId)) {
-                        prefBuilder.leftButton = QuickButtonPreferences.QuickButton.newBuilder()
-                            .setIconId(QuickButtonPreferencesRepository.IC_CALL).build()
-                    }
-                    if (!icons.contains(currentData.centerButton.iconId)) {
-                        prefBuilder.centerButton = QuickButtonPreferences.QuickButton.newBuilder()
-                            .setIconId(QuickButtonPreferencesRepository.IC_COG).build()
-                    }
-                    if (!icons.contains(currentData.rightButton.iconId)) {
-                        prefBuilder.rightButton = QuickButtonPreferences.QuickButton.newBuilder()
-                            .setIconId(QuickButtonPreferencesRepository.IC_PHOTO_CAMERA).build()
-                    }
-                    return prefBuilder.build()
-                }
-
-                override suspend fun cleanUp() {}
-            }
-        )
+private fun populateLeftButton(sharedPrefs: SharedPreferencesView) =
+    fun(currentData: QuickButtonPreferences) = when {
+        currentData.hasLeftButton() -> currentData
+        else -> sharedPrefs
+            .getInt(LEFT.key, QuickButtonIcon.IC_CALL.prefId)
+            .let { setLeftIconId(it)(currentData) }
     }
+private fun populateCenterButton(sharedPrefs: SharedPreferencesView) =
+    fun(currentData: QuickButtonPreferences) = when {
+        currentData.hasCenterButton() -> currentData
+        else -> sharedPrefs
+            .getInt(CENTER.key, QuickButtonIcon.IC_COG.prefId)
+            .let { setCenterIconId(it)(currentData) }
+    }
+private fun populateRightButton(sharedPrefs: SharedPreferencesView) =
+    fun(currentData: QuickButtonPreferences) = when {
+        currentData.hasRightButton() -> currentData
+        else -> sharedPrefs
+            .getInt(RIGHT.key, QuickButtonIcon.IC_PHOTO_CAMERA.prefId)
+            .let { setRightIconId(it)(currentData) }
+    }
+
+fun sharedPrefsMigration(context: Context) = SharedPreferencesMigration(
+    context,
+    SHARED_PREF_GROUP_NAME,
+    SharedPrefButton.entries
+        .map { it.key }
+        .toSet()
+) { sharedPrefs: SharedPreferencesView, currentData: QuickButtonPreferences ->
+    currentData
+        .let(populateLeftButton(sharedPrefs))
+        .let(populateCenterButton(sharedPrefs))
+        .let(populateRightButton(sharedPrefs))
+}
+
+private fun getButtonPrefIds() = QuickButtonIcon.entries.map { it.prefId }
+
+private fun defaultLeftButton(currentData: QuickButtonPreferences) =
+    if (getButtonPrefIds().contains(currentData.leftButton.iconId)) {
+        currentData
+    } else {
+        setLeftIconId(QuickButtonIcon.IC_CALL.prefId)(currentData)
+    }
+private fun defaultCenterButton(currentData: QuickButtonPreferences) =
+    if (getButtonPrefIds().contains(currentData.centerButton.iconId)) {
+        currentData
+    } else {
+        setCenterIconId(QuickButtonIcon.IC_COG.prefId)(currentData)
+    }
+private fun defaultRightButton(currentData: QuickButtonPreferences) =
+    if (getButtonPrefIds().contains(currentData.rightButton.iconId)) {
+        currentData
+    } else {
+        setRightIconId(QuickButtonIcon.IC_PHOTO_CAMERA.prefId)(currentData)
+    }
+
+object ToThreeQuickButtonsMigration : DataMigration<QuickButtonPreferences> {
+    override suspend fun shouldMigrate(currentData: QuickButtonPreferences): Boolean =
+        !getButtonPrefIds()
+            .containsAll(listOf(
+                currentData.leftButton.iconId,
+                currentData.centerButton.iconId,
+                currentData.rightButton.iconId
+            ))
+
+    override suspend fun migrate(currentData: QuickButtonPreferences): QuickButtonPreferences =
+        currentData
+            .let(::defaultLeftButton)
+            .let(::defaultCenterButton)
+            .let(::defaultRightButton)
+
+    override suspend fun cleanUp() {}
 }

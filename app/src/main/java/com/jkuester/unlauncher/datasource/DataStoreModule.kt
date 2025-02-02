@@ -3,8 +3,9 @@ package com.jkuester.unlauncher.datasource
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.dataStore
-import com.jkuester.unlauncher.datasource.quickbuttonprefs.QuickButtonPreferencesMigrations
 import com.jkuester.unlauncher.datasource.quickbuttonprefs.QuickButtonPreferencesSerializer
+import com.jkuester.unlauncher.datasource.quickbuttonprefs.ToThreeQuickButtonsMigration
+import com.jkuester.unlauncher.datasource.quickbuttonprefs.sharedPrefsMigration as quickButtonSharedPrefsMigration
 import com.jkuester.unlauncher.datastore.CorePreferences
 import com.jkuester.unlauncher.datastore.QuickButtonPreferences
 import com.jkuester.unlauncher.datastore.UnlauncherApps
@@ -22,7 +23,12 @@ import javax.inject.Singleton
 private val Context.quickButtonPreferencesStore: DataStore<QuickButtonPreferences> by dataStore(
     fileName = "quick_button_preferences.proto",
     serializer = QuickButtonPreferencesSerializer,
-    produceMigrations = { context -> QuickButtonPreferencesMigrations().get(context) }
+    produceMigrations = { context ->
+        listOf(
+            quickButtonSharedPrefsMigration(context),
+            ToThreeQuickButtonsMigration
+        )
+    }
 )
 
 private val Context.unlauncherAppsStore: DataStore<UnlauncherApps> by dataStore(

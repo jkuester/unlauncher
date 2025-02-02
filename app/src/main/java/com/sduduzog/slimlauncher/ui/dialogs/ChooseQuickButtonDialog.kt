@@ -5,16 +5,20 @@ import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
+import com.jkuester.unlauncher.datasource.quickbuttonprefs.QuickButtonIcon
 import com.jkuester.unlauncher.datasource.quickbuttonprefs.QuickButtonPreferencesRepository
+import com.jkuester.unlauncher.datasource.quickbuttonprefs.setCenterIconId
+import com.jkuester.unlauncher.datasource.quickbuttonprefs.setLeftIconId
+import com.jkuester.unlauncher.datasource.quickbuttonprefs.setRightIconId
 import com.sduduzog.slimlauncher.R
 
 class ChooseQuickButtonDialog(
     private val repo: QuickButtonPreferencesRepository,
-    private val defaultIconId: Int
+    private val defaultIconId: Int,
 ) : DialogFragment() {
     private var onDismissListener: DialogInterface.OnDismissListener? = null
     private val iconIdsByIndex =
-        mapOf(0 to defaultIconId, 1 to QuickButtonPreferencesRepository.IC_EMPTY)
+        mapOf(0 to defaultIconId, 1 to QuickButtonIcon.IC_EMPTY.prefId)
     private val indexesByIconId = iconIdsByIndex.entries.associate { it.value to it.key }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -23,15 +27,15 @@ class ChooseQuickButtonDialog(
         val quickButtonPrefs = repo.get()
         var currentIconId = 0
         when (defaultIconId) {
-            QuickButtonPreferencesRepository.IC_CALL ->
+            QuickButtonIcon.IC_CALL.prefId ->
                 currentIconId =
                     quickButtonPrefs.leftButton.iconId
 
-            QuickButtonPreferencesRepository.IC_COG ->
+            QuickButtonIcon.IC_COG.prefId ->
                 currentIconId =
                     quickButtonPrefs.centerButton.iconId
 
-            QuickButtonPreferencesRepository.IC_PHOTO_CAMERA ->
+            QuickButtonIcon.IC_PHOTO_CAMERA.prefId ->
                 currentIconId =
                     quickButtonPrefs.rightButton.iconId
         }
@@ -40,21 +44,24 @@ class ChooseQuickButtonDialog(
 
         builder.setSingleChoiceItems(
             R.array.quick_button_array,
-            indexesByIconId[currentIconId]!!
+            indexesByIconId[currentIconId]!!,
         ) { dialogInterface, i ->
             dialogInterface.dismiss()
             when (defaultIconId) {
-                QuickButtonPreferencesRepository.IC_CALL -> repo.updateLeftIconId(
-                    iconIdsByIndex[i]!!
-                )
+                QuickButtonIcon.IC_CALL.prefId ->
+                    repo.updateAsync(
+                        setLeftIconId(iconIdsByIndex[i]!!),
+                    )
 
-                QuickButtonPreferencesRepository.IC_COG -> repo.updateCenterIconId(
-                    iconIdsByIndex[i]!!
-                )
+                QuickButtonIcon.IC_COG.prefId ->
+                    repo.updateAsync(
+                        setCenterIconId(iconIdsByIndex[i]!!),
+                    )
 
-                QuickButtonPreferencesRepository.IC_PHOTO_CAMERA -> repo.updateRightIconId(
-                    iconIdsByIndex[i]!!
-                )
+                QuickButtonIcon.IC_PHOTO_CAMERA.prefId ->
+                    repo.updateAsync(
+                        setRightIconId(iconIdsByIndex[i]!!),
+                    )
             }
         }
         return builder.create()

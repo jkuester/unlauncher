@@ -1,87 +1,65 @@
 package com.jkuester.unlauncher.datasource.quickbuttonprefs
 
-import android.app.Activity
-import android.util.Log
-import androidx.activity.ComponentActivity
 import androidx.datastore.core.DataStore
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.lifecycleScope
+import com.jkuester.unlauncher.datasource.AbstractDataRepository
+import com.jkuester.unlauncher.datasource.AbstractDataSerializer
 import com.jkuester.unlauncher.datastore.QuickButtonPreferences
+import com.jkuester.unlauncher.datastore.QuickButtonPreferences.QuickButton
 import com.sduduzog.slimlauncher.R
 import dagger.hilt.android.scopes.ActivityScoped
-import java.io.IOException
 import javax.inject.Inject
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.CoroutineScope
+
+private fun setButtonIconId(button: QuickButton, iconId: Int) = button
+    .toBuilder()
+    .setIconId(iconId)
+
+fun setLeftIconId(iconId: Int) = { currentPreferences: QuickButtonPreferences ->
+    currentPreferences
+        .toBuilder()
+        .setLeftButton(setButtonIconId(currentPreferences.leftButton, iconId))
+        .build()
+}
+
+fun setCenterIconId(iconId: Int) = { currentPreferences: QuickButtonPreferences ->
+    currentPreferences
+        .toBuilder()
+        .setCenterButton(setButtonIconId(currentPreferences.centerButton, iconId))
+        .build()
+}
+
+fun setRightIconId(iconId: Int) = { currentPreferences: QuickButtonPreferences ->
+    currentPreferences
+        .toBuilder()
+        .setRightButton(setButtonIconId(currentPreferences.rightButton, iconId))
+        .build()
+}
+
+enum class QuickButtonIcon(val prefId: Int, val resourceId: Int) {
+    IC_EMPTY(1, R.drawable.ic_empty),
+    IC_CALL(2, R.drawable.ic_call),
+    IC_COG(3, R.drawable.ic_cog),
+    IC_PHOTO_CAMERA(4, R.drawable.ic_photo_camera)
+}
+
+fun getIconResourceId(prefId: Int) = QuickButtonIcon.entries
+    .find {
+        it.prefId == prefId
+    }?.resourceId
 
 @ActivityScoped
-class QuickButtonPreferencesRepository @Inject constructor(
-    private val quickButtonPreferencesStore: DataStore<QuickButtonPreferences>,
-    activity: Activity
-) {
-    private val lifecycleScope = (activity as ComponentActivity).lifecycleScope
-    companion object {
-        const val IC_EMPTY = 1
-        const val IC_CALL = 2
-        const val IC_COG = 3
-        const val IC_PHOTO_CAMERA = 4
-        val RES_BY_ICON = mapOf(
-            IC_CALL to R.drawable.ic_call,
-            IC_COG to R.drawable.ic_cog,
-            IC_PHOTO_CAMERA to R.drawable.ic_photo_camera,
-            IC_EMPTY to R.drawable.ic_empty
-        )
-    }
+class QuickButtonPreferencesRepository
+@Inject
+constructor(
+    quickButtonPreferencesStore: DataStore<QuickButtonPreferences>,
+    lifecycleScope: CoroutineScope
+) : AbstractDataRepository<QuickButtonPreferences>(
+    quickButtonPreferencesStore,
+    lifecycleScope,
+    QuickButtonPreferences::getDefaultInstance
+)
 
-    private val quickButtonPreferencesFlow: Flow<QuickButtonPreferences> =
-        quickButtonPreferencesStore.data
-            .catch { exception ->
-                if (exception is IOException) {
-                    Log.e(
-                        "QuickButtonPrefRepo",
-                        "Error reading quick button preferences.",
-                        exception
-                    )
-                    emit(QuickButtonPreferences.getDefaultInstance())
-                } else {
-                    throw exception
-                }
-            }
-
-    fun liveData(): LiveData<QuickButtonPreferences> = quickButtonPreferencesFlow.asLiveData()
-
-    fun get(): QuickButtonPreferences = runBlocking {
-        quickButtonPreferencesFlow.first()
-    }
-
-    fun updateAsync(transform: suspend (t: QuickButtonPreferences) -> QuickButtonPreferences) {
-        lifecycleScope.launch {
-            quickButtonPreferencesStore.updateData(transform)
-        }
-    }
-
-    fun updateLeftIconId(iconId: Int) = this.updateAsync { currentPreferences ->
-        currentPreferences
-            .toBuilder()
-            .setLeftButton(currentPreferences.leftButton.toBuilder().setIconId(iconId).build())
-            .build()
-    }
-
-    fun updateCenterIconId(iconId: Int) = this.updateAsync { currentPreferences ->
-        currentPreferences
-            .toBuilder()
-            .setCenterButton(currentPreferences.centerButton.toBuilder().setIconId(iconId).build())
-            .build()
-    }
-
-    fun updateRightIconId(iconId: Int) = this.updateAsync { currentPreferences ->
-        currentPreferences
-            .toBuilder()
-            .setRightButton(currentPreferences.rightButton.toBuilder().setIconId(iconId).build())
-            .build()
-    }
-}
+object QuickButtonPreferencesSerializer : AbstractDataSerializer<QuickButtonPreferences>(
+    QuickButtonPreferences::getDefaultInstance,
+    QuickButtonPreferences::parseFrom
+)
