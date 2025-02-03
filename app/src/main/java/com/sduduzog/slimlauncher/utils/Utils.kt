@@ -14,7 +14,7 @@ import android.text.style.TextAppearanceSpan
 import android.util.DisplayMetrics
 import android.view.WindowInsets
 import androidx.annotation.StringRes
-import com.jkuester.unlauncher.datastore.AlignmentFormat
+import com.jkuester.unlauncher.datastore.proto.AlignmentFormat
 import com.sduduzog.slimlauncher.R
 
 private fun isAppDefaultLauncher(context: Context?): Boolean {
@@ -35,50 +35,46 @@ private fun intentContainsDefaultLauncher(intent: Intent?): Boolean =
 fun isActivityDefaultLauncher(activity: Activity?): Boolean =
     isAppDefaultLauncher(activity) || intentContainsDefaultLauncher(activity?.intent)
 
-fun getScreenWidth(activity: Activity): Int {
-    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-        val windowMetrics = activity.windowManager.currentWindowMetrics
-        val bounds: Rect = windowMetrics.bounds
-        val insets: Insets = windowMetrics.windowInsets.getInsetsIgnoringVisibility(
-            WindowInsets.Type.systemBars()
-        )
-        if (activity.resources.configuration.orientation
-            == Configuration.ORIENTATION_LANDSCAPE &&
-            activity.resources.configuration.smallestScreenWidthDp < 600
-        ) { // landscape and phone
-            val navigationBarSize: Int = insets.right + insets.left
-            bounds.width() - navigationBarSize
-        } else { // portrait or tablet
-            bounds.width()
-        }
-    } else {
-        val outMetrics = DisplayMetrics()
-        activity.windowManager.defaultDisplay.getMetrics(outMetrics)
-        outMetrics.widthPixels
+fun getScreenWidth(activity: Activity): Int = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+    val windowMetrics = activity.windowManager.currentWindowMetrics
+    val bounds: Rect = windowMetrics.bounds
+    val insets: Insets = windowMetrics.windowInsets.getInsetsIgnoringVisibility(
+        WindowInsets.Type.systemBars()
+    )
+    if (activity.resources.configuration.orientation
+        == Configuration.ORIENTATION_LANDSCAPE &&
+        activity.resources.configuration.smallestScreenWidthDp < 600
+    ) { // landscape and phone
+        val navigationBarSize: Int = insets.right + insets.left
+        bounds.width() - navigationBarSize
+    } else { // portrait or tablet
+        bounds.width()
     }
+} else {
+    val outMetrics = DisplayMetrics()
+    activity.windowManager.defaultDisplay.getMetrics(outMetrics)
+    outMetrics.widthPixels
 }
 
-fun getScreenHeight(activity: Activity): Int {
-    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-        val windowMetrics = activity.windowManager.currentWindowMetrics
-        val bounds: Rect = windowMetrics.bounds
-        val insets: Insets = windowMetrics.windowInsets.getInsetsIgnoringVisibility(
-            WindowInsets.Type.systemBars()
-        )
-        if (activity.resources.configuration.orientation
-            == Configuration.ORIENTATION_LANDSCAPE &&
-            activity.resources.configuration.smallestScreenWidthDp < 600
-        ) { // landscape and phone
-            bounds.height()
-        } else { // portrait or tablet
-            val navigationBarSize: Int = insets.bottom
-            bounds.height() - navigationBarSize
-        }
-    } else {
-        val outMetrics = DisplayMetrics()
-        activity.windowManager.defaultDisplay.getMetrics(outMetrics)
-        outMetrics.heightPixels
+fun getScreenHeight(activity: Activity): Int = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+    val windowMetrics = activity.windowManager.currentWindowMetrics
+    val bounds: Rect = windowMetrics.bounds
+    val insets: Insets = windowMetrics.windowInsets.getInsetsIgnoringVisibility(
+        WindowInsets.Type.systemBars()
+    )
+    if (activity.resources.configuration.orientation
+        == Configuration.ORIENTATION_LANDSCAPE &&
+        activity.resources.configuration.smallestScreenWidthDp < 600
+    ) { // landscape and phone
+        bounds.height()
+    } else { // portrait or tablet
+        val navigationBarSize: Int = insets.bottom
+        bounds.height() - navigationBarSize
     }
+} else {
+    val outMetrics = DisplayMetrics()
+    activity.windowManager.defaultDisplay.getMetrics(outMetrics)
+    outMetrics.heightPixels
 }
 
 fun createTitleAndSubtitleText(

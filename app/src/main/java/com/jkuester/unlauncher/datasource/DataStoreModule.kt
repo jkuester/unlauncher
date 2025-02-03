@@ -6,7 +6,7 @@ import androidx.datastore.dataStore
 import com.jkuester.unlauncher.datasource.quickbuttonprefs.QuickButtonPreferencesSerializer
 import com.jkuester.unlauncher.datasource.quickbuttonprefs.ToThreeQuickButtonsMigration
 import com.jkuester.unlauncher.datasource.quickbuttonprefs.sharedPrefsMigration as quickButtonSharedPrefsMigration
-import com.jkuester.unlauncher.datastore.CorePreferences
+import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.datastore.proto.QuickButtonPreferences
 import com.jkuester.unlauncher.datastore.proto.UnlauncherApps
 import com.sduduzog.slimlauncher.datasource.apps.UnlauncherAppsMigrations

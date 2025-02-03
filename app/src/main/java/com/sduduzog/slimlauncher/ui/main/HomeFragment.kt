@@ -36,8 +36,8 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jkuester.unlauncher.datasource.quickbuttonprefs.QuickButtonPreferencesRepository
 import com.jkuester.unlauncher.datasource.quickbuttonprefs.getIconResourceId
-import com.jkuester.unlauncher.datastore.ClockType
-import com.jkuester.unlauncher.datastore.SearchBarPosition
+import com.jkuester.unlauncher.datastore.proto.ClockType
+import com.jkuester.unlauncher.datastore.proto.SearchBarPosition
 import com.jkuester.unlauncher.datastore.proto.UnlauncherApp
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.adapters.AppDrawerAdapter

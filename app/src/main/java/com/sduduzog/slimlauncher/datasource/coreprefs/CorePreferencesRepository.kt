@@ -7,10 +7,10 @@ import androidx.datastore.core.DataStore
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
-import com.jkuester.unlauncher.datastore.AlignmentFormat
-import com.jkuester.unlauncher.datastore.ClockType
-import com.jkuester.unlauncher.datastore.CorePreferences
-import com.jkuester.unlauncher.datastore.SearchBarPosition
+import com.jkuester.unlauncher.datastore.proto.AlignmentFormat
+import com.jkuester.unlauncher.datastore.proto.ClockType
+import com.jkuester.unlauncher.datastore.proto.CorePreferences
+import com.jkuester.unlauncher.datastore.proto.SearchBarPosition
 import dagger.hilt.android.scopes.ActivityScoped
 import java.io.IOException
 import javax.inject.Inject

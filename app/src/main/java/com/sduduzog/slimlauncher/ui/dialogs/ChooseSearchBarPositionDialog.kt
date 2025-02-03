@@ -4,7 +4,7 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
-import com.jkuester.unlauncher.datastore.SearchBarPosition
+import com.jkuester.unlauncher.datastore.proto.SearchBarPosition
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.datasource.coreprefs.CorePreferencesRepository
 import dagger.hilt.android.AndroidEntryPoint
