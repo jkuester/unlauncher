@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
-import com.jkuester.unlauncher.datastore.UnlauncherApps
+import com.jkuester.unlauncher.datastore.proto.UnlauncherApps
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.datasource.apps.UnlauncherAppsRepository
 
@@ -44,8 +44,6 @@ class CustomizeAppDrawerAppsAdapter(
         val appName: CheckBox =
             itemView.findViewById(R.id.customize_app_drawer_fragment_app_list_item)
 
-        override fun toString(): String {
-            return super.toString() + " '${appName.text}'"
-        }
+        override fun toString(): String = super.toString() + " '${appName.text}'"
     }
 }

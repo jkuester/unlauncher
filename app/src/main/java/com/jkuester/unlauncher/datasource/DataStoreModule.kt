@@ -7,8 +7,8 @@ import com.jkuester.unlauncher.datasource.quickbuttonprefs.QuickButtonPreference
 import com.jkuester.unlauncher.datasource.quickbuttonprefs.ToThreeQuickButtonsMigration
 import com.jkuester.unlauncher.datasource.quickbuttonprefs.sharedPrefsMigration as quickButtonSharedPrefsMigration
 import com.jkuester.unlauncher.datastore.CorePreferences
-import com.jkuester.unlauncher.datastore.UnlauncherApps
 import com.jkuester.unlauncher.datastore.proto.QuickButtonPreferences
+import com.jkuester.unlauncher.datastore.proto.UnlauncherApps
 import com.sduduzog.slimlauncher.datasource.apps.UnlauncherAppsMigrations
 import com.sduduzog.slimlauncher.datasource.apps.UnlauncherAppsSerializer
 import com.sduduzog.slimlauncher.datasource.coreprefs.CorePreferencesMigrations
