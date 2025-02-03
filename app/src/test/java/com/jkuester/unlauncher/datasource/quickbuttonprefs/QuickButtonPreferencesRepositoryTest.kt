@@ -1,7 +1,7 @@
 package com.jkuester.unlauncher.datasource.quickbuttonprefs
 
-import com.jkuester.unlauncher.datastore.QuickButtonPreferences
-import com.jkuester.unlauncher.datastore.QuickButtonPreferences.QuickButton
+import com.jkuester.unlauncher.datastore.proto.QuickButtonPreferences
+import com.jkuester.unlauncher.datastore.proto.QuickButtonPreferences.QuickButton
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension

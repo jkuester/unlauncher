@@ -7,7 +7,7 @@ import androidx.datastore.migrations.SharedPreferencesView
 import com.jkuester.unlauncher.datasource.quickbuttonprefs.SharedPrefButton.CENTER
 import com.jkuester.unlauncher.datasource.quickbuttonprefs.SharedPrefButton.LEFT
 import com.jkuester.unlauncher.datasource.quickbuttonprefs.SharedPrefButton.RIGHT
-import com.jkuester.unlauncher.datastore.QuickButtonPreferences
+import com.jkuester.unlauncher.datastore.proto.QuickButtonPreferences
 
 private const val SHARED_PREF_GROUP_NAME = "settings"
 private enum class SharedPrefButton(val key: String) {

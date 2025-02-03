@@ -3,8 +3,8 @@ package com.jkuester.unlauncher.datasource.quickbuttonprefs
 import androidx.datastore.core.DataStore
 import com.jkuester.unlauncher.datasource.AbstractDataRepository
 import com.jkuester.unlauncher.datasource.AbstractDataSerializer
-import com.jkuester.unlauncher.datastore.QuickButtonPreferences
-import com.jkuester.unlauncher.datastore.QuickButtonPreferences.QuickButton
+import com.jkuester.unlauncher.datastore.proto.QuickButtonPreferences
+import com.jkuester.unlauncher.datastore.proto.QuickButtonPreferences.QuickButton
 import com.sduduzog.slimlauncher.R
 import dagger.hilt.android.scopes.ActivityScoped
 import javax.inject.Inject

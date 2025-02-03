@@ -2,7 +2,7 @@ package com.jkuester.unlauncher.datasource.quickbuttonprefs
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.jkuester.unlauncher.datastore.QuickButtonPreferences
+import com.jkuester.unlauncher.datastore.proto.QuickButtonPreferences
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
