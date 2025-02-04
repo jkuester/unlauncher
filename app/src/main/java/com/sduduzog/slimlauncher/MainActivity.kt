@@ -133,11 +133,7 @@ class MainActivity :
         }
     }
 
-    override fun onApplyThemeResource(
-        theme: Resources.Theme?,
-        @StyleRes resid: Int,
-        first: Boolean
-    ) {
+    override fun onApplyThemeResource(theme: Resources.Theme?, @StyleRes resid: Int, first: Boolean) {
         super.onApplyThemeResource(theme, resid, first)
         // This function is called too early in the lifecycle for normal injection so we do it the hard way
         val factory = EntryPointAccessors.fromActivity(this, WallpaperManagerFactory::class.java)
@@ -222,12 +218,7 @@ class MainActivity :
                 }
             }
 
-            override fun onFling(
-                e1: MotionEvent?,
-                e2: MotionEvent,
-                velocityX: Float,
-                velocityY: Float
-            ): Boolean {
+            override fun onFling(e1: MotionEvent?, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
                 val homeView = findViewById<MotionLayout>(R.id.home_fragment)
                 if (homeView != null) {
                     val homeScreen = homeView.constraintSetIds[0]

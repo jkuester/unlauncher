@@ -1,7 +1,10 @@
 [*.{kt,kts}]
-ktlint_code_style = android_studio
 
+max_line_length = 120
+ktlint_code_style = android_studio
 ktlint_standard_spacing-between-declarations-with-annotations = disabled
+
+# Prevent ktlint from aggressively wrapping code onto new lines
 ktlint_standard_wrapping = disabled
 ktlint_standard_trailing-comma-on-declaration-site = disabled
 ktlint_standard_trailing-comma-on-call-site = disabled

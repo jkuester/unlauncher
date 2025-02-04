@@ -46,19 +46,16 @@ private val Context.corePreferencesStore: DataStore<CorePreferences> by dataStor
 class DataStoreModule {
     @Singleton
     @Provides
-    fun provideQuickButtonPreferencesStore(
-        @ApplicationContext appContext: Context
-    ): DataStore<QuickButtonPreferences> = appContext.quickButtonPreferencesStore
+    fun provideQuickButtonPreferencesStore(@ApplicationContext appContext: Context): DataStore<QuickButtonPreferences> =
+        appContext.quickButtonPreferencesStore
 
     @Singleton
     @Provides
-    fun provideUnlauncherAppsStore(
-        @ApplicationContext appContext: Context
-    ): DataStore<UnlauncherApps> = appContext.unlauncherAppsStore
+    fun provideUnlauncherAppsStore(@ApplicationContext appContext: Context): DataStore<UnlauncherApps> =
+        appContext.unlauncherAppsStore
 
     @Singleton
     @Provides
-    fun provideCorePreferencesStore(
-        @ApplicationContext appContext: Context
-    ): DataStore<CorePreferences> = appContext.corePreferencesStore
+    fun provideCorePreferencesStore(@ApplicationContext appContext: Context): DataStore<CorePreferences> =
+        appContext.corePreferencesStore
 }

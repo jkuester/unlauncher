@@ -87,15 +87,12 @@ class HomeFragment :
         uninstallAppLauncher = registerForActivityResult(StartActivityForResult()) { refreshApps() }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View = if (corePreferencesRepo.get().searchBarPosition == SearchBarPosition.bottom) {
-        HomeFragmentBottomBinding.inflate(layoutInflater, container, false).root
-    } else {
-        HomeFragmentDefaultBinding.inflate(layoutInflater, container, false).root
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
+        if (corePreferencesRepo.get().searchBarPosition == SearchBarPosition.bottom) {
+            HomeFragmentBottomBinding.inflate(layoutInflater, container, false).root
+        } else {
+            HomeFragmentDefaultBinding.inflate(layoutInflater, container, false).root
+        }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -334,20 +331,11 @@ class HomeFragment :
                 // do nothing
             }
 
-            override fun onTransitionStarted(
-                motionLayout: MotionLayout?,
-                startId: Int,
-                endId: Int
-            ) {
+            override fun onTransitionStarted(motionLayout: MotionLayout?, startId: Int, endId: Int) {
                 // do nothing
             }
 
-            override fun onTransitionChange(
-                motionLayout: MotionLayout?,
-                startId: Int,
-                endId: Int,
-                progress: Float
-            ) {
+            override fun onTransitionChange(motionLayout: MotionLayout?, startId: Int, endId: Int, progress: Float) {
                 // do nothing
             }
         })

@@ -28,9 +28,8 @@ private fun isAppDefaultLauncher(context: Context?): Boolean {
     return context.packageName == res.activityInfo?.packageName
 }
 
-private fun intentContainsDefaultLauncher(intent: Intent?): Boolean =
-    intent?.action == Intent.ACTION_MAIN &&
-        intent.categories?.contains(Intent.CATEGORY_HOME) == true
+private fun intentContainsDefaultLauncher(intent: Intent?): Boolean = intent?.action == Intent.ACTION_MAIN &&
+    intent.categories?.contains(Intent.CATEGORY_HOME) == true
 
 fun isActivityDefaultLauncher(activity: Activity?): Boolean =
     isAppDefaultLauncher(activity) || intentContainsDefaultLauncher(activity?.intent)
@@ -77,21 +76,14 @@ fun getScreenHeight(activity: Activity): Int = if (Build.VERSION.SDK_INT >= Buil
     outMetrics.heightPixels
 }
 
-fun createTitleAndSubtitleText(
-    context: Context,
-    @StringRes titleRes: Int,
-    @StringRes subtitleRes: Int
-): CharSequence = createTitleAndSubtitleText(
-    context,
-    context.getString(titleRes),
-    context.getString(subtitleRes)
-)
+fun createTitleAndSubtitleText(context: Context, @StringRes titleRes: Int, @StringRes subtitleRes: Int): CharSequence =
+    createTitleAndSubtitleText(
+        context,
+        context.getString(titleRes),
+        context.getString(subtitleRes)
+    )
 
-fun createTitleAndSubtitleText(
-    context: Context,
-    title: CharSequence,
-    subtitle: CharSequence
-): CharSequence {
+fun createTitleAndSubtitleText(context: Context, title: CharSequence, subtitle: CharSequence): CharSequence {
     val spanBuilder = SpannableStringBuilder("$title\n$subtitle")
     spanBuilder.setSpan(
         TextAppearanceSpan(context, R.style.TextAppearance_AppCompat_Large),

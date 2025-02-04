@@ -9,7 +9,6 @@ data class App(
     val userSerial: Long
 ) {
     companion object {
-        fun from(homeApp: HomeApp) =
-            App(homeApp.appName, homeApp.packageName, homeApp.activityName, homeApp.userSerial)
+        fun from(homeApp: HomeApp) = App(homeApp.appName, homeApp.packageName, homeApp.activityName, homeApp.userSerial)
     }
 }

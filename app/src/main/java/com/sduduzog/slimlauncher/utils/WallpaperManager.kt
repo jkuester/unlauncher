@@ -74,11 +74,7 @@ class WallpaperManager @Inject constructor(
         wallpaperManager.setBitmap(wallpaperBitmap)
     }
 
-    private fun createColoredWallpaperBitmap(
-        @ColorInt color: Int,
-        width: Int,
-        height: Int
-    ): Bitmap {
+    private fun createColoredWallpaperBitmap(@ColorInt color: Int, width: Int, height: Int): Bitmap {
         val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
         canvas.drawColor(color)

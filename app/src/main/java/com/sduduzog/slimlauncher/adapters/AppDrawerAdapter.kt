@@ -62,8 +62,7 @@ class AppDrawerAdapter(
         }
     }
 
-    fun getFirstApp(): UnlauncherApp =
-        filteredApps.filterIsInstance<AppDrawerRow.Item>().first().app
+    fun getFirstApp(): UnlauncherApp = filteredApps.filterIsInstance<AppDrawerRow.Item>().first().app
 
     override fun getItemViewType(position: Int): Int = filteredApps[position].rowType.ordinal
 

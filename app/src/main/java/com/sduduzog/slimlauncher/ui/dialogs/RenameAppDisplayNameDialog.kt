@@ -50,12 +50,10 @@ class RenameAppDisplayNameDialog : DialogFragment() {
     }
 
     companion object {
-        fun getInstance(
-            app: UnlauncherApp,
-            unlauncherAppsRepo: UnlauncherAppsRepository
-        ): RenameAppDisplayNameDialog = RenameAppDisplayNameDialog().apply {
-            this.app = app
-            this.unlauncherAppsRepo = unlauncherAppsRepo
-        }
+        fun getInstance(app: UnlauncherApp, unlauncherAppsRepo: UnlauncherAppsRepository): RenameAppDisplayNameDialog =
+            RenameAppDisplayNameDialog().apply {
+                this.app = app
+                this.unlauncherAppsRepo = unlauncherAppsRepo
+            }
     }
 }

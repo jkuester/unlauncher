@@ -32,7 +32,6 @@ class ChooseSearchBarPositionDialog : DialogFragment() {
     }
 
     companion object {
-        fun getSearchBarPositionChooser(): ChooseSearchBarPositionDialog =
-            ChooseSearchBarPositionDialog()
+        fun getSearchBarPositionChooser(): ChooseSearchBarPositionDialog = ChooseSearchBarPositionDialog()
     }
 }

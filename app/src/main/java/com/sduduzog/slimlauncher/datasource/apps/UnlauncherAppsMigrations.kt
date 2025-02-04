@@ -19,12 +19,10 @@ class UnlauncherAppsMigrations {
 
     abstract class UnlauncherAppsMigration(private val version: Int) :
         DataMigration<UnlauncherApps> {
-        override suspend fun shouldMigrate(currentData: UnlauncherApps): Boolean =
-            currentData.version < version
+        override suspend fun shouldMigrate(currentData: UnlauncherApps): Boolean = currentData.version < version
 
         override suspend fun cleanUp() {}
 
-        fun updateVersion(builder: UnlauncherApps.Builder): UnlauncherApps =
-            builder.setVersion(version).build()
+        fun updateVersion(builder: UnlauncherApps.Builder): UnlauncherApps = builder.setVersion(version).build()
     }
 }
