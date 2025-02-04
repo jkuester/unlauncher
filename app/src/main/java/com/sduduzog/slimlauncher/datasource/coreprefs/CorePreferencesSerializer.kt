@@ -3,7 +3,7 @@ package com.sduduzog.slimlauncher.datasource.coreprefs
 import androidx.datastore.core.CorruptionException
 import androidx.datastore.core.Serializer
 import com.google.protobuf.InvalidProtocolBufferException
-import com.jkuester.unlauncher.datastore.CorePreferences
+import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import java.io.InputStream
 import java.io.OutputStream
 

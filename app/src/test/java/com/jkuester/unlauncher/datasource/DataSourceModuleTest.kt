@@ -2,9 +2,9 @@ package com.jkuester.unlauncher.datasource
 
 import android.content.Context
 import androidx.datastore.core.DataStore
-import com.jkuester.unlauncher.datastore.CorePreferences
-import com.jkuester.unlauncher.datastore.QuickButtonPreferences
-import com.jkuester.unlauncher.datastore.UnlauncherApps
+import com.jkuester.unlauncher.datastore.proto.CorePreferences
+import com.jkuester.unlauncher.datastore.proto.QuickButtonPreferences
+import com.jkuester.unlauncher.datastore.proto.UnlauncherApps
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
@@ -30,9 +30,7 @@ class DataSourceModuleTest {
     }
 
     @AfterEach
-    fun afterEach() {
-        verify { appContext.applicationContext }
-    }
+    fun afterEach() = verify { appContext.applicationContext }
 
     @Test
     fun provideQuickButtonPreferencesStore() {

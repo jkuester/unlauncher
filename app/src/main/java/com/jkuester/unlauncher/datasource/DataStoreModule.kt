@@ -3,15 +3,14 @@ package com.jkuester.unlauncher.datasource
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.dataStore
-import com.jkuester.unlauncher.datastore.CorePreferences
-import com.jkuester.unlauncher.datastore.QuickButtonPreferences
-import com.jkuester.unlauncher.datastore.UnlauncherApps
+import com.jkuester.unlauncher.datasource.sharedPrefsMigration as quickButtonSharedPrefsMigration
+import com.jkuester.unlauncher.datastore.proto.CorePreferences
+import com.jkuester.unlauncher.datastore.proto.QuickButtonPreferences
+import com.jkuester.unlauncher.datastore.proto.UnlauncherApps
 import com.sduduzog.slimlauncher.datasource.apps.UnlauncherAppsMigrations
 import com.sduduzog.slimlauncher.datasource.apps.UnlauncherAppsSerializer
 import com.sduduzog.slimlauncher.datasource.coreprefs.CorePreferencesMigrations
 import com.sduduzog.slimlauncher.datasource.coreprefs.CorePreferencesSerializer
-import com.sduduzog.slimlauncher.datasource.quickbuttonprefs.QuickButtonPreferencesMigrations
-import com.sduduzog.slimlauncher.datasource.quickbuttonprefs.QuickButtonPreferencesSerializer
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,7 +21,12 @@ import javax.inject.Singleton
 private val Context.quickButtonPreferencesStore: DataStore<QuickButtonPreferences> by dataStore(
     fileName = "quick_button_preferences.proto",
     serializer = QuickButtonPreferencesSerializer,
-    produceMigrations = { context -> QuickButtonPreferencesMigrations().get(context) }
+    produceMigrations = { context ->
+        listOf(
+            quickButtonSharedPrefsMigration(context),
+            ToThreeQuickButtonsMigration
+        )
+    }
 )
 
 private val Context.unlauncherAppsStore: DataStore<UnlauncherApps> by dataStore(

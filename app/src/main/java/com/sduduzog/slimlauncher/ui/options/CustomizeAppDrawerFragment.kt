@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
-import com.jkuester.unlauncher.datastore.SearchBarPosition
+import com.jkuester.unlauncher.datastore.proto.SearchBarPosition
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.databinding.CustomizeAppDrawerFragmentBinding
 import com.sduduzog.slimlauncher.datasource.coreprefs.CorePreferencesRepository

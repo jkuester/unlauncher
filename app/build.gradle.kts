@@ -6,7 +6,7 @@ plugins {
     id("com.google.devtools.ksp")
     id("com.google.protobuf")
     id("org.jlleitschuh.gradle.ktlint")
-    id("jacoco")
+    id("org.jetbrains.kotlinx.kover")
     kotlin("android")
 }
 
@@ -116,6 +116,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter:5.11.4")
     testImplementation("io.mockk:mockk-android:1.13.14")
     testImplementation("io.mockk:mockk-agent:1.13.14")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.1")
 }
 protobuf {
     protoc {
@@ -135,41 +136,24 @@ ktlint {
     android = true
     ignoreFailures = false
 }
-tasks.withType(Test::class) {
-    configure<JacocoTaskExtension> {
-        isIncludeNoLocationClasses = true
-        excludes = listOf("jdk.internal.*")
-    }
-}
-
-val jacocoExclusions = listOf("**/sduduzog/*")
-val jacocoSourceDirs = layout.projectDirectory.dir("src/main")
-val jacocoClassDirs = files(
-    fileTree(layout.buildDirectory.dir("tmp/kotlin-classes/debug")) {
-        exclude(jacocoExclusions)
-    }
-)
-val jacocoExecutionData =
-    files(fileTree(layout.buildDirectory) { include(listOf("**/*.exec", "**/*.ec")) })
-tasks.register<JacocoCoverageVerification>("jacocoCoverageVerification") {
-    dependsOn(listOf("testDebugUnitTest", "createDebugUnitTestCoverageReport"))
-    group = "Verification"
-    violationRules {
-        rule {
-            limit {
-                minimum = "1".toBigDecimal()
+kover {
+    reports {
+        filters {
+            excludes {
+                packages(
+                    "com.sduduzog.slimlauncher",
+                    "dagger.hilt",
+                    "hilt_aggregated_deps",
+                    "com.jkuester.unlauncher.datastore.proto",
+                )
+                annotatedBy("dagger.internal.DaggerGenerated")
+                annotatedBy("javax.annotations.Generated")
+            }
+        }
+        verify {
+            rule {
+                minBound(100)
             }
         }
     }
-    sourceDirectories.setFrom(jacocoSourceDirs)
-    classDirectories.setFrom(jacocoClassDirs)
-    executionData.setFrom(jacocoExecutionData)
-}
-tasks.build { finalizedBy("jacocoCoverageVerification") }
-tasks.register<JacocoReport>("jacocoCoverageReport") {
-    dependsOn(listOf("testDebugUnitTest", "createDebugUnitTestCoverageReport"))
-    group = "Reporting"
-    sourceDirectories.setFrom(jacocoSourceDirs)
-    classDirectories.setFrom(jacocoClassDirs)
-    executionData.setFrom(jacocoExecutionData)
 }

@@ -34,9 +34,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.jkuester.unlauncher.datastore.ClockType
-import com.jkuester.unlauncher.datastore.SearchBarPosition
-import com.jkuester.unlauncher.datastore.UnlauncherApp
+import com.jkuester.unlauncher.datasource.QuickButtonPreferencesRepository
+import com.jkuester.unlauncher.datasource.getIconResourceId
+import com.jkuester.unlauncher.datastore.proto.ClockType
+import com.jkuester.unlauncher.datastore.proto.SearchBarPosition
+import com.jkuester.unlauncher.datastore.proto.UnlauncherApp
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.adapters.AppDrawerAdapter
 import com.sduduzog.slimlauncher.adapters.HomeAdapter
@@ -45,7 +47,6 @@ import com.sduduzog.slimlauncher.databinding.HomeFragmentContentBinding
 import com.sduduzog.slimlauncher.databinding.HomeFragmentDefaultBinding
 import com.sduduzog.slimlauncher.datasource.apps.UnlauncherAppsRepository
 import com.sduduzog.slimlauncher.datasource.coreprefs.CorePreferencesRepository
-import com.sduduzog.slimlauncher.datasource.quickbuttonprefs.QuickButtonPreferencesRepository
 import com.sduduzog.slimlauncher.models.HomeApp
 import com.sduduzog.slimlauncher.models.MainViewModel
 import com.sduduzog.slimlauncher.ui.dialogs.RenameAppDisplayNameDialog
@@ -233,58 +234,51 @@ class HomeFragment :
             }
         }
 
-        quickButtonPreferencesRepo.liveData()
-            .observe(viewLifecycleOwner) { prefs ->
-                val leftButtonIcon = QuickButtonPreferencesRepository.RES_BY_ICON.getValue(
-                    prefs.leftButton.iconId
-                )
-                homeFragmentContent.homeFragmentCall.setImageResource(leftButtonIcon)
-                if (leftButtonIcon != R.drawable.ic_empty) {
-                    homeFragmentContent.homeFragmentCall.setOnClickListener { view ->
-                        try {
-                            val pm = context?.packageManager!!
-                            val intent = Intent(Intent.ACTION_DIAL)
-                            val componentName = intent.resolveActivity(pm)
-                            if (componentName == null) {
-                                launchActivity(view, intent)
-                            } else {
-                                pm.getLaunchIntentForPackage(componentName.packageName)?.let {
-                                    launchActivity(view, it)
-                                } ?: run { launchActivity(view, intent) }
-                            }
-                        } catch (e: Exception) {
-                            // Do nothing
+        quickButtonPreferencesRepo.observe(viewLifecycleOwner) { prefs ->
+            val leftButtonIcon = getIconResourceId(prefs.leftButton.iconId)
+            homeFragmentContent.homeFragmentCall.setImageResource(leftButtonIcon!!)
+            if (leftButtonIcon != R.drawable.ic_empty) {
+                homeFragmentContent.homeFragmentCall.setOnClickListener { view ->
+                    try {
+                        val pm = context?.packageManager!!
+                        val intent = Intent(Intent.ACTION_DIAL)
+                        val componentName = intent.resolveActivity(pm)
+                        if (componentName == null) {
+                            launchActivity(view, intent)
+                        } else {
+                            pm.getLaunchIntentForPackage(componentName.packageName)?.let {
+                                launchActivity(view, it)
+                            } ?: run { launchActivity(view, intent) }
                         }
-                    }
-                }
-
-                val centerButtonIcon = QuickButtonPreferencesRepository.RES_BY_ICON.getValue(
-                    prefs.centerButton.iconId
-                )
-                homeFragmentContent.homeFragmentOptions.setImageResource(centerButtonIcon)
-                if (centerButtonIcon != R.drawable.ic_empty) {
-                    homeFragmentContent.homeFragmentOptions.setOnClickListener(
-                        Navigation.createNavigateOnClickListener(
-                            R.id.action_homeFragment_to_optionsFragment
-                        )
-                    )
-                }
-
-                val rightButtonIcon = QuickButtonPreferencesRepository.RES_BY_ICON.getValue(
-                    prefs.rightButton.iconId
-                )
-                homeFragmentContent.homeFragmentCamera.setImageResource(rightButtonIcon)
-                if (rightButtonIcon != R.drawable.ic_empty) {
-                    homeFragmentContent.homeFragmentCamera.setOnClickListener {
-                        try {
-                            val intent = Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA)
-                            launchActivity(it, intent)
-                        } catch (e: Exception) {
-                            // Do nothing
-                        }
+                    } catch (e: Exception) {
+                        // Do nothing
                     }
                 }
             }
+
+            val centerButtonIcon = getIconResourceId(prefs.centerButton.iconId)
+            homeFragmentContent.homeFragmentOptions.setImageResource(centerButtonIcon!!)
+            if (centerButtonIcon != R.drawable.ic_empty) {
+                homeFragmentContent.homeFragmentOptions.setOnClickListener(
+                    Navigation.createNavigateOnClickListener(
+                        R.id.action_homeFragment_to_optionsFragment
+                    )
+                )
+            }
+
+            val rightButtonIcon = getIconResourceId(prefs.rightButton.iconId)
+            homeFragmentContent.homeFragmentCamera.setImageResource(rightButtonIcon!!)
+            if (rightButtonIcon != R.drawable.ic_empty) {
+                homeFragmentContent.homeFragmentCamera.setOnClickListener {
+                    try {
+                        val intent = Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA)
+                        launchActivity(it, intent)
+                    } catch (e: Exception) {
+                        // Do nothing
+                    }
+                }
+            }
+        }
 
         homeFragmentContent.appDrawerEditText.addTextChangedListener(
             appDrawerAdapter.searchBoxListener

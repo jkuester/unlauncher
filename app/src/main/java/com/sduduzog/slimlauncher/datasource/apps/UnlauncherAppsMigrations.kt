@@ -2,7 +2,7 @@ package com.sduduzog.slimlauncher.datasource.apps
 
 import android.content.Context
 import androidx.datastore.core.DataMigration
-import com.jkuester.unlauncher.datastore.UnlauncherApps
+import com.jkuester.unlauncher.datastore.proto.UnlauncherApps
 
 class UnlauncherAppsMigrations {
 
@@ -19,14 +19,12 @@ class UnlauncherAppsMigrations {
 
     abstract class UnlauncherAppsMigration(private val version: Int) :
         DataMigration<UnlauncherApps> {
-        override suspend fun shouldMigrate(currentData: UnlauncherApps): Boolean {
-            return currentData.version < version
-        }
+        override suspend fun shouldMigrate(currentData: UnlauncherApps): Boolean =
+            currentData.version < version
 
         override suspend fun cleanUp() {}
 
-        fun updateVersion(builder: UnlauncherApps.Builder): UnlauncherApps {
-            return builder.setVersion(version).build()
-        }
+        fun updateVersion(builder: UnlauncherApps.Builder): UnlauncherApps =
+            builder.setVersion(version).build()
     }
 }

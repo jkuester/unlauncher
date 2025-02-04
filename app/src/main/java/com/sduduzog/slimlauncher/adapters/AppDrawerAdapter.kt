@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
-import com.jkuester.unlauncher.datastore.UnlauncherApp
+import com.jkuester.unlauncher.datastore.proto.UnlauncherApp
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.datasource.apps.UnlauncherAppsRepository
 import com.sduduzog.slimlauncher.datasource.coreprefs.CorePreferencesRepository

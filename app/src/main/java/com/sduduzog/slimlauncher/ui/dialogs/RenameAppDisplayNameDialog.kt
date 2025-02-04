@@ -6,7 +6,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
-import com.jkuester.unlauncher.datastore.UnlauncherApp
+import com.jkuester.unlauncher.datastore.proto.UnlauncherApp
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.databinding.RenameDialogEditTextBinding
 import com.sduduzog.slimlauncher.datasource.apps.UnlauncherAppsRepository
@@ -53,11 +53,9 @@ class RenameAppDisplayNameDialog : DialogFragment() {
         fun getInstance(
             app: UnlauncherApp,
             unlauncherAppsRepo: UnlauncherAppsRepository
-        ): RenameAppDisplayNameDialog {
-            return RenameAppDisplayNameDialog().apply {
-                this.app = app
-                this.unlauncherAppsRepo = unlauncherAppsRepo
-            }
+        ): RenameAppDisplayNameDialog = RenameAppDisplayNameDialog().apply {
+            this.app = app
+            this.unlauncherAppsRepo = unlauncherAppsRepo
         }
     }
 }
