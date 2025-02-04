@@ -31,11 +31,8 @@ class OptionsFragment : BaseFragment() {
         requireView()
     ).optionsFragment
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.options_fragment, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.options_fragment, container, false)
 
     @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -126,10 +123,7 @@ class OptionsFragment : BaseFragment() {
     /**
      * Adds a hint text underneath the default text when app is not the default launcher.
      */
-    private fun setupDeviceWallpaperSwitchText(
-        optionsFragment: OptionsFragmentBinding,
-        appIsDefaultLauncher: Boolean
-    ) {
+    private fun setupDeviceWallpaperSwitchText(optionsFragment: OptionsFragmentBinding, appIsDefaultLauncher: Boolean) {
         val text = if (appIsDefaultLauncher) {
             getText(R.string.customize_app_drawer_fragment_auto_theme_wallpaper_text)
         } else {

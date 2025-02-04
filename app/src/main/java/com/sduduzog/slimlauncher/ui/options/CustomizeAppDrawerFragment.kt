@@ -24,11 +24,8 @@ class CustomizeAppDrawerFragment : BaseFragment() {
         requireView()
     ).customizeAppDrawerFragment
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.customize_app_drawer_fragment, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.customize_app_drawer_fragment, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -48,9 +45,7 @@ class CustomizeAppDrawerFragment : BaseFragment() {
         setupHeadingSwitch(customiseAppDrawerFragment)
     }
 
-    private fun setupSearchFieldOptionsButton(
-        customiseAppDrawerFragment: CustomizeAppDrawerFragmentBinding
-    ) {
+    private fun setupSearchFieldOptionsButton(customiseAppDrawerFragment: CustomizeAppDrawerFragmentBinding) {
         customiseAppDrawerFragment.customizeAppDrawerFragmentSearchOptions.setOnClickListener(
             Navigation.createNavigateOnClickListener(
                 R.id.action_customiseAppDrawerFragment_to_customizeSearchFieldFragment

@@ -19,20 +19,16 @@ class CustomizeSearchFieldFragment : BaseFragment() {
     @Inject
     lateinit var corePreferencesRepo: CorePreferencesRepository
 
-    override fun getFragmentView(): ViewGroup =
-        CustomizeAppDrawerFragmentSearchFieldOptionsBinding.bind(
-            requireView()
-        ).customizeAppDrawerFragmentSearchFieldOptions
+    override fun getFragmentView(): ViewGroup = CustomizeAppDrawerFragmentSearchFieldOptionsBinding.bind(
+        requireView()
+    ).customizeAppDrawerFragmentSearchFieldOptions
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? = inflater.inflate(
-        R.layout.customize_app_drawer_fragment_search_field_options,
-        container,
-        false
-    )
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(
+            R.layout.customize_app_drawer_fragment_search_field_options,
+            container,
+            false
+        )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -50,9 +46,7 @@ class CustomizeSearchFieldFragment : BaseFragment() {
         setupSearchAllAppsSwitch(options)
     }
 
-    private fun setupShowSearchBarSwitch(
-        options: CustomizeAppDrawerFragmentSearchFieldOptionsBinding
-    ) {
+    private fun setupShowSearchBarSwitch(options: CustomizeAppDrawerFragmentSearchFieldOptionsBinding) {
         options.customizeAppDrawerFragmentShowSearchFieldSwitch
             .setOnCheckedChangeListener { _, checked ->
                 corePreferencesRepo.updateShowSearchBar(checked)
@@ -65,18 +59,13 @@ class CustomizeSearchFieldFragment : BaseFragment() {
         }
     }
 
-    private fun enableSearchBarOptions(
-        options: CustomizeAppDrawerFragmentSearchFieldOptionsBinding,
-        enabled: Boolean
-    ) {
+    private fun enableSearchBarOptions(options: CustomizeAppDrawerFragmentSearchFieldOptionsBinding, enabled: Boolean) {
         options.customizeAppDrawerFragmentSearchFieldPosition.isEnabled = enabled
         options.customizeAppDrawerOpenKeyboardSwitch.isEnabled = enabled
         options.customizeAppDrawerSearchAllSwitch.isEnabled = enabled
     }
 
-    private fun setupSearchBarPositionOption(
-        options: CustomizeAppDrawerFragmentSearchFieldOptionsBinding
-    ) {
+    private fun setupSearchBarPositionOption(options: CustomizeAppDrawerFragmentSearchFieldOptionsBinding) {
         options.customizeAppDrawerFragmentSearchFieldPosition.setOnClickListener {
             val positionDialog = ChooseSearchBarPositionDialog.getSearchBarPositionChooser()
             positionDialog.showNow(childFragmentManager, "POSITION_CHOOSER")
@@ -105,9 +94,7 @@ class CustomizeSearchFieldFragment : BaseFragment() {
             )
     }
 
-    private fun setupSearchAllAppsSwitch(
-        options: CustomizeAppDrawerFragmentSearchFieldOptionsBinding
-    ) {
+    private fun setupSearchAllAppsSwitch(options: CustomizeAppDrawerFragmentSearchFieldOptionsBinding) {
         options.customizeAppDrawerSearchAllSwitch.setOnCheckedChangeListener { _, checked ->
             corePreferencesRepo.updateSearchAllAppsInDrawer(checked)
         }

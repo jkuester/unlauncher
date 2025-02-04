@@ -21,11 +21,8 @@ class CustomizeAppDrawerAppListFragment : BaseFragment() {
         requireView()
     ).customizeAppDrawerFragment
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.customize_app_drawer_app_list_fragment, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.customize_app_drawer_app_list_fragment, container, false)
 
     @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {

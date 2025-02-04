@@ -162,13 +162,10 @@ class UnlauncherAppsRepository @Inject constructor(
         }
     }
 
-    private fun findApp(
-        unlauncherApps: List<UnlauncherApp>,
-        packageName: String,
-        className: String
-    ): UnlauncherApp? = unlauncherApps.firstOrNull { app ->
-        packageName == app.packageName && className == app.className
-    }
+    private fun findApp(unlauncherApps: List<UnlauncherApp>, packageName: String, className: String): UnlauncherApp? =
+        unlauncherApps.firstOrNull { app ->
+            packageName == app.packageName && className == app.className
+        }
 }
 
 fun sortAppsAlphabetically(unlauncherAppsBuilder: UnlauncherApps.Builder) {

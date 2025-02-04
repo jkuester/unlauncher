@@ -16,27 +16,24 @@ private enum class SharedPrefButton(val key: String) {
     RIGHT("quick_button_right")
 }
 
-private fun populateLeftButton(sharedPrefs: SharedPreferencesView) =
-    fun(currentData: QuickButtonPreferences) = when {
-        currentData.hasLeftButton() -> currentData
-        else -> sharedPrefs
-            .getInt(LEFT.key, QuickButtonIcon.IC_CALL.prefId)
-            .let { setLeftIconId(it)(currentData) }
-    }
-private fun populateCenterButton(sharedPrefs: SharedPreferencesView) =
-    fun(currentData: QuickButtonPreferences) = when {
-        currentData.hasCenterButton() -> currentData
-        else -> sharedPrefs
-            .getInt(CENTER.key, QuickButtonIcon.IC_COG.prefId)
-            .let { setCenterIconId(it)(currentData) }
-    }
-private fun populateRightButton(sharedPrefs: SharedPreferencesView) =
-    fun(currentData: QuickButtonPreferences) = when {
-        currentData.hasRightButton() -> currentData
-        else -> sharedPrefs
-            .getInt(RIGHT.key, QuickButtonIcon.IC_PHOTO_CAMERA.prefId)
-            .let { setRightIconId(it)(currentData) }
-    }
+private fun populateLeftButton(sharedPrefs: SharedPreferencesView) = fun(currentData: QuickButtonPreferences) = when {
+    currentData.hasLeftButton() -> currentData
+    else -> sharedPrefs
+        .getInt(LEFT.key, QuickButtonIcon.IC_CALL.prefId)
+        .let { setLeftIconId(it)(currentData) }
+}
+private fun populateCenterButton(sharedPrefs: SharedPreferencesView) = fun(currentData: QuickButtonPreferences) = when {
+    currentData.hasCenterButton() -> currentData
+    else -> sharedPrefs
+        .getInt(CENTER.key, QuickButtonIcon.IC_COG.prefId)
+        .let { setCenterIconId(it)(currentData) }
+}
+private fun populateRightButton(sharedPrefs: SharedPreferencesView) = fun(currentData: QuickButtonPreferences) = when {
+    currentData.hasRightButton() -> currentData
+    else -> sharedPrefs
+        .getInt(RIGHT.key, QuickButtonIcon.IC_PHOTO_CAMERA.prefId)
+        .let { setRightIconId(it)(currentData) }
+}
 
 fun sharedPrefsMigration(context: Context) = SharedPreferencesMigration(
     context,
@@ -73,19 +70,17 @@ private fun defaultRightButton(currentData: QuickButtonPreferences) =
     }
 
 object ToThreeQuickButtonsMigration : DataMigration<QuickButtonPreferences> {
-    override suspend fun shouldMigrate(currentData: QuickButtonPreferences): Boolean =
-        !getButtonPrefIds()
-            .containsAll(listOf(
-                currentData.leftButton.iconId,
-                currentData.centerButton.iconId,
-                currentData.rightButton.iconId
-            ))
+    override suspend fun shouldMigrate(currentData: QuickButtonPreferences): Boolean = !getButtonPrefIds()
+        .containsAll(listOf(
+            currentData.leftButton.iconId,
+            currentData.centerButton.iconId,
+            currentData.rightButton.iconId
+        ))
 
-    override suspend fun migrate(currentData: QuickButtonPreferences): QuickButtonPreferences =
-        currentData
-            .let(::defaultLeftButton)
-            .let(::defaultCenterButton)
-            .let(::defaultRightButton)
+    override suspend fun migrate(currentData: QuickButtonPreferences): QuickButtonPreferences = currentData
+        .let(::defaultLeftButton)
+        .let(::defaultCenterButton)
+        .let(::defaultRightButton)
 
     override suspend fun cleanUp() {}
 }
