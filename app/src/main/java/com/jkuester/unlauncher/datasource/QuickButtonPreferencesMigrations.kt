@@ -1,12 +1,12 @@
-package com.jkuester.unlauncher.datasource.quickbuttonprefs
+package com.jkuester.unlauncher.datasource
 
 import android.content.Context
 import androidx.datastore.core.DataMigration
 import androidx.datastore.migrations.SharedPreferencesMigration
 import androidx.datastore.migrations.SharedPreferencesView
-import com.jkuester.unlauncher.datasource.quickbuttonprefs.SharedPrefButton.CENTER
-import com.jkuester.unlauncher.datasource.quickbuttonprefs.SharedPrefButton.LEFT
-import com.jkuester.unlauncher.datasource.quickbuttonprefs.SharedPrefButton.RIGHT
+import com.jkuester.unlauncher.datasource.SharedPrefButton.CENTER
+import com.jkuester.unlauncher.datasource.SharedPrefButton.LEFT
+import com.jkuester.unlauncher.datasource.SharedPrefButton.RIGHT
 import com.jkuester.unlauncher.datastore.proto.QuickButtonPreferences
 
 private const val SHARED_PREF_GROUP_NAME = "settings"

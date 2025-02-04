@@ -1,4 +1,4 @@
-package com.jkuester.unlauncher.datasource.quickbuttonprefs
+package com.jkuester.unlauncher.datasource
 
 import android.content.Context
 import android.content.SharedPreferences

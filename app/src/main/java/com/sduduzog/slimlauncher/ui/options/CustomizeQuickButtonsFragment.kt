@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.jkuester.unlauncher.datasource.quickbuttonprefs.QuickButtonIcon
-import com.jkuester.unlauncher.datasource.quickbuttonprefs.QuickButtonPreferencesRepository
-import com.jkuester.unlauncher.datasource.quickbuttonprefs.getIconResourceId
+import com.jkuester.unlauncher.datasource.QuickButtonIcon
+import com.jkuester.unlauncher.datasource.QuickButtonPreferencesRepository
+import com.jkuester.unlauncher.datasource.getIconResourceId
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.databinding.CustomizeQuickButtonsFragmentBinding
 import com.sduduzog.slimlauncher.ui.dialogs.ChooseQuickButtonDialog

@@ -5,11 +5,11 @@ import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
-import com.jkuester.unlauncher.datasource.quickbuttonprefs.QuickButtonIcon
-import com.jkuester.unlauncher.datasource.quickbuttonprefs.QuickButtonPreferencesRepository
-import com.jkuester.unlauncher.datasource.quickbuttonprefs.setCenterIconId
-import com.jkuester.unlauncher.datasource.quickbuttonprefs.setLeftIconId
-import com.jkuester.unlauncher.datasource.quickbuttonprefs.setRightIconId
+import com.jkuester.unlauncher.datasource.QuickButtonIcon
+import com.jkuester.unlauncher.datasource.QuickButtonPreferencesRepository
+import com.jkuester.unlauncher.datasource.setCenterIconId
+import com.jkuester.unlauncher.datasource.setLeftIconId
+import com.jkuester.unlauncher.datasource.setRightIconId
 import com.sduduzog.slimlauncher.R
 
 class ChooseQuickButtonDialog(

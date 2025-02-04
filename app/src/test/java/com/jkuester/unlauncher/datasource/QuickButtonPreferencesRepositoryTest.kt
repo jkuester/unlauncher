@@ -1,4 +1,4 @@
-package com.jkuester.unlauncher.datasource.quickbuttonprefs
+package com.jkuester.unlauncher.datasource
 
 import androidx.datastore.core.DataStore
 import com.jkuester.unlauncher.datastore.proto.QuickButtonPreferences
@@ -24,7 +24,8 @@ class QuickButtonPreferencesRepositoryTest {
     fun setLeftIconId() {
         val prefs = QuickButtonPreferences.newBuilder().build()
 
-        val updatedPrefs = setLeftIconId(QuickButtonIcon.IC_COG.prefId)(prefs)
+        val updatedPrefs =
+            setLeftIconId(QuickButtonIcon.IC_COG.prefId)(prefs)
 
         assertEquals(QuickButtonIcon.IC_COG.prefId, updatedPrefs.leftButton.iconId)
         assertEquals(0, updatedPrefs.rightButton.iconId)
@@ -35,7 +36,8 @@ class QuickButtonPreferencesRepositoryTest {
     fun setCenterIconId() {
         val prefs = QuickButtonPreferences.newBuilder().build()
 
-        val updatedPrefs = setCenterIconId(QuickButtonIcon.IC_COG.prefId)(prefs)
+        val updatedPrefs =
+            setCenterIconId(QuickButtonIcon.IC_COG.prefId)(prefs)
 
         assertEquals(QuickButtonIcon.IC_COG.prefId, updatedPrefs.centerButton.iconId)
         assertEquals(0, updatedPrefs.rightButton.iconId)
@@ -46,7 +48,8 @@ class QuickButtonPreferencesRepositoryTest {
     fun setRightIconId() {
         val prefs = QuickButtonPreferences.newBuilder().build()
 
-        val updatedPrefs = setRightIconId(QuickButtonIcon.IC_COG.prefId)(prefs)
+        val updatedPrefs =
+            setRightIconId(QuickButtonIcon.IC_COG.prefId)(prefs)
 
         assertEquals(QuickButtonIcon.IC_COG.prefId, updatedPrefs.rightButton.iconId)
         assertEquals(0, updatedPrefs.leftButton.iconId)
