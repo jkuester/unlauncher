@@ -1,18 +1,23 @@
 package com.jkuester.unlauncher.datasource.quickbuttonprefs
 
+import androidx.datastore.core.DataStore
 import com.jkuester.unlauncher.datastore.proto.QuickButtonPreferences
 import com.jkuester.unlauncher.datastore.proto.QuickButtonPreferences.QuickButton
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
+import io.mockk.mockk
 import io.mockk.verify
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 import kotlin.test.assertSame
+import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EnumSource
@@ -100,5 +105,13 @@ class QuickButtonPreferencesRepositoryTest {
     fun getIconResourceId_notFound() {
         val result = getIconResourceId(12345)
         assertNull(result)
+    }
+
+    @Test
+    fun constructQuickButtonPreferencesRepository() = runTest {
+        val dataStore = mockk<DataStore<QuickButtonPreferences>>()
+        every { dataStore.data } returns emptyFlow()
+        assertDoesNotThrow { QuickButtonPreferencesRepository(dataStore, backgroundScope) }
+        verify(exactly = 1) { dataStore.data }
     }
 }

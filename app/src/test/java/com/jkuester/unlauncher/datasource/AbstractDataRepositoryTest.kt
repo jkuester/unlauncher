@@ -25,6 +25,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertSame
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
@@ -71,7 +72,7 @@ class AbstractDataRepositoryTest {
 
         @Test
         fun observe() = runTest {
-            every { dataStore.data } returns flowOf()
+            every { dataStore.data } returns emptyFlow()
             mockkStatic("androidx.lifecycle.FlowLiveDataConversions")
             val liveData = mockk<LiveData<String>>()
             every { any<Flow<String>>().asLiveData() } returns liveData
@@ -129,7 +130,7 @@ class AbstractDataRepositoryTest {
         @Test
         fun updateAsync() = runTest {
             val transform = mockk<(t: String) -> String>()
-            every { dataStore.data } returns flowOf()
+            every { dataStore.data } returns emptyFlow()
             coJustRun { dataStore.updateData(any()) }
 
             val dataRepo = TestDataRepository(dataStore, backgroundScope, getDefaultInstance)
