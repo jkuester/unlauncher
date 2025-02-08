@@ -7,8 +7,6 @@ import com.jkuester.unlauncher.datasource.sharedPrefsMigration as quickButtonSha
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.datastore.proto.QuickButtonPreferences
 import com.jkuester.unlauncher.datastore.proto.UnlauncherApps
-import com.sduduzog.slimlauncher.datasource.apps.UnlauncherAppsMigrations
-import com.sduduzog.slimlauncher.datasource.apps.UnlauncherAppsSerializer
 import com.sduduzog.slimlauncher.datasource.coreprefs.CorePreferencesMigrations
 import com.sduduzog.slimlauncher.datasource.coreprefs.CorePreferencesSerializer
 import dagger.Module
@@ -32,7 +30,7 @@ private val Context.quickButtonPreferencesStore: DataStore<QuickButtonPreference
 private val Context.unlauncherAppsStore: DataStore<UnlauncherApps> by dataStore(
     fileName = "unlauncher_apps.proto",
     serializer = UnlauncherAppsSerializer,
-    produceMigrations = { context -> UnlauncherAppsMigrations().get(context) }
+    produceMigrations = { listOf(SortAppsMigration) }
 )
 
 private val Context.corePreferencesStore: DataStore<CorePreferences> by dataStore(

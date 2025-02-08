@@ -3,6 +3,8 @@ package com.jkuester.unlauncher.datasource
 import android.content.Context
 import android.content.SharedPreferences
 import com.jkuester.unlauncher.datastore.proto.QuickButtonPreferences
+import io.kotest.assertions.throwables.shouldNotThrowAny
+import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
@@ -15,7 +17,6 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
-import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -57,9 +58,9 @@ class QuickButtonPreferencesMigrationsTest {
             val migration = sharedPrefsMigration(context)
             val prefs = migration.migrate(initialPrefs)
 
-            assertEquals(QuickButtonIcon.IC_CALL.prefId, prefs.leftButton.iconId)
-            assertEquals(QuickButtonIcon.IC_COG.prefId, prefs.centerButton.iconId)
-            assertEquals(QuickButtonIcon.IC_PHOTO_CAMERA.prefId, prefs.rightButton.iconId)
+            prefs.leftButton.iconId shouldBe QuickButtonIcon.IC_CALL.prefId
+            prefs.centerButton.iconId shouldBe QuickButtonIcon.IC_COG.prefId
+            prefs.rightButton.iconId shouldBe QuickButtonIcon.IC_PHOTO_CAMERA.prefId
             verify(exactly = 1) {
                 sharedPrefs.getInt("quick_button_left", QuickButtonIcon.IC_CALL.prefId)
             }
@@ -83,9 +84,9 @@ class QuickButtonPreferencesMigrationsTest {
             val migration = sharedPrefsMigration(context)
             val prefs = migration.migrate(initialPrefs)
 
-            assertEquals(QuickButtonIcon.IC_EMPTY.prefId, prefs.leftButton.iconId)
-            assertEquals(QuickButtonIcon.IC_EMPTY.prefId, prefs.centerButton.iconId)
-            assertEquals(QuickButtonIcon.IC_EMPTY.prefId, prefs.rightButton.iconId)
+            prefs.leftButton.iconId shouldBe QuickButtonIcon.IC_EMPTY.prefId
+            prefs.centerButton.iconId shouldBe QuickButtonIcon.IC_EMPTY.prefId
+            prefs.rightButton.iconId shouldBe QuickButtonIcon.IC_EMPTY.prefId
         }
     }
 
@@ -107,9 +108,9 @@ class QuickButtonPreferencesMigrationsTest {
 
         val migratedPrefs = ToThreeQuickButtonsMigration.migrate(initialPrefs)
 
-        assertEquals(QuickButtonIcon.IC_CALL.prefId, migratedPrefs.leftButton.iconId)
-        assertEquals(QuickButtonIcon.IC_COG.prefId, migratedPrefs.centerButton.iconId)
-        assertEquals(QuickButtonIcon.IC_PHOTO_CAMERA.prefId, migratedPrefs.rightButton.iconId)
+        migratedPrefs.leftButton.iconId shouldBe QuickButtonIcon.IC_CALL.prefId
+        migratedPrefs.centerButton.iconId shouldBe QuickButtonIcon.IC_COG.prefId
+        migratedPrefs.rightButton.iconId shouldBe QuickButtonIcon.IC_PHOTO_CAMERA.prefId
     }
 
     @Test
@@ -123,14 +124,14 @@ class QuickButtonPreferencesMigrationsTest {
 
         val migratedPrefs = ToThreeQuickButtonsMigration.migrate(initialPrefs)
 
-        assertEquals(QuickButtonIcon.IC_EMPTY.prefId, migratedPrefs.leftButton.iconId)
-        assertEquals(QuickButtonIcon.IC_EMPTY.prefId, migratedPrefs.centerButton.iconId)
-        assertEquals(QuickButtonIcon.IC_EMPTY.prefId, migratedPrefs.rightButton.iconId)
+        migratedPrefs.leftButton.iconId shouldBe QuickButtonIcon.IC_EMPTY.prefId
+        migratedPrefs.centerButton.iconId shouldBe QuickButtonIcon.IC_EMPTY.prefId
+        migratedPrefs.rightButton.iconId shouldBe QuickButtonIcon.IC_EMPTY.prefId
     }
 
     @Test
     fun toThreeQuickButtonsMigration_cleanUp() = runTest {
-        assertDoesNotThrow { ToThreeQuickButtonsMigration.cleanUp() }
+        shouldNotThrowAny { ToThreeQuickButtonsMigration.cleanUp() }
     }
 
     private fun getQuickButtonPrefsWithShouldMigrate(): Stream<Arguments> = Stream.of(

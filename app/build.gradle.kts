@@ -114,6 +114,7 @@ dependencies {
     // Test libs
     testImplementation(kotlin("test"))
     testImplementation("org.junit.jupiter:junit-jupiter:5.11.4")
+    testImplementation("io.kotest:kotest-assertions-core:5.9.1")
     testImplementation("io.mockk:mockk-android:1.13.14")
     testImplementation("io.mockk:mockk-agent:1.13.14")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.1")

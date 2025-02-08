@@ -2,9 +2,8 @@ package com.jkuester.unlauncher.datasource
 
 import android.content.Context
 import androidx.datastore.core.DataStore
-import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.datastore.proto.QuickButtonPreferences
-import com.jkuester.unlauncher.datastore.proto.UnlauncherApps
+import io.kotest.matchers.types.shouldBeInstanceOf
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
@@ -12,7 +11,6 @@ import io.mockk.verify
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertInstanceOf
 import org.junit.jupiter.api.extension.ExtendWith
 
 @MockKExtension.CheckUnnecessaryStub
@@ -35,18 +33,18 @@ class DataSourceModuleTest {
     @Test
     fun provideQuickButtonPreferencesStore() {
         val actualStore = dataStoreModule.provideQuickButtonPreferencesStore(appContext)
-        assertInstanceOf<DataStore<QuickButtonPreferences>>(actualStore)
+        actualStore.shouldBeInstanceOf<DataStore<QuickButtonPreferences>>()
     }
 
     @Test
     fun provideUnlauncherAppsStore() {
         val actualStore = dataStoreModule.provideUnlauncherAppsStore(appContext)
-        assertInstanceOf<DataStore<UnlauncherApps>>(actualStore)
+        actualStore.shouldBeInstanceOf<DataStore<QuickButtonPreferences>>()
     }
 
     @Test
     fun provideCorePreferencesStore() {
         val actualStore = dataStoreModule.provideCorePreferencesStore(appContext)
-        assertInstanceOf<DataStore<CorePreferences>>(actualStore)
+        actualStore.shouldBeInstanceOf<DataStore<QuickButtonPreferences>>()
     }
 }

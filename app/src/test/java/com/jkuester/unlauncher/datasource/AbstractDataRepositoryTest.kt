@@ -10,6 +10,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.asLiveData
 import com.google.protobuf.GeneratedMessageLite
 import com.google.protobuf.InvalidProtocolBufferException
+import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.matchers.shouldBe
 import io.mockk.coJustRun
 import io.mockk.coVerify
 import io.mockk.every
@@ -21,7 +23,6 @@ import io.mockk.mockkStatic
 import io.mockk.verify
 import java.io.InputStream
 import java.io.OutputStream
-import kotlin.test.assertEquals
 import kotlin.test.assertSame
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -33,7 +34,6 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
 
 private class TestDataRepository(
@@ -43,17 +43,14 @@ private class TestDataRepository(
 ) : AbstractDataRepository<String>(dataStore, lifecycleScope, getDefaultInstance)
 
 class TestData : GeneratedMessageLite<TestData, TestData.Builder>() {
-    class Builder(defaultInstance: TestData?) :
-        GeneratedMessageLite.Builder<TestData, Builder>(defaultInstance)
+    class Builder(defaultInstance: TestData?) : GeneratedMessageLite.Builder<TestData, Builder>(defaultInstance)
 
     override fun dynamicMethod(method: MethodToInvoke?, arg0: Any?, arg1: Any?) {
     }
 }
 
-class TestDataSerializer(
-    getDefaultInstance: () -> TestData,
-    parseFrom: (InputStream) -> TestData,
-) : AbstractDataSerializer<TestData>(getDefaultInstance, parseFrom)
+class TestDataSerializer(getDefaultInstance: () -> TestData, parseFrom: (InputStream) -> TestData) :
+    AbstractDataSerializer<TestData>(getDefaultInstance, parseFrom)
 
 @MockKExtension.CheckUnnecessaryStub
 @MockKExtension.ConfirmVerification
@@ -94,7 +91,7 @@ class AbstractDataRepositoryTest {
             val dataRepo = TestDataRepository(dataStore, backgroundScope, getDefaultInstance)
             val data = dataRepo.get()
 
-            assertEquals(expectedData, data)
+            data shouldBe expectedData
         }
 
         @Test
@@ -103,9 +100,9 @@ class AbstractDataRepositoryTest {
             every { dataStore.data } returns flow { throw expectedException }
             val dataRepo = TestDataRepository(dataStore, backgroundScope, getDefaultInstance)
 
-            val actualException = assertThrows<Exception> { dataRepo.get() }
+            val actualException = shouldThrow<Exception> { dataRepo.get() }
 
-            assertSame(expectedException, actualException)
+            actualException shouldBe expectedException
         }
 
         @Test
@@ -120,7 +117,7 @@ class AbstractDataRepositoryTest {
             val dataRepo = TestDataRepository(dataStore, backgroundScope, getDefaultInstance)
             val data = dataRepo.get()
 
-            assertEquals(defaultData, data)
+            data shouldBe defaultData
             verify(exactly = 1) {
                 Log.e("AbstractDataRepository", "Error reading data store.", expectedException)
             }
@@ -172,7 +169,7 @@ class AbstractDataRepositoryTest {
 
             val result = serializer.readFrom(inputStream)
 
-            assertSame(testData, result)
+            result shouldBe testData
             verify(exactly = 1) { parseFrom.invoke(inputStream) }
         }
 
@@ -183,12 +180,12 @@ class AbstractDataRepositoryTest {
             every { parseFrom.invoke(any()) } throws expectedException
 
             val actualException =
-                assertThrows<CorruptionException> {
+                shouldThrow<CorruptionException> {
                     serializer.readFrom(inputStream)
                 }
 
-            assertEquals("Cannot read proto.", actualException.message)
-            assertSame(expectedException, actualException.cause)
+            actualException.message shouldBe "Cannot read proto."
+            actualException.cause shouldBe expectedException
             verify(exactly = 1) { parseFrom.invoke(inputStream) }
         }
 

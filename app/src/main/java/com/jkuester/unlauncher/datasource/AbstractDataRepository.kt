@@ -13,6 +13,7 @@ import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
@@ -40,15 +41,13 @@ abstract class AbstractDataRepository<T>(
 
     fun get(): T = runBlocking { dataFlow.first() }
 
-    fun updateAsync(transform: suspend (t: T) -> T) = lifecycleScope.launch {
+    fun updateAsync(transform: suspend (t: T) -> T) = lifecycleScope.launch(Dispatchers.IO) {
         dataStore.updateData(transform)
     }
 }
 
-abstract class AbstractDataSerializer<T>(
-    getDefaultInstance: () -> T,
-    private val parseFrom: (InputStream) -> T
-) : Serializer<T> where T : GeneratedMessageLite<T, *> {
+abstract class AbstractDataSerializer<T>(getDefaultInstance: () -> T, private val parseFrom: (InputStream) -> T) :
+    Serializer<T> where T : GeneratedMessageLite<T, *> {
     override val defaultValue = getDefaultInstance()
 
     override suspend fun readFrom(input: InputStream): T = try {

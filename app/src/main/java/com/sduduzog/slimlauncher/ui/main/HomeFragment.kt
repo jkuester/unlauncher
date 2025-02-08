@@ -35,7 +35,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jkuester.unlauncher.datasource.QuickButtonPreferencesRepository
+import com.jkuester.unlauncher.datasource.UnlauncherAppsRepository
 import com.jkuester.unlauncher.datasource.getIconResourceId
+import com.jkuester.unlauncher.datasource.setApps
+import com.jkuester.unlauncher.datasource.setDisplayInDrawer
+import com.jkuester.unlauncher.datasource.setHomeApps
 import com.jkuester.unlauncher.datastore.proto.ClockType
 import com.jkuester.unlauncher.datastore.proto.SearchBarPosition
 import com.jkuester.unlauncher.datastore.proto.UnlauncherApp
@@ -45,7 +49,6 @@ import com.sduduzog.slimlauncher.adapters.HomeAdapter
 import com.sduduzog.slimlauncher.databinding.HomeFragmentBottomBinding
 import com.sduduzog.slimlauncher.databinding.HomeFragmentContentBinding
 import com.sduduzog.slimlauncher.databinding.HomeFragmentDefaultBinding
-import com.sduduzog.slimlauncher.datasource.apps.UnlauncherAppsRepository
 import com.sduduzog.slimlauncher.datasource.coreprefs.CorePreferencesRepository
 import com.sduduzog.slimlauncher.models.HomeApp
 import com.sduduzog.slimlauncher.models.MainViewModel
@@ -115,10 +118,7 @@ class HomeFragment :
                     }
                 )
 
-                // Set the home apps in the Unlauncher data
-                lifecycleScope.launch {
-                    unlauncherAppsRepo.setHomeApps(apps)
-                }
+                unlauncherAppsRepo.updateAsync(setHomeApps(apps))
             }
         }
 
@@ -192,8 +192,8 @@ class HomeFragment :
 
     private fun refreshApps() {
         val installedApps = getInstalledApps()
+        unlauncherAppsRepo.updateAsync(setApps(installedApps))
         lifecycleScope.launch(Dispatchers.IO) {
-            unlauncherAppsRepo.setApps(installedApps)
             viewModel.filterHomeApps(installedApps)
         }
     }
@@ -447,7 +447,7 @@ class HomeFragment :
                         startActivity(intent)
                     }
                     R.id.hide -> {
-                        unlauncherAppsRepo.updateDisplayInDrawer(app, false)
+                        unlauncherAppsRepo.updateAsync(setDisplayInDrawer(app, false))
                         Toast.makeText(
                             context,
                             "Unhide under Unlauncher's Options > Customize Drawer > Visible Apps",
