@@ -6,10 +6,11 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
+import com.jkuester.unlauncher.datasource.UnlauncherAppsRepository
+import com.jkuester.unlauncher.datasource.setDisplayName
 import com.jkuester.unlauncher.datastore.proto.UnlauncherApp
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.databinding.RenameDialogEditTextBinding
-import com.sduduzog.slimlauncher.datasource.apps.UnlauncherAppsRepository
 
 class RenameAppDisplayNameDialog : DialogFragment() {
     private lateinit var app: UnlauncherApp
@@ -39,7 +40,7 @@ class RenameAppDisplayNameDialog : DialogFragment() {
 
     private fun updateApp(newName: String) {
         if (newName.isNotEmpty()) {
-            unlauncherAppsRepo.updateDisplayName(app, newName)
+            unlauncherAppsRepo.updateAsync(setDisplayName(app, newName))
         } else {
             Toast.makeText(
                 context,

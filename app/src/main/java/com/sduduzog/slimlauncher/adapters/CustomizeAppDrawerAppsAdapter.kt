@@ -6,18 +6,17 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
+import com.jkuester.unlauncher.datasource.UnlauncherAppsRepository
+import com.jkuester.unlauncher.datasource.setDisplayInDrawer
 import com.jkuester.unlauncher.datastore.proto.UnlauncherApps
 import com.sduduzog.slimlauncher.R
-import com.sduduzog.slimlauncher.datasource.apps.UnlauncherAppsRepository
 
-class CustomizeAppDrawerAppsAdapter(
-    lifecycleOwner: LifecycleOwner,
-    private val appsRepo: UnlauncherAppsRepository
-) : RecyclerView.Adapter<CustomizeAppDrawerAppsAdapter.ViewHolder>() {
+class CustomizeAppDrawerAppsAdapter(lifecycleOwner: LifecycleOwner, private val appsRepo: UnlauncherAppsRepository) :
+    RecyclerView.Adapter<CustomizeAppDrawerAppsAdapter.ViewHolder>() {
     private var apps: UnlauncherApps = UnlauncherApps.getDefaultInstance()
 
     init {
-        appsRepo.liveData().observe(lifecycleOwner, { unlauncherApps ->
+        appsRepo.observe(lifecycleOwner, { unlauncherApps ->
             apps = unlauncherApps
         })
     }
@@ -29,7 +28,7 @@ class CustomizeAppDrawerAppsAdapter(
         holder.appName.text = item.displayName
         holder.appName.isChecked = item.displayInDrawer
         holder.itemView.setOnClickListener {
-            appsRepo.updateDisplayInDrawer(item, holder.appName.isChecked)
+            appsRepo.updateAsync(setDisplayInDrawer(item, holder.appName.isChecked))
         }
     }
 

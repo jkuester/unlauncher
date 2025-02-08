@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.jkuester.unlauncher.datasource.UnlauncherAppsRepository
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.adapters.CustomizeAppDrawerAppsAdapter
 import com.sduduzog.slimlauncher.databinding.CustomizeAppDrawerAppListFragmentBinding
-import com.sduduzog.slimlauncher.datasource.apps.UnlauncherAppsRepository
 import com.sduduzog.slimlauncher.utils.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -32,13 +32,12 @@ class CustomizeAppDrawerAppListFragment : BaseFragment() {
         )
         customiseAppDrawerAppListFragment.customizeAppDrawerFragmentAppList.adapter =
             CustomizeAppDrawerAppsAdapter(viewLifecycleOwner, unlauncherAppsRepo)
-        unlauncherAppsRepo.liveData().observe(viewLifecycleOwner) {
-            it?.let {
-                customiseAppDrawerAppListFragment.customizeAppDrawerFragmentAppProgressBar
-                    .visibility = View.GONE
-            } ?: run {
-                customiseAppDrawerAppListFragment.customizeAppDrawerFragmentAppProgressBar
+        unlauncherAppsRepo.observe(viewLifecycleOwner) {
+            when (it.appsList.isEmpty()) {
+                true -> customiseAppDrawerAppListFragment.customizeAppDrawerFragmentAppProgressBar
                     .visibility = View.VISIBLE
+                false -> customiseAppDrawerAppListFragment.customizeAppDrawerFragmentAppProgressBar
+                    .visibility = View.GONE
             }
         }
         customiseAppDrawerAppListFragment.customizeAppDrawerFragmentBack.setOnClickListener {
