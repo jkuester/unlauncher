@@ -49,7 +49,7 @@ class TestData : GeneratedMessageLite<TestData, TestData.Builder>() {
     }
 }
 
-class TestDataSerializer(getDefaultInstance: () -> TestData, parseFrom: (InputStream) -> TestData,) :
+class TestDataSerializer(getDefaultInstance: () -> TestData, parseFrom: (InputStream) -> TestData) :
     AbstractDataSerializer<TestData>(getDefaultInstance, parseFrom)
 
 @MockKExtension.CheckUnnecessaryStub
