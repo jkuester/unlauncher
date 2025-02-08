@@ -1,7 +1,7 @@
 package com.jkuester.unlauncher.datasource
 
 import com.jkuester.unlauncher.datastore.proto.UnlauncherApps
-import io.kotest.assertions.throwables.shouldNotThrow
+import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.junit5.MockKExtension
@@ -59,6 +59,6 @@ class UnlauncherAppsMigrationsTest {
 
     @Test
     fun sortAppsMigration_cleanUp() = runTest {
-        shouldNotThrow<Exception> { SortAppsMigration.cleanUp() }
+        shouldNotThrowAny { SortAppsMigration.cleanUp() }
     }
 }

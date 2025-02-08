@@ -4,12 +4,12 @@ import androidx.activity.ComponentActivity
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
 import io.mockk.mockkStatic
 import io.mockk.verify
-import kotlin.test.assertSame
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
@@ -32,7 +32,7 @@ class ActivityModuleTest {
 
         val actualLifecycleScope = activityModule.provideLifecycleCoroutineScope(activity)
 
-        assertSame(lifecycleScope, actualLifecycleScope)
+        actualLifecycleScope shouldBe lifecycleScope
         verify(exactly = 1) { activity.lifecycleScope }
     }
 }

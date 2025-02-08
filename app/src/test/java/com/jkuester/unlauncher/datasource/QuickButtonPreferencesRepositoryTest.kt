@@ -2,16 +2,15 @@ package com.jkuester.unlauncher.datasource
 
 import androidx.datastore.core.DataStore
 import com.jkuester.unlauncher.datastore.proto.QuickButtonPreferences
+import io.kotest.assertions.throwables.shouldNotThrowAny
+import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.junit5.MockKExtension
 import io.mockk.mockk
 import io.mockk.verify
-import kotlin.test.assertEquals
-import kotlin.test.assertNull
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EnumSource
@@ -27,9 +26,9 @@ class QuickButtonPreferencesRepositoryTest {
         val updatedPrefs =
             setLeftIconId(QuickButtonIcon.IC_COG.prefId)(prefs)
 
-        assertEquals(QuickButtonIcon.IC_COG.prefId, updatedPrefs.leftButton.iconId)
-        assertEquals(0, updatedPrefs.rightButton.iconId)
-        assertEquals(0, updatedPrefs.centerButton.iconId)
+        updatedPrefs.leftButton.iconId shouldBe QuickButtonIcon.IC_COG.prefId
+        updatedPrefs.rightButton.iconId shouldBe 0
+        updatedPrefs.centerButton.iconId shouldBe 0
     }
 
     @Test
@@ -39,9 +38,9 @@ class QuickButtonPreferencesRepositoryTest {
         val updatedPrefs =
             setCenterIconId(QuickButtonIcon.IC_COG.prefId)(prefs)
 
-        assertEquals(QuickButtonIcon.IC_COG.prefId, updatedPrefs.centerButton.iconId)
-        assertEquals(0, updatedPrefs.rightButton.iconId)
-        assertEquals(0, updatedPrefs.leftButton.iconId)
+        updatedPrefs.centerButton.iconId shouldBe QuickButtonIcon.IC_COG.prefId
+        updatedPrefs.rightButton.iconId shouldBe 0
+        updatedPrefs.leftButton.iconId shouldBe 0
     }
 
     @Test
@@ -51,29 +50,29 @@ class QuickButtonPreferencesRepositoryTest {
         val updatedPrefs =
             setRightIconId(QuickButtonIcon.IC_COG.prefId)(prefs)
 
-        assertEquals(QuickButtonIcon.IC_COG.prefId, updatedPrefs.rightButton.iconId)
-        assertEquals(0, updatedPrefs.leftButton.iconId)
-        assertEquals(0, updatedPrefs.centerButton.iconId)
+        updatedPrefs.rightButton.iconId shouldBe QuickButtonIcon.IC_COG.prefId
+        updatedPrefs.leftButton.iconId shouldBe 0
+        updatedPrefs.centerButton.iconId shouldBe 0
     }
 
     @ParameterizedTest
     @EnumSource(QuickButtonIcon::class)
     fun getIconResourceId_found(icon: QuickButtonIcon) {
         val result = getIconResourceId(icon.prefId)
-        assertEquals(icon.resourceId, result)
+        result shouldBe icon.resourceId
     }
 
     @Test
     fun getIconResourceId_notFound() {
         val result = getIconResourceId(12345)
-        assertNull(result)
+        result shouldBe null
     }
 
     @Test
     fun constructQuickButtonPreferencesRepository() = runTest {
         val dataStore = mockk<DataStore<QuickButtonPreferences>>()
         every { dataStore.data } returns emptyFlow()
-        assertDoesNotThrow { QuickButtonPreferencesRepository(dataStore, backgroundScope) }
+        shouldNotThrowAny { QuickButtonPreferencesRepository(dataStore, backgroundScope) }
         verify(exactly = 1) { dataStore.data }
     }
 }
