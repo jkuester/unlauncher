@@ -37,7 +37,7 @@ class AppDrawerAdapter(
             apps = unlauncherApps.appsList
             updateFilteredApps()
         }
-        corePreferencesRepo.liveData().observe(lifecycleOwner) { corePrefs ->
+        corePreferencesRepo.observe(lifecycleOwner) { corePrefs ->
             gravity = corePrefs.alignmentFormat.gravity()
             updateFilteredApps()
         }

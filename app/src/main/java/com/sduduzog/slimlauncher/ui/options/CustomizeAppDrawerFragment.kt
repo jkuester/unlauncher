@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
 import com.jkuester.unlauncher.datasource.CorePreferencesRepository
+import com.jkuester.unlauncher.datasource.setShowDrawerHeadings
 import com.jkuester.unlauncher.datastore.proto.SearchBarPosition
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.databinding.CustomizeAppDrawerFragmentBinding
@@ -52,7 +53,7 @@ class CustomizeAppDrawerFragment : BaseFragment() {
             )
         )
         val title = getText(R.string.customize_app_drawer_fragment_search_field_options)
-        corePreferencesRepo.liveData().observe(viewLifecycleOwner) {
+        corePreferencesRepo.observe(viewLifecycleOwner) {
             val subtitle = if (!it.hasShowSearchBar() || it.showSearchBar) {
                 val pos =
                     if (it.searchBarPosition == SearchBarPosition.UNRECOGNIZED) {
@@ -90,9 +91,9 @@ class CustomizeAppDrawerFragment : BaseFragment() {
     private fun setupHeadingSwitch(customiseAppDrawerFragment: CustomizeAppDrawerFragmentBinding) {
         customiseAppDrawerFragment.customizeAppDrawerFragmentShowHeadingsSwitch
             .setOnCheckedChangeListener { _, checked ->
-                corePreferencesRepo.updateShowDrawerHeadings(checked)
+                corePreferencesRepo.updateAsync(setShowDrawerHeadings(checked))
             }
-        corePreferencesRepo.liveData().observe(viewLifecycleOwner) {
+        corePreferencesRepo.observe(viewLifecycleOwner) {
             customiseAppDrawerFragment.customizeAppDrawerFragmentShowHeadingsSwitch.isChecked = it
                 .showDrawerHeadings
         }

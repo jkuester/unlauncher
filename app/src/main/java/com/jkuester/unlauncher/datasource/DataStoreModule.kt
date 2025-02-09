@@ -34,7 +34,7 @@ private val Context.unlauncherAppsStore: DataStore<UnlauncherApps> by dataStore(
 private val Context.corePreferencesStore: DataStore<CorePreferences> by dataStore(
     fileName = "core_preferences.proto",
     serializer = CorePreferencesSerializer,
-    produceMigrations = { _ -> CorePreferencesMigrations().get() }
+    produceMigrations = { listOf(AddClockTypeMigration, AddShowSearchBarMigration) }
 )
 
 @Module

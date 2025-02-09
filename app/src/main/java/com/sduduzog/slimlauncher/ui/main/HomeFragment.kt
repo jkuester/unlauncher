@@ -133,7 +133,7 @@ class HomeFragment :
 
         homeFragmentContent.appDrawerFragmentList.adapter = appDrawerAdapter
 
-        corePreferencesRepo.liveData().observe(
+        corePreferencesRepo.observe(
             viewLifecycleOwner
         ) { corePreferences ->
             homeFragmentContent.appDrawerEditText

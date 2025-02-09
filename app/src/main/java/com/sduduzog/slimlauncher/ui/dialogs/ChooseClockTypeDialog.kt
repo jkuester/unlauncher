@@ -5,6 +5,7 @@ import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import com.jkuester.unlauncher.datasource.CorePreferencesRepository
+import com.jkuester.unlauncher.datasource.setClockType
 import com.jkuester.unlauncher.datastore.proto.ClockType
 import com.sduduzog.slimlauncher.R
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,7 +24,7 @@ class ChooseClockTypeDialog : DialogFragment() {
         builder.setTitle(R.string.choose_clock_type_dialog_title)
         builder.setSingleChoiceItems(R.array.clock_type_array, active) { dialogInterface, i ->
             dialogInterface.dismiss()
-            corePreferencesRepo.updateClockType(ClockType.forNumber(i))
+            corePreferencesRepo.updateAsync(setClockType(ClockType.forNumber(i)))
         }
         return builder.create()
     }

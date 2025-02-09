@@ -5,6 +5,7 @@ import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import com.jkuester.unlauncher.datasource.CorePreferencesRepository
+import com.jkuester.unlauncher.datasource.setSearchBarPosition
 import com.jkuester.unlauncher.datastore.proto.SearchBarPosition
 import com.sduduzog.slimlauncher.R
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,7 +27,7 @@ class ChooseSearchBarPositionDialog : DialogFragment() {
             active
         ) { dialogInterface, i ->
             dialogInterface.dismiss()
-            corePreferencesRepo.updateSearchBarPosition(SearchBarPosition.forNumber(i))
+            corePreferencesRepo.updateAsync(setSearchBarPosition(SearchBarPosition.forNumber(i)))
         }
         return builder.create()
     }

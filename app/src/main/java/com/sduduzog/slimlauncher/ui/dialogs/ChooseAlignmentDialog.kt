@@ -5,6 +5,7 @@ import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import com.jkuester.unlauncher.datasource.CorePreferencesRepository
+import com.jkuester.unlauncher.datasource.setAlignmentFormat
 import com.jkuester.unlauncher.datastore.proto.AlignmentFormat
 import com.sduduzog.slimlauncher.R
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,7 +24,7 @@ class ChooseAlignmentDialog : DialogFragment() {
         builder.setTitle(R.string.choose_alignment_dialog_title)
         builder.setSingleChoiceItems(R.array.alignment_format_array, active) { dialogInterface, i ->
             dialogInterface.dismiss()
-            corePreferencesRepo.updateAlignmentFormat(AlignmentFormat.forNumber(i))
+            corePreferencesRepo.updateAsync(setAlignmentFormat(AlignmentFormat.forNumber(i)))
         }
         return builder.create()
     }

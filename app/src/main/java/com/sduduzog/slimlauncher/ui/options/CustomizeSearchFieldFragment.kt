@@ -5,6 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.jkuester.unlauncher.datasource.CorePreferencesRepository
+import com.jkuester.unlauncher.datasource.setActivateKeyboardInDrawer
+import com.jkuester.unlauncher.datasource.setSearchAllAppsInDrawer
+import com.jkuester.unlauncher.datasource.setShowSearchBar
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.databinding.CustomizeAppDrawerFragmentSearchFieldOptionsBinding
 import com.sduduzog.slimlauncher.ui.dialogs.ChooseSearchBarPositionDialog
@@ -49,10 +52,10 @@ class CustomizeSearchFieldFragment : BaseFragment() {
     private fun setupShowSearchBarSwitch(options: CustomizeAppDrawerFragmentSearchFieldOptionsBinding) {
         options.customizeAppDrawerFragmentShowSearchFieldSwitch
             .setOnCheckedChangeListener { _, checked ->
-                corePreferencesRepo.updateShowSearchBar(checked)
+                corePreferencesRepo.updateAsync(setShowSearchBar(checked))
                 enableSearchBarOptions(options, checked)
             }
-        corePreferencesRepo.liveData().observe(viewLifecycleOwner) {
+        corePreferencesRepo.observe(viewLifecycleOwner) {
             val checked = it.showSearchBar
             options.customizeAppDrawerFragmentShowSearchFieldSwitch.isChecked = checked
             enableSearchBarOptions(options, checked)
@@ -70,7 +73,7 @@ class CustomizeSearchFieldFragment : BaseFragment() {
             val positionDialog = ChooseSearchBarPositionDialog.getSearchBarPositionChooser()
             positionDialog.showNow(childFragmentManager, "POSITION_CHOOSER")
         }
-        corePreferencesRepo.liveData().observe(viewLifecycleOwner) {
+        corePreferencesRepo.observe(viewLifecycleOwner) {
             val position = it.searchBarPosition.number
             val title = getText(R.string.customize_app_drawer_fragment_search_bar_position)
             val subtitle = resources.getTextArray(R.array.search_bar_position_array)[position]
@@ -81,9 +84,9 @@ class CustomizeSearchFieldFragment : BaseFragment() {
 
     private fun setupKeyboardSwitch(options: CustomizeAppDrawerFragmentSearchFieldOptionsBinding) {
         options.customizeAppDrawerOpenKeyboardSwitch.setOnCheckedChangeListener { _, checked ->
-            corePreferencesRepo.updateActivateKeyboardInDrawer(checked)
+            corePreferencesRepo.updateAsync(setActivateKeyboardInDrawer(checked))
         }
-        corePreferencesRepo.liveData().observe(viewLifecycleOwner) {
+        corePreferencesRepo.observe(viewLifecycleOwner) {
             options.customizeAppDrawerOpenKeyboardSwitch.isChecked = it.activateKeyboardInDrawer
         }
         options.customizeAppDrawerOpenKeyboardSwitch.text =
@@ -96,9 +99,9 @@ class CustomizeSearchFieldFragment : BaseFragment() {
 
     private fun setupSearchAllAppsSwitch(options: CustomizeAppDrawerFragmentSearchFieldOptionsBinding) {
         options.customizeAppDrawerSearchAllSwitch.setOnCheckedChangeListener { _, checked ->
-            corePreferencesRepo.updateSearchAllAppsInDrawer(checked)
+            corePreferencesRepo.updateAsync(setSearchAllAppsInDrawer(checked))
         }
-        corePreferencesRepo.liveData().observe(viewLifecycleOwner) {
+        corePreferencesRepo.observe(viewLifecycleOwner) {
             options.customizeAppDrawerSearchAllSwitch.isChecked = it.searchAllAppsInDrawer
         }
         options.customizeAppDrawerSearchAllSwitch.text =

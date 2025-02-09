@@ -18,7 +18,6 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.RecyclerView
-import com.jkuester.unlauncher.datasource.CorePreferencesRepository
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.sduduzog.slimlauncher.utils.BaseFragment
 import com.sduduzog.slimlauncher.utils.HomeWatcher
@@ -41,9 +40,6 @@ class MainActivity :
     SharedPreferences.OnSharedPreferenceChangeListener,
     HomeWatcher.OnHomePressedListener,
     IPublisher {
-
-    @Inject
-    lateinit var corePresRepo: CorePreferencesRepository
 
     @Inject
     lateinit var systemUiManager: SystemUiManager

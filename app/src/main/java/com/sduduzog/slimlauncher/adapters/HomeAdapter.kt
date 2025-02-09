@@ -29,7 +29,7 @@ class HomeAdapter(private val listener: HomeFragment, private val corePreference
         holder.mLabelView.setOnClickListener {
             listener.onLaunch(item, it)
         }
-        corePreferencesRepo.liveData().observe(listener.viewLifecycleOwner) {
+        corePreferencesRepo.observe(listener.viewLifecycleOwner) {
             holder.mLabelView.gravity = it.alignmentFormat.gravity()
         }
     }
