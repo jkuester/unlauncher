@@ -8,9 +8,9 @@ import androidx.core.view.marginBottom
 import androidx.core.view.marginEnd
 import androidx.core.view.marginStart
 import androidx.core.view.marginTop
+import com.jkuester.unlauncher.datasource.CorePreferencesRepository
 import com.jkuester.unlauncher.datastore.proto.ClockType
 import com.sduduzog.slimlauncher.R
-import com.sduduzog.slimlauncher.datasource.coreprefs.CorePreferencesRepository
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
 import javax.inject.Inject

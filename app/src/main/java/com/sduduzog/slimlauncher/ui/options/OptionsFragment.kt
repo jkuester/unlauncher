@@ -9,9 +9,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.edit
 import androidx.navigation.Navigation
+import com.jkuester.unlauncher.datasource.CorePreferencesRepository
+import com.jkuester.unlauncher.datasource.setKeepDeviceWallpaper
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.databinding.OptionsFragmentBinding
-import com.sduduzog.slimlauncher.datasource.coreprefs.CorePreferencesRepository
 import com.sduduzog.slimlauncher.ui.dialogs.ChangeThemeDialog
 import com.sduduzog.slimlauncher.ui.dialogs.ChooseAlignmentDialog
 import com.sduduzog.slimlauncher.ui.dialogs.ChooseClockTypeDialog
@@ -109,14 +110,14 @@ class OptionsFragment : BaseFragment() {
         setupDeviceWallpaperSwitchText(optionsFragment, appIsDefaultLauncher)
         optionsFragment.optionsFragmentAutoDeviceThemeWallpaper.isEnabled = appIsDefaultLauncher
 
-        corePreferencesRepo.liveData().observe(viewLifecycleOwner) {
+        corePreferencesRepo.observe(viewLifecycleOwner) {
             // always uncheck once app isn't default launcher
             optionsFragment.optionsFragmentAutoDeviceThemeWallpaper
                 .isChecked = appIsDefaultLauncher && !it.keepDeviceWallpaper
         }
         optionsFragment.optionsFragmentAutoDeviceThemeWallpaper
             .setOnCheckedChangeListener { _, checked ->
-                corePreferencesRepo.updateKeepDeviceWallpaper(!checked)
+                corePreferencesRepo.updateAsync(setKeepDeviceWallpaper(!checked))
             }
     }
 

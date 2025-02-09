@@ -7,8 +7,6 @@ import com.jkuester.unlauncher.datasource.sharedPrefsMigration as quickButtonSha
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.datastore.proto.QuickButtonPreferences
 import com.jkuester.unlauncher.datastore.proto.UnlauncherApps
-import com.sduduzog.slimlauncher.datasource.coreprefs.CorePreferencesMigrations
-import com.sduduzog.slimlauncher.datasource.coreprefs.CorePreferencesSerializer
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -36,7 +34,7 @@ private val Context.unlauncherAppsStore: DataStore<UnlauncherApps> by dataStore(
 private val Context.corePreferencesStore: DataStore<CorePreferences> by dataStore(
     fileName = "core_preferences.proto",
     serializer = CorePreferencesSerializer,
-    produceMigrations = { _ -> CorePreferencesMigrations().get() }
+    produceMigrations = { listOf(AddClockTypeMigration, AddShowSearchBarMigration) }
 )
 
 @Module

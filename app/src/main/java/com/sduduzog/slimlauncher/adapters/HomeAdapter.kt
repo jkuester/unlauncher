@@ -6,16 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.jkuester.unlauncher.datasource.CorePreferencesRepository
 import com.sduduzog.slimlauncher.R
-import com.sduduzog.slimlauncher.datasource.coreprefs.CorePreferencesRepository
 import com.sduduzog.slimlauncher.models.HomeApp
 import com.sduduzog.slimlauncher.ui.main.HomeFragment
 import com.sduduzog.slimlauncher.utils.gravity
 
-class HomeAdapter(
-    private val listener: HomeFragment,
-    private val corePreferencesRepo: CorePreferencesRepository
-) : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
+class HomeAdapter(private val listener: HomeFragment, private val corePreferencesRepo: CorePreferencesRepository) :
+    RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
 
     private var apps: List<HomeApp> = listOf()
 
@@ -31,7 +29,7 @@ class HomeAdapter(
         holder.mLabelView.setOnClickListener {
             listener.onLaunch(item, it)
         }
-        corePreferencesRepo.liveData().observe(listener.viewLifecycleOwner) {
+        corePreferencesRepo.observe(listener.viewLifecycleOwner) {
             holder.mLabelView.gravity = it.alignmentFormat.gravity()
         }
     }
