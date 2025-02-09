@@ -34,6 +34,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.jkuester.unlauncher.datasource.CorePreferencesRepository
 import com.jkuester.unlauncher.datasource.QuickButtonPreferencesRepository
 import com.jkuester.unlauncher.datasource.UnlauncherAppsRepository
 import com.jkuester.unlauncher.datasource.getIconResourceId
@@ -49,7 +50,6 @@ import com.sduduzog.slimlauncher.adapters.HomeAdapter
 import com.sduduzog.slimlauncher.databinding.HomeFragmentBottomBinding
 import com.sduduzog.slimlauncher.databinding.HomeFragmentContentBinding
 import com.sduduzog.slimlauncher.databinding.HomeFragmentDefaultBinding
-import com.sduduzog.slimlauncher.datasource.coreprefs.CorePreferencesRepository
 import com.sduduzog.slimlauncher.models.HomeApp
 import com.sduduzog.slimlauncher.models.MainViewModel
 import com.sduduzog.slimlauncher.ui.dialogs.RenameAppDisplayNameDialog

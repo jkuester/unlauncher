@@ -1,4 +1,4 @@
-package com.sduduzog.slimlauncher.datasource.coreprefs
+package com.jkuester.unlauncher.datasource
 
 import android.app.Activity
 import android.util.Log

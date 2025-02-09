@@ -9,8 +9,8 @@ import androidx.annotation.ColorInt
 import androidx.annotation.StyleRes
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.lifecycleScope
+import com.jkuester.unlauncher.datasource.CorePreferencesRepository
 import com.sduduzog.slimlauncher.MainActivity
-import com.sduduzog.slimlauncher.datasource.coreprefs.CorePreferencesRepository
 import java.io.IOException
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers

@@ -1,4 +1,4 @@
-package com.sduduzog.slimlauncher.datasource.coreprefs
+package com.jkuester.unlauncher.datasource
 
 import androidx.datastore.core.DataMigration
 import com.jkuester.unlauncher.datastore.proto.ClockType

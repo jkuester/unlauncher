@@ -9,9 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.edit
 import androidx.navigation.Navigation
+import com.jkuester.unlauncher.datasource.CorePreferencesRepository
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.databinding.OptionsFragmentBinding
-import com.sduduzog.slimlauncher.datasource.coreprefs.CorePreferencesRepository
 import com.sduduzog.slimlauncher.ui.dialogs.ChangeThemeDialog
 import com.sduduzog.slimlauncher.ui.dialogs.ChooseAlignmentDialog
 import com.sduduzog.slimlauncher.ui.dialogs.ChooseClockTypeDialog

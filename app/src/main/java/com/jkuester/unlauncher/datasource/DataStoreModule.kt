@@ -7,8 +7,6 @@ import com.jkuester.unlauncher.datasource.sharedPrefsMigration as quickButtonSha
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.datastore.proto.QuickButtonPreferences
 import com.jkuester.unlauncher.datastore.proto.UnlauncherApps
-import com.sduduzog.slimlauncher.datasource.coreprefs.CorePreferencesMigrations
-import com.sduduzog.slimlauncher.datasource.coreprefs.CorePreferencesSerializer
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

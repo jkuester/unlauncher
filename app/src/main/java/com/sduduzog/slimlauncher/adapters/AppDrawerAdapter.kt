@@ -9,10 +9,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
+import com.jkuester.unlauncher.datasource.CorePreferencesRepository
 import com.jkuester.unlauncher.datasource.UnlauncherAppsRepository
 import com.jkuester.unlauncher.datastore.proto.UnlauncherApp
 import com.sduduzog.slimlauncher.R
-import com.sduduzog.slimlauncher.datasource.coreprefs.CorePreferencesRepository
 import com.sduduzog.slimlauncher.ui.main.HomeFragment
 import com.sduduzog.slimlauncher.utils.firstUppercase
 import com.sduduzog.slimlauncher.utils.gravity

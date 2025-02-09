@@ -5,10 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
+import com.jkuester.unlauncher.datasource.CorePreferencesRepository
 import com.jkuester.unlauncher.datastore.proto.SearchBarPosition
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.databinding.CustomizeAppDrawerFragmentBinding
-import com.sduduzog.slimlauncher.datasource.coreprefs.CorePreferencesRepository
 import com.sduduzog.slimlauncher.utils.BaseFragment
 import com.sduduzog.slimlauncher.utils.createTitleAndSubtitleText
 import dagger.hilt.android.AndroidEntryPoint
