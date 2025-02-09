@@ -1,4 +1,4 @@
-package com.sduduzog.slimlauncher.ui.dialogs
+package com.jkuester.unlauncher.dialog
 
 import android.app.AlertDialog
 import android.app.Dialog
