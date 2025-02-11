@@ -20,7 +20,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
 @MockKExtension.CheckUnnecessaryStub
-// @MockKExtension.ConfirmVerification Some weird mockk/kotlin/java bug seems to be making this fail for this test.
+@MockKExtension.ConfirmVerification
 @ExtendWith(MockKExtension::class)
 class AlignmentFormatDialogTest {
     @MockK
@@ -48,8 +48,7 @@ class AlignmentFormatDialogTest {
         mockkStatic(::setAlignmentFormat)
         every { setAlignmentFormat(any()) } returns mockk()
 
-        val dialogFragment = AlignmentFormatDialog()
-            .apply { corePreferencesRepo = corePrefsRepo }
+        val dialogFragment = AlignmentFormatDialog(corePrefsRepo)
         val result = dialogFragment.onCreateDialog(null)
 
         result shouldBe alertDialog
