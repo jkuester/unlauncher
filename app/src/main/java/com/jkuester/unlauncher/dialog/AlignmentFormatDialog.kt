@@ -9,8 +9,14 @@ import com.jkuester.unlauncher.datasource.CorePreferencesRepository
 import com.jkuester.unlauncher.datasource.setAlignmentFormat
 import com.jkuester.unlauncher.datastore.proto.AlignmentFormat
 import com.sduduzog.slimlauncher.R
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-class AlignmentFormatDialog(private val corePreferencesRepo: CorePreferencesRepository) : DialogFragment() {
+@AndroidEntryPoint
+class AlignmentFormatDialog : DialogFragment() {
+    @Inject
+    lateinit var corePreferencesRepo: CorePreferencesRepository
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog = AlertDialog
         .Builder(context)
         .setTitle(R.string.choose_alignment_dialog_title)

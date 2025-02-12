@@ -64,7 +64,7 @@ class OptionsFragment : BaseFragment() {
             chooseClockTypeDialog.showNow(childFragmentManager, "CLOCK_TYPE_CHOOSER")
         }
         optionsFragment.optionsFragmentChooseAlignment.setOnClickListener {
-            AlignmentFormatDialog(corePreferencesRepo).showNow(childFragmentManager, "ALIGNMENT_CHOOSER")
+            AlignmentFormatDialog().showNow(childFragmentManager, "ALIGNMENT_CHOOSER")
         }
         optionsFragment.optionsFragmentToggleStatusBar.setOnClickListener {
             val settings = requireContext().getSharedPreferences(

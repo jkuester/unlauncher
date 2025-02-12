@@ -48,7 +48,8 @@ class AlignmentFormatDialogTest {
         mockkStatic(::setAlignmentFormat)
         every { setAlignmentFormat(any()) } returns mockk()
 
-        val dialogFragment = AlignmentFormatDialog(corePrefsRepo)
+        val dialogFragment = AlignmentFormatDialog()
+            .apply { corePreferencesRepo = corePrefsRepo }
         val result = dialogFragment.onCreateDialog(null)
 
         result shouldBe alertDialog

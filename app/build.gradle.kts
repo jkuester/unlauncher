@@ -143,12 +143,17 @@ kover {
             excludes {
                 packages(
                     "com.sduduzog.slimlauncher",
-                    "dagger.hilt",
-                    "hilt_aggregated_deps",
                     "com.jkuester.unlauncher.datastore.proto",
+                    "dagger.hilt.internal.aggregatedroot.codegen",
+                    "hilt_aggregated_deps",
                 )
-                annotatedBy("dagger.internal.DaggerGenerated")
-                annotatedBy("javax.annotations.Generated")
+                annotatedBy(
+                    "javax.annotation.processing.Generated",
+                    "dagger.internal.DaggerGenerated",
+                )
+                classes(
+                    "*Hilt_*",
+                )
             }
         }
         verify {
