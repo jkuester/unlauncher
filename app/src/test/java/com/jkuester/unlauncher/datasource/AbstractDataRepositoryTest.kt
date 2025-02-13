@@ -126,14 +126,13 @@ class AbstractDataRepositoryTest {
 
         @Test
         fun updateAsync() = runTest {
-            val transform = mockk<(t: String) -> String>()
             every { dataStore.data } returns emptyFlow()
             coJustRun { dataStore.updateData(any()) }
 
             val dataRepo = TestDataRepository(dataStore, backgroundScope, getDefaultInstance)
-            dataRepo.updateAsync(transform).join()
+            dataRepo.updateAsync(mockk()).join()
 
-            coVerify(exactly = 1) { dataStore.updateData(transform) }
+            coVerify(exactly = 1) { dataStore.updateData(any<suspend (t: String) -> String>()) }
         }
     }
 

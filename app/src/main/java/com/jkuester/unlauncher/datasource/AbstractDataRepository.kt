@@ -41,7 +41,7 @@ abstract class AbstractDataRepository<T>(
 
     fun get(): T = runBlocking { dataFlow.first() }
 
-    fun updateAsync(transform: suspend (t: T) -> T) = lifecycleScope.launch(Dispatchers.IO) {
+    fun updateAsync(transform: (t: T) -> T) = lifecycleScope.launch(Dispatchers.IO) {
         dataStore.updateData(transform)
     }
 }

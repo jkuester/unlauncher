@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import com.jkuester.unlauncher.datasource.QuickButtonIcon
 import com.jkuester.unlauncher.datasource.QuickButtonPreferencesRepository
 import com.jkuester.unlauncher.datasource.getIconResourceId
+import com.jkuester.unlauncher.dialog.QuickButtonIconDialog
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.databinding.CustomizeQuickButtonsFragmentBinding
-import com.sduduzog.slimlauncher.ui.dialogs.ChooseQuickButtonDialog
 import com.sduduzog.slimlauncher.utils.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -42,20 +42,17 @@ class CustomizeQuickButtonsFragment : BaseFragment() {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
         customizeQuickButtonsFragment.customizeQuickButtonsFragmentLeft.setOnClickListener {
-            ChooseQuickButtonDialog(
-                quickButtonPreferencesRepo,
+            QuickButtonIconDialog(
                 QuickButtonIcon.IC_CALL.prefId
             ).showNow(childFragmentManager, "QUICK_BUTTON_CHOOSER")
         }
         customizeQuickButtonsFragment.customizeQuickButtonsFragmentCenter.setOnClickListener {
-            ChooseQuickButtonDialog(
-                quickButtonPreferencesRepo,
+            QuickButtonIconDialog(
                 QuickButtonIcon.IC_COG.prefId
             ).showNow(childFragmentManager, "QUICK_BUTTON_CHOOSER")
         }
         customizeQuickButtonsFragment.customizeQuickButtonsFragmentRight.setOnClickListener {
-            ChooseQuickButtonDialog(
-                quickButtonPreferencesRepo,
+            QuickButtonIconDialog(
                 QuickButtonIcon.IC_PHOTO_CAMERA.prefId
             ).showNow(childFragmentManager, "QUICK_BUTTON_CHOOSER")
         }
