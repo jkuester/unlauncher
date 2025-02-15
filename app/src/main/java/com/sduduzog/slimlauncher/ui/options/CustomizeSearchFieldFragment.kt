@@ -39,7 +39,7 @@ class CustomizeSearchFieldFragment : BaseFragment() {
         val options = CustomizeAppDrawerFragmentSearchFieldOptionsBinding.bind(
             view
         )
-        options.customiseAppsFragmentBack.setOnClickListener {
+        options.headerBack.setOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
 
@@ -50,45 +50,45 @@ class CustomizeSearchFieldFragment : BaseFragment() {
     }
 
     private fun setupShowSearchBarSwitch(options: CustomizeAppDrawerFragmentSearchFieldOptionsBinding) {
-        options.customizeAppDrawerFragmentShowSearchFieldSwitch
+        options.showSearchFieldSwitch
             .setOnCheckedChangeListener { _, checked ->
                 corePreferencesRepo.updateAsync(setShowSearchBar(checked))
                 enableSearchBarOptions(options, checked)
             }
         corePreferencesRepo.observe(viewLifecycleOwner) {
             val checked = it.showSearchBar
-            options.customizeAppDrawerFragmentShowSearchFieldSwitch.isChecked = checked
+            options.showSearchFieldSwitch.isChecked = checked
             enableSearchBarOptions(options, checked)
         }
     }
 
     private fun enableSearchBarOptions(options: CustomizeAppDrawerFragmentSearchFieldOptionsBinding, enabled: Boolean) {
-        options.customizeAppDrawerFragmentSearchFieldPosition.isEnabled = enabled
-        options.customizeAppDrawerOpenKeyboardSwitch.isEnabled = enabled
-        options.customizeAppDrawerSearchAllSwitch.isEnabled = enabled
+        options.searchFieldPosition.isEnabled = enabled
+        options.openKeyboardSwitch.isEnabled = enabled
+        options.searchAllSwitch.isEnabled = enabled
     }
 
     private fun setupSearchBarPositionOption(options: CustomizeAppDrawerFragmentSearchFieldOptionsBinding) {
-        options.customizeAppDrawerFragmentSearchFieldPosition.setOnClickListener {
+        options.searchFieldPosition.setOnClickListener {
             SearchBarPositionDialog().showNow(childFragmentManager, "POSITION_CHOOSER")
         }
         corePreferencesRepo.observe(viewLifecycleOwner) {
             val position = it.searchBarPosition.number
             val title = getText(R.string.customize_app_drawer_fragment_search_bar_position)
             val subtitle = resources.getTextArray(R.array.search_bar_position_array)[position]
-            options.customizeAppDrawerFragmentSearchFieldPosition.text =
+            options.searchFieldPosition.text =
                 createTitleAndSubtitleText(requireContext(), title, subtitle)
         }
     }
 
     private fun setupKeyboardSwitch(options: CustomizeAppDrawerFragmentSearchFieldOptionsBinding) {
-        options.customizeAppDrawerOpenKeyboardSwitch.setOnCheckedChangeListener { _, checked ->
+        options.openKeyboardSwitch.setOnCheckedChangeListener { _, checked ->
             corePreferencesRepo.updateAsync(setActivateKeyboardInDrawer(checked))
         }
         corePreferencesRepo.observe(viewLifecycleOwner) {
-            options.customizeAppDrawerOpenKeyboardSwitch.isChecked = it.activateKeyboardInDrawer
+            options.openKeyboardSwitch.isChecked = it.activateKeyboardInDrawer
         }
-        options.customizeAppDrawerOpenKeyboardSwitch.text =
+        options.openKeyboardSwitch.text =
             createTitleAndSubtitleText(
                 requireContext(),
                 R.string.customize_app_drawer_fragment_open_keyboard,
@@ -97,13 +97,13 @@ class CustomizeSearchFieldFragment : BaseFragment() {
     }
 
     private fun setupSearchAllAppsSwitch(options: CustomizeAppDrawerFragmentSearchFieldOptionsBinding) {
-        options.customizeAppDrawerSearchAllSwitch.setOnCheckedChangeListener { _, checked ->
+        options.searchAllSwitch.setOnCheckedChangeListener { _, checked ->
             corePreferencesRepo.updateAsync(setSearchAllAppsInDrawer(checked))
         }
         corePreferencesRepo.observe(viewLifecycleOwner) {
-            options.customizeAppDrawerSearchAllSwitch.isChecked = it.searchAllAppsInDrawer
+            options.searchAllSwitch.isChecked = it.searchAllAppsInDrawer
         }
-        options.customizeAppDrawerSearchAllSwitch.text =
+        options.searchAllSwitch.text =
             createTitleAndSubtitleText(
                 requireContext(),
                 R.string.customize_app_drawer_fragment_search_all,
