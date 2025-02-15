@@ -9,8 +9,8 @@ import dagger.hilt.android.scopes.ActivityScoped
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 
-fun setActivateKeyboardInDrawer(activateKeyboardInDrawer: Boolean) = { originalPrefs: CorePreferences ->
-    originalPrefs.toBuilder().setActivateKeyboardInDrawer(activateKeyboardInDrawer).build()
+fun toggleActivateKeyboardInDrawer() = { originalPrefs: CorePreferences ->
+    originalPrefs.toBuilder().setActivateKeyboardInDrawer(!originalPrefs.activateKeyboardInDrawer).build()
 }
 fun setKeepDeviceWallpaper(keepDeviceWallpaper: Boolean) = { originalPrefs: CorePreferences ->
     originalPrefs.toBuilder().setKeepDeviceWallpaper(keepDeviceWallpaper).build()
@@ -24,8 +24,8 @@ fun setSearchBarPosition(searchBarPosition: SearchBarPosition) = { originalPrefs
 fun setShowDrawerHeadings(showDrawerHeadings: Boolean) = { originalPrefs: CorePreferences ->
     originalPrefs.toBuilder().setShowDrawerHeadings(showDrawerHeadings).build()
 }
-fun setSearchAllAppsInDrawer(searchAllAppsInDrawer: Boolean) = { originalPrefs: CorePreferences ->
-    originalPrefs.toBuilder().setSearchAllAppsInDrawer(searchAllAppsInDrawer).build()
+fun toggleSearchAllAppsInDrawer() = { originalPrefs: CorePreferences ->
+    originalPrefs.toBuilder().setSearchAllAppsInDrawer(!originalPrefs.searchAllAppsInDrawer).build()
 }
 fun setClockType(clockType: ClockType) = { originalPrefs: CorePreferences ->
     originalPrefs.toBuilder().setClockType(clockType).build()

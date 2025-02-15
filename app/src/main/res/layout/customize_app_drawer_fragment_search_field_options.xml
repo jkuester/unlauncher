@@ -59,40 +59,116 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
+            <LinearLayout
                 android:id="@+id/search_field_position"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_list_items"
-                android:text="@string/customize_app_drawer_fragment_search_bar_position"
-                android:textAppearance="@style/TextAppearance.AppCompat"
-                android:textSize="@dimen/font_size_customize_options"
+                android:orientation="vertical"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/show_search_field_switch" />
+                app:layout_constraintTop_toBottomOf="@id/show_search_field_switch">
 
-            <androidx.appcompat.widget.SwitchCompat
+                <TextView
+                    android:id="@+id/search_field_position_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/customize_app_drawer_fragment_search_bar_position"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                <TextView
+                    android:id="@+id/search_field_position_subtitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+            </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/open_keyboard_switch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_list_items"
-                android:text="@string/customize_app_drawer_fragment_open_keyboard"
-                android:textAppearance="@style/TextAppearance.AppCompat"
-                android:textColor="?switchTextColor"
-                android:textSize="@dimen/font_size_customize_options"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/search_field_position" />
+                app:layout_constraintTop_toBottomOf="@id/search_field_position">
 
-            <androidx.appcompat.widget.SwitchCompat
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constrainedWidth="true"
+                    app:layout_constraintEnd_toStartOf="@+id/open_keyboard_switch_toggle"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/open_keyboard_switch_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/customize_app_drawer_fragment_open_keyboard"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                    <TextView
+                        android:id="@+id/open_keyboard_switch_subtitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/customize_app_drawer_fragment_open_keyboard_subtitle"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+                </LinearLayout>
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/open_keyboard_switch_toggle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:clickable="false"
+                    android:textAppearance="@style/TextAppearance.AppCompat"
+                    android:textColor="?switchTextColor"
+                    android:textSize="@dimen/font_size_customize_options"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/search_all_switch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_list_items"
-                android:text="@string/customize_app_drawer_fragment_search_all"
-                android:textAppearance="@style/TextAppearance.AppCompat"
-                android:textColor="?switchTextColor"
-                android:textSize="@dimen/font_size_customize_options"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/open_keyboard_switch" />
+                app:layout_constraintTop_toBottomOf="@id/open_keyboard_switch">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constrainedWidth="true"
+                    app:layout_constraintEnd_toStartOf="@+id/search_all_switch_toggle"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/search_all_switch_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/customize_app_drawer_fragment_search_all"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                    <TextView
+                        android:id="@+id/search_all_switch_subtitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/customize_app_drawer_fragment_search_all_subtitle"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+                </LinearLayout>
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/search_all_switch_toggle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:clickable="false"
+                    android:textAppearance="@style/TextAppearance.AppCompat"
+                    android:textColor="?switchTextColor"
+                    android:textSize="@dimen/font_size_customize_options"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
