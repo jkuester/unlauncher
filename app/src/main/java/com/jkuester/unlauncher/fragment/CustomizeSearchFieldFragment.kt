@@ -1,4 +1,4 @@
-package com.sduduzog.slimlauncher.ui.options
+package com.jkuester.unlauncher.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater

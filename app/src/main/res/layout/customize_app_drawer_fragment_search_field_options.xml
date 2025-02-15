@@ -8,7 +8,7 @@
     android:layout_marginStart="@dimen/margin_sides"
     android:layout_marginTop="@dimen/margin_top_small"
     android:layout_marginEnd="@dimen/margin_sides"
-    tools:context=".ui.options.CustomizeSearchFieldFragment">
+    tools:context="com.jkuester.unlauncher.fragment.CustomizeSearchFieldFragment">
 
     <ImageView
         android:id="@+id/header_back"
