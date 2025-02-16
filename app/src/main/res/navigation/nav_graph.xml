@@ -69,6 +69,6 @@
         android:id="@+id/customizeSearchFieldFragment"
         android:name="com.jkuester.unlauncher.fragment.CustomizeSearchFieldFragment"
         android:label="customize_app_drawer_search_field_fragment"
-        tools:layout="@layout/customize_app_drawer_fragment_search_field_options" />
+        tools:layout="@layout/customize_app_drawer_search_field_options" />
 
 </navigation>
