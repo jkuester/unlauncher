@@ -31,13 +31,11 @@ class AppDrawerAdapter(
     private var gravity = 3
 
     init {
-        unlauncherAppsRepo.observe(
-            lifecycleOwner
-        ) { unlauncherApps ->
+        unlauncherAppsRepo.observe { unlauncherApps ->
             apps = unlauncherApps.appsList
             updateFilteredApps()
         }
-        corePreferencesRepo.observe(lifecycleOwner) { corePrefs ->
+        corePreferencesRepo.observe { corePrefs ->
             gravity = corePrefs.alignmentFormat.gravity()
             updateFilteredApps()
         }

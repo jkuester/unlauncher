@@ -16,9 +16,9 @@ class CustomizeAppDrawerAppsAdapter(lifecycleOwner: LifecycleOwner, private val 
     private var apps: UnlauncherApps = UnlauncherApps.getDefaultInstance()
 
     init {
-        appsRepo.observe(lifecycleOwner, { unlauncherApps ->
+        appsRepo.observe { unlauncherApps ->
             apps = unlauncherApps
-        })
+        }
     }
 
     override fun getItemCount(): Int = apps.appsCount

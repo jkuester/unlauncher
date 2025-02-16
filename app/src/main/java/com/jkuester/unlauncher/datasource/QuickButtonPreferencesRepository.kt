@@ -3,8 +3,9 @@ package com.jkuester.unlauncher.datasource
 import androidx.datastore.core.DataStore
 import com.jkuester.unlauncher.datastore.proto.QuickButtonPreferences
 import com.jkuester.unlauncher.datastore.proto.QuickButtonPreferences.QuickButton
+import com.jkuester.unlauncher.fragment.LifecycleOwnerSupplier
 import com.sduduzog.slimlauncher.R
-import dagger.hilt.android.scopes.ActivityScoped
+import dagger.hilt.android.scopes.FragmentScoped
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 
@@ -45,15 +46,15 @@ fun getIconResourceId(prefId: Int) = QuickButtonIcon.entries
         it.prefId == prefId
     }?.resourceId
 
-@ActivityScoped
-class QuickButtonPreferencesRepository
-@Inject
-constructor(
+@FragmentScoped
+class QuickButtonPreferencesRepository @Inject constructor(
     quickButtonPreferencesStore: DataStore<QuickButtonPreferences>,
-    lifecycleScope: CoroutineScope
+    lifecycleScope: CoroutineScope,
+    lifecycleOwnerSupplier: LifecycleOwnerSupplier
 ) : AbstractDataRepository<QuickButtonPreferences>(
     quickButtonPreferencesStore,
     lifecycleScope,
+    lifecycleOwnerSupplier,
     QuickButtonPreferences::getDefaultInstance
 )
 

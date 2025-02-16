@@ -9,6 +9,7 @@ import androidx.annotation.ColorInt
 import androidx.annotation.StyleRes
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.lifecycleScope
+import com.jkuester.unlauncher.WithActivityLifecycle
 import com.jkuester.unlauncher.datasource.CorePreferencesRepository
 import com.sduduzog.slimlauncher.MainActivity
 import java.io.IOException
@@ -18,7 +19,7 @@ import kotlinx.coroutines.launch
 
 class WallpaperManager @Inject constructor(
     activity: Activity,
-    private val corePreferencesRepo: CorePreferencesRepository
+    @WithActivityLifecycle private val corePreferencesRepo: CorePreferencesRepository
 ) {
     private val mainActivity = (activity as MainActivity)
 
@@ -26,7 +27,7 @@ class WallpaperManager @Inject constructor(
         if (!isActivityDefaultLauncher(mainActivity)) {
             return
         }
-        corePreferencesRepo.observe(mainActivity) {
+        corePreferencesRepo.observe {
             if (it.keepDeviceWallpaper && mainActivity.getUserSelectedThemeRes() == resid) {
                 // only change the wallpaper when user has allowed it and
                 // preventing to change the wallpaper multiple times once it is rechecked in the settings

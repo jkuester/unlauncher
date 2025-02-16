@@ -3,9 +3,10 @@ package com.jkuester.unlauncher.datasource
 import androidx.datastore.core.DataStore
 import com.jkuester.unlauncher.datastore.proto.UnlauncherApp
 import com.jkuester.unlauncher.datastore.proto.UnlauncherApps
+import com.jkuester.unlauncher.fragment.LifecycleOwnerSupplier
 import com.sduduzog.slimlauncher.data.model.App
 import com.sduduzog.slimlauncher.models.HomeApp
-import dagger.hilt.android.scopes.ActivityScoped
+import dagger.hilt.android.scopes.FragmentScoped
 import java.util.Locale
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
@@ -134,13 +135,15 @@ fun setDisplayInDrawer(appToUpdate: UnlauncherApp, displayInDrawer: Boolean): (U
 
 fun setVersion(version: Int): (UnlauncherApps) -> UnlauncherApps = { it.toBuilder().setVersion(version).build() }
 
-@ActivityScoped
+@FragmentScoped
 class UnlauncherAppsRepository @Inject constructor(
     unlauncherAppsStore: DataStore<UnlauncherApps>,
-    lifecycleScope: CoroutineScope
+    lifecycleScope: CoroutineScope,
+    lifecycleOwnerSupplier: LifecycleOwnerSupplier
 ) : AbstractDataRepository<UnlauncherApps>(
     unlauncherAppsStore,
     lifecycleScope,
+    lifecycleOwnerSupplier,
     UnlauncherApps::getDefaultInstance
 )
 

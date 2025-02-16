@@ -13,6 +13,7 @@ import com.jkuester.unlauncher.datasource.CorePreferencesRepository
 import com.jkuester.unlauncher.datasource.setKeepDeviceWallpaper
 import com.jkuester.unlauncher.dialog.AlignmentFormatDialog
 import com.jkuester.unlauncher.dialog.ClockTypeDialog
+import com.jkuester.unlauncher.fragment.WithFragmentLifecycle
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.databinding.OptionsFragmentBinding
 import com.sduduzog.slimlauncher.ui.dialogs.ChangeThemeDialog
@@ -25,7 +26,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class OptionsFragment : BaseFragment() {
-    @Inject
+    @Inject @WithFragmentLifecycle
     lateinit var corePreferencesRepo: CorePreferencesRepository
 
     override fun getFragmentView(): ViewGroup = OptionsFragmentBinding.bind(
@@ -108,7 +109,7 @@ class OptionsFragment : BaseFragment() {
         setupDeviceWallpaperSwitchText(optionsFragment, appIsDefaultLauncher)
         optionsFragment.optionsFragmentAutoDeviceThemeWallpaper.isEnabled = appIsDefaultLauncher
 
-        corePreferencesRepo.observe(viewLifecycleOwner) {
+        corePreferencesRepo.observe {
             // always uncheck once app isn't default launcher
             optionsFragment.optionsFragmentAutoDeviceThemeWallpaper
                 .isChecked = appIsDefaultLauncher && !it.keepDeviceWallpaper

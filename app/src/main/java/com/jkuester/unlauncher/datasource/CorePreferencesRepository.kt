@@ -5,8 +5,7 @@ import com.jkuester.unlauncher.datastore.proto.AlignmentFormat
 import com.jkuester.unlauncher.datastore.proto.ClockType
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.datastore.proto.SearchBarPosition
-import dagger.hilt.android.scopes.ActivityScoped
-import javax.inject.Inject
+import com.jkuester.unlauncher.fragment.LifecycleOwnerSupplier
 import kotlinx.coroutines.CoroutineScope
 
 fun toggleActivateKeyboardInDrawer() = { originalPrefs: CorePreferences ->
@@ -34,13 +33,14 @@ fun setAlignmentFormat(alignmentFormat: AlignmentFormat) = { originalPrefs: Core
     originalPrefs.toBuilder().setAlignmentFormat(alignmentFormat).build()
 }
 
-@ActivityScoped
-class CorePreferencesRepository @Inject constructor(
+class CorePreferencesRepository(
     corePreferencesStore: DataStore<CorePreferences>,
-    lifecycleScope: CoroutineScope
+    lifecycleScope: CoroutineScope,
+    lifecycleOwnerSupplier: LifecycleOwnerSupplier
 ) : AbstractDataRepository<CorePreferences>(
     corePreferencesStore,
     lifecycleScope,
+    lifecycleOwnerSupplier,
     CorePreferences::getDefaultInstance
 )
 
