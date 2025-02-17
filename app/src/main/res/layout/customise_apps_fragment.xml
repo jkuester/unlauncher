@@ -28,7 +28,7 @@
         android:textColor="?headerTextColor"
         android:text="@string/options_fragment_customise_apps"
         android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textSize="@dimen/font_size_customize_title"
+        android:textSize="@dimen/font_size_options_title"
         app:layout_constraintStart_toEndOf="@+id/customise_apps_fragment_back"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

@@ -28,7 +28,7 @@
         android:text="@string/customize_app_drawer_fragment_search_field_options"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textColor="?headerTextColor"
-        android:textSize="@dimen/font_size_customize_title"
+        android:textSize="@dimen/font_size_options_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/header_back"
         app:layout_constraintTop_toTopOf="parent" />
