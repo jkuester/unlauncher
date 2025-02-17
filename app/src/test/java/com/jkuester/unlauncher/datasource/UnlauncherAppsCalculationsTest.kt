@@ -50,7 +50,7 @@ private val unlauncherApp2 = UnlauncherApp
 @MockKExtension.CheckUnnecessaryStub
 @MockKExtension.ConfirmVerification
 @ExtendWith(MockKExtension::class)
-class UnlauncherAppsModifiersTest {
+class UnlauncherAppsCalculationsTest {
     @Test
     fun setApps_currentAppsEmpty() {
         val originalApps = UnlauncherApps.newBuilder().build()

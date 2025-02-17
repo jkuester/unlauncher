@@ -11,7 +11,7 @@ import org.junit.jupiter.params.provider.EnumSource
 @MockKExtension.CheckUnnecessaryStub
 @MockKExtension.ConfirmVerification
 @ExtendWith(MockKExtension::class)
-class QuickButtonPreferencesModifiersTest {
+class QuickButtonPreferencesCalculationsTest {
     @Test
     fun setLeftIconId() {
         val prefs = QuickButtonPreferences.newBuilder().build()
