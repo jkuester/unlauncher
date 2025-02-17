@@ -6,9 +6,7 @@ import com.jkuester.unlauncher.datastore.proto.UnlauncherApps
 import com.jkuester.unlauncher.fragment.LifecycleOwnerSupplier
 import com.sduduzog.slimlauncher.data.model.App
 import com.sduduzog.slimlauncher.models.HomeApp
-import dagger.hilt.android.scopes.FragmentScoped
 import java.util.Locale
-import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 
 private fun appMatches(unlauncherApp: UnlauncherApp, packageName: String, className: String) =
@@ -135,8 +133,7 @@ fun setDisplayInDrawer(appToUpdate: UnlauncherApp, displayInDrawer: Boolean): (U
 
 fun setVersion(version: Int): (UnlauncherApps) -> UnlauncherApps = { it.toBuilder().setVersion(version).build() }
 
-@FragmentScoped
-class UnlauncherAppsRepository @Inject constructor(
+class UnlauncherAppsRepository(
     unlauncherAppsStore: DataStore<UnlauncherApps>,
     lifecycleScope: CoroutineScope,
     lifecycleOwnerSupplier: LifecycleOwnerSupplier

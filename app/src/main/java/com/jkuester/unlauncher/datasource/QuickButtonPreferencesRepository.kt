@@ -5,8 +5,6 @@ import com.jkuester.unlauncher.datastore.proto.QuickButtonPreferences
 import com.jkuester.unlauncher.datastore.proto.QuickButtonPreferences.QuickButton
 import com.jkuester.unlauncher.fragment.LifecycleOwnerSupplier
 import com.sduduzog.slimlauncher.R
-import dagger.hilt.android.scopes.FragmentScoped
-import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 
 private fun setButtonIconId(button: QuickButton, iconId: Int) = button
@@ -46,8 +44,7 @@ fun getIconResourceId(prefId: Int) = QuickButtonIcon.entries
         it.prefId == prefId
     }?.resourceId
 
-@FragmentScoped
-class QuickButtonPreferencesRepository @Inject constructor(
+class QuickButtonPreferencesRepository(
     quickButtonPreferencesStore: DataStore<QuickButtonPreferences>,
     lifecycleScope: CoroutineScope,
     lifecycleOwnerSupplier: LifecycleOwnerSupplier

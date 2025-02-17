@@ -7,7 +7,11 @@ import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.jkuester.unlauncher.datasource.CorePreferencesRepository
+import com.jkuester.unlauncher.datasource.QuickButtonPreferencesRepository
+import com.jkuester.unlauncher.datasource.UnlauncherAppsRepository
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
+import com.jkuester.unlauncher.datastore.proto.QuickButtonPreferences
+import com.jkuester.unlauncher.datastore.proto.UnlauncherApps
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
 import io.mockk.every
@@ -70,6 +74,28 @@ class FragmentModuleTest {
         val prefsRepo = fragmentModule.provideCorePreferencesRepo(prefsStore, mockk(), mockk())
 
         prefsRepo.shouldBeInstanceOf<CorePreferencesRepository>()
+        verify(exactly = 1) { prefsStore.data }
+    }
+
+    @Test
+    fun provideQuickButtonPreferencesRepo() {
+        val prefsStore = mockk<DataStore<QuickButtonPreferences>>()
+        every { prefsStore.data } returns emptyFlow()
+
+        val prefsRepo = fragmentModule.provideQuickButtonPreferencesRepo(prefsStore, mockk(), mockk())
+
+        prefsRepo.shouldBeInstanceOf<QuickButtonPreferencesRepository>()
+        verify(exactly = 1) { prefsStore.data }
+    }
+
+    @Test
+    fun provideUnlauncherAppsRepo() {
+        val prefsStore = mockk<DataStore<UnlauncherApps>>()
+        every { prefsStore.data } returns emptyFlow()
+
+        val prefsRepo = fragmentModule.provideUnlauncherAppsRepo(prefsStore, mockk(), mockk())
+
+        prefsRepo.shouldBeInstanceOf<UnlauncherAppsRepository>()
         verify(exactly = 1) { prefsStore.data }
     }
 }
