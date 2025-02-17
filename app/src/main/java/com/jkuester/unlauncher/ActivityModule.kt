@@ -1,6 +1,7 @@
 package com.jkuester.unlauncher
 
 import android.app.Activity
+import android.content.res.Resources
 import androidx.activity.ComponentActivity
 import androidx.datastore.core.DataStore
 import androidx.lifecycle.LifecycleOwner
@@ -22,12 +23,20 @@ annotation class WithActivityLifecycle
 @Module
 @InstallIn(ActivityComponent::class)
 class ActivityModule {
+    @Provides
+    @ActivityScoped
+    fun provideComponentActivity(activity: Activity): ComponentActivity = activity as ComponentActivity
+
+    @Provides
+    @ActivityScoped
+    fun provideResources(activity: ComponentActivity): Resources = activity.resources
+
     @Provides @WithActivityLifecycle
     @ActivityScoped
-    fun provideCorePreferencesRepo(activity: Activity, prefsStore: DataStore<CorePreferences>) =
+    fun provideCorePreferencesRepo(activity: ComponentActivity, prefsStore: DataStore<CorePreferences>) =
         CorePreferencesRepository(
             prefsStore,
-            (activity as ComponentActivity).lifecycleScope,
+            activity.lifecycleScope,
             object : LifecycleOwnerSupplier {
                 override fun get(): LifecycleOwner = activity
             }

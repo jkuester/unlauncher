@@ -1,10 +1,13 @@
 package com.jkuester.unlauncher.fragment
 
+import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.ComponentActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.jkuester.unlauncher.bindings.setupBackButton
 import com.jkuester.unlauncher.bindings.setupKeyboardSwitch
 import com.jkuester.unlauncher.bindings.setupSearchAllAppsSwitch
@@ -19,7 +22,12 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class CustomizeSearchFieldFragment : Fragment() {
     @Inject
-    @WithFragmentLifecycle
+    lateinit var iActivity: ComponentActivity
+    @Inject
+    lateinit var iResources: Resources
+    @Inject
+    lateinit var iFragmentManager: FragmentManager
+    @Inject @WithFragmentLifecycle
     lateinit var corePrefsRepo: CorePreferencesRepository
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
@@ -29,9 +37,9 @@ class CustomizeSearchFieldFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         CustomizeAppDrawerSearchFieldOptionsBinding
             .bind(view)
-            .also(setupBackButton(requireActivity()))
+            .also(setupBackButton(iActivity))
             .also(setupShowSearchBarSwitch(corePrefsRepo))
-            .also(setupSearchBarPositionOption(corePrefsRepo, childFragmentManager, resources))
+            .also(setupSearchBarPositionOption(corePrefsRepo, iFragmentManager, iResources))
             .also(setupKeyboardSwitch(corePrefsRepo))
             .also(setupSearchAllAppsSwitch(corePrefsRepo))
     }

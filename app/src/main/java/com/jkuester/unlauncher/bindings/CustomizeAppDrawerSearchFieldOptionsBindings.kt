@@ -2,7 +2,7 @@ package com.jkuester.unlauncher.bindings
 
 import android.content.res.Resources
 import android.view.View.OnClickListener
-import androidx.fragment.app.FragmentActivity
+import androidx.activity.ComponentActivity
 import androidx.fragment.app.FragmentManager
 import com.jkuester.unlauncher.datasource.CorePreferencesRepository
 import com.jkuester.unlauncher.datasource.setShowSearchBar
@@ -13,7 +13,7 @@ import com.jkuester.unlauncher.dialog.SearchBarPositionDialog
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.databinding.CustomizeAppDrawerSearchFieldOptionsBinding
 
-fun setupBackButton(activity: FragmentActivity) = { options: CustomizeAppDrawerSearchFieldOptionsBinding ->
+fun setupBackButton(activity: ComponentActivity) = { options: CustomizeAppDrawerSearchFieldOptionsBinding ->
     options.headerBack.setOnClickListener { activity.onBackPressedDispatcher.onBackPressed() }
 }
 

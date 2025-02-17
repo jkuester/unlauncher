@@ -80,7 +80,7 @@ class CorePreferencesRepositoryTest {
     fun constructCorePreferencesRepository() = runTest {
         val dataStore = mockk<DataStore<CorePreferences>>()
         every { dataStore.data } returns emptyFlow()
-        shouldNotThrowAny { CorePreferencesRepository(dataStore, backgroundScope) }
+        shouldNotThrowAny { CorePreferencesRepository(dataStore, backgroundScope, mockk()) }
         verify(exactly = 1) { dataStore.data }
     }
 }

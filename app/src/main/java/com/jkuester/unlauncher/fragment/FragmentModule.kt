@@ -28,21 +28,28 @@ interface LifecycleOwnerSupplier {
 class FragmentModule {
     @Provides
     @FragmentScoped
+    fun provideFragmentManager(fragment: Fragment) = fragment.childFragmentManager
+
+    @Provides
+    @FragmentScoped
     fun provideLifecycleScope(fragment: Fragment): CoroutineScope = fragment.lifecycleScope
 
     @Provides
     @FragmentScoped
-    fun provideLifecycleOwner(fragment: Fragment) = object : LifecycleOwnerSupplier {
+    fun provideLifecycleOwnerSupplier(fragment: Fragment) = object : LifecycleOwnerSupplier {
         override fun get(): LifecycleOwner = fragment.viewLifecycleOwner
     }
 
     @Provides
     @WithFragmentLifecycle
     @FragmentScoped
-    fun provideCorePreferencesRepo(fragment: Fragment, prefsStore: DataStore<CorePreferences>) =
-        CorePreferencesRepository(
-            prefsStore,
-            provideLifecycleScope(fragment),
-            provideLifecycleOwner(fragment)
-        )
+    fun provideCorePreferencesRepo(
+        prefsStore: DataStore<CorePreferences>,
+        lifecycleScope: CoroutineScope,
+        lifecycleOwnerSupplier: LifecycleOwnerSupplier
+    ) = CorePreferencesRepository(
+        prefsStore,
+        lifecycleScope,
+        lifecycleOwnerSupplier
+    )
 }
