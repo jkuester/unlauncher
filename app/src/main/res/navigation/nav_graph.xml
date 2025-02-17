@@ -50,9 +50,9 @@
         tools:layout="@layout/customize_quick_buttons_fragment" />
     <fragment
         android:id="@+id/customiseAppDrawerFragment"
-        android:name="com.sduduzog.slimlauncher.ui.options.CustomizeAppDrawerFragment"
+        android:name="com.jkuester.unlauncher.fragment.CustomizeAppDrawerFragment"
         android:label="customise_app_drawer_fragment"
-        tools:layout="@layout/customize_app_drawer_fragment">
+        tools:layout="@layout/customize_app_drawer">
         <action
             android:id="@+id/action_customiseAppDrawerFragment_to_customiseAppDrawerAppListFragment"
             app:destination="@id/customiseAppDrawerAppListFragment" />

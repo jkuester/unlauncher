@@ -43,9 +43,12 @@ class CorePreferencesCalculationsTest {
     }
 
     @Test
-    fun setShowDrawerHeadings() {
-        val updatedPrefs = setShowDrawerHeadings(true)(EMPTY_PREFS)
+    fun testToggleShowDrawerHeadings() {
+        val updatedPrefs = toggleShowDrawerHeadings()(EMPTY_PREFS)
         updatedPrefs.showDrawerHeadings shouldBe true
+
+        val updatedPrefs1 = toggleShowDrawerHeadings()(updatedPrefs)
+        updatedPrefs1.showDrawerHeadings shouldBe false
     }
 
     @Test

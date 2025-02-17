@@ -17,8 +17,8 @@ fun setShowSearchBar(showSearchBar: Boolean) = { originalPrefs: CorePreferences 
 fun setSearchBarPosition(searchBarPosition: SearchBarPosition) = { originalPrefs: CorePreferences ->
     originalPrefs.toBuilder().setSearchBarPosition(searchBarPosition).build()
 }
-fun setShowDrawerHeadings(showDrawerHeadings: Boolean) = { originalPrefs: CorePreferences ->
-    originalPrefs.toBuilder().setShowDrawerHeadings(showDrawerHeadings).build()
+fun toggleShowDrawerHeadings() = { originalPrefs: CorePreferences ->
+    originalPrefs.toBuilder().setShowDrawerHeadings(!originalPrefs.showDrawerHeadings).build()
 }
 fun toggleSearchAllAppsInDrawer() = { originalPrefs: CorePreferences ->
     originalPrefs.toBuilder().setSearchAllAppsInDrawer(!originalPrefs.searchAllAppsInDrawer).build()
