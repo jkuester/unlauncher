@@ -47,7 +47,7 @@ class DataRepository<T>(
     }
 }
 
-abstract class AbstractDataSerializer<T>(getDefaultInstance: () -> T, private val parseFrom: (InputStream) -> T) :
+class DataSerializer<T>(getDefaultInstance: () -> T, private val parseFrom: (InputStream) -> T) :
     Serializer<T> where T : GeneratedMessageLite<T, *> {
     override val defaultValue = getDefaultInstance()
 

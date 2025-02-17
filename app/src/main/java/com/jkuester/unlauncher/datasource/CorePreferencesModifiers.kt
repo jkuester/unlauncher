@@ -29,8 +29,3 @@ fun setClockType(clockType: ClockType) = { originalPrefs: CorePreferences ->
 fun setAlignmentFormat(alignmentFormat: AlignmentFormat) = { originalPrefs: CorePreferences ->
     originalPrefs.toBuilder().setAlignmentFormat(alignmentFormat).build()
 }
-
-object CorePreferencesSerializer : AbstractDataSerializer<CorePreferences>(
-    CorePreferences::getDefaultInstance,
-    CorePreferences::parseFrom
-)

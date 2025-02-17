@@ -129,8 +129,3 @@ fun setDisplayInDrawer(appToUpdate: UnlauncherApp, displayInDrawer: Boolean): (U
     updateApp(appToUpdate) { it.toBuilder().setDisplayInDrawer(displayInDrawer).build() }
 
 fun setVersion(version: Int): (UnlauncherApps) -> UnlauncherApps = { it.toBuilder().setVersion(version).build() }
-
-object UnlauncherAppsSerializer : AbstractDataSerializer<UnlauncherApps>(
-    UnlauncherApps::getDefaultInstance,
-    UnlauncherApps::parseFrom
-)

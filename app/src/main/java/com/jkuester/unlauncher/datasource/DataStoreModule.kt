@@ -16,7 +16,10 @@ import javax.inject.Singleton
 
 private val Context.quickButtonPreferencesStore: DataStore<QuickButtonPreferences> by dataStore(
     fileName = "quick_button_preferences.proto",
-    serializer = QuickButtonPreferencesSerializer,
+    serializer = DataSerializer<QuickButtonPreferences>(
+        QuickButtonPreferences::getDefaultInstance,
+        QuickButtonPreferences::parseFrom
+    ),
     produceMigrations = { context ->
         listOf(
             quickButtonSharedPrefsMigration(context),
@@ -27,13 +30,13 @@ private val Context.quickButtonPreferencesStore: DataStore<QuickButtonPreference
 
 private val Context.unlauncherAppsStore: DataStore<UnlauncherApps> by dataStore(
     fileName = "unlauncher_apps.proto",
-    serializer = UnlauncherAppsSerializer,
+    serializer = DataSerializer(UnlauncherApps::getDefaultInstance, UnlauncherApps::parseFrom),
     produceMigrations = { listOf(SortAppsMigration) }
 )
 
 private val Context.corePreferencesStore: DataStore<CorePreferences> by dataStore(
     fileName = "core_preferences.proto",
-    serializer = CorePreferencesSerializer,
+    serializer = DataSerializer(CorePreferences::getDefaultInstance, CorePreferences::parseFrom),
     produceMigrations = { listOf(AddClockTypeMigration, AddShowSearchBarMigration) }
 )
 

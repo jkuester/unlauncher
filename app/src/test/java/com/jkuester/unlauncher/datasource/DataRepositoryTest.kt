@@ -43,9 +43,6 @@ class TestData : GeneratedMessageLite<TestData, TestData.Builder>() {
     }
 }
 
-class TestDataSerializer(getDefaultInstance: () -> TestData, parseFrom: (InputStream) -> TestData) :
-    AbstractDataSerializer<TestData>(getDefaultInstance, parseFrom)
-
 @MockKExtension.CheckUnnecessaryStub
 @MockKExtension.ConfirmVerification
 @ExtendWith(MockKExtension::class)
@@ -145,12 +142,12 @@ class DataRepositoryTest {
         @MockK
         lateinit var parseFrom: (InputStream) -> TestData
 
-        private lateinit var serializer: TestDataSerializer
+        private lateinit var serializer: DataSerializer<TestData>
 
         @BeforeEach
         fun beforeEach() {
             every { getDefaultInstance.invoke() } returns testData
-            serializer = TestDataSerializer(getDefaultInstance, parseFrom)
+            serializer = DataSerializer(getDefaultInstance, parseFrom)
         }
 
         @AfterEach

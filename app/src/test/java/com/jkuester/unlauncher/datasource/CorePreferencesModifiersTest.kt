@@ -14,7 +14,7 @@ private val EMPTY_PREFS = CorePreferences.newBuilder().build()
 @MockKExtension.CheckUnnecessaryStub
 @MockKExtension.ConfirmVerification
 @ExtendWith(MockKExtension::class)
-class CorePreferencesRepositoryTest {
+class CorePreferencesModifiersTest {
     @Test
     fun testToggleActivateKeyboardInDrawer() {
         val updatedPrefs = toggleActivateKeyboardInDrawer()(EMPTY_PREFS)

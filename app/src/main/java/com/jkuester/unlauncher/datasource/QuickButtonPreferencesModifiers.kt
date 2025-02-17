@@ -40,8 +40,3 @@ fun getIconResourceId(prefId: Int) = QuickButtonIcon.entries
     .find {
         it.prefId == prefId
     }?.resourceId
-
-object QuickButtonPreferencesSerializer : AbstractDataSerializer<QuickButtonPreferences>(
-    QuickButtonPreferences::getDefaultInstance,
-    QuickButtonPreferences::parseFrom
-)
