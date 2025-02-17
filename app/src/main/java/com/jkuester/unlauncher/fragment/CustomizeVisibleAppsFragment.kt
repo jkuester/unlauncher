@@ -13,7 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class CustomizeAppDrawerAppListFragment : BaseFragment() {
+class CustomizeVisibleAppsFragment : BaseFragment() {
     @Inject
     lateinit var unlauncherAppsRepo: UnlauncherAppsRepository
 

@@ -8,7 +8,7 @@
     android:layout_marginStart="@dimen/margin_sides"
     android:layout_marginEnd="@dimen/margin_sides"
     android:layout_marginTop="@dimen/margin_top_small"
-    tools:context="com.jkuester.unlauncher.fragment.CustomizeAppDrawerFragment">
+    tools:context=".ui.options.CustomizeAppDrawerFragment">
 
     <ImageView
         android:id="@+id/customize_app_drawer_fragment_back"
