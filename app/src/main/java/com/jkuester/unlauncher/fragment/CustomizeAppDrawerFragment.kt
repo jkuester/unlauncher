@@ -1,4 +1,4 @@
-package com.sduduzog.slimlauncher.ui.options
+package com.jkuester.unlauncher.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +8,6 @@ import androidx.navigation.Navigation
 import com.jkuester.unlauncher.datasource.CorePreferencesRepository
 import com.jkuester.unlauncher.datasource.setShowDrawerHeadings
 import com.jkuester.unlauncher.datastore.proto.SearchBarPosition
-import com.jkuester.unlauncher.fragment.WithFragmentLifecycle
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.databinding.CustomizeAppDrawerFragmentBinding
 import com.sduduzog.slimlauncher.utils.BaseFragment
