@@ -1,18 +1,11 @@
 package com.jkuester.unlauncher.datasource
 
-import androidx.datastore.core.DataStore
 import com.jkuester.unlauncher.datastore.proto.AlignmentFormat
 import com.jkuester.unlauncher.datastore.proto.ClockType
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.datastore.proto.SearchBarPosition
-import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.matchers.shouldBe
-import io.mockk.every
 import io.mockk.junit5.MockKExtension
-import io.mockk.mockk
-import io.mockk.verify
-import kotlinx.coroutines.flow.emptyFlow
-import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
@@ -21,7 +14,7 @@ private val EMPTY_PREFS = CorePreferences.newBuilder().build()
 @MockKExtension.CheckUnnecessaryStub
 @MockKExtension.ConfirmVerification
 @ExtendWith(MockKExtension::class)
-class CorePreferencesRepositoryTest {
+class CorePreferencesCalculationsTest {
     @Test
     fun testToggleActivateKeyboardInDrawer() {
         val updatedPrefs = toggleActivateKeyboardInDrawer()(EMPTY_PREFS)
@@ -74,13 +67,5 @@ class CorePreferencesRepositoryTest {
     fun setAlignmentFormat() {
         val updatedPrefs = setAlignmentFormat(AlignmentFormat.center)(EMPTY_PREFS)
         updatedPrefs.alignmentFormat shouldBe AlignmentFormat.center
-    }
-
-    @Test
-    fun constructCorePreferencesRepository() = runTest {
-        val dataStore = mockk<DataStore<CorePreferences>>()
-        every { dataStore.data } returns emptyFlow()
-        shouldNotThrowAny { CorePreferencesRepository(dataStore, backgroundScope, mockk()) }
-        verify(exactly = 1) { dataStore.data }
     }
 }

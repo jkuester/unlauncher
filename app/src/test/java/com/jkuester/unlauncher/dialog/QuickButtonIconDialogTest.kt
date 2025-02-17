@@ -3,10 +3,11 @@ package com.jkuester.unlauncher.dialog
 import android.app.AlertDialog
 import android.content.DialogInterface
 import com.jkuester.unlauncher.datasource.QuickButtonIcon
-import com.jkuester.unlauncher.datasource.QuickButtonPreferencesRepository
 import com.jkuester.unlauncher.datasource.setCenterIconId
 import com.jkuester.unlauncher.datasource.setLeftIconId
 import com.jkuester.unlauncher.datasource.setRightIconId
+import com.jkuester.unlauncher.datastore.proto.QuickButtonPreferences
+import com.jkuester.unlauncher.util.TestDataRepository
 import com.sduduzog.slimlauncher.R
 import io.kotest.matchers.shouldBe
 import io.mockk.CapturingSlot
@@ -14,9 +15,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
 import io.mockk.justRun
-import io.mockk.mockk
 import io.mockk.mockkConstructor
-import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.verify
 import org.junit.jupiter.api.AfterEach
@@ -30,12 +29,11 @@ import org.junit.jupiter.params.provider.CsvSource
 @ExtendWith(MockKExtension::class)
 class QuickButtonIconDialogTest {
     @MockK
-    lateinit var quickButtonPrefsRepo: QuickButtonPreferencesRepository
-
-    @MockK
     lateinit var alertDialog: AlertDialog
 
     lateinit var onSelectionSlot: CapturingSlot<DialogInterface.OnClickListener>
+
+    private val quickButtonPrefsRepo = TestDataRepository(QuickButtonPreferences.getDefaultInstance())
 
     @BeforeEach
     fun beforeEach() {
@@ -52,7 +50,6 @@ class QuickButtonIconDialogTest {
         } answers { self as AlertDialog.Builder }
         every { anyConstructed<AlertDialog.Builder>().create() } returns alertDialog
         justRun { alertDialog.dismiss() }
-        every { quickButtonPrefsRepo.updateAsync(any()) } returns mockk()
     }
 
     @AfterEach
@@ -61,7 +58,6 @@ class QuickButtonIconDialogTest {
             anyConstructed<AlertDialog.Builder>().setTitle(R.string.options_fragment_customize_quick_buttons)
         }
         verify(exactly = 1) { anyConstructed<AlertDialog.Builder>().create() }
-        verify(exactly = 1) { quickButtonPrefsRepo.updateAsync(any()) }
         verify(exactly = 1) { alertDialog.dismiss() }
     }
 
@@ -76,16 +72,13 @@ class QuickButtonIconDialogTest {
         originalIndex: Int,
         newIndex: Int
     ) {
-        every { quickButtonPrefsRepo.get().leftButton.iconId } returns originalIcon.prefId
-        mockkStatic(::setLeftIconId)
-        every { setLeftIconId(any()) } returns mockk()
+        quickButtonPrefsRepo.updateAsync(setLeftIconId(originalIcon.prefId))
 
         val dialogFragment = QuickButtonIconDialog(QuickButtonIcon.IC_CALL.prefId)
             .apply { repo = quickButtonPrefsRepo }
         val result = dialogFragment.onCreateDialog(null)
 
         result shouldBe alertDialog
-        verify(exactly = 1) { quickButtonPrefsRepo.get().leftButton.iconId }
         verify(exactly = 1) {
             anyConstructed<AlertDialog.Builder>().setSingleChoiceItems(
                 R.array.quick_button_array,
@@ -97,7 +90,7 @@ class QuickButtonIconDialogTest {
         // Trigger the listener
         onSelectionSlot.captured.onClick(alertDialog, newIndex)
 
-        verify(exactly = 1) { setLeftIconId(newIcon.prefId) }
+        quickButtonPrefsRepo.get().leftButton.iconId shouldBe newIcon.prefId
     }
 
     @ParameterizedTest
@@ -111,16 +104,13 @@ class QuickButtonIconDialogTest {
         originalIndex: Int,
         newIndex: Int
     ) {
-        every { quickButtonPrefsRepo.get().centerButton.iconId } returns originalIcon.prefId
-        mockkStatic(::setCenterIconId)
-        every { setCenterIconId(any()) } returns mockk()
+        quickButtonPrefsRepo.updateAsync(setCenterIconId(originalIcon.prefId))
 
         val dialogFragment = QuickButtonIconDialog(QuickButtonIcon.IC_COG.prefId)
             .apply { repo = quickButtonPrefsRepo }
         val result = dialogFragment.onCreateDialog(null)
 
         result shouldBe alertDialog
-        verify(exactly = 1) { quickButtonPrefsRepo.get().centerButton.iconId }
         verify(exactly = 1) {
             anyConstructed<AlertDialog.Builder>().setSingleChoiceItems(
                 R.array.quick_button_array,
@@ -132,7 +122,7 @@ class QuickButtonIconDialogTest {
         // Trigger the listener
         onSelectionSlot.captured.onClick(alertDialog, newIndex)
 
-        verify(exactly = 1) { setCenterIconId(newIcon.prefId) }
+        quickButtonPrefsRepo.get().centerButton.iconId shouldBe newIcon.prefId
     }
 
     @ParameterizedTest
@@ -146,16 +136,13 @@ class QuickButtonIconDialogTest {
         originalIndex: Int,
         newIndex: Int
     ) {
-        every { quickButtonPrefsRepo.get().rightButton.iconId } returns originalIcon.prefId
-        mockkStatic(::setRightIconId)
-        every { setRightIconId(any()) } returns mockk()
+        quickButtonPrefsRepo.updateAsync(setRightIconId(originalIcon.prefId))
 
         val dialogFragment = QuickButtonIconDialog(QuickButtonIcon.IC_PHOTO_CAMERA.prefId)
             .apply { repo = quickButtonPrefsRepo }
         val result = dialogFragment.onCreateDialog(null)
 
         result shouldBe alertDialog
-        verify(exactly = 1) { quickButtonPrefsRepo.get().rightButton.iconId }
         verify(exactly = 1) {
             anyConstructed<AlertDialog.Builder>().setSingleChoiceItems(
                 R.array.quick_button_array,
@@ -167,6 +154,6 @@ class QuickButtonIconDialogTest {
         // Trigger the listener
         onSelectionSlot.captured.onClick(alertDialog, newIndex)
 
-        verify(exactly = 1) { setRightIconId(newIcon.prefId) }
+        quickButtonPrefsRepo.get().rightButton.iconId shouldBe newIcon.prefId
     }
 }

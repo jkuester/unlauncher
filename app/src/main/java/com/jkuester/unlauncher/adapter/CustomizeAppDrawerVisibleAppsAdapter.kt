@@ -5,11 +5,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import androidx.recyclerview.widget.RecyclerView
-import com.jkuester.unlauncher.datasource.UnlauncherAppsRepository
+import com.jkuester.unlauncher.datasource.DataRepository
 import com.jkuester.unlauncher.datasource.setDisplayInDrawer
+import com.jkuester.unlauncher.datastore.proto.UnlauncherApps
 import com.sduduzog.slimlauncher.R
 
-class CustomizeAppDrawerVisibleAppsAdapter(private val appsRepo: UnlauncherAppsRepository) :
+class CustomizeAppDrawerVisibleAppsAdapter(private val appsRepo: DataRepository<UnlauncherApps>) :
     RecyclerView.Adapter<CustomizeAppDrawerVisibleAppsAdapter.ViewHolder>() {
     private var apps = appsRepo.get()
 

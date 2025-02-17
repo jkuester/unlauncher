@@ -5,7 +5,8 @@ import androidx.activity.ComponentActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.jkuester.unlauncher.bindings.setupVisibleAppsBackButton
 import com.jkuester.unlauncher.bindings.setupVisibleAppsList
-import com.jkuester.unlauncher.datasource.UnlauncherAppsRepository
+import com.jkuester.unlauncher.datasource.DataRepository
+import com.jkuester.unlauncher.datastore.proto.UnlauncherApps
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.databinding.CustomizeAppDrawerVisibleAppsBinding
 import io.kotest.matchers.ints.exactly
@@ -28,7 +29,7 @@ class CustomizeVisibleAppsFragmentTest {
     @MockK
     lateinit var mActivity: ComponentActivity
     @MockK
-    lateinit var appsRepo: UnlauncherAppsRepository
+    lateinit var appsRepo: DataRepository<UnlauncherApps>
     @MockK
     lateinit var view: ConstraintLayout
 

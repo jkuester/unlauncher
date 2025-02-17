@@ -10,7 +10,8 @@ import com.jkuester.unlauncher.bindings.setupKeyboardSwitch
 import com.jkuester.unlauncher.bindings.setupSearchAllAppsSwitch
 import com.jkuester.unlauncher.bindings.setupSearchBarPositionOption
 import com.jkuester.unlauncher.bindings.setupShowSearchBarSwitch
-import com.jkuester.unlauncher.datasource.CorePreferencesRepository
+import com.jkuester.unlauncher.datasource.DataRepository
+import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.databinding.CustomizeAppDrawerSearchFieldOptionsBinding
 import io.kotest.matchers.ints.exactly
@@ -37,7 +38,7 @@ class CustomizeSearchFieldFragmentTest {
     @MockK
     lateinit var mFragmentManager: FragmentManager
     @MockK
-    lateinit var prefsRepo: CorePreferencesRepository
+    lateinit var prefsRepo: DataRepository<CorePreferences>
     @MockK
     lateinit var view: ConstraintLayout
 

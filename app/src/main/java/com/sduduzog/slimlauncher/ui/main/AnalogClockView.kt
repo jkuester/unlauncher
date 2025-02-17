@@ -9,8 +9,9 @@ import androidx.core.view.marginEnd
 import androidx.core.view.marginStart
 import androidx.core.view.marginTop
 import com.jkuester.unlauncher.WithActivityLifecycle
-import com.jkuester.unlauncher.datasource.CorePreferencesRepository
+import com.jkuester.unlauncher.datasource.DataRepository
 import com.jkuester.unlauncher.datastore.proto.ClockType
+import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.sduduzog.slimlauncher.R
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
@@ -21,7 +22,7 @@ import kotlin.math.min
 @AndroidEntryPoint
 class AnalogClockView(context: Context, attrs: AttributeSet) : ClockView(context, attrs) {
     @Inject @WithActivityLifecycle
-    lateinit var corePreferencesRepo: CorePreferencesRepository
+    lateinit var corePreferencesRepo: DataRepository<CorePreferences>
 
     private var handPaint = getColorPaint(R.attr.colorAccent)
     private var radius: Float

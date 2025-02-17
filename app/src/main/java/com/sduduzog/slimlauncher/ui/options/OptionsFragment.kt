@@ -9,8 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.edit
 import androidx.navigation.Navigation
-import com.jkuester.unlauncher.datasource.CorePreferencesRepository
+import com.jkuester.unlauncher.datasource.DataRepository
 import com.jkuester.unlauncher.datasource.setKeepDeviceWallpaper
+import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.dialog.AlignmentFormatDialog
 import com.jkuester.unlauncher.dialog.ClockTypeDialog
 import com.jkuester.unlauncher.fragment.WithFragmentLifecycle
@@ -27,7 +28,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class OptionsFragment : BaseFragment() {
     @Inject @WithFragmentLifecycle
-    lateinit var corePreferencesRepo: CorePreferencesRepository
+    lateinit var corePreferencesRepo: DataRepository<CorePreferences>
 
     override fun getFragmentView(): ViewGroup = OptionsFragmentBinding.bind(
         requireView()

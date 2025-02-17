@@ -5,8 +5,9 @@ import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
-import com.jkuester.unlauncher.datasource.CorePreferencesRepository
+import com.jkuester.unlauncher.datasource.DataRepository
 import com.jkuester.unlauncher.datasource.setSearchBarPosition
+import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.datastore.proto.SearchBarPosition
 import com.jkuester.unlauncher.fragment.WithFragmentLifecycle
 import com.sduduzog.slimlauncher.R
@@ -16,7 +17,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class SearchBarPositionDialog : DialogFragment() {
     @Inject @WithFragmentLifecycle
-    lateinit var corePreferencesRepo: CorePreferencesRepository
+    lateinit var corePreferencesRepo: DataRepository<CorePreferences>
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog = AlertDialog
         .Builder(context)

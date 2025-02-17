@@ -1,6 +1,5 @@
 package com.jkuester.unlauncher.datasource
 
-import androidx.datastore.core.DataStore
 import com.jkuester.unlauncher.datastore.proto.UnlauncherApp
 import com.jkuester.unlauncher.datastore.proto.UnlauncherApps
 import com.sduduzog.slimlauncher.data.model.App
@@ -12,14 +11,8 @@ import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
-import io.mockk.every
 import io.mockk.junit5.MockKExtension
-import io.mockk.mockk
-import io.mockk.verify
-import kotlinx.coroutines.flow.emptyFlow
-import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.extension.ExtendWith
 
 private fun match(expected: App) = Matcher<UnlauncherApp> { actual ->
@@ -57,7 +50,7 @@ private val unlauncherApp2 = UnlauncherApp
 @MockKExtension.CheckUnnecessaryStub
 @MockKExtension.ConfirmVerification
 @ExtendWith(MockKExtension::class)
-class UnlauncherAppsRepositoryTest {
+class UnlauncherAppsCalculationsTest {
     @Test
     fun setApps_currentAppsEmpty() {
         val originalApps = UnlauncherApps.newBuilder().build()
@@ -250,13 +243,5 @@ class UnlauncherAppsRepositoryTest {
         val updatedApps = setVersion(version)(originalApps)
 
         updatedApps.version shouldBe version
-    }
-
-    @Test
-    fun constructUnlauncherAppsRepository() = runTest {
-        val dataStore = mockk<DataStore<UnlauncherApps>>()
-        every { dataStore.data } returns emptyFlow()
-        assertDoesNotThrow { UnlauncherAppsRepository(dataStore, backgroundScope, mockk()) }
-        verify(exactly = 1) { dataStore.data }
     }
 }

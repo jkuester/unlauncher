@@ -4,8 +4,11 @@ import androidx.datastore.core.DataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import com.jkuester.unlauncher.datasource.CorePreferencesRepository
+import com.jkuester.unlauncher.datasource.DataRepository
+import com.jkuester.unlauncher.datasource.DataRepositoryImpl
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
+import com.jkuester.unlauncher.datastore.proto.QuickButtonPreferences
+import com.jkuester.unlauncher.datastore.proto.UnlauncherApps
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -40,16 +43,42 @@ class FragmentModule {
         override fun get(): LifecycleOwner = fragment.viewLifecycleOwner
     }
 
-    @Provides
-    @WithFragmentLifecycle
+    @Provides @WithFragmentLifecycle
     @FragmentScoped
     fun provideCorePreferencesRepo(
         prefsStore: DataStore<CorePreferences>,
         lifecycleScope: CoroutineScope,
         lifecycleOwnerSupplier: LifecycleOwnerSupplier
-    ) = CorePreferencesRepository(
+    ): DataRepository<CorePreferences> = DataRepositoryImpl(
         prefsStore,
         lifecycleScope,
-        lifecycleOwnerSupplier
+        lifecycleOwnerSupplier,
+        CorePreferences::getDefaultInstance
+    )
+
+    @Provides
+    @FragmentScoped
+    fun provideQuickButtonPreferencesRepo(
+        prefsStore: DataStore<QuickButtonPreferences>,
+        lifecycleScope: CoroutineScope,
+        lifecycleOwnerSupplier: LifecycleOwnerSupplier
+    ): DataRepository<QuickButtonPreferences> = DataRepositoryImpl(
+        prefsStore,
+        lifecycleScope,
+        lifecycleOwnerSupplier,
+        QuickButtonPreferences::getDefaultInstance
+    )
+
+    @Provides
+    @FragmentScoped
+    fun provideUnlauncherAppsRepo(
+        prefsStore: DataStore<UnlauncherApps>,
+        lifecycleScope: CoroutineScope,
+        lifecycleOwnerSupplier: LifecycleOwnerSupplier
+    ): DataRepository<UnlauncherApps> = DataRepositoryImpl(
+        prefsStore,
+        lifecycleScope,
+        lifecycleOwnerSupplier,
+        UnlauncherApps::getDefaultInstance
     )
 }

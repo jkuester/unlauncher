@@ -1,12 +1,9 @@
 package com.jkuester.unlauncher.datasource
 
-import androidx.datastore.core.DataStore
 import com.jkuester.unlauncher.datastore.proto.AlignmentFormat
 import com.jkuester.unlauncher.datastore.proto.ClockType
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.datastore.proto.SearchBarPosition
-import com.jkuester.unlauncher.fragment.LifecycleOwnerSupplier
-import kotlinx.coroutines.CoroutineScope
 
 fun toggleActivateKeyboardInDrawer() = { originalPrefs: CorePreferences ->
     originalPrefs.toBuilder().setActivateKeyboardInDrawer(!originalPrefs.activateKeyboardInDrawer).build()
@@ -32,19 +29,3 @@ fun setClockType(clockType: ClockType) = { originalPrefs: CorePreferences ->
 fun setAlignmentFormat(alignmentFormat: AlignmentFormat) = { originalPrefs: CorePreferences ->
     originalPrefs.toBuilder().setAlignmentFormat(alignmentFormat).build()
 }
-
-class CorePreferencesRepository(
-    corePreferencesStore: DataStore<CorePreferences>,
-    lifecycleScope: CoroutineScope,
-    lifecycleOwnerSupplier: LifecycleOwnerSupplier
-) : AbstractDataRepository<CorePreferences>(
-    corePreferencesStore,
-    lifecycleScope,
-    lifecycleOwnerSupplier,
-    CorePreferences::getDefaultInstance
-)
-
-object CorePreferencesSerializer : AbstractDataSerializer<CorePreferences>(
-    CorePreferences::getDefaultInstance,
-    CorePreferences::parseFrom
-)

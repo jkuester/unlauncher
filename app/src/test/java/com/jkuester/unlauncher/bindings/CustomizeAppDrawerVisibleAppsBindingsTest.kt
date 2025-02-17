@@ -10,7 +10,8 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBindings
 import com.jkuester.unlauncher.adapter.CustomizeAppDrawerVisibleAppsAdapter
-import com.jkuester.unlauncher.datasource.UnlauncherAppsRepository
+import com.jkuester.unlauncher.datasource.DataRepository
+import com.jkuester.unlauncher.datastore.proto.UnlauncherApps
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.databinding.CustomizeAppDrawerVisibleAppsBinding
 import io.mockk.every
@@ -84,7 +85,7 @@ class CustomizeAppDrawerVisibleAppsBindingsTest {
 
     @Test
     fun setupVisibleAppsList() {
-        val appsRepo = mockk<UnlauncherAppsRepository>()
+        val appsRepo = mockk<DataRepository<UnlauncherApps>>()
         every { appsRepo.get() } returns mockk()
         justRun { appsList.adapter = any() }
 

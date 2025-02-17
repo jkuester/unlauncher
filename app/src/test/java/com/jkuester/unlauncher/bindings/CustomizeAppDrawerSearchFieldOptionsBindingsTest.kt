@@ -11,17 +11,14 @@ import androidx.appcompat.widget.SwitchCompat
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.Observer
 import androidx.viewbinding.ViewBindings
-import com.jkuester.unlauncher.datasource.CorePreferencesRepository
 import com.jkuester.unlauncher.datasource.setShowSearchBar
-import com.jkuester.unlauncher.datasource.toggleActivateKeyboardInDrawer
-import com.jkuester.unlauncher.datasource.toggleSearchAllAppsInDrawer
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
-import com.jkuester.unlauncher.datastore.proto.SearchBarPosition
 import com.jkuester.unlauncher.dialog.SearchBarPositionDialog
+import com.jkuester.unlauncher.util.TestDataRepository
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.databinding.CustomizeAppDrawerSearchFieldOptionsBinding
+import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
@@ -66,10 +63,8 @@ class CustomizeAppDrawerSearchFieldOptionsBindingsTest {
     @MockK
     lateinit var searchAllSwitchToggle: SwitchCompat
 
-    @MockK
-    lateinit var prefsRepo: CorePreferencesRepository
-
     private lateinit var optionsBinding: CustomizeAppDrawerSearchFieldOptionsBinding
+    private val prefsRepo = TestDataRepository(CorePreferences.getDefaultInstance())
 
     @BeforeEach
     fun beforeEach() {
@@ -143,27 +138,17 @@ class CustomizeAppDrawerSearchFieldOptionsBindingsTest {
     fun setupShowSearchBarSwitch() {
         val clickListenerSlot = slot<OnCheckedChangeListener>()
         justRun { showSearchFieldSwitch.setOnCheckedChangeListener(capture(clickListenerSlot)) }
-        val mockSetShowSearchBar = mockk<(CorePreferences) -> CorePreferences>()
-        mockkStatic(::setShowSearchBar)
-        every { setShowSearchBar(any()) } returns mockSetShowSearchBar
-        every { prefsRepo.updateAsync(any()) } returns mockk()
-        val observerSlot = slot<Observer<CorePreferences>>()
-        justRun { prefsRepo.observe(capture(observerSlot)) }
         justRun { showSearchFieldSwitch.isChecked = any() }
 
         setupShowSearchBarSwitch(prefsRepo)(optionsBinding)
 
         verify(exactly = 1) { showSearchFieldSwitch.setOnCheckedChangeListener(clickListenerSlot.captured) }
-        verify(exactly = 1) { prefsRepo.observe(observerSlot.captured) }
+        verify(exactly = 1) { showSearchFieldSwitch.isChecked = false }
 
         clickListenerSlot.captured.onCheckedChanged(showSearchFieldSwitch, true)
 
-        verify(exactly = 1) { setShowSearchBar(true) }
-        verify(exactly = 1) { prefsRepo.updateAsync(mockSetShowSearchBar) }
-
-        observerSlot.captured.onChanged(CorePreferences.newBuilder().setShowSearchBar(true).build())
-
         verify(exactly = 1) { showSearchFieldSwitch.isChecked = true }
+        prefsRepo.get().showSearchBar shouldBe true
     }
 
     @Test
@@ -177,8 +162,6 @@ class CustomizeAppDrawerSearchFieldOptionsBindingsTest {
         justRun { searchFieldPositionSubtitle.text = any() }
         mockkConstructor(SearchBarPositionDialog::class)
         justRun { anyConstructed<SearchBarPositionDialog>().showNow(any(), any()) }
-        val observerSlot = slot<Observer<CorePreferences>>()
-        justRun { prefsRepo.observe(capture(observerSlot)) }
         val fragmentManager = mockk<FragmentManager>()
         val resources = mockk<Resources>()
         every { resources.getTextArray(any()) } returns arrayOf("Hello World")
@@ -187,7 +170,6 @@ class CustomizeAppDrawerSearchFieldOptionsBindingsTest {
 
         verify(exactly = 1) { searchFieldPositionTitle.setOnClickListener(titleClickListenerSlot.captured) }
         verify(exactly = 1) { searchFieldPositionSubtitle.setOnClickListener(subtitleClickListenerSlot.captured) }
-        verify(exactly = 1) { prefsRepo.observe(observerSlot.captured) }
         verify(exactly = 1) { resources.getTextArray(R.array.search_bar_position_array) }
 
         titleClickListenerSlot.captured.onClick(searchFieldPositionTitle)
@@ -195,21 +177,14 @@ class CustomizeAppDrawerSearchFieldOptionsBindingsTest {
 
         verify(exactly = 2) { SearchBarPositionDialog().showNow(fragmentManager, null) }
 
-        observerSlot.captured.onChanged(
-            CorePreferences
-                .newBuilder()
-                .setShowSearchBar(true)
-                .setSearchBarPosition(SearchBarPosition.top)
-                .build()
-        )
-
-        verify(exactly = 1) { searchFieldPositionTitle.isEnabled = true }
-        verify(exactly = 1) { searchFieldPositionSubtitle.isEnabled = true }
+        verify(exactly = 1) { searchFieldPositionTitle.isEnabled = false }
+        verify(exactly = 1) { searchFieldPositionSubtitle.isEnabled = false }
         verify(exactly = 1) { searchFieldPositionSubtitle.text = "Hello World" }
     }
 
     @Test
     fun setupKeyboardSwitch() {
+        prefsRepo.updateAsync(setShowSearchBar(true))
         val titleClickListenerSlot = slot<OnClickListener>()
         justRun { openKeyboardSwitchTitle.setOnClickListener(capture(titleClickListenerSlot)) }
         justRun { openKeyboardSwitchTitle.isEnabled = any() }
@@ -220,39 +195,30 @@ class CustomizeAppDrawerSearchFieldOptionsBindingsTest {
         justRun { openKeyboardSwitchToggle.setOnClickListener(capture(toggleClickListenerSlot)) }
         justRun { openKeyboardSwitchToggle.isEnabled = any() }
         justRun { openKeyboardSwitchToggle.isChecked = any() }
-        val mockToggleActivateKeyboardInDrawer = mockk<(CorePreferences) -> CorePreferences>()
-        mockkStatic(::toggleActivateKeyboardInDrawer)
-        every { toggleActivateKeyboardInDrawer() } returns mockToggleActivateKeyboardInDrawer
-        every { prefsRepo.updateAsync(any()) } returns mockk()
-        val observerSlot = slot<Observer<CorePreferences>>()
-        justRun { prefsRepo.observe(capture(observerSlot)) }
 
         setupKeyboardSwitch(prefsRepo)(optionsBinding)
 
         verify(exactly = 1) { openKeyboardSwitchTitle.setOnClickListener(titleClickListenerSlot.captured) }
         verify(exactly = 1) { openKeyboardSwitchSubtitle.setOnClickListener(subtitleClickListenerSlot.captured) }
         verify(exactly = 1) { openKeyboardSwitchToggle.setOnClickListener(toggleClickListenerSlot.captured) }
-        verify(exactly = 1) { prefsRepo.observe(observerSlot.captured) }
-
-        titleClickListenerSlot.captured.onClick(openKeyboardSwitchTitle)
-        subtitleClickListenerSlot.captured.onClick(openKeyboardSwitchSubtitle)
-        toggleClickListenerSlot.captured.onClick(openKeyboardSwitchToggle)
-
-        verify(exactly = 3) { toggleActivateKeyboardInDrawer() }
-        verify(exactly = 3) { prefsRepo.updateAsync(mockToggleActivateKeyboardInDrawer) }
-
-        observerSlot.captured.onChanged(
-            CorePreferences
-                .newBuilder()
-                .setShowSearchBar(true)
-                .setActivateKeyboardInDrawer(true)
-                .build()
-        )
 
         verify(exactly = 1) { openKeyboardSwitchTitle.isEnabled = true }
         verify(exactly = 1) { openKeyboardSwitchSubtitle.isEnabled = true }
         verify(exactly = 1) { openKeyboardSwitchToggle.isEnabled = true }
+        verify(exactly = 1) { openKeyboardSwitchToggle.isChecked = false }
+        prefsRepo.get().activateKeyboardInDrawer shouldBe false
+
+        titleClickListenerSlot.captured.onClick(openKeyboardSwitchTitle)
         verify(exactly = 1) { openKeyboardSwitchToggle.isChecked = true }
+        prefsRepo.get().activateKeyboardInDrawer shouldBe true
+
+        subtitleClickListenerSlot.captured.onClick(openKeyboardSwitchSubtitle)
+        verify(exactly = 2) { openKeyboardSwitchToggle.isChecked = false }
+        prefsRepo.get().activateKeyboardInDrawer shouldBe false
+
+        toggleClickListenerSlot.captured.onClick(openKeyboardSwitchToggle)
+        verify(exactly = 2) { openKeyboardSwitchToggle.isChecked = true }
+        prefsRepo.get().activateKeyboardInDrawer shouldBe true
     }
 
     @Test
@@ -267,38 +233,29 @@ class CustomizeAppDrawerSearchFieldOptionsBindingsTest {
         justRun { searchAllSwitchToggle.setOnClickListener(capture(toggleClickListenerSlot)) }
         justRun { searchAllSwitchToggle.isEnabled = any() }
         justRun { searchAllSwitchToggle.isChecked = any() }
-        val mockToggleSearchAllAppsInDrawer = mockk<(CorePreferences) -> CorePreferences>()
-        mockkStatic(::toggleSearchAllAppsInDrawer)
-        every { toggleSearchAllAppsInDrawer() } returns mockToggleSearchAllAppsInDrawer
-        every { prefsRepo.updateAsync(any()) } returns mockk()
-        val observerSlot = slot<Observer<CorePreferences>>()
-        justRun { prefsRepo.observe(capture(observerSlot)) }
 
         setupSearchAllAppsSwitch(prefsRepo)(optionsBinding)
 
         verify(exactly = 1) { searchAllSwitchTitle.setOnClickListener(titleClickListenerSlot.captured) }
         verify(exactly = 1) { searchAllSwitchSubtitle.setOnClickListener(subtitleClickListenerSlot.captured) }
         verify(exactly = 1) { searchAllSwitchToggle.setOnClickListener(toggleClickListenerSlot.captured) }
-        verify(exactly = 1) { prefsRepo.observe(observerSlot.captured) }
+
+        verify(exactly = 1) { searchAllSwitchTitle.isEnabled = false }
+        verify(exactly = 1) { searchAllSwitchSubtitle.isEnabled = false }
+        verify(exactly = 1) { searchAllSwitchToggle.isEnabled = false }
+        verify(exactly = 1) { searchAllSwitchToggle.isChecked = false }
+        prefsRepo.get().searchAllAppsInDrawer shouldBe false
 
         titleClickListenerSlot.captured.onClick(searchAllSwitchTitle)
-        subtitleClickListenerSlot.captured.onClick(searchAllSwitchSubtitle)
-        toggleClickListenerSlot.captured.onClick(searchAllSwitchToggle)
-
-        verify(exactly = 3) { toggleSearchAllAppsInDrawer() }
-        verify(exactly = 3) { prefsRepo.updateAsync(mockToggleSearchAllAppsInDrawer) }
-
-        observerSlot.captured.onChanged(
-            CorePreferences
-                .newBuilder()
-                .setShowSearchBar(true)
-                .setSearchAllAppsInDrawer(true)
-                .build()
-        )
-
-        verify(exactly = 1) { searchAllSwitchTitle.isEnabled = true }
-        verify(exactly = 1) { searchAllSwitchSubtitle.isEnabled = true }
-        verify(exactly = 1) { searchAllSwitchToggle.isEnabled = true }
         verify(exactly = 1) { searchAllSwitchToggle.isChecked = true }
+        prefsRepo.get().searchAllAppsInDrawer shouldBe true
+
+        subtitleClickListenerSlot.captured.onClick(searchAllSwitchSubtitle)
+        verify(exactly = 2) { searchAllSwitchToggle.isChecked = false }
+        prefsRepo.get().searchAllAppsInDrawer shouldBe false
+
+        toggleClickListenerSlot.captured.onClick(searchAllSwitchToggle)
+        verify(exactly = 2) { searchAllSwitchToggle.isChecked = true }
+        prefsRepo.get().searchAllAppsInDrawer shouldBe true
     }
 }
