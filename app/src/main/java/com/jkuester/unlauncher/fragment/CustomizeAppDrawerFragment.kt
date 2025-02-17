@@ -1,107 +1,42 @@
 package com.jkuester.unlauncher.fragment
 
+import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.Navigation
+import androidx.activity.ComponentActivity
+import androidx.fragment.app.Fragment
+import com.jkuester.unlauncher.bindings.setupCustomizeAppDrawerBackButton
+import com.jkuester.unlauncher.bindings.setupSearchFieldOptionsButton
+import com.jkuester.unlauncher.bindings.setupShowHeadingSwitch
+import com.jkuester.unlauncher.bindings.setupVisibleAppsButton
 import com.jkuester.unlauncher.datasource.DataRepository
-import com.jkuester.unlauncher.datasource.setShowDrawerHeadings
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
-import com.jkuester.unlauncher.datastore.proto.SearchBarPosition
 import com.sduduzog.slimlauncher.R
-import com.sduduzog.slimlauncher.databinding.CustomizeAppDrawerFragmentBinding
-import com.sduduzog.slimlauncher.utils.BaseFragment
-import com.sduduzog.slimlauncher.utils.createTitleAndSubtitleText
+import com.sduduzog.slimlauncher.databinding.CustomizeAppDrawerBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class CustomizeAppDrawerFragment : BaseFragment() {
+class CustomizeAppDrawerFragment : Fragment() {
+    @Inject
+    lateinit var iActivity: ComponentActivity
+    @Inject
+    lateinit var iResources: Resources
     @Inject @WithFragmentLifecycle
     lateinit var corePreferencesRepo: DataRepository<CorePreferences>
 
-    override fun getFragmentView(): ViewGroup = CustomizeAppDrawerFragmentBinding.bind(
-        requireView()
-    ).customizeAppDrawerFragment
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.customize_app_drawer_fragment, container, false)
+        inflater.inflate(R.layout.customize_app_drawer, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val customiseAppDrawerFragment = CustomizeAppDrawerFragmentBinding.bind(view)
-        customiseAppDrawerFragment.customizeAppDrawerFragmentVisibleApps
-            .setOnClickListener(
-                Navigation.createNavigateOnClickListener(
-                    R.id.action_customiseAppDrawerFragment_to_customiseAppDrawerAppListFragment
-                )
-            )
-
-        customiseAppDrawerFragment.headerBack.setOnClickListener {
-            requireActivity().onBackPressedDispatcher.onBackPressed()
-        }
-
-        setupSearchFieldOptionsButton(customiseAppDrawerFragment)
-        setupHeadingSwitch(customiseAppDrawerFragment)
-    }
-
-    private fun setupSearchFieldOptionsButton(customiseAppDrawerFragment: CustomizeAppDrawerFragmentBinding) {
-        customiseAppDrawerFragment.customizeAppDrawerFragmentSearchOptions.setOnClickListener(
-            Navigation.createNavigateOnClickListener(
-                R.id.action_customiseAppDrawerFragment_to_customizeSearchFieldFragment
-            )
-        )
-        val title = getText(R.string.customize_app_drawer_fragment_search_field_options)
-        corePreferencesRepo.observe {
-            val subtitle = if (!it.hasShowSearchBar() || it.showSearchBar) {
-                val pos =
-                    if (it.searchBarPosition == SearchBarPosition.UNRECOGNIZED) {
-                        SearchBarPosition.top.number
-                    } else {
-                        it.searchBarPosition.number
-                    }
-                val positionText = resources.getStringArray(
-                    R.array.search_bar_position_array
-                )[pos].lowercase()
-                val keyboardShownText =
-                    if (it.activateKeyboardInDrawer) {
-                        getText(R.string.shown)
-                    } else {
-                        getText(R.string.hidden)
-                    }
-                getString(
-                    R.string
-                        .customize_app_drawer_fragment_search_field_options_subtitle_status_shown,
-                    positionText,
-                    keyboardShownText
-                )
-            } else {
-                getText(
-                    R.string
-                        .customize_app_drawer_fragment_search_field_options_subtitle_status_hidden
-                )
-            }
-
-            customiseAppDrawerFragment.customizeAppDrawerFragmentSearchOptions.text =
-                createTitleAndSubtitleText(requireContext(), title, subtitle)
-        }
-    }
-
-    private fun setupHeadingSwitch(customiseAppDrawerFragment: CustomizeAppDrawerFragmentBinding) {
-        customiseAppDrawerFragment.customizeAppDrawerFragmentShowHeadingsSwitch
-            .setOnCheckedChangeListener { _, checked ->
-                corePreferencesRepo.updateAsync(setShowDrawerHeadings(checked))
-            }
-        corePreferencesRepo.observe {
-            customiseAppDrawerFragment.customizeAppDrawerFragmentShowHeadingsSwitch.isChecked = it
-                .showDrawerHeadings
-        }
-        customiseAppDrawerFragment.customizeAppDrawerFragmentShowHeadingsSwitch.text =
-            createTitleAndSubtitleText(
-                requireContext(),
-                R.string.customize_app_drawer_fragment_show_headings,
-                R.string.customize_app_drawer_fragment_show_headings_subtitle
-            )
+        CustomizeAppDrawerBinding
+            .bind(view)
+            .also(::setupVisibleAppsButton)
+            .also(setupCustomizeAppDrawerBackButton(iActivity))
+            .also(setupSearchFieldOptionsButton(corePreferencesRepo, iResources))
+            .also(setupShowHeadingSwitch(corePreferencesRepo))
     }
 }

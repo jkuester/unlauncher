@@ -49,7 +49,7 @@
             android:paddingBottom="@dimen/margin_bottom_large">
 
             <TextView
-                android:id="@+id/customize_app_drawer_fragment_visible_apps"
+                android:id="@+id/visible_apps"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/customize_app_drawer_fragment_visible_apps"
@@ -59,27 +59,55 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/customize_app_drawer_fragment_search_options"
+                android:id="@+id/search_field_options_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_list_items"
                 android:text="@string/customize_app_drawer_fragment_search_field_options"
-                android:textAppearance="@style/TextAppearance.AppCompat"
-                android:textSize="@dimen/font_size_customize_options"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/customize_app_drawer_fragment_visible_apps" />
+                app:layout_constraintTop_toBottomOf="@id/visible_apps" />
 
-            <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/customize_app_drawer_fragment_show_headings_switch"
+            <TextView
+                android:id="@+id/search_field_options_subtitle"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/search_field_options_title" />
+
+            <TextView
+                android:id="@+id/show_headings_switch_title"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_list_items"
                 android:text="@string/customize_app_drawer_fragment_show_headings"
-                android:textAppearance="@style/TextAppearance.AppCompat"
-                android:textColor="?switchTextColor"
-                android:textSize="@dimen/font_size_customize_options"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintEnd_toStartOf="@+id/show_headings_switch_toggle"
+                app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/customize_app_drawer_fragment_search_options" />
+                app:layout_constraintTop_toBottomOf="@id/search_field_options_subtitle" />
+
+            <TextView
+                android:id="@+id/show_headings_switch_subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/customize_app_drawer_fragment_show_headings_subtitle"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintEnd_toStartOf="@+id/show_headings_switch_toggle"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/show_headings_switch_title" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/show_headings_switch_toggle"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/show_headings_switch_title"
+                app:layout_constraintBottom_toBottomOf="@id/show_headings_switch_subtitle" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
