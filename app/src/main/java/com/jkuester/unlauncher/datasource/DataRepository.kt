@@ -14,18 +14,25 @@ import java.io.InputStream
 import java.io.OutputStream
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
-class DataRepository<T>(
+interface DataRepository<T> {
+    fun observe(observer: Observer<T>)
+    fun get(): T
+    fun updateAsync(transform: (t: T) -> T): Job
+}
+
+class DataRepositoryImpl<T>(
     private val dataStore: DataStore<T>,
     private val lifecycleScope: CoroutineScope,
     private val lifecycleOwnerSupplier: LifecycleOwnerSupplier,
     getDefaultInstance: () -> T
-) {
+) : DataRepository<T> {
     private val dataFlow: Flow<T> =
         dataStore.data.catch {
             if (it is IOException) {
@@ -36,13 +43,13 @@ class DataRepository<T>(
             }
         }
 
-    fun observe(observer: Observer<T>) = dataFlow
+    override fun observe(observer: Observer<T>) = dataFlow
         .asLiveData()
         .observe(lifecycleOwnerSupplier.get(), observer)
 
-    fun get(): T = runBlocking { dataFlow.first() }
+    override fun get(): T = runBlocking { dataFlow.first() }
 
-    fun updateAsync(transform: (t: T) -> T) = lifecycleScope.launch(Dispatchers.IO) {
+    override fun updateAsync(transform: (t: T) -> T) = lifecycleScope.launch(Dispatchers.IO) {
         dataStore.updateData(transform)
     }
 }

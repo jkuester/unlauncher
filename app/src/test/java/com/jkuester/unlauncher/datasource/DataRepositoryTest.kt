@@ -72,7 +72,7 @@ class DataRepositoryTest {
             justRun { liveData.observe(any(), any()) }
             val observer = mockk<Observer<String>>()
 
-            val dataRepo = DataRepository(dataStore, backgroundScope, lifecycleOwnerSupplier, getDefaultInstance)
+            val dataRepo = DataRepositoryImpl(dataStore, backgroundScope, lifecycleOwnerSupplier, getDefaultInstance)
             dataRepo.observe(observer)
 
             verify(exactly = 1) { liveData.observe(lifecycleOwner, observer) }
@@ -83,7 +83,7 @@ class DataRepositoryTest {
             val expectedData = "first"
             every { dataStore.data } returns flowOf(expectedData, "second")
 
-            val dataRepo = DataRepository(dataStore, backgroundScope, lifecycleOwnerSupplier, getDefaultInstance)
+            val dataRepo = DataRepositoryImpl(dataStore, backgroundScope, lifecycleOwnerSupplier, getDefaultInstance)
             val data = dataRepo.get()
 
             data shouldBe expectedData
@@ -93,7 +93,7 @@ class DataRepositoryTest {
         fun get_Exception() = runTest {
             val expectedException = Exception("Problem getting test data")
             every { dataStore.data } returns flow { throw expectedException }
-            val dataRepo = DataRepository(dataStore, backgroundScope, lifecycleOwnerSupplier, getDefaultInstance)
+            val dataRepo = DataRepositoryImpl(dataStore, backgroundScope, lifecycleOwnerSupplier, getDefaultInstance)
 
             val actualException = shouldThrow<Exception> { dataRepo.get() }
 
@@ -109,7 +109,7 @@ class DataRepositoryTest {
             val expectedException = IOException("Problem getting test data")
             every { dataStore.data } returns flow { throw expectedException }
 
-            val dataRepo = DataRepository(dataStore, backgroundScope, lifecycleOwnerSupplier, getDefaultInstance)
+            val dataRepo = DataRepositoryImpl(dataStore, backgroundScope, lifecycleOwnerSupplier, getDefaultInstance)
             val data = dataRepo.get()
 
             data shouldBe defaultData
@@ -124,7 +124,7 @@ class DataRepositoryTest {
             every { dataStore.data } returns emptyFlow()
             coJustRun { dataStore.updateData(any()) }
 
-            val dataRepo = DataRepository(dataStore, backgroundScope, lifecycleOwnerSupplier, getDefaultInstance)
+            val dataRepo = DataRepositoryImpl(dataStore, backgroundScope, lifecycleOwnerSupplier, getDefaultInstance)
             dataRepo.updateAsync(mockk()).join()
 
             coVerify(exactly = 1) { dataStore.updateData(any<suspend (t: String) -> String>()) }
