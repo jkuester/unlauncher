@@ -256,7 +256,7 @@ class UnlauncherAppsRepositoryTest {
     fun constructUnlauncherAppsRepository() = runTest {
         val dataStore = mockk<DataStore<UnlauncherApps>>()
         every { dataStore.data } returns emptyFlow()
-        assertDoesNotThrow { UnlauncherAppsRepository(dataStore, backgroundScope) }
+        assertDoesNotThrow { UnlauncherAppsRepository(dataStore, backgroundScope, mockk()) }
         verify(exactly = 1) { dataStore.data }
     }
 }

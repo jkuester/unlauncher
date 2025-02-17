@@ -23,9 +23,12 @@ private val EMPTY_PREFS = CorePreferences.newBuilder().build()
 @ExtendWith(MockKExtension::class)
 class CorePreferencesRepositoryTest {
     @Test
-    fun setActivateKeyboardInDrawer() {
-        val updatedPrefs = setActivateKeyboardInDrawer(true)(EMPTY_PREFS)
+    fun testToggleActivateKeyboardInDrawer() {
+        val updatedPrefs = toggleActivateKeyboardInDrawer()(EMPTY_PREFS)
         updatedPrefs.activateKeyboardInDrawer shouldBe true
+
+        val updatedPrefs1 = toggleActivateKeyboardInDrawer()(updatedPrefs)
+        updatedPrefs1.activateKeyboardInDrawer shouldBe false
     }
 
     @Test
@@ -53,9 +56,12 @@ class CorePreferencesRepositoryTest {
     }
 
     @Test
-    fun setSearchAllAppsInDrawer() {
-        val updatedPrefs = setSearchAllAppsInDrawer(true)(EMPTY_PREFS)
+    fun testToggleSearchAllAppsInDrawer() {
+        val updatedPrefs = toggleSearchAllAppsInDrawer()(EMPTY_PREFS)
         updatedPrefs.searchAllAppsInDrawer shouldBe true
+
+        val updatedPrefs1 = toggleSearchAllAppsInDrawer()(updatedPrefs)
+        updatedPrefs1.searchAllAppsInDrawer shouldBe false
     }
 
     @Test
@@ -74,7 +80,7 @@ class CorePreferencesRepositoryTest {
     fun constructCorePreferencesRepository() = runTest {
         val dataStore = mockk<DataStore<CorePreferences>>()
         every { dataStore.data } returns emptyFlow()
-        shouldNotThrowAny { CorePreferencesRepository(dataStore, backgroundScope) }
+        shouldNotThrowAny { CorePreferencesRepository(dataStore, backgroundScope, mockk()) }
         verify(exactly = 1) { dataStore.data }
     }
 }

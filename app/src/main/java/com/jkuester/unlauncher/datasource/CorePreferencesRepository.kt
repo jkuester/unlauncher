@@ -5,12 +5,11 @@ import com.jkuester.unlauncher.datastore.proto.AlignmentFormat
 import com.jkuester.unlauncher.datastore.proto.ClockType
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.datastore.proto.SearchBarPosition
-import dagger.hilt.android.scopes.ActivityScoped
-import javax.inject.Inject
+import com.jkuester.unlauncher.fragment.LifecycleOwnerSupplier
 import kotlinx.coroutines.CoroutineScope
 
-fun setActivateKeyboardInDrawer(activateKeyboardInDrawer: Boolean) = { originalPrefs: CorePreferences ->
-    originalPrefs.toBuilder().setActivateKeyboardInDrawer(activateKeyboardInDrawer).build()
+fun toggleActivateKeyboardInDrawer() = { originalPrefs: CorePreferences ->
+    originalPrefs.toBuilder().setActivateKeyboardInDrawer(!originalPrefs.activateKeyboardInDrawer).build()
 }
 fun setKeepDeviceWallpaper(keepDeviceWallpaper: Boolean) = { originalPrefs: CorePreferences ->
     originalPrefs.toBuilder().setKeepDeviceWallpaper(keepDeviceWallpaper).build()
@@ -24,8 +23,8 @@ fun setSearchBarPosition(searchBarPosition: SearchBarPosition) = { originalPrefs
 fun setShowDrawerHeadings(showDrawerHeadings: Boolean) = { originalPrefs: CorePreferences ->
     originalPrefs.toBuilder().setShowDrawerHeadings(showDrawerHeadings).build()
 }
-fun setSearchAllAppsInDrawer(searchAllAppsInDrawer: Boolean) = { originalPrefs: CorePreferences ->
-    originalPrefs.toBuilder().setSearchAllAppsInDrawer(searchAllAppsInDrawer).build()
+fun toggleSearchAllAppsInDrawer() = { originalPrefs: CorePreferences ->
+    originalPrefs.toBuilder().setSearchAllAppsInDrawer(!originalPrefs.searchAllAppsInDrawer).build()
 }
 fun setClockType(clockType: ClockType) = { originalPrefs: CorePreferences ->
     originalPrefs.toBuilder().setClockType(clockType).build()
@@ -34,13 +33,14 @@ fun setAlignmentFormat(alignmentFormat: AlignmentFormat) = { originalPrefs: Core
     originalPrefs.toBuilder().setAlignmentFormat(alignmentFormat).build()
 }
 
-@ActivityScoped
-class CorePreferencesRepository @Inject constructor(
+class CorePreferencesRepository(
     corePreferencesStore: DataStore<CorePreferences>,
-    lifecycleScope: CoroutineScope
+    lifecycleScope: CoroutineScope,
+    lifecycleOwnerSupplier: LifecycleOwnerSupplier
 ) : AbstractDataRepository<CorePreferences>(
     corePreferencesStore,
     lifecycleScope,
+    lifecycleOwnerSupplier,
     CorePreferences::getDefaultInstance
 )
 

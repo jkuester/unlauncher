@@ -4,11 +4,11 @@ import android.util.Log
 import androidx.datastore.core.CorruptionException
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.Serializer
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.asLiveData
 import com.google.protobuf.GeneratedMessageLite
 import com.google.protobuf.InvalidProtocolBufferException
+import com.jkuester.unlauncher.fragment.LifecycleOwnerSupplier
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
@@ -23,6 +23,7 @@ import kotlinx.coroutines.runBlocking
 abstract class AbstractDataRepository<T>(
     private val dataStore: DataStore<T>,
     private val lifecycleScope: CoroutineScope,
+    private val lifecycleOwnerSupplier: LifecycleOwnerSupplier,
     getDefaultInstance: () -> T
 ) {
     private val dataFlow: Flow<T> =
@@ -35,9 +36,9 @@ abstract class AbstractDataRepository<T>(
             }
         }
 
-    fun observe(owner: LifecycleOwner, observer: Observer<T>) = dataFlow
+    fun observe(observer: Observer<T>) = dataFlow
         .asLiveData()
-        .observe(owner, observer)
+        .observe(lifecycleOwnerSupplier.get(), observer)
 
     fun get(): T = runBlocking { dataFlow.first() }
 

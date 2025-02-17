@@ -27,6 +27,7 @@
 
     <dimen name="margin_bottom_small">@dimen/_8sdp</dimen>
     <dimen name="margin_bottom">@dimen/_16sdp</dimen>
+    <dimen name="margin_bottom_large">@dimen/_100sdp</dimen>
 
     <dimen name="margin_sides">@dimen/_16sdp</dimen>
     <dimen name="margin_sides_small">@dimen/_8sdp</dimen>

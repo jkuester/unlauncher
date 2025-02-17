@@ -29,7 +29,7 @@ class CustomizeQuickButtonsFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val customizeQuickButtonsFragment = CustomizeQuickButtonsFragmentBinding.bind(view)
-        quickButtonPreferencesRepo.observe(viewLifecycleOwner) { prefs ->
+        quickButtonPreferencesRepo.observe { prefs ->
             customizeQuickButtonsFragment.customizeQuickButtonsFragmentLeft
                 .setImageResource(getIconResourceId(prefs.leftButton.iconId)!!)
             customizeQuickButtonsFragment.customizeQuickButtonsFragmentCenter

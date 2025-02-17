@@ -44,6 +44,7 @@ import com.jkuester.unlauncher.datasource.setHomeApps
 import com.jkuester.unlauncher.datastore.proto.ClockType
 import com.jkuester.unlauncher.datastore.proto.SearchBarPosition
 import com.jkuester.unlauncher.datastore.proto.UnlauncherApp
+import com.jkuester.unlauncher.fragment.WithFragmentLifecycle
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.adapters.AppDrawerAdapter
 import com.sduduzog.slimlauncher.adapters.HomeAdapter
@@ -70,7 +71,7 @@ private const val APP_TILE_SIZE: Int = 3
 class HomeFragment :
     BaseFragment(),
     OnLaunchAppListener {
-    @Inject
+    @Inject @WithFragmentLifecycle
     lateinit var corePreferencesRepo: CorePreferencesRepository
 
     @Inject
@@ -133,9 +134,7 @@ class HomeFragment :
 
         homeFragmentContent.appDrawerFragmentList.adapter = appDrawerAdapter
 
-        corePreferencesRepo.observe(
-            viewLifecycleOwner
-        ) { corePreferences ->
+        corePreferencesRepo.observe { corePreferences ->
             homeFragmentContent.appDrawerEditText
                 .visibility = if (corePreferences.showSearchBar) View.VISIBLE else View.GONE
 
@@ -231,7 +230,7 @@ class HomeFragment :
             }
         }
 
-        quickButtonPreferencesRepo.observe(viewLifecycleOwner) { prefs ->
+        quickButtonPreferencesRepo.observe { prefs ->
             val leftButtonIcon = getIconResourceId(prefs.leftButton.iconId)
             homeFragmentContent.homeFragmentCall.setImageResource(leftButtonIcon!!)
             if (leftButtonIcon != R.drawable.ic_empty) {

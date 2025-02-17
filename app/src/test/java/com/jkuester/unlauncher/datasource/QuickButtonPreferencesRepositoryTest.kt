@@ -72,7 +72,7 @@ class QuickButtonPreferencesRepositoryTest {
     fun constructQuickButtonPreferencesRepository() = runTest {
         val dataStore = mockk<DataStore<QuickButtonPreferences>>()
         every { dataStore.data } returns emptyFlow()
-        shouldNotThrowAny { QuickButtonPreferencesRepository(dataStore, backgroundScope) }
+        shouldNotThrowAny { QuickButtonPreferencesRepository(dataStore, backgroundScope, mockk()) }
         verify(exactly = 1) { dataStore.data }
     }
 }

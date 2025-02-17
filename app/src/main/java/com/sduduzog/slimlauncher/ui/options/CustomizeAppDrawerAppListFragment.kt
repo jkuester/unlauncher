@@ -32,7 +32,7 @@ class CustomizeAppDrawerAppListFragment : BaseFragment() {
         )
         customiseAppDrawerAppListFragment.customizeAppDrawerFragmentAppList.adapter =
             CustomizeAppDrawerAppsAdapter(viewLifecycleOwner, unlauncherAppsRepo)
-        unlauncherAppsRepo.observe(viewLifecycleOwner) {
+        unlauncherAppsRepo.observe {
             when (it.appsList.isEmpty()) {
                 true -> customiseAppDrawerAppListFragment.customizeAppDrawerFragmentAppProgressBar
                     .visibility = View.VISIBLE
