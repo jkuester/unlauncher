@@ -64,7 +64,7 @@
         android:id="@+id/customiseAppDrawerAppListFragment"
         android:name="com.jkuester.unlauncher.fragment.CustomizeAppDrawerAppListFragment"
         android:label="customise_app_drawer_app_list_fragment"
-        tools:layout="@layout/customize_app_drawer_app_list_fragment" />
+        tools:layout="@layout/customize_app_drawer_visible_apps" />
     <fragment
         android:id="@+id/customizeSearchFieldFragment"
         android:name="com.jkuester.unlauncher.fragment.CustomizeSearchFieldFragment"

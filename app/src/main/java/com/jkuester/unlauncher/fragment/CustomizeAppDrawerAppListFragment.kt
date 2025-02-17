@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import com.jkuester.unlauncher.datasource.UnlauncherAppsRepository
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.adapters.CustomizeAppDrawerAppsAdapter
-import com.sduduzog.slimlauncher.databinding.CustomizeAppDrawerAppListFragmentBinding
+import com.sduduzog.slimlauncher.databinding.CustomizeAppDrawerVisibleAppsBinding
 import com.sduduzog.slimlauncher.utils.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -17,17 +17,17 @@ class CustomizeAppDrawerAppListFragment : BaseFragment() {
     @Inject
     lateinit var unlauncherAppsRepo: UnlauncherAppsRepository
 
-    override fun getFragmentView(): ViewGroup = CustomizeAppDrawerAppListFragmentBinding.bind(
+    override fun getFragmentView(): ViewGroup = CustomizeAppDrawerVisibleAppsBinding.bind(
         requireView()
     ).customizeAppDrawerFragment
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.customize_app_drawer_app_list_fragment, container, false)
+        inflater.inflate(R.layout.customize_app_drawer_visible_apps, container, false)
 
     @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val customiseAppDrawerAppListFragment = CustomizeAppDrawerAppListFragmentBinding.bind(
+        val customiseAppDrawerAppListFragment = CustomizeAppDrawerVisibleAppsBinding.bind(
             requireView()
         )
         customiseAppDrawerAppListFragment.customizeAppDrawerFragmentAppList.adapter =

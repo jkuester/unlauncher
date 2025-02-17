@@ -43,7 +43,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/customize_app_drawer_fragment_app_list_title"
-        tools:listitem="@layout/customize_app_drawer_fragment_app_list_item" />
+        tools:listitem="@layout/customize_app_drawer_visible_apps_list_item" />
 
     <ProgressBar
         android:id="@+id/customize_app_drawer_fragment_app_progress_bar"

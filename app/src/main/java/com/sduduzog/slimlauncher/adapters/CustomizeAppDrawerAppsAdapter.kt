@@ -34,7 +34,7 @@ class CustomizeAppDrawerAppsAdapter(lifecycleOwner: LifecycleOwner, private val 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.customize_app_drawer_fragment_app_list_item, parent, false)
+            .inflate(R.layout.customize_app_drawer_visible_apps_list_item, parent, false)
         return ViewHolder(view)
     }
 
