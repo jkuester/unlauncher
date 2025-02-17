@@ -2,11 +2,12 @@ package com.jkuester.unlauncher.dialog
 
 import android.app.AlertDialog
 import android.content.DialogInterface
+import com.jkuester.unlauncher.datasource.DataRepository
 import com.jkuester.unlauncher.datasource.QuickButtonIcon
-import com.jkuester.unlauncher.datasource.QuickButtonPreferencesRepository
 import com.jkuester.unlauncher.datasource.setCenterIconId
 import com.jkuester.unlauncher.datasource.setLeftIconId
 import com.jkuester.unlauncher.datasource.setRightIconId
+import com.jkuester.unlauncher.datastore.proto.QuickButtonPreferences
 import com.sduduzog.slimlauncher.R
 import io.kotest.matchers.shouldBe
 import io.mockk.CapturingSlot
@@ -30,7 +31,7 @@ import org.junit.jupiter.params.provider.CsvSource
 @ExtendWith(MockKExtension::class)
 class QuickButtonIconDialogTest {
     @MockK
-    lateinit var quickButtonPrefsRepo: QuickButtonPreferencesRepository
+    lateinit var quickButtonPrefsRepo: DataRepository<QuickButtonPreferences>
 
     @MockK
     lateinit var alertDialog: AlertDialog

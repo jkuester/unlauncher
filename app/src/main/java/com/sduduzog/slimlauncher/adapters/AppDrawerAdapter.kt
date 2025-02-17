@@ -9,9 +9,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
-import com.jkuester.unlauncher.datasource.CorePreferencesRepository
-import com.jkuester.unlauncher.datasource.UnlauncherAppsRepository
+import com.jkuester.unlauncher.datasource.DataRepository
+import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.datastore.proto.UnlauncherApp
+import com.jkuester.unlauncher.datastore.proto.UnlauncherApps
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.ui.main.HomeFragment
 import com.sduduzog.slimlauncher.utils.firstUppercase
@@ -20,8 +21,8 @@ import com.sduduzog.slimlauncher.utils.gravity
 class AppDrawerAdapter(
     private val listener: HomeFragment.AppDrawerListener,
     lifecycleOwner: LifecycleOwner,
-    unlauncherAppsRepo: UnlauncherAppsRepository,
-    private val corePreferencesRepo: CorePreferencesRepository
+    unlauncherAppsRepo: DataRepository<UnlauncherApps>,
+    private val corePreferencesRepo: DataRepository<CorePreferences>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val workAppPrefix = "\uD83C\uDD46 " // Unicode for boxed w

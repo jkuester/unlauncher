@@ -25,7 +25,6 @@ import io.mockk.verify
 import java.io.InputStream
 import java.io.OutputStream
 import kotlin.test.assertSame
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flow
@@ -36,13 +35,6 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-
-private class TestDataRepository(
-    dataStore: DataStore<String>,
-    lifecycleScope: CoroutineScope,
-    lifecycleOwnerSupplier: LifecycleOwnerSupplier,
-    getDefaultInstance: () -> String,
-) : AbstractDataRepository<String>(dataStore, lifecycleScope, lifecycleOwnerSupplier, getDefaultInstance)
 
 class TestData : GeneratedMessageLite<TestData, TestData.Builder>() {
     class Builder(defaultInstance: TestData?) : GeneratedMessageLite.Builder<TestData, Builder>(defaultInstance)
@@ -57,7 +49,7 @@ class TestDataSerializer(getDefaultInstance: () -> TestData, parseFrom: (InputSt
 @MockKExtension.CheckUnnecessaryStub
 @MockKExtension.ConfirmVerification
 @ExtendWith(MockKExtension::class)
-class AbstractDataRepositoryTest {
+class DataRepositoryTest {
     @Nested
     inner class RepositoryTest {
         @MockK
@@ -83,7 +75,7 @@ class AbstractDataRepositoryTest {
             justRun { liveData.observe(any(), any()) }
             val observer = mockk<Observer<String>>()
 
-            val dataRepo = TestDataRepository(dataStore, backgroundScope, lifecycleOwnerSupplier, getDefaultInstance)
+            val dataRepo = DataRepository(dataStore, backgroundScope, lifecycleOwnerSupplier, getDefaultInstance)
             dataRepo.observe(observer)
 
             verify(exactly = 1) { liveData.observe(lifecycleOwner, observer) }
@@ -94,7 +86,7 @@ class AbstractDataRepositoryTest {
             val expectedData = "first"
             every { dataStore.data } returns flowOf(expectedData, "second")
 
-            val dataRepo = TestDataRepository(dataStore, backgroundScope, lifecycleOwnerSupplier, getDefaultInstance)
+            val dataRepo = DataRepository(dataStore, backgroundScope, lifecycleOwnerSupplier, getDefaultInstance)
             val data = dataRepo.get()
 
             data shouldBe expectedData
@@ -104,7 +96,7 @@ class AbstractDataRepositoryTest {
         fun get_Exception() = runTest {
             val expectedException = Exception("Problem getting test data")
             every { dataStore.data } returns flow { throw expectedException }
-            val dataRepo = TestDataRepository(dataStore, backgroundScope, lifecycleOwnerSupplier, getDefaultInstance)
+            val dataRepo = DataRepository(dataStore, backgroundScope, lifecycleOwnerSupplier, getDefaultInstance)
 
             val actualException = shouldThrow<Exception> { dataRepo.get() }
 
@@ -120,7 +112,7 @@ class AbstractDataRepositoryTest {
             val expectedException = IOException("Problem getting test data")
             every { dataStore.data } returns flow { throw expectedException }
 
-            val dataRepo = TestDataRepository(dataStore, backgroundScope, lifecycleOwnerSupplier, getDefaultInstance)
+            val dataRepo = DataRepository(dataStore, backgroundScope, lifecycleOwnerSupplier, getDefaultInstance)
             val data = dataRepo.get()
 
             data shouldBe defaultData
@@ -135,7 +127,7 @@ class AbstractDataRepositoryTest {
             every { dataStore.data } returns emptyFlow()
             coJustRun { dataStore.updateData(any()) }
 
-            val dataRepo = TestDataRepository(dataStore, backgroundScope, lifecycleOwnerSupplier, getDefaultInstance)
+            val dataRepo = DataRepository(dataStore, backgroundScope, lifecycleOwnerSupplier, getDefaultInstance)
             dataRepo.updateAsync(mockk()).join()
 
             coVerify(exactly = 1) { dataStore.updateData(any<suspend (t: String) -> String>()) }

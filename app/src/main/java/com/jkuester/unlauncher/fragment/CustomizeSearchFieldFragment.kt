@@ -13,7 +13,8 @@ import com.jkuester.unlauncher.bindings.setupKeyboardSwitch
 import com.jkuester.unlauncher.bindings.setupSearchAllAppsSwitch
 import com.jkuester.unlauncher.bindings.setupSearchBarPositionOption
 import com.jkuester.unlauncher.bindings.setupShowSearchBarSwitch
-import com.jkuester.unlauncher.datasource.CorePreferencesRepository
+import com.jkuester.unlauncher.datasource.DataRepository
+import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.databinding.CustomizeAppDrawerSearchFieldOptionsBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,7 +29,7 @@ class CustomizeSearchFieldFragment : Fragment() {
     @Inject
     lateinit var iFragmentManager: FragmentManager
     @Inject @WithFragmentLifecycle
-    lateinit var corePrefsRepo: CorePreferencesRepository
+    lateinit var corePrefsRepo: DataRepository<CorePreferences>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
         inflater.inflate(R.layout.customize_app_drawer_search_field_options, container, false)

@@ -6,7 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.datastore.core.DataStore
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import com.jkuester.unlauncher.datasource.CorePreferencesRepository
+import com.jkuester.unlauncher.datasource.DataRepository
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.fragment.LifecycleOwnerSupplier
 import dagger.Module
@@ -34,11 +34,12 @@ class ActivityModule {
     @Provides @WithActivityLifecycle
     @ActivityScoped
     fun provideCorePreferencesRepo(activity: ComponentActivity, prefsStore: DataStore<CorePreferences>) =
-        CorePreferencesRepository(
+        DataRepository(
             prefsStore,
             activity.lifecycleScope,
             object : LifecycleOwnerSupplier {
                 override fun get(): LifecycleOwner = activity
-            }
+            },
+            CorePreferences::getDefaultInstance
         )
 }

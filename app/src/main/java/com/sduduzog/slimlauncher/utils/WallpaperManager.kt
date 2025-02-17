@@ -10,7 +10,8 @@ import androidx.annotation.StyleRes
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.lifecycleScope
 import com.jkuester.unlauncher.WithActivityLifecycle
-import com.jkuester.unlauncher.datasource.CorePreferencesRepository
+import com.jkuester.unlauncher.datasource.DataRepository
+import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.sduduzog.slimlauncher.MainActivity
 import java.io.IOException
 import javax.inject.Inject
@@ -19,7 +20,7 @@ import kotlinx.coroutines.launch
 
 class WallpaperManager @Inject constructor(
     activity: Activity,
-    @WithActivityLifecycle private val corePreferencesRepo: CorePreferencesRepository
+    @WithActivityLifecycle private val corePreferencesRepo: DataRepository<CorePreferences>
 ) {
     private val mainActivity = (activity as MainActivity)
 

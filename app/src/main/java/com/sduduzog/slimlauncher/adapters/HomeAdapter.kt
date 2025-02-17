@@ -6,14 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.jkuester.unlauncher.datasource.CorePreferencesRepository
+import com.jkuester.unlauncher.datasource.DataRepository
+import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.models.HomeApp
 import com.sduduzog.slimlauncher.ui.main.HomeFragment
 import com.sduduzog.slimlauncher.utils.gravity
 
-class HomeAdapter(private val listener: HomeFragment, private val corePreferencesRepo: CorePreferencesRepository) :
-    RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
+class HomeAdapter(
+    private val listener: HomeFragment,
+    private val corePreferencesRepo: DataRepository<CorePreferences>
+) : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
 
     private var apps: List<HomeApp> = listOf()
 

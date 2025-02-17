@@ -13,7 +13,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.viewbinding.ViewBindings
-import com.jkuester.unlauncher.datasource.CorePreferencesRepository
+import com.jkuester.unlauncher.datasource.DataRepository
 import com.jkuester.unlauncher.datasource.setShowSearchBar
 import com.jkuester.unlauncher.datasource.toggleActivateKeyboardInDrawer
 import com.jkuester.unlauncher.datasource.toggleSearchAllAppsInDrawer
@@ -67,7 +67,7 @@ class CustomizeAppDrawerSearchFieldOptionsBindingsTest {
     lateinit var searchAllSwitchToggle: SwitchCompat
 
     @MockK
-    lateinit var prefsRepo: CorePreferencesRepository
+    lateinit var prefsRepo: DataRepository<CorePreferences>
 
     private lateinit var optionsBinding: CustomizeAppDrawerSearchFieldOptionsBinding
 

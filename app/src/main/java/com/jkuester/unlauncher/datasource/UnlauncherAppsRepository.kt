@@ -1,13 +1,10 @@
 package com.jkuester.unlauncher.datasource
 
-import androidx.datastore.core.DataStore
 import com.jkuester.unlauncher.datastore.proto.UnlauncherApp
 import com.jkuester.unlauncher.datastore.proto.UnlauncherApps
-import com.jkuester.unlauncher.fragment.LifecycleOwnerSupplier
 import com.sduduzog.slimlauncher.data.model.App
 import com.sduduzog.slimlauncher.models.HomeApp
 import java.util.Locale
-import kotlinx.coroutines.CoroutineScope
 
 private fun appMatches(unlauncherApp: UnlauncherApp, packageName: String, className: String) =
     unlauncherApp.packageName == packageName && unlauncherApp.className == className
@@ -132,17 +129,6 @@ fun setDisplayInDrawer(appToUpdate: UnlauncherApp, displayInDrawer: Boolean): (U
     updateApp(appToUpdate) { it.toBuilder().setDisplayInDrawer(displayInDrawer).build() }
 
 fun setVersion(version: Int): (UnlauncherApps) -> UnlauncherApps = { it.toBuilder().setVersion(version).build() }
-
-class UnlauncherAppsRepository(
-    unlauncherAppsStore: DataStore<UnlauncherApps>,
-    lifecycleScope: CoroutineScope,
-    lifecycleOwnerSupplier: LifecycleOwnerSupplier
-) : AbstractDataRepository<UnlauncherApps>(
-    unlauncherAppsStore,
-    lifecycleScope,
-    lifecycleOwnerSupplier,
-    UnlauncherApps::getDefaultInstance
-)
 
 object UnlauncherAppsSerializer : AbstractDataSerializer<UnlauncherApps>(
     UnlauncherApps::getDefaultInstance,

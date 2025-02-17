@@ -34,16 +34,17 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.jkuester.unlauncher.datasource.CorePreferencesRepository
-import com.jkuester.unlauncher.datasource.QuickButtonPreferencesRepository
-import com.jkuester.unlauncher.datasource.UnlauncherAppsRepository
+import com.jkuester.unlauncher.datasource.DataRepository
 import com.jkuester.unlauncher.datasource.getIconResourceId
 import com.jkuester.unlauncher.datasource.setApps
 import com.jkuester.unlauncher.datasource.setDisplayInDrawer
 import com.jkuester.unlauncher.datasource.setHomeApps
 import com.jkuester.unlauncher.datastore.proto.ClockType
+import com.jkuester.unlauncher.datastore.proto.CorePreferences
+import com.jkuester.unlauncher.datastore.proto.QuickButtonPreferences
 import com.jkuester.unlauncher.datastore.proto.SearchBarPosition
 import com.jkuester.unlauncher.datastore.proto.UnlauncherApp
+import com.jkuester.unlauncher.datastore.proto.UnlauncherApps
 import com.jkuester.unlauncher.fragment.WithFragmentLifecycle
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.adapters.AppDrawerAdapter
@@ -72,13 +73,13 @@ class HomeFragment :
     BaseFragment(),
     OnLaunchAppListener {
     @Inject @WithFragmentLifecycle
-    lateinit var corePreferencesRepo: CorePreferencesRepository
+    lateinit var corePreferencesRepo: DataRepository<CorePreferences>
 
     @Inject
-    lateinit var unlauncherAppsRepo: UnlauncherAppsRepository
+    lateinit var unlauncherAppsRepo: DataRepository<UnlauncherApps>
 
     @Inject
-    lateinit var quickButtonPreferencesRepo: QuickButtonPreferencesRepository
+    lateinit var quickButtonPreferencesRepo: DataRepository<QuickButtonPreferences>
 
     private val viewModel: MainViewModel by viewModels()
 

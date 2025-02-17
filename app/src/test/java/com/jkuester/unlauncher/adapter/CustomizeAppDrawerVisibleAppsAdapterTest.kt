@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.CompoundButton.OnCheckedChangeListener
-import com.jkuester.unlauncher.datasource.UnlauncherAppsRepository
+import com.jkuester.unlauncher.datasource.DataRepository
 import com.jkuester.unlauncher.datasource.setDisplayInDrawer
 import com.jkuester.unlauncher.datastore.proto.UnlauncherApp
 import com.jkuester.unlauncher.datastore.proto.UnlauncherApps
@@ -46,7 +46,7 @@ private val apps = UnlauncherApps
 @ExtendWith(MockKExtension::class)
 class CustomizeAppDrawerVisibleAppsAdapterTest {
     @MockK
-    lateinit var mAppsRepo: UnlauncherAppsRepository
+    lateinit var mAppsRepo: DataRepository<UnlauncherApps>
 
     private lateinit var adapter: CustomizeAppDrawerVisibleAppsAdapter
 

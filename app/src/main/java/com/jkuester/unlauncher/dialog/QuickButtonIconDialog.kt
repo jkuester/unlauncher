@@ -5,8 +5,8 @@ import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
+import com.jkuester.unlauncher.datasource.DataRepository
 import com.jkuester.unlauncher.datasource.QuickButtonIcon
-import com.jkuester.unlauncher.datasource.QuickButtonPreferencesRepository
 import com.jkuester.unlauncher.datasource.setCenterIconId
 import com.jkuester.unlauncher.datasource.setLeftIconId
 import com.jkuester.unlauncher.datasource.setRightIconId
@@ -42,7 +42,7 @@ private fun getUpdateFunctionByDefault(defaultIconId: Int) = when (defaultIconId
 @AndroidEntryPoint
 class QuickButtonIconDialog(private val defaultIconId: Int) : DialogFragment() {
     @Inject
-    lateinit var repo: QuickButtonPreferencesRepository
+    lateinit var repo: DataRepository<QuickButtonPreferences>
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog = AlertDialog
         .Builder(context)

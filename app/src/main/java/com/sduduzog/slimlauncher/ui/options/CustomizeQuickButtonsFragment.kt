@@ -4,9 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.jkuester.unlauncher.datasource.DataRepository
 import com.jkuester.unlauncher.datasource.QuickButtonIcon
-import com.jkuester.unlauncher.datasource.QuickButtonPreferencesRepository
 import com.jkuester.unlauncher.datasource.getIconResourceId
+import com.jkuester.unlauncher.datastore.proto.QuickButtonPreferences
 import com.jkuester.unlauncher.dialog.QuickButtonIconDialog
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.databinding.CustomizeQuickButtonsFragmentBinding
@@ -17,7 +18,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class CustomizeQuickButtonsFragment : BaseFragment() {
     @Inject
-    lateinit var quickButtonPreferencesRepo: QuickButtonPreferencesRepository
+    lateinit var quickButtonPreferencesRepo: DataRepository<QuickButtonPreferences>
 
     override fun getFragmentView(): ViewGroup = CustomizeQuickButtonsFragmentBinding.bind(
         requireView()

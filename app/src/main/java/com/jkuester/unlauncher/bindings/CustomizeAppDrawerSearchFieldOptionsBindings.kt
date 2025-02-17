@@ -4,7 +4,7 @@ import android.content.res.Resources
 import android.view.View.OnClickListener
 import androidx.activity.ComponentActivity
 import androidx.fragment.app.FragmentManager
-import com.jkuester.unlauncher.datasource.CorePreferencesRepository
+import com.jkuester.unlauncher.datasource.DataRepository
 import com.jkuester.unlauncher.datasource.setShowSearchBar
 import com.jkuester.unlauncher.datasource.toggleActivateKeyboardInDrawer
 import com.jkuester.unlauncher.datasource.toggleSearchAllAppsInDrawer
@@ -17,7 +17,7 @@ fun setupBackButton(activity: ComponentActivity) = { options: CustomizeAppDrawer
     options.headerBack.setOnClickListener { activity.onBackPressedDispatcher.onBackPressed() }
 }
 
-fun setupShowSearchBarSwitch(corePrefsRepo: CorePreferencesRepository) =
+fun setupShowSearchBarSwitch(corePrefsRepo: DataRepository<CorePreferences>) =
     { options: CustomizeAppDrawerSearchFieldOptionsBinding ->
         options.showSearchFieldSwitch.setOnCheckedChangeListener { _, checked ->
             corePrefsRepo.updateAsync(setShowSearchBar(checked))
@@ -43,7 +43,7 @@ private fun updateSearchBarPositionLayout(
 }
 
 fun setupSearchBarPositionOption(
-    corePrefsRepo: CorePreferencesRepository,
+    corePrefsRepo: DataRepository<CorePreferences>,
     fragmentManager: FragmentManager,
     resources: Resources
 ) = { options: CustomizeAppDrawerSearchFieldOptionsBinding ->
@@ -55,7 +55,7 @@ fun setupSearchBarPositionOption(
     )
 }
 
-private fun openKeyboardSwitchListener(corePrefsRepo: CorePreferencesRepository) = OnClickListener {
+private fun openKeyboardSwitchListener(corePrefsRepo: DataRepository<CorePreferences>) = OnClickListener {
     corePrefsRepo.updateAsync(toggleActivateKeyboardInDrawer())
 }
 
@@ -70,7 +70,7 @@ private fun updateKeyboardSwitchLayout(
     }
 }
 
-fun setupKeyboardSwitch(corePrefsRepo: CorePreferencesRepository) =
+fun setupKeyboardSwitch(corePrefsRepo: DataRepository<CorePreferences>) =
     { options: CustomizeAppDrawerSearchFieldOptionsBinding ->
         openKeyboardSwitchListener(corePrefsRepo)
             .also(options.openKeyboardSwitchTitle::setOnClickListener)
@@ -79,7 +79,7 @@ fun setupKeyboardSwitch(corePrefsRepo: CorePreferencesRepository) =
         corePrefsRepo.observe(updateKeyboardSwitchLayout(options))
     }
 
-private fun searchAllAppsListener(corePrefsRepo: CorePreferencesRepository) = OnClickListener {
+private fun searchAllAppsListener(corePrefsRepo: DataRepository<CorePreferences>) = OnClickListener {
     corePrefsRepo.updateAsync(toggleSearchAllAppsInDrawer())
 }
 
@@ -94,7 +94,7 @@ private fun updateSearchAllAppsSwitchLayout(
     }
 }
 
-fun setupSearchAllAppsSwitch(corePrefsRepo: CorePreferencesRepository) =
+fun setupSearchAllAppsSwitch(corePrefsRepo: DataRepository<CorePreferences>) =
     { options: CustomizeAppDrawerSearchFieldOptionsBinding ->
         searchAllAppsListener(corePrefsRepo)
             .also(options.searchAllSwitchTitle::setOnClickListener)

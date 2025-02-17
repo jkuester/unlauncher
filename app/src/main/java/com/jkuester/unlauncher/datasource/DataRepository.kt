@@ -20,7 +20,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
-abstract class AbstractDataRepository<T>(
+class DataRepository<T>(
     private val dataStore: DataStore<T>,
     private val lifecycleScope: CoroutineScope,
     private val lifecycleOwnerSupplier: LifecycleOwnerSupplier,

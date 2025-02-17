@@ -5,8 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
-import com.jkuester.unlauncher.datasource.CorePreferencesRepository
+import com.jkuester.unlauncher.datasource.DataRepository
 import com.jkuester.unlauncher.datasource.setShowDrawerHeadings
+import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.datastore.proto.SearchBarPosition
 import com.jkuester.unlauncher.fragment.WithFragmentLifecycle
 import com.sduduzog.slimlauncher.R
@@ -19,7 +20,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class CustomizeAppDrawerFragment : BaseFragment() {
     @Inject @WithFragmentLifecycle
-    lateinit var corePreferencesRepo: CorePreferencesRepository
+    lateinit var corePreferencesRepo: DataRepository<CorePreferences>
 
     override fun getFragmentView(): ViewGroup = CustomizeAppDrawerFragmentBinding.bind(
         requireView()

@@ -6,15 +6,16 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
-import com.jkuester.unlauncher.datasource.UnlauncherAppsRepository
+import com.jkuester.unlauncher.datasource.DataRepository
 import com.jkuester.unlauncher.datasource.setDisplayName
 import com.jkuester.unlauncher.datastore.proto.UnlauncherApp
+import com.jkuester.unlauncher.datastore.proto.UnlauncherApps
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.databinding.RenameDialogEditTextBinding
 
 class RenameAppDisplayNameDialog : DialogFragment() {
     private lateinit var app: UnlauncherApp
-    private lateinit var unlauncherAppsRepo: UnlauncherAppsRepository
+    private lateinit var unlauncherAppsRepo: DataRepository<UnlauncherApps>
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val view = RenameDialogEditTextBinding.inflate(layoutInflater).root
@@ -51,10 +52,12 @@ class RenameAppDisplayNameDialog : DialogFragment() {
     }
 
     companion object {
-        fun getInstance(app: UnlauncherApp, unlauncherAppsRepo: UnlauncherAppsRepository): RenameAppDisplayNameDialog =
-            RenameAppDisplayNameDialog().apply {
-                this.app = app
-                this.unlauncherAppsRepo = unlauncherAppsRepo
-            }
+        fun getInstance(
+            app: UnlauncherApp,
+            unlauncherAppsRepo: DataRepository<UnlauncherApps>
+        ): RenameAppDisplayNameDialog = RenameAppDisplayNameDialog().apply {
+            this.app = app
+            this.unlauncherAppsRepo = unlauncherAppsRepo
+        }
     }
 }

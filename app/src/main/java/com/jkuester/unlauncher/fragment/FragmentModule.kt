@@ -4,9 +4,7 @@ import androidx.datastore.core.DataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import com.jkuester.unlauncher.datasource.CorePreferencesRepository
-import com.jkuester.unlauncher.datasource.QuickButtonPreferencesRepository
-import com.jkuester.unlauncher.datasource.UnlauncherAppsRepository
+import com.jkuester.unlauncher.datasource.DataRepository
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.datastore.proto.QuickButtonPreferences
 import com.jkuester.unlauncher.datastore.proto.UnlauncherApps
@@ -50,10 +48,11 @@ class FragmentModule {
         prefsStore: DataStore<CorePreferences>,
         lifecycleScope: CoroutineScope,
         lifecycleOwnerSupplier: LifecycleOwnerSupplier
-    ) = CorePreferencesRepository(
+    ) = DataRepository(
         prefsStore,
         lifecycleScope,
-        lifecycleOwnerSupplier
+        lifecycleOwnerSupplier,
+        CorePreferences::getDefaultInstance
     )
 
     @Provides
@@ -62,10 +61,11 @@ class FragmentModule {
         prefsStore: DataStore<QuickButtonPreferences>,
         lifecycleScope: CoroutineScope,
         lifecycleOwnerSupplier: LifecycleOwnerSupplier
-    ) = QuickButtonPreferencesRepository(
+    ) = DataRepository(
         prefsStore,
         lifecycleScope,
-        lifecycleOwnerSupplier
+        lifecycleOwnerSupplier,
+        QuickButtonPreferences::getDefaultInstance
     )
 
     @Provides
@@ -74,9 +74,10 @@ class FragmentModule {
         prefsStore: DataStore<UnlauncherApps>,
         lifecycleScope: CoroutineScope,
         lifecycleOwnerSupplier: LifecycleOwnerSupplier
-    ) = UnlauncherAppsRepository(
+    ) = DataRepository(
         prefsStore,
         lifecycleScope,
-        lifecycleOwnerSupplier
+        lifecycleOwnerSupplier,
+        UnlauncherApps::getDefaultInstance
     )
 }

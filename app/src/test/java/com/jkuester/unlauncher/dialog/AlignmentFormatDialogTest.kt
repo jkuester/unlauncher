@@ -2,9 +2,10 @@ package com.jkuester.unlauncher.dialog
 
 import android.app.AlertDialog
 import android.content.DialogInterface
-import com.jkuester.unlauncher.datasource.CorePreferencesRepository
+import com.jkuester.unlauncher.datasource.DataRepository
 import com.jkuester.unlauncher.datasource.setAlignmentFormat
 import com.jkuester.unlauncher.datastore.proto.AlignmentFormat
+import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.sduduzog.slimlauncher.R
 import io.kotest.matchers.shouldBe
 import io.mockk.every
@@ -24,7 +25,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 @ExtendWith(MockKExtension::class)
 class AlignmentFormatDialogTest {
     @MockK
-    lateinit var corePrefsRepo: CorePreferencesRepository
+    lateinit var corePrefsRepo: DataRepository<CorePreferences>
     @MockK
     lateinit var alertDialog: AlertDialog
 

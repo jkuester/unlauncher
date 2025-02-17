@@ -6,9 +6,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import com.jkuester.unlauncher.datasource.CorePreferencesRepository
-import com.jkuester.unlauncher.datasource.QuickButtonPreferencesRepository
-import com.jkuester.unlauncher.datasource.UnlauncherAppsRepository
+import com.jkuester.unlauncher.datasource.DataRepository
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.datastore.proto.QuickButtonPreferences
 import com.jkuester.unlauncher.datastore.proto.UnlauncherApps
@@ -73,7 +71,7 @@ class FragmentModuleTest {
 
         val prefsRepo = fragmentModule.provideCorePreferencesRepo(prefsStore, mockk(), mockk())
 
-        prefsRepo.shouldBeInstanceOf<CorePreferencesRepository>()
+        prefsRepo.shouldBeInstanceOf<DataRepository<CorePreferences>>()
         verify(exactly = 1) { prefsStore.data }
     }
 
@@ -84,7 +82,7 @@ class FragmentModuleTest {
 
         val prefsRepo = fragmentModule.provideQuickButtonPreferencesRepo(prefsStore, mockk(), mockk())
 
-        prefsRepo.shouldBeInstanceOf<QuickButtonPreferencesRepository>()
+        prefsRepo.shouldBeInstanceOf<DataRepository<CorePreferences>>()
         verify(exactly = 1) { prefsStore.data }
     }
 
@@ -95,7 +93,7 @@ class FragmentModuleTest {
 
         val prefsRepo = fragmentModule.provideUnlauncherAppsRepo(prefsStore, mockk(), mockk())
 
-        prefsRepo.shouldBeInstanceOf<UnlauncherAppsRepository>()
+        prefsRepo.shouldBeInstanceOf<DataRepository<CorePreferences>>()
         verify(exactly = 1) { prefsStore.data }
     }
 }

@@ -2,8 +2,9 @@ package com.jkuester.unlauncher.dialog
 
 import android.app.AlertDialog
 import android.content.DialogInterface
-import com.jkuester.unlauncher.datasource.CorePreferencesRepository
+import com.jkuester.unlauncher.datasource.DataRepository
 import com.jkuester.unlauncher.datasource.setSearchBarPosition
+import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.datastore.proto.SearchBarPosition
 import com.sduduzog.slimlauncher.R
 import io.kotest.matchers.shouldBe
@@ -24,7 +25,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 @ExtendWith(MockKExtension::class)
 class SearchBarPositionDialogTest {
     @MockK
-    lateinit var corePrefsRepo: CorePreferencesRepository
+    lateinit var corePrefsRepo: DataRepository<CorePreferences>
     @MockK
     lateinit var alertDialog: AlertDialog
 
