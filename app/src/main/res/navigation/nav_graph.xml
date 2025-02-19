@@ -45,9 +45,9 @@
         tools:layout="@layout/add_app_fragment" />
     <fragment
         android:id="@+id/customiseQuickButtonsFragment"
-        android:name="com.sduduzog.slimlauncher.ui.options.CustomizeQuickButtonsFragment"
+        android:name="com.jkuester.unlauncher.fragment.CustomizeQuickButtonsFragment"
         android:label="customise_quick_buttons_fragment"
-        tools:layout="@layout/customize_quick_buttons_fragment" />
+        tools:layout="@layout/customize_quick_buttons" />
     <fragment
         android:id="@+id/customiseAppDrawerFragment"
         android:name="com.jkuester.unlauncher.fragment.CustomizeAppDrawerFragment"
