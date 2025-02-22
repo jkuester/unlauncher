@@ -38,7 +38,6 @@ import com.jkuester.unlauncher.datasource.DataRepository
 import com.jkuester.unlauncher.datasource.getIconResourceId
 import com.jkuester.unlauncher.datasource.setApps
 import com.jkuester.unlauncher.datasource.setDisplayInDrawer
-import com.jkuester.unlauncher.datasource.setHomeApps
 import com.jkuester.unlauncher.datastore.proto.ClockType
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.datastore.proto.QuickButtonPreferences
@@ -52,7 +51,6 @@ import com.sduduzog.slimlauncher.adapters.HomeAdapter
 import com.sduduzog.slimlauncher.databinding.HomeFragmentBottomBinding
 import com.sduduzog.slimlauncher.databinding.HomeFragmentContentBinding
 import com.sduduzog.slimlauncher.databinding.HomeFragmentDefaultBinding
-import com.sduduzog.slimlauncher.models.HomeApp
 import com.sduduzog.slimlauncher.models.MainViewModel
 import com.sduduzog.slimlauncher.ui.dialogs.RenameAppDisplayNameDialog
 import com.sduduzog.slimlauncher.utils.BaseFragment
@@ -107,23 +105,11 @@ class HomeFragment :
         homeFragmentContent.homeFragmentList.adapter = adapter1
         homeFragmentContent.homeFragmentListExp.adapter = adapter2
 
-        viewModel.apps.observe(viewLifecycleOwner) { list ->
-            list?.let { apps ->
-                adapter1.setItems(
-                    apps.filter {
-                        it.sortingIndex < APP_TILE_SIZE
-                    }
-                )
-                adapter2.setItems(
-                    apps.filter {
-                        it.sortingIndex >= APP_TILE_SIZE
-                    }
-                )
-
-                unlauncherAppsRepo.updateAsync(setHomeApps(apps))
-            }
+        unlauncherAppsRepo.observe { appData ->
+            val homeApps = appData.appsList.filter(UnlauncherApp::hasHomeAppIndex)
+            adapter1.setItems(homeApps.filter { it.homeAppIndex < APP_TILE_SIZE })
+            adapter2.setItems(homeApps.filter { it.homeAppIndex >= APP_TILE_SIZE })
         }
-
         appDrawerAdapter = AppDrawerAdapter(
             AppDrawerListener(),
             viewLifecycleOwner,
@@ -383,8 +369,8 @@ class HomeFragment :
         homeFragmentContent.homeFragmentDate.text = fWatchDate.format(Date())
     }
 
-    override fun onLaunch(app: HomeApp, view: View) {
-        launchApp(app.packageName, app.activityName, app.userSerial)
+    override fun onLaunch(app: UnlauncherApp, view: View) {
+        launchApp(app.packageName, app.className, app.userSerial)
     }
 
     override fun onBack(): Boolean {
