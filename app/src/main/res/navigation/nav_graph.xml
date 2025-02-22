@@ -47,7 +47,15 @@
         android:id="@+id/customiseQuickButtonsFragment"
         android:name="com.jkuester.unlauncher.fragment.CustomizeQuickButtonsFragment"
         android:label="customise_quick_buttons_fragment"
-        tools:layout="@layout/customize_quick_buttons" />
+        tools:layout="@layout/customize_quick_buttons">
+        <action
+            android:id="@+id/customiseQuickButtonsFragment_to_customizeHomeAppsAddAppFragment"
+            app:destination="@id/customizeHomeAppsAddAppFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/customizeHomeAppsAddAppFragment"
+        android:name="com.jkuester.unlauncher.fragment.CustomizeHomeAppsAddAppFragment"
+        tools:layout="@layout/customize_home_apps_add_app" />
     <fragment
         android:id="@+id/customiseAppDrawerFragment"
         android:name="com.jkuester.unlauncher.fragment.CustomizeAppDrawerFragment"

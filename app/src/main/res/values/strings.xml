@@ -79,6 +79,7 @@
     <string name="hide_app">Hide App</string>
     <string name="main_date_format">EEE, MMM dd</string>
     <string name="main_fragment_options">Options</string>
+    <string name="menu_description">Menu</string>
     <string name="menu_remove">Remove</string>
     <string name="menu_rename">Rename</string>
     <string name="menu_reset">Reset</string>

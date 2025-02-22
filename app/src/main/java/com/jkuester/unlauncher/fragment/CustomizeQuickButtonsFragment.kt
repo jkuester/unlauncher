@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.activity.ComponentActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import com.jkuester.unlauncher.bindings.setupAddHomeAppButton
 import com.jkuester.unlauncher.bindings.setupCustomizeQuickButtonsBackButton
 import com.jkuester.unlauncher.bindings.setupQuickButtonIcons
 import com.jkuester.unlauncher.datasource.DataRepository
@@ -34,5 +35,6 @@ class CustomizeQuickButtonsFragment : Fragment() {
             .bind(view)
             .also(setupCustomizeQuickButtonsBackButton(iActivity))
             .also(setupQuickButtonIcons(quickButtonPreferencesRepo, iFragmentManager))
+            .also(::setupAddHomeAppButton)
     }
 }

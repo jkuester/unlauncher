@@ -3,11 +3,13 @@ package com.jkuester.unlauncher.bindings
 import android.view.View.OnClickListener
 import androidx.activity.ComponentActivity
 import androidx.fragment.app.FragmentManager
+import androidx.navigation.Navigation
 import com.jkuester.unlauncher.datasource.DataRepository
 import com.jkuester.unlauncher.datasource.QuickButtonIcon
 import com.jkuester.unlauncher.datasource.getIconResourceId
 import com.jkuester.unlauncher.datastore.proto.QuickButtonPreferences
 import com.jkuester.unlauncher.dialog.QuickButtonIconDialog
+import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.databinding.CustomizeQuickButtonsBinding
 
 fun setupCustomizeQuickButtonsBackButton(activity: ComponentActivity) = { options: CustomizeQuickButtonsBinding ->
@@ -39,3 +41,8 @@ fun setupQuickButtonIcons(prefsRepo: DataRepository<QuickButtonPreferences>, fra
             showQuickButtonIconDialog(QuickButtonIcon.IC_PHOTO_CAMERA, fragmentManager)
         )
     }
+
+fun setupAddHomeAppButton(binding: CustomizeQuickButtonsBinding) = Navigation
+    .createNavigateOnClickListener(R.id.customiseQuickButtonsFragment_to_customizeHomeAppsAddAppFragment)
+    .also(binding.addHomeApp::setOnClickListener)
+    .also(binding.addHomeAppPlus::setOnClickListener)

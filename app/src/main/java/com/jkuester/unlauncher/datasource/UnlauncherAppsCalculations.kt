@@ -104,6 +104,13 @@ fun setHomeApps(apps: List<HomeApp>): (UnlauncherApps) -> UnlauncherApps = curri
         .let { buildUnlauncherApps(originalApps, it) }
 }
 
+fun addHomeApp(appToUpdate: UnlauncherApp): (UnlauncherApps) -> UnlauncherApps = { originalApps ->
+    val newHomeAppIndex = originalApps.appsList
+        .filter { it.hasHomeAppIndex() }
+        .size
+    updateApp(appToUpdate, setHomeApp(newHomeAppIndex))(originalApps)
+}
+
 fun sortApps(unlauncherApps: UnlauncherApps): UnlauncherApps = unlauncherApps
     .toBuilder()
     .clearApps()

@@ -33,6 +33,39 @@
         app:layout_constraintStart_toEndOf="@id/header_back"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/customise_home_apps_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_top"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintTop_toBottomOf="@+id/header_title"
+        tools:itemCount="0"
+        tools:listitem="@layout/customize_home_apps_list_item" />
+
+    <TextView
+        android:id="@+id/add_home_app_plus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding"
+        android:text="+"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textSize="@dimen/font_size_customize_apps_list_item"
+        app:layout_constraintTop_toBottomOf="@+id/customise_home_apps_list"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="HardcodedText" />
+
+    <TextView
+        android:id="@+id/add_home_app"
+        android:padding="@dimen/padding"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textSize="@dimen/font_size_customize_apps_list_item"
+        android:text="@string/customise_apps_fragment_add"
+        app:layout_constraintTop_toBottomOf="@+id/customise_home_apps_list"
+        app:layout_constraintStart_toEndOf="@+id/add_home_app_plus" />
+
     <ImageView
         android:id="@+id/quick_button_left"
         android:layout_width="wrap_content"
