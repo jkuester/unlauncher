@@ -7,7 +7,7 @@
     android:layout_marginStart="@dimen/margin_sides"
     android:layout_marginTop="@dimen/margin_top_small"
     android:layout_marginEnd="@dimen/margin_sides"
-    tools:context="com.jkuester.unlauncher.fragment.AddAppFragment">
+    tools:context="com.jkuester.unlauncher.fragment.CustomizeHomeAppsAddAppFragment">
 
     <ImageView
         android:id="@+id/header_back"
@@ -43,6 +43,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/header_title"
-        tools:listitem="@layout/customize_home_apps_add_app_list_item" />
+        tools:listitem="@layout/app_list_item" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

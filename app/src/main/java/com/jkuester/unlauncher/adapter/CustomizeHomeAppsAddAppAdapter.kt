@@ -15,7 +15,10 @@ class CustomizeHomeAppsAddAppAdapter(
     private val appsRepo: DataRepository<UnlauncherApps>,
     private val activity: ComponentActivity
 ) : RecyclerView.Adapter<CustomizeHomeAppsAddAppAdapter.ViewHolder>() {
-    private var apps = appsRepo.get().appsList.filter { !it.hasHomeAppIndex() }
+    private val apps = appsRepo
+        .get()
+        .appsList
+        .filter { !it.hasHomeAppIndex() }
 
     override fun getItemCount(): Int = apps.size
 
@@ -30,10 +33,10 @@ class CustomizeHomeAppsAddAppAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = LayoutInflater
         .from(parent.context)
-        .inflate(R.layout.customize_home_apps_add_app_list_item, parent, false)
+        .inflate(R.layout.app_list_item, parent, false)
         .let { view -> ViewHolder(view) }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val appName: TextView = itemView.findViewById(R.id.list_item_text)
+        val appName: TextView = itemView.findViewById(R.id.app_list_item_name)
     }
 }

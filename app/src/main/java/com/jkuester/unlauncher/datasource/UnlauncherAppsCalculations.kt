@@ -2,6 +2,7 @@ package com.jkuester.unlauncher.datasource
 
 import com.jkuester.unlauncher.datastore.proto.UnlauncherApp
 import com.jkuester.unlauncher.datastore.proto.UnlauncherApps
+import com.jkuester.unlauncher.swap
 import com.sduduzog.slimlauncher.data.model.App
 import com.sduduzog.slimlauncher.models.HomeApp
 import java.util.Locale
@@ -17,7 +18,7 @@ private fun appMatches(unlauncherApp: UnlauncherApp): (App) -> Boolean = {
 private fun appMatches(homeApp: HomeApp): (UnlauncherApp) -> Boolean = {
     appMatches(it, homeApp.packageName, homeApp.activityName)
 }
-private fun unlauncherAppMatches(app: UnlauncherApp): (UnlauncherApp) -> Boolean = {
+fun unlauncherAppMatches(app: UnlauncherApp): (UnlauncherApp) -> Boolean = {
     appMatches(it, app.packageName, app.className)
 }
 private fun findUnlauncherApp(unlauncherApps: List<UnlauncherApp>): (HomeApp) -> UnlauncherApp? = { homeApp ->
@@ -82,12 +83,10 @@ private fun setHomeApp(homeAppIndex: Int?): (UnlauncherApp) -> UnlauncherApp = {
 
 private fun setHomeApp(homeAppIndex: Int, app: UnlauncherApp): UnlauncherApp = setHomeApp(homeAppIndex)(app)
 
-fun setHomeApps(apps: List<HomeApp>): (UnlauncherApps) -> UnlauncherApps = curried@{ originalApps ->
+fun setHomeApps(newHomeApps: List<UnlauncherApp>): (UnlauncherApps) -> UnlauncherApps = curried@{ originalApps ->
     val originalHomeApps = originalApps.appsList
         .filter { it.hasHomeAppIndex() }
         .sortedBy { it.homeAppIndex }
-    val newHomeApps = apps
-        .mapNotNull(findUnlauncherApp(originalApps.appsList))
 
     if (originalHomeApps == newHomeApps) {
         return@curried originalApps
@@ -104,12 +103,47 @@ fun setHomeApps(apps: List<HomeApp>): (UnlauncherApps) -> UnlauncherApps = curri
         .let { buildUnlauncherApps(originalApps, it) }
 }
 
+fun importHomeApps(apps: List<HomeApp>): (UnlauncherApps) -> UnlauncherApps = { originalApps ->
+    val newHomeApps = apps
+        .mapNotNull(findUnlauncherApp(originalApps.appsList))
+    setHomeApps(newHomeApps)(originalApps)
+}
+
 fun addHomeApp(appToUpdate: UnlauncherApp): (UnlauncherApps) -> UnlauncherApps = { originalApps ->
     val newHomeAppIndex = originalApps.appsList
         .filter { it.hasHomeAppIndex() }
         .size
     updateApp(appToUpdate, setHomeApp(newHomeAppIndex))(originalApps)
 }
+
+fun removeHomeApp(homeAppIndex: Int): (UnlauncherApps) -> UnlauncherApps = { originalApps ->
+    val updatedHomeApps = getHomeApps(originalApps)
+        .filter { it.homeAppIndex != homeAppIndex }
+    setHomeApps(updatedHomeApps)(originalApps)
+}
+
+fun incrementHomeAppIndex(startingIndex: Int): (UnlauncherApps) -> UnlauncherApps = curried@{ originalApps ->
+    val currentHomeApps = getHomeApps(originalApps)
+    if (startingIndex == currentHomeApps.size - 1) {
+        return@curried originalApps
+    }
+    val updatedHomeApps = currentHomeApps
+        .swap(startingIndex, startingIndex + 1)
+    setHomeApps(updatedHomeApps)(originalApps)
+}
+
+fun decrementHomeAppIndex(startingIndex: Int): (UnlauncherApps) -> UnlauncherApps = curried@{ originalApps ->
+    if (startingIndex == 0) {
+        return@curried originalApps
+    }
+    val updatedHomeApps = getHomeApps(originalApps)
+        .swap(startingIndex, startingIndex - 1)
+    setHomeApps(updatedHomeApps)(originalApps)
+}
+
+fun getHomeApps(unlauncherApps: UnlauncherApps): List<UnlauncherApp> = unlauncherApps.appsList
+    .filter { it.hasHomeAppIndex() }
+    .sortedBy { it.homeAppIndex }
 
 fun sortApps(unlauncherApps: UnlauncherApps): UnlauncherApps = unlauncherApps
     .toBuilder()

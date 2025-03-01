@@ -33,7 +33,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_app_fragment_edit_text"
-        tools:listitem="@layout/add_app_fragment_list_item" />
+        tools:listitem="@layout/app_list_item" />
 
     <ProgressBar
         android:id="@+id/add_app_fragment_progress_bar"

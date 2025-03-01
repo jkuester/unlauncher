@@ -35,6 +35,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jkuester.unlauncher.datasource.DataRepository
+import com.jkuester.unlauncher.datasource.getHomeApps
 import com.jkuester.unlauncher.datasource.getIconResourceId
 import com.jkuester.unlauncher.datasource.setApps
 import com.jkuester.unlauncher.datasource.setDisplayInDrawer
@@ -106,7 +107,7 @@ class HomeFragment :
         homeFragmentContent.homeFragmentListExp.adapter = adapter2
 
         unlauncherAppsRepo.observe { appData ->
-            val homeApps = appData.appsList.filter(UnlauncherApp::hasHomeAppIndex)
+            val homeApps = getHomeApps(appData)
             adapter1.setItems(homeApps.filter { it.homeAppIndex < APP_TILE_SIZE })
             adapter2.setItems(homeApps.filter { it.homeAppIndex >= APP_TILE_SIZE })
         }

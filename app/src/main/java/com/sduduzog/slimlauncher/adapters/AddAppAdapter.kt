@@ -10,8 +10,7 @@ import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.data.model.App
 import com.sduduzog.slimlauncher.utils.OnAppClickedListener
 
-class AddAppAdapter(private val listener: OnAppClickedListener) :
-    RecyclerView.Adapter<AddAppAdapter.ViewHolder>() {
+class AddAppAdapter(private val listener: OnAppClickedListener) : RecyclerView.Adapter<AddAppAdapter.ViewHolder>() {
 
     private var apps: List<App> = listOf()
 
@@ -28,7 +27,7 @@ class AddAppAdapter(private val listener: OnAppClickedListener) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(
             parent.context
-        ).inflate(R.layout.add_app_fragment_list_item, parent, false)
+        ).inflate(R.layout.app_list_item, parent, false)
         return ViewHolder(view)
     }
 
@@ -40,10 +39,8 @@ class AddAppAdapter(private val listener: OnAppClickedListener) :
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        val appName: TextView = itemView.findViewById(R.id.aa_list_item_app_name)
+        val appName: TextView = itemView.findViewById(R.id.app_list_item_name)
 
-        override fun toString(): String {
-            return super.toString() + " '${appName.text}'"
-        }
+        override fun toString(): String = super.toString() + " '${appName.text}'"
     }
 }
