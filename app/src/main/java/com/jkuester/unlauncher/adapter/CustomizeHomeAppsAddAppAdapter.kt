@@ -8,6 +8,7 @@ import androidx.activity.ComponentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.jkuester.unlauncher.datasource.DataRepository
 import com.jkuester.unlauncher.datasource.addHomeApp
+import com.jkuester.unlauncher.datasource.getHomeApps
 import com.jkuester.unlauncher.datastore.proto.UnlauncherApps
 import com.sduduzog.slimlauncher.R
 
@@ -15,7 +16,7 @@ class CustomizeHomeAppsAddAppAdapter(
     private val appsRepo: DataRepository<UnlauncherApps>,
     private val activity: ComponentActivity
 ) : RecyclerView.Adapter<CustomizeHomeAppsAddAppAdapter.ViewHolder>() {
-    private var apps = appsRepo.get().appsList.filter { !it.hasHomeAppIndex() }
+    private var apps = getHomeApps(appsRepo.get())
 
     override fun getItemCount(): Int = apps.size
 

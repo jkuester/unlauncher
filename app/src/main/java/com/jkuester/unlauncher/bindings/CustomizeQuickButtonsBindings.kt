@@ -4,10 +4,15 @@ import android.view.View.OnClickListener
 import androidx.activity.ComponentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.ItemTouchHelper
+import com.jkuester.unlauncher.adapter.CustomizeHomeAppsListAdapter
+import com.jkuester.unlauncher.adapter.CustomizeHomeAppsListAdapter.ViewHolder
+import com.jkuester.unlauncher.adapter.DragSortableCallback
 import com.jkuester.unlauncher.datasource.DataRepository
 import com.jkuester.unlauncher.datasource.QuickButtonIcon
 import com.jkuester.unlauncher.datasource.getIconResourceId
 import com.jkuester.unlauncher.datastore.proto.QuickButtonPreferences
+import com.jkuester.unlauncher.datastore.proto.UnlauncherApps
 import com.jkuester.unlauncher.dialog.QuickButtonIconDialog
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.databinding.CustomizeQuickButtonsBinding
@@ -46,3 +51,18 @@ fun setupAddHomeAppButton(binding: CustomizeQuickButtonsBinding) = Navigation
     .createNavigateOnClickListener(R.id.customiseQuickButtonsFragment_to_customizeHomeAppsAddAppFragment)
     .also(binding.addHomeApp::setOnClickListener)
     .also(binding.addHomeAppPlus::setOnClickListener)
+
+fun setupHomeAppsList(appsRepo: DataRepository<UnlauncherApps>) = { binding: CustomizeQuickButtonsBinding ->
+    var touchHelper: ItemTouchHelper? = null
+    val startDragListener: (ViewHolder) -> Boolean = { holder ->
+        touchHelper?.startDrag(holder)
+        false
+    }
+
+    val adapter = CustomizeHomeAppsListAdapter(appsRepo, startDragListener)
+    val homeAppsMoveCallback = DragSortableCallback(adapter)
+
+    touchHelper = ItemTouchHelper(homeAppsMoveCallback)
+    touchHelper.attachToRecyclerView(binding.customiseHomeAppsList)
+    binding.customiseHomeAppsList.adapter = adapter
+}

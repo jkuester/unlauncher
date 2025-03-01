@@ -24,6 +24,6 @@ class HomeAppToIndexMigration(context: Context) : DataMigration<UnlauncherApps> 
 
     override suspend fun shouldMigrate(currentData: UnlauncherApps) = homeAppDao.getAll().isNotEmpty()
     override suspend fun migrate(currentData: UnlauncherApps): UnlauncherApps =
-        setHomeApps(homeAppDao.getAll())(currentData)
+        importHomeApps(homeAppDao.getAll())(currentData)
     override suspend fun cleanUp() {} // = homeAppDao.clearTable() TODO
 }
