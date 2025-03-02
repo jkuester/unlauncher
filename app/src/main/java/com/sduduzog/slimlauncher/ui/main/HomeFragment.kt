@@ -52,7 +52,6 @@ import com.sduduzog.slimlauncher.databinding.HomeFragmentBottomBinding
 import com.sduduzog.slimlauncher.databinding.HomeFragmentContentBinding
 import com.sduduzog.slimlauncher.databinding.HomeFragmentDefaultBinding
 import com.sduduzog.slimlauncher.utils.BaseFragment
-import com.sduduzog.slimlauncher.utils.OnLaunchAppListener
 import com.sduduzog.slimlauncher.utils.isSystemApp
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
@@ -63,9 +62,7 @@ import javax.inject.Inject
 private const val APP_TILE_SIZE: Int = 3
 
 @AndroidEntryPoint
-class HomeFragment :
-    BaseFragment(),
-    OnLaunchAppListener {
+class HomeFragment : BaseFragment() {
     @Inject @WithFragmentLifecycle
     lateinit var corePreferencesRepo: DataRepository<CorePreferences>
 
@@ -360,7 +357,7 @@ class HomeFragment :
         homeFragmentContent.homeFragmentDate.text = fWatchDate.format(Date())
     }
 
-    override fun onLaunch(app: UnlauncherApp, view: View) {
+    fun onLaunch(app: UnlauncherApp, view: View) {
         launchApp(app.packageName, app.className, app.userSerial)
     }
 
