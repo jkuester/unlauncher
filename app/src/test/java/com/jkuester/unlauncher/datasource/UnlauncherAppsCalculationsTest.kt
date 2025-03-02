@@ -14,6 +14,8 @@ import io.kotest.matchers.shouldBe
 import io.mockk.junit5.MockKExtension
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.CsvSource
 
 private fun match(expected: App) = Matcher<UnlauncherApp> { actual ->
     MatcherResult(
@@ -51,6 +53,26 @@ private val unlauncherApp2 = UnlauncherApp
 @MockKExtension.ConfirmVerification
 @ExtendWith(MockKExtension::class)
 class UnlauncherAppsCalculationsTest {
+    @ParameterizedTest
+    @CsvSource(
+        "packageName0, activityName0, appName0, true",
+        "packageName0, activityName0, differentDisplayName, true",
+        "differentPackage, activityName0, appName0, false",
+        "packageName0, differentClassName, appName0, false"
+    )
+    fun unlauncherAppMatches(packageName: String, className: String, displayName: String, expected: Boolean) {
+        val unlauncherApp = UnlauncherApp
+            .newBuilder()
+            .setPackageName(packageName)
+            .setClassName(className)
+            .setDisplayName(displayName)
+            .build()
+
+        val matches = unlauncherAppMatches(unlauncherApp0)(unlauncherApp)
+
+        matches shouldBe expected
+    }
+
     @Test
     fun setApps_currentAppsEmpty() {
         val originalApps = UnlauncherApps.newBuilder().build()
@@ -124,52 +146,252 @@ class UnlauncherAppsCalculationsTest {
     }
 
     @Test
-    fun setHomeApps_currentAppsEmpty() {
+    fun importHomeApps_currentAppsEmpty() {
         val originalApps = UnlauncherApps.newBuilder().build()
         val homeApps = listOf(app2, app0, app1)
             .mapIndexed { index, app -> HomeApp.from(app, index) }
 
-        val updatedApps = setHomeApps(homeApps)(originalApps)
+        val updatedApps = importHomeApps(homeApps)(originalApps)
 
         updatedApps.appsList.shouldBeEmpty()
     }
 
     @Test
-    fun setHomeApps_allAlreadyHome() {
+    fun importHomeApps_allAlreadyHome() {
+        val homeApps = listOf(app0, app1, app2)
+            .mapIndexed { index, app -> HomeApp.from(app, index) }
+        val originalApps = UnlauncherApps
+            .newBuilder()
+            .addAllApps(
+                listOf(unlauncherApp0, unlauncherApp1, unlauncherApp2)
+                    .mapIndexed { index, app -> app.toBuilder().setHomeAppIndex(index).build() }
+            )
+            .build()
+
+        val updatedApps = importHomeApps(homeApps)(originalApps)
+
+        updatedApps shouldBe originalApps
+    }
+
+    @Test
+    fun importHomeApps_allAlreadyHome_newOrder() {
         val homeApps = listOf(app2, app0, app1)
             .mapIndexed { index, app -> HomeApp.from(app, index) }
         val originalApps = UnlauncherApps
             .newBuilder()
             .addAllApps(
                 listOf(unlauncherApp0, unlauncherApp1, unlauncherApp2)
-                    .map { it.toBuilder().setHomeApp(true).build() }
+                    .mapIndexed { index, app -> app.toBuilder().setHomeAppIndex(index).build() }
             )
             .build()
 
-        val updatedApps = setHomeApps(homeApps)(originalApps)
+        val updatedApps = importHomeApps(homeApps)(originalApps)
 
-        updatedApps shouldBe originalApps
+        updatedApps.appsList shouldHaveSize 3
+        updatedApps.appsList[0].homeAppIndex shouldBe 1
+        updatedApps.appsList[1].homeAppIndex shouldBe 2
+        updatedApps.appsList[2].homeAppIndex shouldBe 0
     }
 
     @Test
-    fun setHomeApps_someAlreadyHome() {
+    fun importHomeApps_someAlreadyHome() {
         val homeApps = listOf(app0, app1)
             .mapIndexed { index, app -> HomeApp.from(app, index) }
         val originalApps = UnlauncherApps
             .newBuilder()
             .addAllApps(
                 listOf(unlauncherApp1, unlauncherApp2)
-                    .map { it.toBuilder().setHomeApp(true).build() }
+                    .mapIndexed { index, app -> app.toBuilder().setHomeAppIndex(index).build() }
                     .plus(unlauncherApp0)
             )
             .build()
 
-        val updatedApps = setHomeApps(homeApps)(originalApps)
+        val updatedApps = importHomeApps(homeApps)(originalApps)
 
         updatedApps.appsList shouldHaveSize 3
-        updatedApps.appsList[0].homeApp shouldBe true
-        updatedApps.appsList[1].homeApp shouldBe true
-        updatedApps.appsList[2].homeApp shouldBe false
+        updatedApps.appsList[0].homeAppIndex shouldBe 0
+        updatedApps.appsList[1].homeAppIndex shouldBe 1
+        updatedApps.appsList[2].hasHomeAppIndex() shouldBe false
+    }
+
+    @Test
+    fun addHomeApp_noneExisting() {
+        val originalApps = UnlauncherApps
+            .newBuilder()
+            .addAllApps(listOf(unlauncherApp0, unlauncherApp1, unlauncherApp2))
+            .build()
+
+        val updatedApps = addHomeApp(unlauncherApp0)(originalApps)
+
+        updatedApps.appsList shouldHaveSize 3
+        updatedApps.appsList[0].homeAppIndex shouldBe 0
+        updatedApps.appsList[1].hasHomeAppIndex() shouldBe false
+        updatedApps.appsList[2].hasHomeAppIndex() shouldBe false
+    }
+
+    @Test
+    fun addHomeApp_existingHomeApps() {
+        val originalHomeApps = listOf(unlauncherApp1, unlauncherApp2)
+            .mapIndexed { index, app -> app.toBuilder().setHomeAppIndex(index).build() }
+        val originalApps = UnlauncherApps
+            .newBuilder()
+            .addAllApps(listOf(unlauncherApp0, *originalHomeApps.toTypedArray()))
+            .build()
+
+        val updatedApps = addHomeApp(unlauncherApp0)(originalApps)
+
+        updatedApps.appsList shouldHaveSize 3
+        updatedApps.appsList[0].homeAppIndex shouldBe 2
+        updatedApps.appsList[1].homeAppIndex shouldBe 0
+        updatedApps.appsList[2].homeAppIndex shouldBe 1
+    }
+
+    @Test
+    fun addHomeApp_alreadyPresent() {
+        val originalHomeApps = listOf(unlauncherApp0, unlauncherApp1, unlauncherApp2)
+            .mapIndexed { index, app -> app.toBuilder().setHomeAppIndex(index).build() }
+        val originalApps = UnlauncherApps
+            .newBuilder()
+            .addAllApps(originalHomeApps)
+            .build()
+
+        val updatedApps = addHomeApp(unlauncherApp0)(originalApps)
+
+        updatedApps.appsList shouldHaveSize 3
+        updatedApps.appsList[0].homeAppIndex shouldBe 0
+        updatedApps.appsList[1].homeAppIndex shouldBe 1
+        updatedApps.appsList[2].homeAppIndex shouldBe 2
+    }
+
+    @Test
+    fun removeHomeApp() {
+        val originalHomeApps = listOf(unlauncherApp0, unlauncherApp1, unlauncherApp2)
+            .mapIndexed { index, app -> app.toBuilder().setHomeAppIndex(index).build() }
+        val originalApps = UnlauncherApps
+            .newBuilder()
+            .addAllApps(originalHomeApps)
+            .build()
+
+        val updatedApps = removeHomeApp(1)(originalApps)
+
+        updatedApps.appsList shouldHaveSize 3
+        updatedApps.appsList[0].homeAppIndex shouldBe 0
+        updatedApps.appsList[1].hasHomeAppIndex() shouldBe false
+        updatedApps.appsList[2].homeAppIndex shouldBe 1
+    }
+
+    @Test
+    fun removeHomeApp_lastOne() {
+        val originalApps = UnlauncherApps
+            .newBuilder()
+            .addAllApps(listOf(unlauncherApp0.toBuilder().setHomeAppIndex(0).build()))
+            .build()
+
+        val updatedApps = removeHomeApp(0)(originalApps)
+
+        updatedApps.appsList shouldHaveSize 1
+        updatedApps.appsList[0].hasHomeAppIndex() shouldBe false
+    }
+
+    @Test
+    fun removeHomeApp_indexOutOfBounds() {
+        val originalHomeApps = listOf(unlauncherApp0, unlauncherApp1, unlauncherApp2)
+            .mapIndexed { index, app -> app.toBuilder().setHomeAppIndex(index).build() }
+        val originalApps = UnlauncherApps
+            .newBuilder()
+            .addAllApps(originalHomeApps)
+            .build()
+
+        val updatedApps = removeHomeApp(3)(originalApps)
+
+        updatedApps shouldBe originalApps
+    }
+
+    @Test
+    fun incrementHomeAppIndex() {
+        val originalHomeApps = listOf(unlauncherApp0, unlauncherApp1, unlauncherApp2)
+            .mapIndexed { index, app -> app.toBuilder().setHomeAppIndex(index).build() }
+        val originalApps = UnlauncherApps
+            .newBuilder()
+            .addAllApps(originalHomeApps)
+            .build()
+
+        val updatedApps = incrementHomeAppIndex(0)(originalApps)
+
+        updatedApps.appsList shouldHaveSize 3
+        updatedApps.appsList[0].homeAppIndex shouldBe 1
+        updatedApps.appsList[1].homeAppIndex shouldBe 0
+        updatedApps.appsList[2].homeAppIndex shouldBe 2
+    }
+
+    @Test
+    fun incrementHomeAppIndex_alreadyLast() {
+        val originalHomeApps = listOf(unlauncherApp0, unlauncherApp1, unlauncherApp2)
+            .mapIndexed { index, app -> app.toBuilder().setHomeAppIndex(index).build() }
+        val originalApps = UnlauncherApps
+            .newBuilder()
+            .addAllApps(originalHomeApps)
+            .build()
+
+        val updatedApps = incrementHomeAppIndex(2)(originalApps)
+
+        updatedApps shouldBe originalApps
+    }
+
+    @Test
+    fun decrementHomeAppIndex() {
+        val originalHomeApps = listOf(unlauncherApp0, unlauncherApp1, unlauncherApp2)
+            .mapIndexed { index, app -> app.toBuilder().setHomeAppIndex(index).build() }
+        val originalApps = UnlauncherApps
+            .newBuilder()
+            .addAllApps(originalHomeApps)
+            .build()
+
+        val updatedApps = decrementHomeAppIndex(2)(originalApps)
+
+        updatedApps.appsList shouldHaveSize 3
+        updatedApps.appsList[0].homeAppIndex shouldBe 0
+        updatedApps.appsList[1].homeAppIndex shouldBe 2
+        updatedApps.appsList[2].homeAppIndex shouldBe 1
+    }
+
+    @Test
+    fun decrementHomeAppIndex_alreadyFirst() {
+        val originalHomeApps = listOf(unlauncherApp0, unlauncherApp1, unlauncherApp2)
+            .mapIndexed { index, app -> app.toBuilder().setHomeAppIndex(index).build() }
+        val originalApps = UnlauncherApps
+            .newBuilder()
+            .addAllApps(originalHomeApps)
+            .build()
+
+        val updatedApps = decrementHomeAppIndex(0)(originalApps)
+
+        updatedApps shouldBe originalApps
+    }
+
+    @Test
+    fun getHomeApps() {
+        val originalHomeApps = listOf(unlauncherApp0, unlauncherApp1)
+            .mapIndexed { index, app -> app.toBuilder().setHomeAppIndex(index).build() }
+        val originalApps = UnlauncherApps
+            .newBuilder()
+            .addAllApps(originalHomeApps.reversed().plus(unlauncherApp2))
+            .build()
+
+        val homeApps = getHomeApps(originalApps)
+
+        homeApps shouldBe originalHomeApps
+    }
+
+    @Test
+    fun getHomeApps_noneExist() {
+        val originalApps = UnlauncherApps
+            .newBuilder()
+            .build()
+
+        val homeApps = getHomeApps(originalApps)
+
+        homeApps.shouldBeEmpty()
     }
 
     @Test
