@@ -30,8 +30,6 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.motion.widget.MotionLayout.TransitionListener
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jkuester.unlauncher.datasource.DataRepository
@@ -53,7 +51,6 @@ import com.sduduzog.slimlauncher.adapters.HomeAdapter
 import com.sduduzog.slimlauncher.databinding.HomeFragmentBottomBinding
 import com.sduduzog.slimlauncher.databinding.HomeFragmentContentBinding
 import com.sduduzog.slimlauncher.databinding.HomeFragmentDefaultBinding
-import com.sduduzog.slimlauncher.models.MainViewModel
 import com.sduduzog.slimlauncher.utils.BaseFragment
 import com.sduduzog.slimlauncher.utils.OnLaunchAppListener
 import com.sduduzog.slimlauncher.utils.isSystemApp
@@ -62,8 +59,6 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 private const val APP_TILE_SIZE: Int = 3
 
@@ -79,8 +74,6 @@ class HomeFragment :
 
     @Inject
     lateinit var quickButtonPreferencesRepo: DataRepository<QuickButtonPreferences>
-
-    private val viewModel: MainViewModel by viewModels()
 
     private lateinit var receiver: BroadcastReceiver
     private lateinit var appDrawerAdapter: AppDrawerAdapter
@@ -180,9 +173,6 @@ class HomeFragment :
     private fun refreshApps() {
         val installedApps = getInstalledApps()
         unlauncherAppsRepo.updateAsync(setApps(installedApps))
-        lifecycleScope.launch(Dispatchers.IO) {
-            viewModel.filterHomeApps(installedApps)
-        }
     }
 
     override fun onStop() {
