@@ -22,7 +22,7 @@ class RenameAppDisplayNameDialog(private val app: UnlauncherApp) : DialogFragmen
         val editText = EditText(context)
         editText.setText(app.displayName)
         return AlertDialog
-            .Builder(requireContext())
+            .Builder(context)
             .setTitle(R.string.rename_app)
             .setView(editText)
             .setPositiveButton(R.string.menu_rename) { dialog, _ ->
