@@ -40,6 +40,6 @@ class CustomizeQuickButtonsFragment : Fragment() {
             .also(setupCustomizeQuickButtonsBackButton(iActivity))
             .also(setupQuickButtonIcons(quickButtonPreferencesRepo, iFragmentManager))
             .also(setupAddHomeAppButton(appsRepo))
-            .also(setupHomeAppsList(appsRepo))
+            .also(setupHomeAppsList(appsRepo, iFragmentManager))
     }
 }

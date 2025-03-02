@@ -70,7 +70,8 @@ fun setupAddHomeAppButton(appsRepo: DataRepository<UnlauncherApps>): (CustomizeQ
             .also(binding.addHomeApp::setOnClickListener)
     }
 
-fun setupHomeAppsList(appsRepo: DataRepository<UnlauncherApps>) = { binding: CustomizeQuickButtonsBinding ->
-    val adapter = CustomizeHomeAppsListAdapter(appsRepo)
-    binding.customiseHomeAppsList.adapter = adapter
-}
+fun setupHomeAppsList(appsRepo: DataRepository<UnlauncherApps>, fragmentManager: FragmentManager) =
+    { binding: CustomizeQuickButtonsBinding ->
+        val adapter = CustomizeHomeAppsListAdapter(appsRepo, fragmentManager)
+        binding.customiseHomeAppsList.adapter = adapter
+    }

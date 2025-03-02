@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jkuester.unlauncher.datasource.DataRepository
 import com.jkuester.unlauncher.datasource.decrementHomeAppIndex
@@ -13,11 +14,14 @@ import com.jkuester.unlauncher.datasource.removeHomeApp
 import com.jkuester.unlauncher.datasource.unlauncherAppMatches
 import com.jkuester.unlauncher.datastore.proto.UnlauncherApp
 import com.jkuester.unlauncher.datastore.proto.UnlauncherApps
+import com.jkuester.unlauncher.dialog.RenameAppDisplayNameDialog
 import com.jkuester.unlauncher.widget.PopupMenuWithIcons
 import com.sduduzog.slimlauncher.R
 
-class CustomizeHomeAppsListAdapter(private val appsRepo: DataRepository<UnlauncherApps>) :
-    RecyclerView.Adapter<CustomizeHomeAppsListAdapter.ViewHolder>() {
+class CustomizeHomeAppsListAdapter(
+    private val appsRepo: DataRepository<UnlauncherApps>,
+    private val fragmentManager: FragmentManager
+) : RecyclerView.Adapter<CustomizeHomeAppsListAdapter.ViewHolder>() {
     private var apps: List<UnlauncherApp> = appsRepo.get().let(::getHomeApps)
     private val notificationQueue = mutableListOf<() -> Unit>()
 
@@ -42,6 +46,7 @@ class CustomizeHomeAppsListAdapter(private val appsRepo: DataRepository<Unlaunch
                     .first(unlauncherAppMatches(item))
                     .homeAppIndex
                 when (menuItem.itemId) {
+                    R.id.rename -> rename(homeAppIndex)
                     R.id.remove -> removeAt(homeAppIndex)
                     R.id.move_up -> moveUp(homeAppIndex)
                     R.id.move_down -> moveDown(homeAppIndex)
@@ -50,6 +55,11 @@ class CustomizeHomeAppsListAdapter(private val appsRepo: DataRepository<Unlaunch
             }
             popupMenu.show()
         }
+    }
+
+    private fun rename(homeAppIndex: Int) {
+        notificationQueue.add { notifyItemChanged(homeAppIndex) }
+        RenameAppDisplayNameDialog(apps[homeAppIndex]).showNow(fragmentManager, null)
     }
 
     private fun removeAt(homeAppIndex: Int) {

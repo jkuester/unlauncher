@@ -45,6 +45,7 @@ import com.jkuester.unlauncher.datastore.proto.QuickButtonPreferences
 import com.jkuester.unlauncher.datastore.proto.SearchBarPosition
 import com.jkuester.unlauncher.datastore.proto.UnlauncherApp
 import com.jkuester.unlauncher.datastore.proto.UnlauncherApps
+import com.jkuester.unlauncher.dialog.RenameAppDisplayNameDialog
 import com.jkuester.unlauncher.fragment.WithFragmentLifecycle
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.adapters.AppDrawerAdapter
@@ -53,7 +54,6 @@ import com.sduduzog.slimlauncher.databinding.HomeFragmentBottomBinding
 import com.sduduzog.slimlauncher.databinding.HomeFragmentContentBinding
 import com.sduduzog.slimlauncher.databinding.HomeFragmentDefaultBinding
 import com.sduduzog.slimlauncher.models.MainViewModel
-import com.sduduzog.slimlauncher.ui.dialogs.RenameAppDisplayNameDialog
 import com.sduduzog.slimlauncher.utils.BaseFragment
 import com.sduduzog.slimlauncher.utils.OnLaunchAppListener
 import com.sduduzog.slimlauncher.utils.isSystemApp
@@ -442,10 +442,8 @@ class HomeFragment :
                         ).show()
                     }
                     R.id.rename -> {
-                        RenameAppDisplayNameDialog.getInstance(
-                            app,
-                            unlauncherAppsRepo
-                        ).show(childFragmentManager, "AppListAdapter")
+                        RenameAppDisplayNameDialog(app)
+                            .showNow(childFragmentManager, null)
                     }
                     R.id.uninstall -> {
                         val intent = Intent(Intent.ACTION_DELETE)
