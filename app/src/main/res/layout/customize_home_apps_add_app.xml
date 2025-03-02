@@ -25,7 +25,7 @@
         android:id="@+id/header_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/customise_apps_fragment_add"
+        android:text="@string/options_fragment_customise_apps"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textColor="?headerTextColor"
         android:textSize="@dimen/font_size_options_title"

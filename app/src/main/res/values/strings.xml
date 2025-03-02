@@ -60,7 +60,6 @@
     <string name="choose_time_format_dialog_title">Time Format</string>
     <string name="content_description_back">Back</string>
     <string name="customise_apps_fragment_add">Add</string>
-    <string name="customise_apps_fragment_remove_all">Remove all</string>
     <string name="customize_app_drawer_fragment_auto_theme_wallpaper_subtext_no_default_launcher">App needs to be default launcher</string>
     <string name="customize_app_drawer_fragment_auto_theme_wallpaper_text">Set theme background as wallpaper</string>
     <string name="customize_app_drawer_fragment_open_keyboard">Open Keyboard</string>
@@ -98,9 +97,6 @@
     <string name="quick_buttons_description_center">Settings Quick Button</string>
     <string name="quick_buttons_description_left">Phone Quick Button</string>
     <string name="quick_buttons_description_right">Camera Quick Button</string>
-    <string name="remove_all_apps_dialog_message">"This action will not uninstall your apps."
-    "It is just to confirm if you're clearing this list on purpose"</string>
-    <string name="remove_all_apps_dialog_title">Remove All Apps</string>
     <string name="rename_app">Rename App</string>
     <string name="shown">shown</string>
     <string name="uninstall">Uninstall</string>
