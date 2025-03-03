@@ -69,7 +69,7 @@ class AppDrawerAdapter(
         val inflater = LayoutInflater.from(parent.context)
         return when (RowType.values()[viewType]) {
             RowType.App -> ItemViewHolder(
-                inflater.inflate(R.layout.add_app_fragment_list_item, parent, false)
+                inflater.inflate(R.layout.app_list_item, parent, false)
             )
 
             RowType.Header -> HeaderViewHolder(
@@ -160,7 +160,7 @@ class AppDrawerAdapter(
 
     inner class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        val item: TextView = itemView.findViewById(R.id.aa_list_item_app_name)
+        val item: TextView = itemView.findViewById(R.id.app_list_item_name)
 
         override fun toString(): String = "${super.toString()} '${item.text}'"
 

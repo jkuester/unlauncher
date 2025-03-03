@@ -20,7 +20,6 @@
     <string name="choose_theme_dialog_title">Thema kiezen</string>
     <string name="choose_time_format_dialog_title">Kies de tijdopmaak</string>
     <string name="customise_apps_fragment_add">Toevoegen</string>
-    <string name="customise_apps_fragment_remove_all">Alles verwijderen</string>
     <string name="customize_app_drawer_fragment_search_bar_position">Positie</string>
     <string name="main_fragment_options">Opties</string>
     <string name="menu_remove">Verwijderen</string>
