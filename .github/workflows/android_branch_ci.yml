@@ -9,7 +9,7 @@ on:
   pull_request:
 
 concurrency:
-  group: ${{ github.ref }}
+  group: ${{ github.sha }}
 
 jobs:
   build:
