@@ -8,7 +8,7 @@
 
 ![Build Status](https://github.com/jkuester/unlauncher/workflows/Android%20Master%20Branch%20CI/badge.svg)
 
-> _Freedom from your phone_
+> _Freedom from your phone_asdfsd
 
 [<img src="https://f-droid.org/badge/get-it-on.png"
      alt="Get it on F-Droid"
