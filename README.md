@@ -12,7 +12,7 @@
 
 [<img src="https://f-droid.org/badge/get-it-on.png"
      alt="Get it on F-Droid"
-     height="80">](https://f-droid.org/packages/com.jkuester.unlauncher/)
+     height="80">](https://f-droid.org/packages/com.jkuester.unlauncher/)asdfsdfasdfs
 
 The goal of Unlauncher is to provide a clean and simple Android launcher experience. We believe you should have easy access to all of your apps without the distraction of bells, whistles, and notifications clamouring for your attention. You want to be able to use your phone, not have your phone use you!
 
