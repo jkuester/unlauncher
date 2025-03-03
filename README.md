@@ -8,6 +8,7 @@
 
 ![Build Status](https://github.com/jkuester/unlauncher/workflows/Android%20Master%20Branch%20CI/badge.svg)
 
+> What do we say to the god of death?
 > _Freedom from your phone_
 
 [<img src="https://f-droid.org/badge/get-it-on.png"
