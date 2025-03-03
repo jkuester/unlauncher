@@ -6,7 +6,7 @@
   Unlauncher
 </h1>
 
-![Build Status](https://github.com/jkuester/unlauncher/workflows/Android%20Master%20Branch%20CI/badge.svg)dgasdgasdf
+![Build Status](https://github.com/jkuester/unlauncher/workflows/Android%20Master%20Branch%20CI/badge.svg)
 
 > _Freedom from your phone_
 
