@@ -74,6 +74,33 @@ class UnlauncherAppsCalculationsTest {
     }
 
     @Test
+    fun unlauncherAppNotFound_notFound() {
+        val unlauncherApps = listOf(unlauncherApp0, unlauncherApp2)
+
+        val notFound = unlauncherAppNotFound(unlauncherApps)(unlauncherApp1)
+
+        notFound shouldBe true
+    }
+
+    @Test
+    fun unlauncherAppNotFound_found() {
+        val unlauncherApps = listOf(unlauncherApp0, unlauncherApp2)
+
+        val notFound = unlauncherAppNotFound(unlauncherApps)(unlauncherApp2)
+
+        notFound shouldBe false
+    }
+
+    @Test
+    fun packageClassAppOrder() {
+        val originalList = listOf(unlauncherApp2, unlauncherApp0, unlauncherApp1)
+
+        val sortedList = originalList.sortedBy(::packageClassAppOrder)
+
+        sortedList shouldBe listOf(unlauncherApp0, unlauncherApp1, unlauncherApp2)
+    }
+
+    @Test
     fun setApps_currentAppsEmpty() {
         val originalApps = UnlauncherApps.newBuilder().build()
         val newApps = listOf(app2, app0, app1)

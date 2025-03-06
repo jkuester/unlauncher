@@ -24,7 +24,7 @@ fun unlauncherAppMatches(app: UnlauncherApp): (UnlauncherApp) -> Boolean = {
 private fun findUnlauncherApp(unlauncherApps: List<UnlauncherApp>): (HomeApp) -> UnlauncherApp? = { homeApp ->
     unlauncherApps.firstOrNull(appMatches(homeApp))
 }
-private fun unlauncherAppNotFound(unlauncherApps: List<UnlauncherApp>): (UnlauncherApp) -> Boolean = { app ->
+fun unlauncherAppNotFound(unlauncherApps: List<UnlauncherApp>): (UnlauncherApp) -> Boolean = { app ->
     unlauncherApps.firstOrNull(unlauncherAppMatches(app)) == null
 }
 private fun unlauncherAppNotFound(unlauncherApps: UnlauncherApps): (App) -> Boolean = { app ->
@@ -51,6 +51,7 @@ private fun buildUnlauncherApps(unlauncherApps: UnlauncherApps, apps: List<Unlau
         .build()
 
 private fun unlauncherAppOrder(app: UnlauncherApp) = app.displayName.uppercase(Locale.getDefault())
+fun packageClassAppOrder(app: UnlauncherApp) = "${app.packageName}${app.className}"
 
 fun setApps(apps: List<App>): (UnlauncherApps) -> UnlauncherApps = { originalApps ->
     val appsToAdd = apps
