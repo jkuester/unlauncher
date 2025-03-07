@@ -8,7 +8,6 @@ import android.widget.PopupMenu.OnMenuItemClickListener
 import android.widget.TextView
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
-import com.jkuester.unlauncher.adapter.notifyOfHomeAppChanges
 import com.jkuester.unlauncher.datasource.getHomeApps
 import com.jkuester.unlauncher.datasource.unlauncherAppMatches
 import com.jkuester.unlauncher.datastore.proto.UnlauncherApp
