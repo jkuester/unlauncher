@@ -10,7 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.asLiveData
 import com.google.protobuf.GeneratedMessageLite
 import com.google.protobuf.InvalidProtocolBufferException
-import com.jkuester.unlauncher.fragment.LifecycleOwnerSupplier
+import com.jkuester.unlauncher.fragment.Supplier
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.coJustRun
@@ -56,7 +56,7 @@ class DataRepositoryTest {
         @MockK
         lateinit var lifecycleOwner: LifecycleOwner
 
-        private val lifecycleOwnerSupplier = object : LifecycleOwnerSupplier {
+        private val lifecycleOwnerSupplier = object : Supplier<LifecycleOwner> {
             override fun get() = lifecycleOwner
         }
 

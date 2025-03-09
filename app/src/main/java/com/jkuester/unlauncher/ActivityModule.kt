@@ -9,7 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import com.jkuester.unlauncher.datasource.DataRepository
 import com.jkuester.unlauncher.datasource.DataRepositoryImpl
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
-import com.jkuester.unlauncher.fragment.LifecycleOwnerSupplier
+import com.jkuester.unlauncher.fragment.Supplier
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -40,7 +40,7 @@ class ActivityModule {
     ): DataRepository<CorePreferences> = DataRepositoryImpl(
         prefsStore,
         activity.lifecycleScope,
-        object : LifecycleOwnerSupplier {
+        object : Supplier<LifecycleOwner> {
             override fun get(): LifecycleOwner = activity
         },
         CorePreferences::getDefaultInstance

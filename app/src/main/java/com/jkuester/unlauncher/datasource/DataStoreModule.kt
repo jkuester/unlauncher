@@ -31,7 +31,7 @@ private val Context.quickButtonPreferencesStore: DataStore<QuickButtonPreference
 private val Context.unlauncherAppsStore: DataStore<UnlauncherApps> by dataStore(
     fileName = "unlauncher_apps.proto",
     serializer = DataSerializer(UnlauncherApps::getDefaultInstance, UnlauncherApps::parseFrom),
-    produceMigrations = { listOf(SortAppsMigration) }
+    produceMigrations = { context -> listOf(SortAppsMigration, HomeAppToIndexMigration(context)) }
 )
 
 private val Context.corePreferencesStore: DataStore<CorePreferences> by dataStore(

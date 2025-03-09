@@ -54,7 +54,6 @@
     <string name="choose_time_format_dialog_title">选择时间格式</string>
     <string name="content_description_back">返回</string>
     <string name="customise_apps_fragment_add">添加</string>
-    <string name="customise_apps_fragment_remove_all">全部删除</string>
     <string name="customize_app_drawer_fragment_auto_theme_wallpaper_subtext_no_default_launcher">需设为默认启动器</string>
     <string name="customize_app_drawer_fragment_auto_theme_wallpaper_text">将主题背景设为壁纸</string>
     <string name="customize_app_drawer_fragment_open_keyboard">打开键盘</string>
@@ -75,7 +74,6 @@
     <string name="main_fragment_options">选项</string>
     <string name="menu_remove">删除</string>
     <string name="menu_rename">重命名</string>
-    <string name="menu_reset">重设</string>
     <string name="open_app">打开应用</string>
     <string name="options_fragment_change_theme">更改主题</string>
     <string name="options_fragment_choose_alignment">选择对齐方向</string>
@@ -83,12 +81,9 @@
     <string name="options_fragment_choose_time_format">选择时间格式</string>
     <string name="options_fragment_customise_apps">自定义应用</string>
     <string name="options_fragment_customize_app_drawer">自定义抽屉</string>
-    <string name="options_fragment_customize_quick_buttons">自定义快捷按钮</string>
     <string name="options_fragment_device_settings">设备设置</string>
     <string name="options_fragment_toggle_status_bar">切换状态栏状态</string>
-    <string name="remove_all_apps_dialog_message">"此操作不会卸载你的应用。"
-    "只想确认一下你是否有意清除这个列表。"</string>
-    <string name="remove_all_apps_dialog_title">删除全部应用</string>
+    <string name="quick_buttons">自定义快捷按钮</string>
     <string name="rename_app">重命名应用</string>
     <string name="shown">显示</string>
     <string name="uninstall">卸载</string>

@@ -80,11 +80,6 @@ class OptionsFragment : BaseFragment() {
                 putBoolean(getString(R.string.prefs_settings_key_toggle_status_bar), !isHidden)
             }
         }
-        optionsFragment.optionsFragmentCustomiseApps.setOnClickListener(
-            Navigation.createNavigateOnClickListener(
-                R.id.action_optionsFragment_to_customiseAppsFragment
-            )
-        )
         optionsFragment.optionsFragmentCustomizeQuickButtons.setOnClickListener(
             Navigation.createNavigateOnClickListener(
                 R.id.action_optionsFragment_to_customiseQuickButtonsFragment

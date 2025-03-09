@@ -4,11 +4,12 @@ import android.util.Log
 import androidx.datastore.core.CorruptionException
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.Serializer
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.asLiveData
 import com.google.protobuf.GeneratedMessageLite
 import com.google.protobuf.InvalidProtocolBufferException
-import com.jkuester.unlauncher.fragment.LifecycleOwnerSupplier
+import com.jkuester.unlauncher.fragment.Supplier
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
@@ -30,7 +31,7 @@ interface DataRepository<T> {
 class DataRepositoryImpl<T>(
     private val dataStore: DataStore<T>,
     private val lifecycleScope: CoroutineScope,
-    private val lifecycleOwnerSupplier: LifecycleOwnerSupplier,
+    private val lifecycleOwnerSupplier: Supplier<LifecycleOwner>,
     getDefaultInstance: () -> T
 ) : DataRepository<T> {
     private val dataFlow: Flow<T> =

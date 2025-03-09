@@ -8,8 +8,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.jkuester.unlauncher.datasource.DataRepository
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
+import com.jkuester.unlauncher.datastore.proto.UnlauncherApp
 import com.sduduzog.slimlauncher.R
-import com.sduduzog.slimlauncher.models.HomeApp
 import com.sduduzog.slimlauncher.ui.main.HomeFragment
 import com.sduduzog.slimlauncher.utils.gravity
 
@@ -18,7 +18,7 @@ class HomeAdapter(
     private val corePreferencesRepo: DataRepository<CorePreferences>
 ) : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
 
-    private var apps: List<HomeApp> = listOf()
+    private var apps: List<UnlauncherApp> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -28,7 +28,7 @@ class HomeAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = apps.elementAt(position)
-        holder.mLabelView.text = item.appNickname ?: item.appName
+        holder.mLabelView.text = item.displayName
         holder.mLabelView.setOnClickListener {
             listener.onLaunch(item, it)
         }
@@ -40,7 +40,7 @@ class HomeAdapter(
     override fun getItemCount(): Int = apps.size
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setItems(list: List<HomeApp>) {
+    fun setItems(list: List<UnlauncherApp>) {
         this.apps = list
         notifyDataSetChanged()
     }
