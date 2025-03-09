@@ -72,7 +72,6 @@
     <string name="main_fragment_options">Einstellungen</string>
     <string name="menu_remove">Entfernen</string>
     <string name="menu_rename">Umbenennen</string>
-    <string name="menu_reset">Zurücksetzen</string>
     <string name="open_app">Öffnen</string>
     <string name="options_fragment_change_theme">Stil auswählen</string>
     <string name="options_fragment_choose_alignment">Apps ausrichten</string>

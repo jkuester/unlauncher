@@ -71,7 +71,6 @@
     <string name="main_fragment_options">Options</string>
     <string name="menu_remove">Supprimer</string>
     <string name="menu_rename">Renommer</string>
-    <string name="menu_reset">Réinitialiser</string>
     <string name="open_app">Ouvrir l’application</string>
     <string name="options_fragment_change_theme">Changer le thème</string>
     <string name="options_fragment_choose_alignment">Changer l’alignement de l’application</string>

@@ -23,7 +23,6 @@
     <string name="main_fragment_options">Innstillinger</string>
     <string name="menu_remove">Fjern</string>
     <string name="menu_rename">Gi nytt navn</string>
-    <string name="menu_reset">Tilbakestill</string>
     <string name="options_fragment_change_theme">Drakt</string>
     <string name="options_fragment_choose_time_format">Tidsformat</string>
     <string name="options_fragment_customise_apps">Tilpass programmer</string>

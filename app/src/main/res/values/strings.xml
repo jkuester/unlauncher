@@ -79,12 +79,10 @@
     <string name="hide_app">Hide App</string>
     <string name="main_date_format">EEE, MMM dd</string>
     <string name="main_fragment_options">Options</string>
-    <string name="menu_description">Menu</string>
     <string name="menu_move_down">Move down</string>
     <string name="menu_move_up">Move up</string>
     <string name="menu_remove">Remove</string>
     <string name="menu_rename">Rename</string>
-    <string name="menu_reset">Reset</string>
     <string name="open_app">Open App</string>
     <string name="options_fragment_change_theme">Theme</string>
     <string name="options_fragment_choose_alignment">App Alignment</string>

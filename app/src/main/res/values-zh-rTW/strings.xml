@@ -23,7 +23,6 @@
     <string name="main_fragment_options">選項</string>
     <string name="menu_remove">刪除</string>
     <string name="menu_rename">更改名字</string>
-    <string name="menu_reset">還原名字</string>
     <string name="options_fragment_change_theme">更換主題</string>
     <string name="options_fragment_choose_time_format">選擇時間格式</string>
     <string name="options_fragment_customise_apps">挑選應用程序</string>
