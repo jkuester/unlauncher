@@ -82,9 +82,9 @@
     <string name="options_fragment_choose_time_format">选择时间格式</string>
     <string name="options_fragment_customise_apps">自定义应用</string>
     <string name="options_fragment_customize_app_drawer">自定义抽屉</string>
-    <string name="options_fragment_customize_quick_buttons">自定义快捷按钮</string>
     <string name="options_fragment_device_settings">设备设置</string>
     <string name="options_fragment_toggle_status_bar">切换状态栏状态</string>
+    <string name="quick_buttons">自定义快捷按钮</string>
     <string name="rename_app">重命名应用</string>
     <string name="shown">显示</string>
     <string name="uninstall">卸载</string>

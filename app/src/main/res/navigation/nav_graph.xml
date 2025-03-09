@@ -33,9 +33,9 @@
         tools:layout="@layout/add_app_fragment" />
     <fragment
         android:id="@+id/customiseQuickButtonsFragment"
-        android:name="com.jkuester.unlauncher.fragment.CustomizeQuickButtonsFragment"
+        android:name="com.jkuester.unlauncher.fragment.CustomizeHomeFragment"
         android:label="customise_quick_buttons_fragment"
-        tools:layout="@layout/customize_quick_buttons">
+        tools:layout="@layout/customize_home">
         <action
             android:id="@+id/customiseQuickButtonsFragment_to_customizeHomeAppsAddAppFragment"
             app:destination="@id/customizeHomeAppsAddAppFragment" />

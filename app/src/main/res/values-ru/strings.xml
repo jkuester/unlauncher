@@ -61,9 +61,9 @@
     <string name="options_fragment_choose_time_format">Изменить формат времени</string>
     <string name="options_fragment_customise_apps">Настроить приложения</string>
     <string name="options_fragment_customize_app_drawer">Настроить выдвигающийся список</string>
-    <string name="options_fragment_customize_quick_buttons">Настроить кнопки быстрого запуска</string>
     <string name="options_fragment_device_settings">Настройки устройства</string>
     <string name="options_fragment_toggle_status_bar">Скрыть/показать строку состояния</string>
+    <string name="quick_buttons">Настроить кнопки быстрого запуска</string>
     <string name="rename_app">Переименовать приложение</string>
     <string name="shown">отображается</string>
     <string name="uninstall">Удалить приложение</string>

@@ -46,7 +46,7 @@ class QuickButtonIconDialog(private val defaultIconId: Int) : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog = AlertDialog
         .Builder(context)
-        .setTitle(R.string.options_fragment_customize_quick_buttons)
+        .setTitle(R.string.quick_buttons)
         .setSingleChoiceItems(
             R.array.quick_button_array,
             getCurrentIndex(),

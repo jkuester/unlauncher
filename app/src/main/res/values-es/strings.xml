@@ -80,9 +80,9 @@
     <string name="options_fragment_choose_time_format">Formato de la hora</string>
     <string name="options_fragment_customise_apps">Aplicaciones de inicio</string>
     <string name="options_fragment_customize_app_drawer">Cajón</string>
-    <string name="options_fragment_customize_quick_buttons">Botones rápidos</string>
     <string name="options_fragment_device_settings">Ajustes</string>
     <string name="options_fragment_toggle_status_bar">Conmutar la barra de estado</string>
+    <string name="quick_buttons">Botones rápidos</string>
     <string name="rename_app">Renombrar aplicación</string>
     <string name="shown">mostrada</string>
     <string name="uninstall">Desinstalar</string>

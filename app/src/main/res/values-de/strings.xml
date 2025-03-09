@@ -80,9 +80,9 @@
     <string name="options_fragment_choose_time_format">Zeitformat</string>
     <string name="options_fragment_customise_apps">Apps einstellen</string>
     <string name="options_fragment_customize_app_drawer">Appschublade</string>
-    <string name="options_fragment_customize_quick_buttons">Knöpfe einstellen</string>
     <string name="options_fragment_device_settings">Geräteeinstellungen</string>
     <string name="options_fragment_toggle_status_bar">Statusleiste umschalten</string>
+    <string name="quick_buttons">Knöpfe einstellen</string>
     <string name="rename_app">Umbenennen</string>
     <string name="shown">angezeigt</string>
     <string name="uninstall">Deinstallieren</string>

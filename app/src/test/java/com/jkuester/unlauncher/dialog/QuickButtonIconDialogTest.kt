@@ -55,7 +55,7 @@ class QuickButtonIconDialogTest {
     @AfterEach
     fun afterEach() {
         verify(exactly = 1) {
-            anyConstructed<AlertDialog.Builder>().setTitle(R.string.options_fragment_customize_quick_buttons)
+            anyConstructed<AlertDialog.Builder>().setTitle(R.string.quick_buttons)
         }
         verify(exactly = 1) { anyConstructed<AlertDialog.Builder>().create() }
         verify(exactly = 1) { alertDialog.dismiss() }

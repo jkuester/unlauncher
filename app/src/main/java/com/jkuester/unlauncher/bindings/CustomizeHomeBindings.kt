@@ -15,9 +15,9 @@ import com.jkuester.unlauncher.datastore.proto.QuickButtonPreferences
 import com.jkuester.unlauncher.datastore.proto.UnlauncherApps
 import com.jkuester.unlauncher.dialog.QuickButtonIconDialog
 import com.sduduzog.slimlauncher.R
-import com.sduduzog.slimlauncher.databinding.CustomizeQuickButtonsBinding
+import com.sduduzog.slimlauncher.databinding.CustomizeHomeBinding
 
-fun setupCustomizeQuickButtonsBackButton(activity: ComponentActivity) = { options: CustomizeQuickButtonsBinding ->
+fun setupCustomizeQuickButtonsBackButton(activity: ComponentActivity) = { options: CustomizeHomeBinding ->
     options.headerBack.setOnClickListener { activity.onBackPressedDispatcher.onBackPressed() }
 }
 
@@ -29,7 +29,7 @@ private fun setIconResource(iconView: ImageView) = { resourceId: Int ->
     }
 }
 
-private fun updateQuickButtonIcons(binding: CustomizeQuickButtonsBinding): (QuickButtonPreferences) -> Unit = { prefs ->
+private fun updateQuickButtonIcons(binding: CustomizeHomeBinding): (QuickButtonPreferences) -> Unit = { prefs ->
     prefs.leftButton.iconId
         .let(::getIconResourceId)
         ?.let(setIconResource(binding.quickButtonLeft))
@@ -46,7 +46,7 @@ private fun showQuickButtonIconDialog(icon: QuickButtonIcon, fragmentManager: Fr
 }
 
 fun setupQuickButtonIcons(prefsRepo: DataRepository<QuickButtonPreferences>, fragmentManager: FragmentManager) =
-    { binding: CustomizeQuickButtonsBinding ->
+    { binding: CustomizeHomeBinding ->
         prefsRepo.observe(updateQuickButtonIcons(binding))
         binding.quickButtonLeft.setOnClickListener(showQuickButtonIconDialog(QuickButtonIcon.IC_CALL, fragmentManager))
         binding.quickButtonCenter.setOnClickListener(showQuickButtonIconDialog(QuickButtonIcon.IC_COG, fragmentManager))
@@ -55,22 +55,21 @@ fun setupQuickButtonIcons(prefsRepo: DataRepository<QuickButtonPreferences>, fra
         )
     }
 
-fun setupAddHomeAppButton(appsRepo: DataRepository<UnlauncherApps>): (CustomizeQuickButtonsBinding) -> Unit =
-    { binding ->
-        appsRepo.observe {
-            if (getHomeApps(it).size > 5) {
-                binding.addHomeApp.visibility = View.GONE
-            } else {
-                binding.addHomeApp.visibility = View.VISIBLE
-            }
+fun setupAddHomeAppButton(appsRepo: DataRepository<UnlauncherApps>): (CustomizeHomeBinding) -> Unit = { binding ->
+    appsRepo.observe {
+        if (getHomeApps(it).size > 5) {
+            binding.addHomeApp.visibility = View.GONE
+        } else {
+            binding.addHomeApp.visibility = View.VISIBLE
         }
-
-        Navigation
-            .createNavigateOnClickListener(R.id.customiseQuickButtonsFragment_to_customizeHomeAppsAddAppFragment)
-            .also(binding.addHomeApp::setOnClickListener)
     }
 
+    Navigation
+        .createNavigateOnClickListener(R.id.customiseQuickButtonsFragment_to_customizeHomeAppsAddAppFragment)
+        .also(binding.addHomeApp::setOnClickListener)
+}
+
 fun setupHomeAppsList(appsRepo: DataRepository<UnlauncherApps>, fragmentManager: FragmentManager) =
-    { binding: CustomizeQuickButtonsBinding ->
+    { binding: CustomizeHomeBinding ->
         binding.customiseHomeAppsList.adapter = CustomizeHomeAppsListAdapter(appsRepo, fragmentManager)
     }

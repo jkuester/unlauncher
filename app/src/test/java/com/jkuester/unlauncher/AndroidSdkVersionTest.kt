@@ -14,9 +14,9 @@ class AndroidSdkVersionTest {
 
     @ParameterizedTest
     @CsvSource(
-        "-1, false",
+        "-1, true",
         "0, true",
-        "1, true",
+        "1, false",
     )
     fun androidSdkAtLeast(version: Int, expected: Boolean) {
         androidSdkAtLeast(version) shouldBe expected

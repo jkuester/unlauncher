@@ -79,9 +79,9 @@
     <string name="options_fragment_choose_time_format">Вибрати формат часу</string>
     <string name="options_fragment_customise_apps">Налаштування програм</string>
     <string name="options_fragment_customize_app_drawer">Налаштувати панель програм</string>
-    <string name="options_fragment_customize_quick_buttons">Налаштувати швидкі кнопки</string>
     <string name="options_fragment_device_settings">Налаштування пристрою</string>
     <string name="options_fragment_toggle_status_bar">Увімк./вимк. смужку стану</string>
+    <string name="quick_buttons">Налаштувати швидкі кнопки</string>
     <string name="rename_app">Перейменувати</string>
     <string name="shown">видима</string>
     <string name="uninstall">Видалити</string>

@@ -12,7 +12,7 @@ import com.jkuester.unlauncher.datasource.DataRepository
 import com.jkuester.unlauncher.datastore.proto.QuickButtonPreferences
 import com.jkuester.unlauncher.datastore.proto.UnlauncherApps
 import com.sduduzog.slimlauncher.R
-import com.sduduzog.slimlauncher.databinding.CustomizeQuickButtonsBinding
+import com.sduduzog.slimlauncher.databinding.CustomizeHomeBinding
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -28,7 +28,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 @MockKExtension.CheckUnnecessaryStub
 @MockKExtension.ConfirmVerification
 @ExtendWith(MockKExtension::class)
-class CustomizeQuickButtonFragmentTest {
+class CustomizeHomeFragmentTest {
     @MockK
     lateinit var mActivity: ComponentActivity
     @MockK
@@ -40,11 +40,11 @@ class CustomizeQuickButtonFragmentTest {
     @MockK
     lateinit var view: ConstraintLayout
 
-    private lateinit var fragment: CustomizeQuickButtonsFragment
+    private lateinit var fragment: CustomizeHomeFragment
 
     @BeforeEach
     fun beforeEach() {
-        fragment = CustomizeQuickButtonsFragment()
+        fragment = CustomizeHomeFragment()
             .apply {
                 quickButtonPreferencesRepo = prefsRepo
                 iActivity = mActivity
@@ -61,15 +61,15 @@ class CustomizeQuickButtonFragmentTest {
         val result = fragment.onCreateView(inflater, null, null)
 
         result shouldBe view
-        verify(exactly = 1) { inflater.inflate(R.layout.customize_quick_buttons, null, false) }
+        verify(exactly = 1) { inflater.inflate(R.layout.customize_home, null, false) }
     }
 
     @Test
     fun onViewCreated() {
-        val options = mockk<CustomizeQuickButtonsBinding>()
-        mockkStatic(CustomizeQuickButtonsBinding::bind)
-        every { CustomizeQuickButtonsBinding.bind(any()) } returns options
-        val optionConsumer = mockk<(t: CustomizeQuickButtonsBinding) -> Unit>()
+        val options = mockk<CustomizeHomeBinding>()
+        mockkStatic(CustomizeHomeBinding::bind)
+        every { CustomizeHomeBinding.bind(any()) } returns options
+        val optionConsumer = mockk<(t: CustomizeHomeBinding) -> Unit>()
         justRun { optionConsumer(any()) }
         mockkStatic(
             ::setupCustomizeQuickButtonsBackButton,
@@ -84,7 +84,7 @@ class CustomizeQuickButtonFragmentTest {
 
         fragment.onViewCreated(view, null)
 
-        verify(exactly = 1) { CustomizeQuickButtonsBinding.bind(view) }
+        verify(exactly = 1) { CustomizeHomeBinding.bind(view) }
         verify(exactly = 1) { setupCustomizeQuickButtonsBackButton(mActivity) }
         verify(exactly = 1) { setupQuickButtonIcons(prefsRepo, mFragmentManager) }
         verify(exactly = 1) { setupAddHomeAppButton(mAppsRepo) }

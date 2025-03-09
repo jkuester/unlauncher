@@ -25,7 +25,7 @@ import com.jkuester.unlauncher.datastore.proto.UnlauncherApps
 import com.jkuester.unlauncher.dialog.QuickButtonIconDialog
 import com.jkuester.unlauncher.util.TestDataRepository
 import com.sduduzog.slimlauncher.R
-import com.sduduzog.slimlauncher.databinding.CustomizeQuickButtonsBinding
+import com.sduduzog.slimlauncher.databinding.CustomizeHomeBinding
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
@@ -44,7 +44,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 @MockKExtension.CheckUnnecessaryStub
 // @MockKExtension.ConfirmVerification Weird bug between mockk/kotlin/Java is causing this to fail
 @ExtendWith(MockKExtension::class)
-class CustomizeQuickButtonsBindingsTest {
+class CustomizeHomeBindingsTest {
     @MockK
     lateinit var rootView: ConstraintLayout
     @MockK
@@ -62,7 +62,7 @@ class CustomizeQuickButtonsBindingsTest {
     @MockK
     lateinit var quickButtonRight: ImageView
 
-    private lateinit var binding: CustomizeQuickButtonsBinding
+    private lateinit var binding: CustomizeHomeBinding
     private val prefsRepo = TestDataRepository(QuickButtonPreferences.getDefaultInstance())
     private val appsRepo = TestDataRepository(UnlauncherApps.getDefaultInstance())
 
@@ -78,7 +78,7 @@ class CustomizeQuickButtonsBindingsTest {
         every { ViewBindings.findChildViewById<View>(any(), R.id.quick_button_center) } returns quickButtonCenter
         every { ViewBindings.findChildViewById<View>(any(), R.id.quick_button_right) } returns quickButtonRight
 
-        binding = CustomizeQuickButtonsBinding.bind(rootView)
+        binding = CustomizeHomeBinding.bind(rootView)
     }
 
     @AfterEach
