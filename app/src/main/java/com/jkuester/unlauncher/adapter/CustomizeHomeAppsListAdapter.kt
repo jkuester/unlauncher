@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
+import com.jkuester.unlauncher.createPopupMenuWithIcons
 import com.jkuester.unlauncher.datasource.DataRepository
 import com.jkuester.unlauncher.datasource.decrementHomeAppIndex
 import com.jkuester.unlauncher.datasource.getHomeApps
@@ -16,7 +17,6 @@ import com.jkuester.unlauncher.datasource.unlauncherAppMatches
 import com.jkuester.unlauncher.datastore.proto.UnlauncherApp
 import com.jkuester.unlauncher.datastore.proto.UnlauncherApps
 import com.jkuester.unlauncher.dialog.RenameAppDisplayNameDialog
-import com.jkuester.unlauncher.widget.PopupMenuWithIcons
 import com.sduduzog.slimlauncher.R
 
 class CustomizeHomeAppsListAdapter(
@@ -44,7 +44,7 @@ class CustomizeHomeAppsListAdapter(
         .let { view -> ViewHolder(view) }
 
     private fun showCustomizeHomeAppsPopupMenu(homeApp: UnlauncherApp) = OnClickListener { anchor ->
-        val menu = PopupMenuWithIcons(anchor.context, anchor)
+        val menu = createPopupMenuWithIcons(anchor.context, anchor)
         menu.inflate(R.menu.customize_home_apps_menu)
         menu.setOnMenuItemClickListener { menuItem ->
             val homeAppIndex = apps.first(unlauncherAppMatches(homeApp)).homeAppIndex

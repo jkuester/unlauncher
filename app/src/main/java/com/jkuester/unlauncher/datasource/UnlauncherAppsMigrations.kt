@@ -1,5 +1,3 @@
-@file:Suppress("ktlint:standard:filename")
-
 package com.jkuester.unlauncher.datasource
 
 import android.app.Application

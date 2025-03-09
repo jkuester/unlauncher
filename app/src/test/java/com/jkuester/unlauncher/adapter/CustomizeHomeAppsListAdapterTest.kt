@@ -4,16 +4,18 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import android.widget.PopupMenu.OnMenuItemClickListener
 import android.widget.TextView
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
+import com.jkuester.unlauncher.createPopupMenuWithIcons
 import com.jkuester.unlauncher.datasource.getHomeApps
 import com.jkuester.unlauncher.datasource.unlauncherAppMatches
 import com.jkuester.unlauncher.datastore.proto.UnlauncherApp
 import com.jkuester.unlauncher.datastore.proto.UnlauncherApps
+import com.jkuester.unlauncher.dialog.RenameAppDisplayNameDialog
 import com.jkuester.unlauncher.util.TestDataRepository
-import com.jkuester.unlauncher.widget.PopupMenuWithIcons
 import com.sduduzog.slimlauncher.R
 import io.kotest.matchers.shouldBe
 import io.mockk.every
@@ -82,13 +84,18 @@ class CustomizeHomeAppsListAdapterTest {
         justRun { changeObserver.onChanged(any()) }
         val appNameClickSlot = slot<View.OnClickListener>()
         justRun { appName.setOnClickListener(capture(appNameClickSlot)) }
-        mockkConstructor(PopupMenuWithIcons::class)
-        justRun { anyConstructed<PopupMenuWithIcons>().inflate(any()) }
+        mockkStatic(::createPopupMenuWithIcons)
+        val popupMenu = mockk<PopupMenu>()
+        every { createPopupMenuWithIcons(any(), any()) } returns popupMenu
+        justRun { popupMenu.inflate(any()) }
         val menuSlot = slot<OnMenuItemClickListener>()
-        justRun { anyConstructed<PopupMenuWithIcons>().setOnMenuItemClickListener(capture(menuSlot)) }
-        justRun { anyConstructed<PopupMenuWithIcons>().show() }
+        justRun { popupMenu.setOnMenuItemClickListener(capture(menuSlot)) }
+        justRun { popupMenu.show() }
         val menuView = mockk<View>()
-        every { menuView.context } returns mockk()
+        val context = mockk<Context>()
+        every { menuView.context } returns context
+        mockkConstructor(RenameAppDisplayNameDialog::class)
+        justRun { anyConstructed<RenameAppDisplayNameDialog>().showNow(any(), any()) }
 
         val adapter = CustomizeHomeAppsListAdapter(mAppsRepo, mFragmentManager)
         adapter.onBindViewHolder(viewHolder, 0)
@@ -102,9 +109,10 @@ class CustomizeHomeAppsListAdapterTest {
         appNameClickSlot.captured.onClick(menuView)
 
         verify(exactly = 1) { menuView.context }
-        verify { anyConstructed<PopupMenuWithIcons>().inflate(R.menu.customize_home_apps_menu) }
-        verify { anyConstructed<PopupMenuWithIcons>().setOnMenuItemClickListener(menuSlot.captured) }
-        verify { anyConstructed<PopupMenuWithIcons>().show() }
+        verify { createPopupMenuWithIcons(context, menuView) }
+        verify { popupMenu.inflate(R.menu.customize_home_apps_menu) }
+        verify { popupMenu.setOnMenuItemClickListener(menuSlot.captured) }
+        verify { popupMenu.show() }
 
         // Simulate clicking on the move_down menu item
         menuSlot.captured.onMenuItemClick(mockk { every { itemId } returns R.id.move_down })
@@ -117,6 +125,11 @@ class CustomizeHomeAppsListAdapterTest {
 
         adapter.apps = getHomeApps(mAppsRepo.get())
         adapter.apps.first(unlauncherAppMatches(app1)).homeAppIndex shouldBe 0
+
+        // Simulate clicking on the rename menu item
+        menuSlot.captured.onMenuItemClick(mockk { every { itemId } returns R.id.rename })
+
+        verify(exactly = 1) { anyConstructed<RenameAppDisplayNameDialog>().showNow(mFragmentManager, null) }
 
         // Simulate clicking on the remove menu item
         menuSlot.captured.onMenuItemClick(mockk { every { itemId } returns R.id.remove })
