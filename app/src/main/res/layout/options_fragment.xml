@@ -96,16 +96,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/options_fragment_choose_clock_type" />
             <TextView
-                android:id="@+id/options_fragment_customise_apps"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_list_items"
-                android:text="@string/options_fragment_customise_apps"
-                android:textAppearance="@style/TextAppearance.AppCompat"
-                android:textSize="@dimen/font_size_customize_options"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/options_fragment_toggle_status_bar" />
-            <TextView
                 android:id="@+id/options_fragment_choose_alignment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -114,13 +104,13 @@
                 android:textAppearance="@style/TextAppearance.AppCompat"
                 android:textSize="@dimen/font_size_customize_options"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/options_fragment_customise_apps" />
+                app:layout_constraintTop_toBottomOf="@id/options_fragment_toggle_status_bar" />
             <TextView
                 android:id="@+id/options_fragment_customize_quick_buttons"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_list_items"
-                android:text="@string/options_fragment_customize_quick_buttons"
+                android:text="@string/customize_home"
                 android:textAppearance="@style/TextAppearance.AppCompat"
                 android:textSize="@dimen/font_size_customize_options"
                 app:layout_constraintStart_toStartOf="parent"

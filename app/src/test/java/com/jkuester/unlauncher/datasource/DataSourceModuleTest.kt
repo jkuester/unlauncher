@@ -1,6 +1,6 @@
 package com.jkuester.unlauncher.datasource
 
-import android.content.Context
+import android.app.Application
 import androidx.datastore.core.DataStore
 import com.jkuester.unlauncher.datastore.proto.QuickButtonPreferences
 import io.kotest.matchers.types.shouldBeInstanceOf
@@ -20,7 +20,7 @@ class DataSourceModuleTest {
     private val dataStoreModule = DataStoreModule()
 
     @MockK
-    lateinit var appContext: Context
+    lateinit var appContext: Application
 
     @BeforeEach
     fun beforeEach() {

@@ -30,21 +30,20 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.motion.widget.MotionLayout.TransitionListener
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jkuester.unlauncher.datasource.DataRepository
+import com.jkuester.unlauncher.datasource.getHomeApps
 import com.jkuester.unlauncher.datasource.getIconResourceId
 import com.jkuester.unlauncher.datasource.setApps
 import com.jkuester.unlauncher.datasource.setDisplayInDrawer
-import com.jkuester.unlauncher.datasource.setHomeApps
 import com.jkuester.unlauncher.datastore.proto.ClockType
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.datastore.proto.QuickButtonPreferences
 import com.jkuester.unlauncher.datastore.proto.SearchBarPosition
 import com.jkuester.unlauncher.datastore.proto.UnlauncherApp
 import com.jkuester.unlauncher.datastore.proto.UnlauncherApps
+import com.jkuester.unlauncher.dialog.RenameAppDisplayNameDialog
 import com.jkuester.unlauncher.fragment.WithFragmentLifecycle
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.adapters.AppDrawerAdapter
@@ -52,26 +51,18 @@ import com.sduduzog.slimlauncher.adapters.HomeAdapter
 import com.sduduzog.slimlauncher.databinding.HomeFragmentBottomBinding
 import com.sduduzog.slimlauncher.databinding.HomeFragmentContentBinding
 import com.sduduzog.slimlauncher.databinding.HomeFragmentDefaultBinding
-import com.sduduzog.slimlauncher.models.HomeApp
-import com.sduduzog.slimlauncher.models.MainViewModel
-import com.sduduzog.slimlauncher.ui.dialogs.RenameAppDisplayNameDialog
 import com.sduduzog.slimlauncher.utils.BaseFragment
-import com.sduduzog.slimlauncher.utils.OnLaunchAppListener
 import com.sduduzog.slimlauncher.utils.isSystemApp
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 private const val APP_TILE_SIZE: Int = 3
 
 @AndroidEntryPoint
-class HomeFragment :
-    BaseFragment(),
-    OnLaunchAppListener {
+class HomeFragment : BaseFragment() {
     @Inject @WithFragmentLifecycle
     lateinit var corePreferencesRepo: DataRepository<CorePreferences>
 
@@ -80,8 +71,6 @@ class HomeFragment :
 
     @Inject
     lateinit var quickButtonPreferencesRepo: DataRepository<QuickButtonPreferences>
-
-    private val viewModel: MainViewModel by viewModels()
 
     private lateinit var receiver: BroadcastReceiver
     private lateinit var appDrawerAdapter: AppDrawerAdapter
@@ -107,23 +96,11 @@ class HomeFragment :
         homeFragmentContent.homeFragmentList.adapter = adapter1
         homeFragmentContent.homeFragmentListExp.adapter = adapter2
 
-        viewModel.apps.observe(viewLifecycleOwner) { list ->
-            list?.let { apps ->
-                adapter1.setItems(
-                    apps.filter {
-                        it.sortingIndex < APP_TILE_SIZE
-                    }
-                )
-                adapter2.setItems(
-                    apps.filter {
-                        it.sortingIndex >= APP_TILE_SIZE
-                    }
-                )
-
-                unlauncherAppsRepo.updateAsync(setHomeApps(apps))
-            }
+        unlauncherAppsRepo.observe { appData ->
+            val homeApps = getHomeApps(appData)
+            adapter1.setItems(homeApps.filter { it.homeAppIndex < APP_TILE_SIZE })
+            adapter2.setItems(homeApps.filter { it.homeAppIndex >= APP_TILE_SIZE })
         }
-
         appDrawerAdapter = AppDrawerAdapter(
             AppDrawerListener(),
             viewLifecycleOwner,
@@ -193,9 +170,6 @@ class HomeFragment :
     private fun refreshApps() {
         val installedApps = getInstalledApps()
         unlauncherAppsRepo.updateAsync(setApps(installedApps))
-        lifecycleScope.launch(Dispatchers.IO) {
-            viewModel.filterHomeApps(installedApps)
-        }
     }
 
     override fun onStop() {
@@ -383,8 +357,8 @@ class HomeFragment :
         homeFragmentContent.homeFragmentDate.text = fWatchDate.format(Date())
     }
 
-    override fun onLaunch(app: HomeApp, view: View) {
-        launchApp(app.packageName, app.activityName, app.userSerial)
+    fun onLaunch(app: UnlauncherApp, view: View) {
+        launchApp(app.packageName, app.className, app.userSerial)
     }
 
     override fun onBack(): Boolean {
@@ -455,10 +429,8 @@ class HomeFragment :
                         ).show()
                     }
                     R.id.rename -> {
-                        RenameAppDisplayNameDialog.getInstance(
-                            app,
-                            unlauncherAppsRepo
-                        ).show(childFragmentManager, "AppListAdapter")
+                        RenameAppDisplayNameDialog(app)
+                            .showNow(childFragmentManager, null)
                     }
                     R.id.uninstall -> {
                         val intent = Intent(Intent.ACTION_DELETE)

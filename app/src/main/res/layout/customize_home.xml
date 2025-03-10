@@ -7,7 +7,7 @@
     android:layout_marginStart="@dimen/margin_sides"
     android:layout_marginTop="@dimen/margin_top_small"
     android:layout_marginEnd="@dimen/margin_sides"
-    tools:context="com.jkuester.unlauncher.fragment.CustomizeQuickButtonsFragment">
+    tools:context="com.jkuester.unlauncher.fragment.CustomizeHomeFragment">
 
     <ImageView
         android:id="@+id/header_back"
@@ -25,7 +25,7 @@
         android:id="@+id/header_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/options_fragment_customize_quick_buttons"
+        android:text="@string/customize_home"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textColor="?headerTextColor"
         android:textSize="@dimen/font_size_options_title"
@@ -33,12 +33,50 @@
         app:layout_constraintStart_toEndOf="@id/header_back"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/customise_home_apps_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_top"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintTop_toBottomOf="@+id/header_title"
+        tools:itemCount="0"
+        tools:listitem="@layout/main_fragment_list_item" />
+
+    <LinearLayout
+        android:id="@+id/add_home_app"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_list_items_top"
+        android:background="@drawable/imageview_border"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/customise_home_apps_list">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding"
+            android:paddingEnd="0dp"
+            android:text="+"
+            android:textAppearance="@style/TextAppearance.AppCompat"
+            android:textSize="@dimen/font_size_home_app_list_item"
+            tools:ignore="HardcodedText,RtlSymmetry" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding"
+            android:text="@string/customise_apps_fragment_add"
+            android:textAppearance="@style/TextAppearance.AppCompat"
+            android:textSize="@dimen/font_size_home_app_list_item" />
+    </LinearLayout>
+
     <ImageView
         android:id="@+id/quick_button_left"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_sides_small"
-        android:background="@drawable/imageview_border"
         android:contentDescription="@string/quick_buttons_description_left"
         android:padding="@dimen/padding"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -51,7 +89,6 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_sides_small"
         android:alpha="1"
-        android:background="@drawable/imageview_border"
         android:contentDescription="@string/quick_buttons_description_center"
         android:padding="@dimen/padding"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -64,7 +101,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_sides_small"
-        android:background="@drawable/imageview_border"
         android:contentDescription="@string/quick_buttons_description_right"
         android:padding="@dimen/padding"
         app:layout_constraintBottom_toBottomOf="parent"

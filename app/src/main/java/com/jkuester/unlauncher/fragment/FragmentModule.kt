@@ -1,5 +1,6 @@
 package com.jkuester.unlauncher.fragment
 
+import android.view.LayoutInflater
 import androidx.datastore.core.DataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
@@ -22,8 +23,8 @@ import kotlinx.coroutines.CoroutineScope
 annotation class WithFragmentLifecycle
 
 // java.util.function.Supplier class not supported in our current minimum version so roll our own.
-interface LifecycleOwnerSupplier {
-    fun get(): LifecycleOwner
+interface Supplier<T> {
+    fun get(): T
 }
 
 @Module
@@ -35,11 +36,17 @@ class FragmentModule {
 
     @Provides
     @FragmentScoped
+    fun provideLayoutInflaterSupplier(fragment: Fragment) = object : Supplier<LayoutInflater> {
+        override fun get(): LayoutInflater = fragment.layoutInflater
+    }
+
+    @Provides
+    @FragmentScoped
     fun provideLifecycleScope(fragment: Fragment): CoroutineScope = fragment.lifecycleScope
 
     @Provides
     @FragmentScoped
-    fun provideLifecycleOwnerSupplier(fragment: Fragment) = object : LifecycleOwnerSupplier {
+    fun provideLifecycleOwnerSupplier(fragment: Fragment) = object : Supplier<LifecycleOwner> {
         override fun get(): LifecycleOwner = fragment.viewLifecycleOwner
     }
 
@@ -48,7 +55,7 @@ class FragmentModule {
     fun provideCorePreferencesRepo(
         prefsStore: DataStore<CorePreferences>,
         lifecycleScope: CoroutineScope,
-        lifecycleOwnerSupplier: LifecycleOwnerSupplier
+        lifecycleOwnerSupplier: Supplier<LifecycleOwner>
     ): DataRepository<CorePreferences> = DataRepositoryImpl(
         prefsStore,
         lifecycleScope,
@@ -61,7 +68,7 @@ class FragmentModule {
     fun provideQuickButtonPreferencesRepo(
         prefsStore: DataStore<QuickButtonPreferences>,
         lifecycleScope: CoroutineScope,
-        lifecycleOwnerSupplier: LifecycleOwnerSupplier
+        lifecycleOwnerSupplier: Supplier<LifecycleOwner>
     ): DataRepository<QuickButtonPreferences> = DataRepositoryImpl(
         prefsStore,
         lifecycleScope,
@@ -74,7 +81,7 @@ class FragmentModule {
     fun provideUnlauncherAppsRepo(
         prefsStore: DataStore<UnlauncherApps>,
         lifecycleScope: CoroutineScope,
-        lifecycleOwnerSupplier: LifecycleOwnerSupplier
+        lifecycleOwnerSupplier: Supplier<LifecycleOwner>
     ): DataRepository<UnlauncherApps> = DataRepositoryImpl(
         prefsStore,
         lifecycleScope,

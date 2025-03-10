@@ -1,5 +1,6 @@
 package com.jkuester.unlauncher.fragment
 
+import android.view.LayoutInflater
 import androidx.datastore.core.DataStore
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -37,6 +38,18 @@ class FragmentModuleTest {
 
         fragmentManager shouldBe mFragmentManager
         verify(exactly = 1) { mFragment.childFragmentManager }
+    }
+
+    @Test
+    fun provideLayoutInflaterSupplier() {
+        val mFragment = mockk<Fragment>()
+        val mLayoutInflater = mockk<LayoutInflater>()
+        every { mFragment.layoutInflater } returns mLayoutInflater
+
+        val lifecycleOwnerSupplier = fragmentModule.provideLayoutInflaterSupplier(mFragment)
+
+        lifecycleOwnerSupplier.get() shouldBe mLayoutInflater
+        verify(exactly = 1) { mFragment.layoutInflater }
     }
 
     @Test

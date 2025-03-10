@@ -16,6 +16,9 @@ interface BaseDao {
     @get:Query("SELECT * FROM home_apps ORDER BY sorting_index ASC")
     val apps: LiveData<List<HomeApp>>
 
+    @Query("SELECT * FROM home_apps ORDER BY sorting_index ASC")
+    suspend fun getAll(): List<HomeApp>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun add(app: HomeApp)
 
