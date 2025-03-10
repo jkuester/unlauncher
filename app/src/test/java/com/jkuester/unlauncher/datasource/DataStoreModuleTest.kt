@@ -16,7 +16,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 @MockKExtension.CheckUnnecessaryStub
 @MockKExtension.ConfirmVerification
 @ExtendWith(MockKExtension::class)
-class DataSourceModuleTest {
+class DataStoreModuleTest {
     private val dataStoreModule = DataStoreModule()
 
     @MockK

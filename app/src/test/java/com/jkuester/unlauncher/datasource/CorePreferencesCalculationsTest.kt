@@ -4,10 +4,13 @@ import com.jkuester.unlauncher.datastore.proto.AlignmentFormat
 import com.jkuester.unlauncher.datastore.proto.ClockType
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.datastore.proto.SearchBarPosition
+import com.jkuester.unlauncher.datastore.proto.TimeFormat
 import io.kotest.matchers.shouldBe
 import io.mockk.junit5.MockKExtension
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.EnumSource
 
 private val EMPTY_PREFS = CorePreferences.newBuilder().build()
 
@@ -70,5 +73,16 @@ class CorePreferencesCalculationsTest {
     fun setAlignmentFormat() {
         val updatedPrefs = setAlignmentFormat(AlignmentFormat.center)(EMPTY_PREFS)
         updatedPrefs.alignmentFormat shouldBe AlignmentFormat.center
+    }
+
+    @ParameterizedTest
+    @EnumSource(
+        value = TimeFormat::class,
+        names = ["UNRECOGNIZED"],
+        mode = EnumSource.Mode.EXCLUDE
+    )
+    fun testSetTimeFormat(timeFormat: TimeFormat) {
+        val updatedPrefs = setTimeFormat(timeFormat)(EMPTY_PREFS)
+        updatedPrefs.timeFormat shouldBe timeFormat
     }
 }
