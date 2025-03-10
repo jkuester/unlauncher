@@ -3,14 +3,15 @@ name: Android Feature Branch CI
 
 on:
   push:
-    branches:
-      - '*'
-      - '!master'
+    branches-ignore:
+      - master
+  pull_request:
 
 jobs:
   build:
     name: Build the project
     runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository }}
     steps:
       - name: Checkout project
         uses: actions/checkout@v4
