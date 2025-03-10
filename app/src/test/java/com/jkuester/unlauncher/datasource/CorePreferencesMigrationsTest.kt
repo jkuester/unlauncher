@@ -1,11 +1,20 @@
 package com.jkuester.unlauncher.datasource
 
+import android.content.Context
+import android.content.SharedPreferences
 import com.jkuester.unlauncher.datastore.proto.ClockType
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
+import com.jkuester.unlauncher.datastore.proto.TimeFormat
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.matchers.shouldBe
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
+import io.mockk.verify
 import kotlinx.coroutines.test.runTest
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.params.ParameterizedTest
@@ -80,5 +89,39 @@ class CorePreferencesMigrationsTest {
     @Test
     fun addShowSearchBarMigration_cleanUp() = runTest {
         shouldNotThrowAny { AddShowSearchBarMigration.cleanUp() }
+    }
+
+    @Nested
+    inner class TimeFormatSharedPrefsMigrationTest {
+        @MockK
+        lateinit var sharedPrefs: SharedPreferences
+        @MockK
+        lateinit var context: Context
+
+        @BeforeEach
+        fun beforeEach() {
+            every { context.getSharedPreferences(any(), any()) } returns sharedPrefs
+        }
+        @AfterEach
+        fun afterEach() = verify(exactly = 1) {
+            context.getSharedPreferences("settings", Context.MODE_PRIVATE)
+        }
+
+        @Test
+        fun sharedPrefsMigration_noData() = runTest {
+            every { sharedPrefs.contains(any()) } returns true
+            every { sharedPrefs.getInt(any(), any()) } returns TimeFormat.twelve_hour.number
+            val initialPrefs = CorePreferences
+                .newBuilder()
+                .build()
+
+            val migration = timeFormatSharedPrefsMigration(context)
+            migration.shouldMigrate(initialPrefs) shouldBe true
+            val prefs = migration.migrate(initialPrefs)
+
+            prefs.timeFormat shouldBe TimeFormat.twelve_hour
+            verify(exactly = 1) { sharedPrefs.contains("time_format") }
+            verify(exactly = 1) { sharedPrefs.getInt("time_format", 0) }
+        }
     }
 }

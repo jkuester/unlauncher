@@ -12,6 +12,7 @@ message CorePreferences {
   bool search_all_apps_in_drawer = 6;
   optional ClockType clock_type = 7;
   AlignmentFormat alignment_format = 8;
+  TimeFormat time_format = 9;
 }
 
 enum SearchBarPosition {
@@ -37,4 +38,10 @@ enum AlignmentFormat {
   left = 0;
   center = 1;
   right = 2;
+}
+
+enum TimeFormat {
+  system = 0;
+  twenty_four_hour = 1;
+  twelve_hour = 2;
 }
