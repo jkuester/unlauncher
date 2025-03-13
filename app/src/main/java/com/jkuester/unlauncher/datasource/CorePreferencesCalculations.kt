@@ -4,6 +4,7 @@ import com.jkuester.unlauncher.datastore.proto.AlignmentFormat
 import com.jkuester.unlauncher.datastore.proto.ClockType
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.datastore.proto.SearchBarPosition
+import com.jkuester.unlauncher.datastore.proto.Theme
 import com.jkuester.unlauncher.datastore.proto.TimeFormat
 
 fun toggleActivateKeyboardInDrawer() = { originalPrefs: CorePreferences ->
@@ -32,4 +33,7 @@ fun setAlignmentFormat(alignmentFormat: AlignmentFormat) = { originalPrefs: Core
 }
 fun setTimeFormat(timeFormat: TimeFormat) = { originalPrefs: CorePreferences ->
     originalPrefs.toBuilder().setTimeFormat(timeFormat).build()
+}
+fun setTheme(theme: Theme) = { originalPrefs: CorePreferences ->
+    originalPrefs.toBuilder().setTheme(theme).build()
 }

@@ -4,7 +4,6 @@
     <string name="main_placeholder_clock" translatable="false">00:00</string>
     <string name="main_placeholder_date" translatable="false">Sat, Apr 20</string>
     <string name="prefs_settings" translatable="false">settings</string>
-    <string name="prefs_settings_key_theme" translatable="false">key_theme</string>
     <string name="prefs_settings_key_time_format" translatable="false">time_format</string>
     <string name="prefs_settings_key_toggle_status_bar" translatable="false">hide_status_bar</string>
 

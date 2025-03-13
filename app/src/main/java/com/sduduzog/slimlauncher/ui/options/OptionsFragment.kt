@@ -14,11 +14,11 @@ import com.jkuester.unlauncher.datasource.setKeepDeviceWallpaper
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.dialog.AlignmentFormatDialog
 import com.jkuester.unlauncher.dialog.ClockTypeDialog
+import com.jkuester.unlauncher.dialog.ThemeDialog
 import com.jkuester.unlauncher.dialog.TimeFormatDialog
 import com.jkuester.unlauncher.fragment.WithFragmentLifecycle
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.databinding.OptionsFragmentBinding
-import com.sduduzog.slimlauncher.ui.dialogs.ChangeThemeDialog
 import com.sduduzog.slimlauncher.utils.BaseFragment
 import com.sduduzog.slimlauncher.utils.createTitleAndSubtitleText
 import com.sduduzog.slimlauncher.utils.isActivityDefaultLauncher
@@ -54,8 +54,7 @@ class OptionsFragment : BaseFragment() {
             true
         }
         optionsFragment.optionsFragmentChangeTheme.setOnClickListener {
-            val changeThemeDialog = ChangeThemeDialog.getThemeChooser()
-            changeThemeDialog.showNow(childFragmentManager, "THEME_CHOOSER")
+            ThemeDialog().showNow(childFragmentManager, null)
         }
         optionsFragment.optionsFragmentChooseTimeFormat.setOnClickListener {
             TimeFormatDialog().showNow(childFragmentManager, null)

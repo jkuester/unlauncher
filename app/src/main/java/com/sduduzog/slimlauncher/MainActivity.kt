@@ -13,11 +13,13 @@ import android.view.View
 import androidx.annotation.StyleRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.motion.widget.MotionLayout
-import androidx.datastore.core.DataStore
 import androidx.navigation.NavController
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.RecyclerView
+import com.jkuester.unlauncher.WithActivityLifecycle
+import com.jkuester.unlauncher.datasource.DataRepository
+import com.jkuester.unlauncher.datasource.corePreferencesStore
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.sduduzog.slimlauncher.utils.BaseFragment
 import com.sduduzog.slimlauncher.utils.HomeWatcher
@@ -33,6 +35,8 @@ import dagger.hilt.android.components.ActivityComponent
 import java.lang.reflect.Method
 import javax.inject.Inject
 import kotlin.math.absoluteValue
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 
 @AndroidEntryPoint
 class MainActivity :
@@ -43,9 +47,8 @@ class MainActivity :
 
     @Inject
     lateinit var systemUiManager: SystemUiManager
-
-    @Inject
-    lateinit var corePreferencesStore: DataStore<CorePreferences>
+    @Inject @WithActivityLifecycle
+    lateinit var corePrefRepo: DataRepository<CorePreferences>
 
     @EntryPoint
     @InstallIn(ActivityComponent::class)
@@ -82,7 +85,19 @@ class MainActivity :
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Set theme before creating activity
+        var currentTheme = runBlocking { corePreferencesStore.data.first().theme.number }
+        setTheme(resolveTheme(currentTheme))
+
         super.onCreate(savedInstanceState)
+
+        corePrefRepo.observe {
+            if (it.theme.number != currentTheme) {
+                currentTheme = it.theme.number
+                setTheme(resolveTheme(currentTheme))
+                recreate()
+            }
+        }
         setContentView(R.layout.main_activity)
         settings = getSharedPreferences(getString(R.string.prefs_settings), MODE_PRIVATE)
         settings.registerOnSharedPreferenceChangeListener(this)
@@ -121,9 +136,6 @@ class MainActivity :
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, s: String?) {
-        if (s.equals(getString(R.string.prefs_settings_key_theme), true)) {
-            recreate()
-        }
         if (s.equals(getString(R.string.prefs_settings_key_toggle_status_bar), true)) {
             systemUiManager.setSystemUiVisibility()
         }
@@ -137,14 +149,9 @@ class MainActivity :
         wallpaperManager.onApplyThemeResource(theme, resid)
     }
 
-    override fun setTheme(resId: Int) {
-        super.setTheme(getUserSelectedThemeRes())
-    }
-
     @StyleRes
     fun getUserSelectedThemeRes(): Int {
-        settings = getSharedPreferences(getString(R.string.prefs_settings), MODE_PRIVATE)
-        val active = settings.getInt(getString(R.string.prefs_settings_key_theme), 0)
+        val active = runBlocking { corePreferencesStore.data.first().theme.number }
         return resolveTheme(active)
     }
 

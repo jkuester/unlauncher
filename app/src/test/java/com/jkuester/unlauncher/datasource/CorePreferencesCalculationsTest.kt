@@ -4,6 +4,7 @@ import com.jkuester.unlauncher.datastore.proto.AlignmentFormat
 import com.jkuester.unlauncher.datastore.proto.ClockType
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.datastore.proto.SearchBarPosition
+import com.jkuester.unlauncher.datastore.proto.Theme
 import com.jkuester.unlauncher.datastore.proto.TimeFormat
 import io.kotest.matchers.shouldBe
 import io.mockk.junit5.MockKExtension
@@ -84,5 +85,16 @@ class CorePreferencesCalculationsTest {
     fun testSetTimeFormat(timeFormat: TimeFormat) {
         val updatedPrefs = setTimeFormat(timeFormat)(EMPTY_PREFS)
         updatedPrefs.timeFormat shouldBe timeFormat
+    }
+
+    @ParameterizedTest
+    @EnumSource(
+        value = Theme::class,
+        names = ["UNRECOGNIZED"],
+        mode = EnumSource.Mode.EXCLUDE
+    )
+    fun testSetTheme(theme: Theme) {
+        val updatedPrefs = setTheme(theme)(EMPTY_PREFS)
+        updatedPrefs.theme shouldBe theme
     }
 }
