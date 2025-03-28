@@ -44,6 +44,8 @@
         <item>Noon</item>
         <item>Vlad</item>
         <item>Groovy</item>
+        <item>Light Wallpaper</item>
+        <item>Dark Wallpaper</item>
     </string-array>
     <string-array name="time_format_array">
         <item>Follow system settings</item>

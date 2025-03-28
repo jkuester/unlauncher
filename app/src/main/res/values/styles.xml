@@ -70,5 +70,29 @@
         <item name="android:colorForeground">@color/colorCookiesAndCream</item>
         <item name="android:navigationBarColor">@color/colorCharlestonGreen</item>
     </style>
+    <style name="LightWallpaper" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowShowWallpaper">true</item>
+        <item name="headerTextColor">@color/lightAccentColor</item>
+        <item name="switchTextColor">@color/lightAccentColor</item>
+        <item name="colorAccent">@color/lightAccentColor</item>
+        <item name="android:colorForeground">@color/lightAccentColor</item>
+        <item name="colorPrimary">@color/lightPrimaryColor</item>
+        <item name="colorPrimaryDark">@color/primaryColorDark</item>
+        <item name="android:fontFamily">@font/ubuntu</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+    </style>
+    <style name="DarkWallpaper" parent="@style/Theme.AppCompat.NoActionBar">
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="headerTextColor">@color/darkAccentColor</item>
+        <item name="switchTextColor">@color/darkAccentColor</item>
+        <item name="colorAccent">@color/darkAccentColor</item>
+        <item name="colorPrimary">@color/darkPrimaryColor</item>
+        <item name="colorPrimaryDark">@color/darkPrimaryColor</item>
+        <item name="android:colorForeground">@color/darkAccentColor</item>
+        <item name="android:fontFamily">@font/ubuntu</item>
+        <item name="android:windowShowWallpaper">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
 
 </resources>

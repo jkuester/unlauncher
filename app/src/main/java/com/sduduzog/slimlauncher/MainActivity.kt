@@ -170,6 +170,8 @@ class MainActivity :
             6 -> R.style.AppThemeLight
             7 -> R.style.AppDarculaTheme
             8 -> R.style.AppGruvBoxDarkTheme
+            9 -> R.style.LightWallpaper
+            10 -> R.style.DarkWallpaper
             else -> R.style.AppTheme
         }
     }
