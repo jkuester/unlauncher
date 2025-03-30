@@ -26,9 +26,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/customize_app_drawer_fragment_search_field_options"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textColor="?headerTextColor"
-        android:textSize="@dimen/font_size_options_title"
+        android:textAppearance="@style/TextAppearance.Header"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/header_back"
         app:layout_constraintTop_toTopOf="parent" />
@@ -52,9 +50,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/customize_app_drawer_fragment_show_search_bar"
-                android:textAppearance="@style/TextAppearance.AppCompat"
-                android:textColor="?switchTextColor"
-                android:textSize="@dimen/font_size_customize_options"
+                android:textAppearance="@style/TextAppearance.Primary.Large"
+                android:textColor="@color/primary_text"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -64,7 +61,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_list_items"
                 android:text="@string/customize_app_drawer_fragment_search_bar_position"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textAppearance="@style/TextAppearance.Primary"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/show_search_field_switch" />
 
@@ -72,7 +69,7 @@
                 android:id="@+id/search_field_position_subtitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textAppearance="@style/TextAppearance.Hint"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/search_field_position_title" />
 
@@ -82,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_list_items"
                 android:text="@string/customize_app_drawer_fragment_open_keyboard"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textAppearance="@style/TextAppearance.Primary"
                 app:layout_constrainedWidth="true"
                 app:layout_constraintEnd_toStartOf="@+id/open_keyboard_switch_toggle"
                 app:layout_constraintHorizontal_bias="0"
@@ -94,7 +91,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/customize_app_drawer_fragment_open_keyboard_subtitle"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textAppearance="@style/TextAppearance.Hint"
                 app:layout_constrainedWidth="true"
                 app:layout_constraintEnd_toStartOf="@+id/open_keyboard_switch_toggle"
                 app:layout_constraintHorizontal_bias="0"
@@ -115,7 +112,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_list_items"
                 android:text="@string/customize_app_drawer_fragment_search_all"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textAppearance="@style/TextAppearance.Primary"
                 app:layout_constrainedWidth="true"
                 app:layout_constraintEnd_toStartOf="@+id/open_keyboard_switch_toggle"
                 app:layout_constraintHorizontal_bias="0"
@@ -127,7 +124,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/customize_app_drawer_fragment_search_all_subtitle"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textAppearance="@style/TextAppearance.Hint"
                 app:layout_constrainedWidth="true"
                 app:layout_constraintEnd_toStartOf="@+id/open_keyboard_switch_toggle"
                 app:layout_constraintHorizontal_bias="0"

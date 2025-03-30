@@ -45,9 +45,14 @@ private fun setWallpaperBackgroundColor(activity: Activity) = { color: Int ->
         }
 }
 
-private fun getThemeBackgroundColor(theme: Resources.Theme, themeRes: Int) = theme
-    .obtainStyledAttributes(themeRes, intArrayOf(android.R.attr.colorBackground))
-    .use { it.getColor(0, Int.MIN_VALUE) }
+private fun getThemeBackgroundColor(theme: Resources.Theme, themeRes: Int): Int {
+    val typedArray = theme.obtainStyledAttributes(themeRes, intArrayOf(android.R.attr.colorBackground))
+    return try {
+        typedArray.getColor(0, Int.MIN_VALUE)
+    } finally {
+        typedArray.recycle()
+    }
+}
 
 fun setWallpaperAsync(
     activity: AppCompatActivity,

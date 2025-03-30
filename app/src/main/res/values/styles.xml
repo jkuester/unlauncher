@@ -1,74 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Standard text - app lists, opts with hints, etc -->
+    <style name="TextAppearance.Primary" parent="@style/TextAppearance.AppCompat">
+        <item name="android:textColor">@color/primary_text</item>
+        <item name="android:textSize">@dimen/font_size_apps_list_item</item>
+    </style>
+
+    <!-- Opts without hints -->
+    <style name="TextAppearance.Primary.Large" parent="TextAppearance.Primary">
+        <item name="android:textSize">@dimen/font_size_customize_options</item>
+    </style>
+
+    <!-- Home apps -->
+    <style name="TextAppearance.Primary.XL" parent="TextAppearance.Primary">
+        <item name="android:textSize">@dimen/font_size_home_app_list_item</item>
+    </style>
+
+    <!-- Option page headers -->
+    <style name="TextAppearance.Header" parent="TextAppearance.Primary.XL">
+        <item name="android:textColor">?attr/colorHeaderText</item>
+    </style>
+
+    <!-- Section headings for app lists -->
+    <style name="TextAppearance.AppGroupHeader" parent="TextAppearance.Header">
+        <item name="android:textSize">@dimen/font_size_customize_group_header</item>
+    </style>
+
+    <!-- Hint text -->
+    <style name="TextAppearance.Hint" parent="@style/TextAppearance.AppCompat.Small">
+        <item name="android:textColor">@color/hint_text</item>
+    </style>
+
     <style name="AppThemeLight" parent="@style/Theme.AppCompat.Light.NoActionBar">
-        <item name="headerTextColor">@color/lightAccentColor</item>
-        <item name="switchTextColor">@color/lightAccentColor</item>
-        <item name="colorAccent">@color/lightAccentColor</item>
-        <item name="android:colorForeground">@color/lightAccentColor</item>
-        <item name="colorPrimary">@color/lightPrimaryColor</item>
-        <item name="colorPrimaryDark">@color/primaryColorDark</item>
-        <item name="android:colorBackground">@color/lightPrimaryColor</item>
         <item name="android:fontFamily">@font/ubuntu</item>
+        <!-- Background -->
+        <item name="android:colorBackground">?attr/colorBackground</item>
+        <!-- Clocks -->
+        <item name="android:colorForeground">?attr/colorPrimaryTextEnabled</item>
+        <!-- Icons -->
+        <item name="colorAccent">?attr/colorPrimaryTextEnabled</item>
+        <!-- Programmatically set to the status and nav bars -->
+        <item name="colorPrimary">?attr/colorBackground</item>
+        <!-- Custom properties -->
+        <item name="colorBackground">@android:color/white</item>
+        <item name="colorHeaderText">@color/colorVampireBlack</item>
+        <item name="colorHintTextDisabled">@color/colorGray</item>
+        <item name="colorHintTextEnabled">@color/colorVampireBlack</item>
+        <item name="colorPrimaryTextDisabled">@color/colorGray</item>
+        <item name="colorPrimaryTextEnabled">@color/colorVampireBlack</item>
     </style>
 
     <style name="AppThemeDark" parent="@style/Theme.AppCompat.NoActionBar">
-        <item name="headerTextColor">@color/darkAccentColor</item>
-        <item name="switchTextColor">@color/darkAccentColor</item>
-        <item name="colorAccent">@color/darkAccentColor</item>
-        <item name="colorPrimary">@color/darkPrimaryColor</item>
-        <item name="colorPrimaryDark">@color/darkPrimaryColor</item>
-        <item name="android:colorBackground">@color/darkPrimaryColor</item>
-        <item name="android:colorForeground">@color/darkAccentColor</item>
         <item name="android:fontFamily">@font/ubuntu</item>
+        <!-- Background -->
+        <item name="android:colorBackground">?attr/colorBackground</item>
+        <!-- Clocks -->
+        <item name="android:colorForeground">?attr/colorPrimaryTextEnabled</item>
+        <!-- Icons -->
+        <item name="colorAccent">?attr/colorPrimaryTextEnabled</item>
+        <!-- Programmatically set to the status and nav bars -->
+        <item name="colorPrimary">?attr/colorBackground</item>
+        <!-- Custom properties -->
+        <item name="colorBackground">@android:color/black</item>
+        <item name="colorHeaderText">@color/colorChineseWhite</item>
+        <item name="colorHintTextDisabled">@color/colorGray</item>
+        <item name="colorHintTextEnabled">@color/colorChineseWhite</item>
+        <item name="colorPrimaryTextDisabled">@color/colorGray</item>
+        <item name="colorPrimaryTextEnabled">@color/colorChineseWhite</item>
     </style>
 
+    <!-- All app themes should extend from one of the above and should define these attributes:
+       - colorBackground - the "wallpaper"
+       - colorHeaderText - header text (in the options menu)
+       - colorHintTextDisabled - disabled hint/subtext (for disabled options)
+       - colorHintTextEnabled - hint/subtext (in the options menu)
+       - colorPrimaryTextDisabled - disabled main text (for disabled options)
+       - colorPrimaryTextEnabled - main text
+     -->
     <style name="AppGreyTheme" parent="AppThemeDark">
-        <item name="colorPrimary">@color/colorBlueGrey</item>
-        <item name="colorPrimaryDark">@color/colorBlueGrey</item>
-        <item name="android:colorBackground">@color/colorBlueGrey</item>
+        <item name="colorBackground">@color/colorBlueGrey</item>
+        <item name="colorHeaderText">@color/colorChineseWhite</item>
+        <item name="colorHintTextDisabled">@color/colorGray</item>
+        <item name="colorHintTextEnabled">@color/colorChineseWhite</item>
+        <item name="colorPrimaryTextDisabled">@color/colorGray</item>
+        <item name="colorPrimaryTextEnabled">@color/colorChineseWhite</item>
     </style>
 
     <style name="AppCandyTheme" parent="AppThemeDark">
-        <item name="colorPrimary">@color/colorCandy</item>
-        <item name="colorPrimaryDark">@color/colorCandy</item>
-        <item name="android:colorBackground">@color/colorCandy</item>
+        <item name="colorBackground">@color/colorCandy</item>
+        <item name="colorHintTextEnabled">@color/colorChineseWhite</item>
+        <item name="colorHintTextDisabled">@color/colorGray</item>
+        <item name="colorHeaderText">@color/colorChineseWhite</item>
+        <item name="colorPrimaryTextDisabled">@color/colorGray</item>
+        <item name="colorPrimaryTextEnabled">@color/colorChineseWhite</item>
     </style>
 
     <style name="AppPinkTheme" parent="AppThemeLight">
-        <item name="colorPrimary">@color/colorPink</item>
-        <item name="colorPrimaryDark">@color/colorPink</item>
-        <item name="android:colorBackground">@color/colorPink</item>
+        <item name="colorBackground">@color/colorPink</item>
+        <item name="colorHeaderText">@color/colorVampireBlack</item>
+        <item name="colorHintTextDisabled">@color/colorGray</item>
+        <item name="colorHintTextEnabled">@color/colorVampireBlack</item>
+        <item name="colorPrimaryTextDisabled">@color/colorGray</item>
+        <item name="colorPrimaryTextEnabled">@color/colorVampireBlack</item>
     </style>
 
     <style name="AppTealTheme" parent="AppThemeLight">
-        <item name="colorPrimary">@color/colorTeal</item>
-        <item name="colorPrimaryDark">@color/colorTeal</item>
-        <item name="android:colorBackground">@color/colorTeal</item>
+        <item name="colorBackground">@color/colorTeal</item>
+        <item name="colorHeaderText">@color/colorVampireBlack</item>
+        <item name="colorHintTextDisabled">@color/colorGray</item>
+        <item name="colorHintTextEnabled">@color/colorVampireBlack</item>
+        <item name="colorPrimaryTextDisabled">@color/colorGray</item>
+        <item name="colorPrimaryTextEnabled">@color/colorVampireBlack</item>
     </style>
 
     <style name="AppDarculaTheme" parent="AppThemeDark">
-        <item name="headerTextColor">@color/colorDarkBlueGray</item>
-        <item name="colorPrimary">@color/colorGunmetal</item>
-        <item name="colorPrimaryDark">@color/colorOuterSpace</item>
-        <item name="android:colorBackground">@color/colorGunmetal</item>
-        <item name="colorAccent">@color/colorCultured</item>
-        <item name="android:textColor">@color/colorCultured</item>
-        <item name="android:colorForeground">@color/colorCultured</item>
-        <item name="android:navigationBarColor">@color/colorGunmetal</item>
+        <item name="colorBackground">@color/colorGunmetal</item>
+        <item name="colorHeaderText">@color/colorDarkBlueGray</item>
+        <item name="colorHintTextDisabled">@color/colorOuterSpace</item>
+        <item name="colorHintTextEnabled">@color/colorGray</item>
+        <item name="colorPrimaryTextDisabled">@color/colorOuterSpace</item>
+        <item name="colorPrimaryTextEnabled">@color/colorCultured</item>
     </style>
 
     <style name="AppGruvBoxDarkTheme" parent="AppThemeDark">
-        <item name="headerTextColor">@color/colorAcidGreen</item>
-        <item name="switchTextColor">@color/colorCookiesAndCream</item>
-        <item name="colorPrimary">@color/colorCharlestonGreen</item>
-        <item name="colorPrimaryDark">@color/colorCinereous</item>
-        <item name="android:colorBackground">@color/colorCharlestonGreen</item>
-        <item name="colorAccent">@color/colorCookiesAndCream</item>
-        <item name="android:textColor">@color/colorCookiesAndCream</item>
-        <item name="android:textColorHint">@color/colorCinereous</item>
-        <item name="android:colorForeground">@color/colorCookiesAndCream</item>
-        <item name="android:navigationBarColor">@color/colorCharlestonGreen</item>
+        <item name="colorBackground">@color/colorCharlestonGreen</item>
+        <item name="colorHeaderText">@color/colorAcidGreen</item>
+        <item name="colorHintTextDisabled">@android:color/darker_gray</item>
+        <item name="colorHintTextEnabled">@color/colorCinereous</item>
+        <item name="colorPrimaryTextDisabled">@android:color/darker_gray</item>
+        <item name="colorPrimaryTextEnabled">@color/colorCookiesAndCream</item>
     </style>
-
 </resources>
