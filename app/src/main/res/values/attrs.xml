@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <attr name="headerTextColor" format="reference"/>
-    <attr name="switchTextColor" format="reference" />
+    <attr name="colorBackground" format="reference"/>
+    <attr name="colorHeaderText" format="reference"/>
+    <attr name="colorHintTextDisabled" format="reference"/>
+    <attr name="colorHintTextEnabled" format="reference"/>
+    <attr name="colorPrimaryTextDisabled" format="reference"/>
+    <attr name="colorPrimaryTextEnabled" format="reference"/>
+
     <declare-styleable name="BinaryClockView">
         <attr name="bitSize" format="integer" />
         <attr name="border" format="integer" />

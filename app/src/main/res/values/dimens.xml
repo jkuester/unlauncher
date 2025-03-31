@@ -8,7 +8,6 @@
     <dimen name="font_size_apps_list_item">@dimen/_18ssp</dimen>
     <!-- same list items in drawer and in search for apps to add -->
 
-    <dimen name="font_size_options_title">@dimen/_24ssp</dimen>
     <dimen name="font_size_customize_options">@dimen/_20ssp</dimen>
     <dimen name="font_size_customize_group_header">@dimen/_12ssp</dimen>
     

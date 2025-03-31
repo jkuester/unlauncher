@@ -13,26 +13,30 @@ import android.view.View
 import androidx.annotation.StyleRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.motion.widget.MotionLayout
-import androidx.datastore.core.DataStore
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.RecyclerView
+import com.jkuester.unlauncher.ThemeManager
+import com.jkuester.unlauncher.WithActivityLifecycle
+import com.jkuester.unlauncher.datasource.DataRepository
+import com.jkuester.unlauncher.datasource.corePreferencesStore
+import com.jkuester.unlauncher.datasource.getThemeStyleResource
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.sduduzog.slimlauncher.utils.BaseFragment
 import com.sduduzog.slimlauncher.utils.HomeWatcher
 import com.sduduzog.slimlauncher.utils.IPublisher
 import com.sduduzog.slimlauncher.utils.ISubscriber
 import com.sduduzog.slimlauncher.utils.SystemUiManager
-import com.sduduzog.slimlauncher.utils.WallpaperManager
-import dagger.hilt.EntryPoint
-import dagger.hilt.InstallIn
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.EntryPointAccessors
-import dagger.hilt.android.components.ActivityComponent
 import java.lang.reflect.Method
 import javax.inject.Inject
 import kotlin.math.absoluteValue
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 @AndroidEntryPoint
 class MainActivity :
@@ -43,19 +47,13 @@ class MainActivity :
 
     @Inject
     lateinit var systemUiManager: SystemUiManager
-
-    @Inject
-    lateinit var corePreferencesStore: DataStore<CorePreferences>
-
-    @EntryPoint
-    @InstallIn(ActivityComponent::class)
-    interface WallpaperManagerFactory {
-        fun getWallpaperManager(): WallpaperManager
-    }
+    @Inject @WithActivityLifecycle
+    lateinit var corePrefRepo: DataRepository<CorePreferences>
 
     private lateinit var settings: SharedPreferences
     private lateinit var navigator: NavController
     private lateinit var homeWatcher: HomeWatcher
+    private val themeManager = ThemeManager(this)
 
     private val subscribers: MutableSet<BaseFragment> = mutableSetOf()
 
@@ -82,7 +80,13 @@ class MainActivity :
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Set theme before creating activity
+        val currentTheme = runBlocking { corePreferencesStore.data.first().theme }
+        setTheme(getThemeStyleResource(currentTheme))
+
         super.onCreate(savedInstanceState)
+
+        themeManager.listenForThemeChanges(corePrefRepo, currentTheme)
         setContentView(R.layout.main_activity)
         settings = getSharedPreferences(getString(R.string.prefs_settings), MODE_PRIVATE)
         settings.registerOnSharedPreferenceChangeListener(this)
@@ -121,9 +125,6 @@ class MainActivity :
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, s: String?) {
-        if (s.equals(getString(R.string.prefs_settings_key_theme), true)) {
-            recreate()
-        }
         if (s.equals(getString(R.string.prefs_settings_key_toggle_status_bar), true)) {
             systemUiManager.setSystemUiVisibility()
         }
@@ -131,21 +132,9 @@ class MainActivity :
 
     override fun onApplyThemeResource(theme: Resources.Theme?, @StyleRes resid: Int, first: Boolean) {
         super.onApplyThemeResource(theme, resid, first)
-        // This function is called too early in the lifecycle for normal injection so we do it the hard way
-        val factory = EntryPointAccessors.fromActivity(this, WallpaperManagerFactory::class.java)
-        val wallpaperManager = factory.getWallpaperManager()
-        wallpaperManager.onApplyThemeResource(theme, resid)
-    }
-
-    override fun setTheme(resId: Int) {
-        super.setTheme(getUserSelectedThemeRes())
-    }
-
-    @StyleRes
-    fun getUserSelectedThemeRes(): Int {
-        settings = getSharedPreferences(getString(R.string.prefs_settings), MODE_PRIVATE)
-        val active = settings.getInt(getString(R.string.prefs_settings_key_theme), 0)
-        return resolveTheme(active)
+        this.lifecycleScope.launch(Dispatchers.IO) {
+            themeManager.setDeviceWallpaper(corePreferencesStore, theme, resid, first)
+        }
     }
 
     @Deprecated("Deprecated in Java")
@@ -157,21 +146,6 @@ class MainActivity :
     override fun onHomePressed() {
         dispatchHome()
         navigator.popBackStack(R.id.homeFragment, false)
-    }
-
-    companion object {
-        @StyleRes
-        fun resolveTheme(i: Int): Int = when (i) {
-            1 -> R.style.AppThemeDark
-            2 -> R.style.AppGreyTheme
-            3 -> R.style.AppTealTheme
-            4 -> R.style.AppCandyTheme
-            5 -> R.style.AppPinkTheme
-            6 -> R.style.AppThemeLight
-            7 -> R.style.AppDarculaTheme
-            8 -> R.style.AppGruvBoxDarkTheme
-            else -> R.style.AppTheme
-        }
     }
 
     private fun completeBackAction() {

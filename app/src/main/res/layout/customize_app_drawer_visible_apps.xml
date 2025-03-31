@@ -26,9 +26,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/customize_app_drawer_fragment_visible_apps"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textColor="?headerTextColor"
-        android:textSize="@dimen/font_size_options_title"
+        android:textAppearance="@style/TextAppearance.Header"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/header_back"
         app:layout_constraintTop_toTopOf="parent" />

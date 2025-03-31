@@ -26,9 +26,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/customize_home"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textColor="?headerTextColor"
-        android:textSize="@dimen/font_size_options_title"
+        android:textAppearance="@style/TextAppearance.Header"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/header_back"
         app:layout_constraintTop_toTopOf="parent" />
@@ -59,8 +57,7 @@
             android:padding="@dimen/padding"
             android:paddingEnd="0dp"
             android:text="+"
-            android:textAppearance="@style/TextAppearance.AppCompat"
-            android:textSize="@dimen/font_size_home_app_list_item"
+            android:textAppearance="@style/TextAppearance.Primary.XL"
             tools:ignore="HardcodedText,RtlSymmetry" />
 
         <TextView
@@ -68,8 +65,7 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/padding"
             android:text="@string/customise_apps_fragment_add"
-            android:textAppearance="@style/TextAppearance.AppCompat"
-            android:textSize="@dimen/font_size_home_app_list_item" />
+            android:textAppearance="@style/TextAppearance.Primary.XL" />
     </LinearLayout>
 
     <ImageView

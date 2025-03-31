@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.jkuester.unlauncher.datastore.proto.ClockType
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
+import com.jkuester.unlauncher.datastore.proto.Theme
 import com.jkuester.unlauncher.datastore.proto.TimeFormat
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.matchers.shouldBe
@@ -92,7 +93,7 @@ class CorePreferencesMigrationsTest {
     }
 
     @Nested
-    inner class TimeFormatSharedPrefsMigrationTest {
+    inner class SlimLauncherSharedPrefsMigrationTest {
         @MockK
         lateinit var sharedPrefs: SharedPreferences
         @MockK
@@ -110,18 +111,21 @@ class CorePreferencesMigrationsTest {
         @Test
         fun sharedPrefsMigration_noData() = runTest {
             every { sharedPrefs.contains(any()) } returns true
-            every { sharedPrefs.getInt(any(), any()) } returns TimeFormat.twelve_hour.number
+            every { sharedPrefs.getInt("time_format", any()) } returns TimeFormat.twelve_hour.number
+            every { sharedPrefs.getInt("key_theme", any()) } returns Theme.jupiter.number
             val initialPrefs = CorePreferences
                 .newBuilder()
                 .build()
 
-            val migration = timeFormatSharedPrefsMigration(context)
+            val migration = slimLauncherSharedPrefsMigration(context)
             migration.shouldMigrate(initialPrefs) shouldBe true
             val prefs = migration.migrate(initialPrefs)
 
             prefs.timeFormat shouldBe TimeFormat.twelve_hour
+            prefs.theme shouldBe Theme.jupiter
             verify(exactly = 1) { sharedPrefs.contains("time_format") }
             verify(exactly = 1) { sharedPrefs.getInt("time_format", 0) }
+            verify(exactly = 1) { sharedPrefs.getInt("key_theme", 0) }
         }
     }
 }

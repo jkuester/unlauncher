@@ -13,6 +13,7 @@ message CorePreferences {
   optional ClockType clock_type = 7;
   AlignmentFormat alignment_format = 8;
   TimeFormat time_format = 9;
+  Theme theme = 10;
 }
 
 enum SearchBarPosition {
@@ -44,4 +45,16 @@ enum TimeFormat {
   system = 0;
   twenty_four_hour = 1;
   twelve_hour = 2;
+}
+
+enum Theme {
+  system_theme = 0;
+  midnight = 1;
+  jupiter = 2;
+  teal = 3;
+  candy = 4;
+  pastel = 5;
+  noon = 6;
+  vlad = 7;
+  groovy = 8;
 }

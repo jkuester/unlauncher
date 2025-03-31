@@ -4,7 +4,9 @@ import com.jkuester.unlauncher.datastore.proto.AlignmentFormat
 import com.jkuester.unlauncher.datastore.proto.ClockType
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.datastore.proto.SearchBarPosition
+import com.jkuester.unlauncher.datastore.proto.Theme
 import com.jkuester.unlauncher.datastore.proto.TimeFormat
+import com.sduduzog.slimlauncher.R
 
 fun toggleActivateKeyboardInDrawer() = { originalPrefs: CorePreferences ->
     originalPrefs.toBuilder().setActivateKeyboardInDrawer(!originalPrefs.activateKeyboardInDrawer).build()
@@ -33,3 +35,20 @@ fun setAlignmentFormat(alignmentFormat: AlignmentFormat) = { originalPrefs: Core
 fun setTimeFormat(timeFormat: TimeFormat) = { originalPrefs: CorePreferences ->
     originalPrefs.toBuilder().setTimeFormat(timeFormat).build()
 }
+fun setTheme(theme: Theme) = { originalPrefs: CorePreferences ->
+    originalPrefs.toBuilder().setTheme(theme).build()
+}
+
+private val STYLE_RESOURCES_BY_THEME = mapOf(
+    Theme.system_theme to R.style.AppTheme,
+    Theme.midnight to R.style.AppThemeDark,
+    Theme.jupiter to R.style.AppGreyTheme,
+    Theme.teal to R.style.AppTealTheme,
+    Theme.candy to R.style.AppCandyTheme,
+    Theme.pastel to R.style.AppPinkTheme,
+    Theme.noon to R.style.AppThemeLight,
+    Theme.vlad to R.style.AppDarculaTheme,
+    Theme.groovy to R.style.AppGruvBoxDarkTheme,
+)
+
+fun getThemeStyleResource(theme: Theme) = STYLE_RESOURCES_BY_THEME[theme] ?: R.style.AppTheme

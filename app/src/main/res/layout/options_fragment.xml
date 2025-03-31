@@ -25,10 +25,8 @@
         android:id="@+id/options_fragment_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textColor="?headerTextColor"
         android:text="@string/main_fragment_options"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textSize="@dimen/font_size_options_title"
+        android:textAppearance="@style/TextAppearance.Header"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/options_fragment_back" />
@@ -52,8 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/options_fragment_device_settings"
-                android:textAppearance="@style/TextAppearance.AppCompat"
-                android:textSize="@dimen/font_size_customize_options"
+                android:textAppearance="@style/TextAppearance.Primary.Large"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
             <TextView
@@ -62,8 +59,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_list_items"
                 android:text="@string/options_fragment_change_theme"
-                android:textAppearance="@style/TextAppearance.AppCompat"
-                android:textSize="@dimen/font_size_customize_options"
+                android:textAppearance="@style/TextAppearance.Primary.Large"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/options_fragment_device_settings" />
             <TextView
@@ -72,8 +68,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_list_items"
                 android:text="@string/options_fragment_choose_time_format"
-                android:textAppearance="@style/TextAppearance.AppCompat"
-                android:textSize="@dimen/font_size_customize_options"
+                android:textAppearance="@style/TextAppearance.Primary.Large"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/options_fragment_change_theme" />
 	        <TextView
@@ -82,8 +77,7 @@
 	            android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_list_items"
 	            android:text="@string/options_fragment_choose_clock_type"
-	            android:textAppearance="@style/TextAppearance.AppCompat"
-	            android:textSize="@dimen/font_size_customize_options"
+	            android:textAppearance="@style/TextAppearance.Primary.Large"
 	            app:layout_constraintTop_toBottomOf="@id/options_fragment_choose_time_format" />
             <TextView
                 android:id="@+id/options_fragment_toggle_status_bar"
@@ -91,8 +85,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_list_items"
                 android:text="@string/options_fragment_toggle_status_bar"
-                android:textAppearance="@style/TextAppearance.AppCompat"
-                android:textSize="@dimen/font_size_customize_options"
+                android:textAppearance="@style/TextAppearance.Primary.Large"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/options_fragment_choose_clock_type" />
             <TextView
@@ -101,8 +94,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_list_items"
                 android:text="@string/options_fragment_choose_alignment"
-                android:textAppearance="@style/TextAppearance.AppCompat"
-                android:textSize="@dimen/font_size_customize_options"
+                android:textAppearance="@style/TextAppearance.Primary.Large"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/options_fragment_toggle_status_bar" />
             <TextView
@@ -111,8 +103,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_list_items"
                 android:text="@string/customize_home"
-                android:textAppearance="@style/TextAppearance.AppCompat"
-                android:textSize="@dimen/font_size_customize_options"
+                android:textAppearance="@style/TextAppearance.Primary.Large"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/options_fragment_choose_alignment" />
             <TextView
@@ -121,8 +112,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_list_items"
                 android:text="@string/options_fragment_customize_app_drawer"
-                android:textAppearance="@style/TextAppearance.AppCompat"
-                android:textSize="@dimen/font_size_customize_options"
+                android:textAppearance="@style/TextAppearance.Primary.Large"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/options_fragment_customize_quick_buttons" />
             <androidx.appcompat.widget.SwitchCompat
@@ -130,10 +120,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_list_items"
-                android:textColor="?switchTextColor"
                 android:text="@string/customize_app_drawer_fragment_auto_theme_wallpaper_text"
-                android:textAppearance="@style/TextAppearance.AppCompat"
-                android:textSize="@dimen/font_size_customize_options"
+                android:textAppearance="@style/TextAppearance.Primary.Large"
+                android:textColor="@color/primary_text"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/options_fragment_customize_app_drawer" />
 

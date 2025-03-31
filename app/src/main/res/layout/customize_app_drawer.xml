@@ -27,9 +27,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/options_fragment_customize_app_drawer"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textColor="?headerTextColor"
-        android:textSize="@dimen/font_size_options_title"
+        android:textAppearance="@style/TextAppearance.Header"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/header_back"
         app:layout_constraintTop_toTopOf="parent" />
@@ -53,8 +51,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/customize_app_drawer_fragment_visible_apps"
-                android:textAppearance="@style/TextAppearance.AppCompat"
-                android:textSize="@dimen/font_size_customize_options"
+                android:textAppearance="@style/TextAppearance.Primary.Large"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -64,7 +61,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_list_items"
                 android:text="@string/customize_app_drawer_fragment_search_field_options"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textAppearance="@style/TextAppearance.Primary"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/visible_apps" />
 
@@ -72,7 +69,7 @@
                 android:id="@+id/search_field_options_subtitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textAppearance="@style/TextAppearance.Hint"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/search_field_options_title" />
 
@@ -82,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_list_items"
                 android:text="@string/customize_app_drawer_fragment_show_headings"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textAppearance="@style/TextAppearance.Primary"
                 app:layout_constrainedWidth="true"
                 app:layout_constraintEnd_toStartOf="@+id/show_headings_switch_toggle"
                 app:layout_constraintHorizontal_bias="0"
@@ -94,7 +91,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/customize_app_drawer_fragment_show_headings_subtitle"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textAppearance="@style/TextAppearance.Hint"
                 app:layout_constrainedWidth="true"
                 app:layout_constraintEnd_toStartOf="@+id/show_headings_switch_toggle"
                 app:layout_constraintHorizontal_bias="0"

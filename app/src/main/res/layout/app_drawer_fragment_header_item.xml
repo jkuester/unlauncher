@@ -11,8 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end"
         android:padding="@dimen/padding"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textSize="@dimen/font_size_customize_group_header"
+        android:textAppearance="@style/TextAppearance.AppGroupHeader"
         tools:text="A" />
 
     <View

@@ -7,6 +7,7 @@ import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.ComponentActivity
 import androidx.core.content.edit
 import androidx.navigation.Navigation
 import com.jkuester.unlauncher.datasource.DataRepository
@@ -14,19 +15,21 @@ import com.jkuester.unlauncher.datasource.setKeepDeviceWallpaper
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.dialog.AlignmentFormatDialog
 import com.jkuester.unlauncher.dialog.ClockTypeDialog
+import com.jkuester.unlauncher.dialog.ThemeDialog
 import com.jkuester.unlauncher.dialog.TimeFormatDialog
 import com.jkuester.unlauncher.fragment.WithFragmentLifecycle
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.databinding.OptionsFragmentBinding
-import com.sduduzog.slimlauncher.ui.dialogs.ChangeThemeDialog
 import com.sduduzog.slimlauncher.utils.BaseFragment
 import com.sduduzog.slimlauncher.utils.createTitleAndSubtitleText
-import com.sduduzog.slimlauncher.utils.isActivityDefaultLauncher
+import com.sduduzog.slimlauncher.utils.isDefaultLauncher
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class OptionsFragment : BaseFragment() {
+    @Inject
+    lateinit var iActivity: ComponentActivity
     @Inject @WithFragmentLifecycle
     lateinit var corePreferencesRepo: DataRepository<CorePreferences>
 
@@ -54,8 +57,7 @@ class OptionsFragment : BaseFragment() {
             true
         }
         optionsFragment.optionsFragmentChangeTheme.setOnClickListener {
-            val changeThemeDialog = ChangeThemeDialog.getThemeChooser()
-            changeThemeDialog.showNow(childFragmentManager, "THEME_CHOOSER")
+            ThemeDialog().showNow(childFragmentManager, null)
         }
         optionsFragment.optionsFragmentChooseTimeFormat.setOnClickListener {
             TimeFormatDialog().showNow(childFragmentManager, null)
@@ -99,7 +101,7 @@ class OptionsFragment : BaseFragment() {
     }
 
     private fun setupAutomaticDeviceWallpaperSwitch() {
-        val appIsDefaultLauncher = isActivityDefaultLauncher(activity)
+        val appIsDefaultLauncher = isDefaultLauncher(iActivity)
         val optionsFragment = OptionsFragmentBinding.bind(requireView())
         setupDeviceWallpaperSwitchText(optionsFragment, appIsDefaultLauncher)
         optionsFragment.optionsFragmentAutoDeviceThemeWallpaper.isEnabled = appIsDefaultLauncher

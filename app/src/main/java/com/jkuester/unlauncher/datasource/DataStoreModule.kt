@@ -34,11 +34,11 @@ private val Context.unlauncherAppsStore: DataStore<UnlauncherApps> by dataStore(
     produceMigrations = { context -> listOf(SortAppsMigration, HomeAppToIndexMigration(context)) }
 )
 
-private val Context.corePreferencesStore: DataStore<CorePreferences> by dataStore(
+internal val Context.corePreferencesStore: DataStore<CorePreferences> by dataStore(
     fileName = "core_preferences.proto",
     serializer = DataSerializer(CorePreferences::getDefaultInstance, CorePreferences::parseFrom),
     produceMigrations = { context ->
-        listOf(AddClockTypeMigration, AddShowSearchBarMigration, timeFormatSharedPrefsMigration(context))
+        listOf(AddClockTypeMigration, AddShowSearchBarMigration, slimLauncherSharedPrefsMigration(context))
     }
 )
 
