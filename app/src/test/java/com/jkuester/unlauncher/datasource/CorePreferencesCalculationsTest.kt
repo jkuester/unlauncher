@@ -6,6 +6,7 @@ import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.datastore.proto.SearchBarPosition
 import com.jkuester.unlauncher.datastore.proto.Theme
 import com.jkuester.unlauncher.datastore.proto.TimeFormat
+import com.sduduzog.slimlauncher.R
 import io.kotest.matchers.shouldBe
 import io.mockk.junit5.MockKExtension
 import org.junit.jupiter.api.Test
@@ -96,5 +97,26 @@ class CorePreferencesCalculationsTest {
     fun testSetTheme(theme: Theme) {
         val updatedPrefs = setTheme(theme)(EMPTY_PREFS)
         updatedPrefs.theme shouldBe theme
+    }
+
+    @ParameterizedTest
+    @EnumSource(Theme::class)
+    fun testGetThemeStyleResource(theme: Theme) {
+        val expectedStyles = arrayOf(
+            R.style.AppTheme,
+            R.style.AppThemeDark,
+            R.style.AppGreyTheme,
+            R.style.AppTealTheme,
+            R.style.AppCandyTheme,
+            R.style.AppPinkTheme,
+            R.style.AppThemeLight,
+            R.style.AppDarculaTheme,
+            R.style.AppGruvBoxDarkTheme,
+            R.style.AppTheme,
+        )
+
+        val resId = getThemeStyleResource(theme)
+
+        resId shouldBe expectedStyles[theme.ordinal]
     }
 }

@@ -7,27 +7,23 @@ import android.content.res.Resources
 import android.graphics.Canvas
 import android.os.Build
 import android.util.DisplayMetrics
-import android.util.Size
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.createBitmap
 import androidx.datastore.core.DataStore
-import androidx.lifecycle.lifecycleScope
 import com.jkuester.unlauncher.datasource.DataRepository
 import com.jkuester.unlauncher.datasource.getThemeStyleResource
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.datastore.proto.Theme
 import com.sduduzog.slimlauncher.utils.isDefaultLauncher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
 
 private fun getScreenResolution(activity: Activity) = if (androidSdkAtLeast(Build.VERSION_CODES.R)) {
     val bounds = activity.windowManager.currentWindowMetrics.bounds
-    Size(bounds.width(), bounds.height())
+    Pair(bounds.width(), bounds.height())
 } else {
     val metrics = DisplayMetrics()
         .also(activity.windowManager.defaultDisplay::getMetrics)
-    Size(metrics.widthPixels, metrics.heightPixels)
+    Pair(metrics.widthPixels, metrics.heightPixels)
 }
 
 private fun createColoredWallpaperBitmap(color: Int, width: Int, height: Int) = createBitmap(width, height)
@@ -38,8 +34,8 @@ private fun setWallpaperBackgroundColor(activity: Activity) = { color: Int ->
         .getInstance(activity)
         .run {
             val screenRes = getScreenResolution(activity)
-            val width = desiredMinimumWidth.takeIf { it > 0 } ?: screenRes.width
-            val height = desiredMinimumHeight.takeIf { it > 0 } ?: screenRes.height
+            val width = desiredMinimumWidth.takeIf { it > 0 } ?: screenRes.first
+            val height = desiredMinimumHeight.takeIf { it > 0 } ?: screenRes.second
             val wallpaperBitmap = createColoredWallpaperBitmap(color, width, height)
             setBitmap(wallpaperBitmap)
         }
@@ -54,15 +50,15 @@ private fun getThemeBackgroundColor(theme: Resources.Theme, themeRes: Int): Int 
     }
 }
 
-fun setWallpaperAsync(
+private suspend fun setWallpaper(
     activity: AppCompatActivity,
     corePrefsStore: DataStore<CorePreferences>,
     theme: Resources.Theme,
     resId: Int
-) = activity.lifecycleScope.launch(Dispatchers.IO) {
+) {
     val corePrefs = corePrefsStore.data.first()
     if (corePrefs.keepDeviceWallpaper || !isDefaultLauncher(activity)) {
-        return@launch
+        return
     }
 
     getThemeBackgroundColor(theme, resId)
@@ -77,10 +73,17 @@ class ThemeManager(private val activity: AppCompatActivity) {
     private var darkModeStatus: Boolean? = null
     private lateinit var currentTheme: Theme
 
-    fun darkModeChanged(): Boolean {
-        val originalStatus = darkModeStatus
-        darkModeStatus = isDarkTheme(activity.resources.configuration)
-        return originalStatus != null && originalStatus != darkModeStatus
+    suspend fun setDeviceWallpaper(
+        corePrefsStore: DataStore<CorePreferences>,
+        theme: Resources.Theme?,
+        resId: Int,
+        first: Boolean
+    ) {
+        // first is true when starting the app (theme has not actually changed)
+        if (theme == null || (first && !this.darkModeChanged())) {
+            return
+        }
+        setWallpaper(activity, corePrefsStore, theme, resId)
     }
 
     fun listenForThemeChanges(corePrefRepo: DataRepository<CorePreferences>, initialTheme: Theme) {
@@ -94,5 +97,11 @@ class ThemeManager(private val activity: AppCompatActivity) {
             activity.setTheme(getThemeStyleResource(currentTheme))
             activity.recreate()
         }
+    }
+
+    private fun darkModeChanged(): Boolean {
+        val originalStatus = darkModeStatus
+        darkModeStatus = isDarkTheme(activity.resources.configuration)
+        return originalStatus != null && originalStatus != darkModeStatus
     }
 }

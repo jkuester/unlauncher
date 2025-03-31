@@ -13,6 +13,7 @@ import android.view.View
 import androidx.annotation.StyleRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.motion.widget.MotionLayout
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -23,7 +24,6 @@ import com.jkuester.unlauncher.datasource.DataRepository
 import com.jkuester.unlauncher.datasource.corePreferencesStore
 import com.jkuester.unlauncher.datasource.getThemeStyleResource
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
-import com.jkuester.unlauncher.setWallpaperAsync
 import com.sduduzog.slimlauncher.utils.BaseFragment
 import com.sduduzog.slimlauncher.utils.HomeWatcher
 import com.sduduzog.slimlauncher.utils.IPublisher
@@ -33,7 +33,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.lang.reflect.Method
 import javax.inject.Inject
 import kotlin.math.absoluteValue
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 @AndroidEntryPoint
@@ -130,12 +132,9 @@ class MainActivity :
 
     override fun onApplyThemeResource(theme: Resources.Theme?, @StyleRes resid: Int, first: Boolean) {
         super.onApplyThemeResource(theme, resid, first)
-
-        if (theme == null || (first && !themeManager.darkModeChanged())) {
-            return
+        this.lifecycleScope.launch(Dispatchers.IO) {
+            themeManager.setDeviceWallpaper(corePreferencesStore, theme, resid, first)
         }
-        // This function is called too early in the lifecycle for normal injection so we do it the hard way
-        setWallpaperAsync(this, corePreferencesStore, theme, resid)
     }
 
     @Deprecated("Deprecated in Java")
