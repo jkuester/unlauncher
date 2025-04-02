@@ -8,6 +8,8 @@
 
 ![Build Status](https://github.com/jkuester/unlauncher/workflows/Android%20Master%20Branch%20CI/badge.svg)
 
+
+> Not Today, Satan
 > _Freedom from your phone_
 
 [<img src="https://f-droid.org/badge/get-it-on.png"
