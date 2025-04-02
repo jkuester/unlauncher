@@ -14,6 +14,7 @@ message CorePreferences {
   AlignmentFormat alignment_format = 8;
   TimeFormat time_format = 9;
   Theme theme = 10;
+  bool hide_status_bar = 11;
 }
 
 enum SearchBarPosition {

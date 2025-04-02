@@ -6,6 +6,8 @@ import android.graphics.Paint
 import android.graphics.RectF
 import android.text.format.DateFormat
 import android.util.AttributeSet
+import com.jkuester.unlauncher.datastore.proto.CorePreferences
+import com.jkuester.unlauncher.datastore.proto.TimeFormat
 import com.sduduzog.slimlauncher.R
 import java.util.Calendar
 
@@ -97,16 +99,13 @@ class BinaryClockView(context: Context, attrs: AttributeSet) : ClockView(context
         setMeasuredDimension(w, h)
     }
 
-    override fun updateClock() {
-        super.updateClock()
+    override fun updateClock(corePrefs: CorePreferences) {
+        super.updateClock(corePrefs)
 
-        val timeFormat = context.getSharedPreferences(
-            context.getString(R.string.prefs_settings),
-            Context.MODE_PRIVATE
-        )?.getInt(context.getString(R.string.prefs_settings_key_time_format), 0)
+        val timeFormat = corePrefs.timeFormat
         is24Hour = when (timeFormat) {
-            1 -> true
-            2 -> false
+            TimeFormat.twenty_four_hour -> true
+            TimeFormat.twelve_hour -> false
             else -> DateFormat.is24HourFormat(context)
         }
     }

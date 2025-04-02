@@ -3,7 +3,6 @@ package com.sduduzog.slimlauncher.utils
 import android.annotation.TargetApi
 import android.app.Activity
 import android.content.Context
-import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.os.Build
 import android.util.TypedValue
@@ -13,7 +12,7 @@ import android.view.WindowInsets
 import android.view.WindowInsetsController
 import android.view.WindowManager
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import com.jkuester.unlauncher.WithActivityLifecycle
 import com.jkuester.unlauncher.datasource.DataRepository
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
@@ -24,6 +23,21 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.android.qualifiers.ActivityContext
 
+private fun notifyHideStatusBarChanges(uiManager: SystemUiManager): Observer<CorePreferences> {
+    var currentHideStatusBar: Boolean? = null
+    return Observer { prefs ->
+        if (currentHideStatusBar == null) {
+            currentHideStatusBar = prefs.hideStatusBar
+            return@Observer
+        }
+        if (currentHideStatusBar == prefs.hideStatusBar) {
+            return@Observer
+        }
+        currentHideStatusBar = prefs.hideStatusBar
+        uiManager.setSystemUiVisibility()
+    }
+}
+
 @Module
 @InstallIn(ActivityComponent::class)
 open class SystemUiManager internal constructor(
@@ -31,10 +45,10 @@ open class SystemUiManager internal constructor(
     internal val prefsRepo: DataRepository<CorePreferences>
 ) {
     internal val window: Window = (context as Activity).window
-    internal val settings: SharedPreferences = context.getSharedPreferences(
-        context.getString(R.string.prefs_settings),
-        AppCompatActivity.MODE_PRIVATE
-    )
+
+    init {
+        prefsRepo.observe(notifyHideStatusBarChanges(this))
+    }
 
     companion object {
         @Provides
@@ -105,10 +119,7 @@ open class SystemUiManager internal constructor(
         return primaryColor.data
     }
 
-    internal fun isSystemUiHidden(): Boolean = settings.getBoolean(
-        context.getString(R.string.prefs_settings_key_toggle_status_bar),
-        false
-    )
+    internal fun isSystemUiHidden(): Boolean = prefsRepo.get().hideStatusBar
 
     internal fun isLightModeTheme(): Boolean {
         val theme = prefsRepo.get().theme.number

@@ -119,4 +119,19 @@ class CorePreferencesCalculationsTest {
 
         resId shouldBe expectedStyles[theme.ordinal]
     }
+
+    @Test
+    fun testSetHideStatusBar() {
+        val updatedPrefs = setHideStatusBar(true)(EMPTY_PREFS)
+        updatedPrefs.hideStatusBar shouldBe true
+    }
+
+    @Test
+    fun testToggleHideStatusBar() {
+        val updatedPrefs = toggleHideStatusBar()(EMPTY_PREFS)
+        updatedPrefs.hideStatusBar shouldBe true
+
+        val updatedPrefs1 = toggleHideStatusBar()(updatedPrefs)
+        updatedPrefs1.hideStatusBar shouldBe false
+    }
 }
