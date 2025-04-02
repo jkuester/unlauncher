@@ -41,6 +41,7 @@ import com.jkuester.unlauncher.datastore.proto.ClockType
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.datastore.proto.QuickButtonPreferences
 import com.jkuester.unlauncher.datastore.proto.SearchBarPosition
+import com.jkuester.unlauncher.datastore.proto.TimeFormat
 import com.jkuester.unlauncher.datastore.proto.UnlauncherApp
 import com.jkuester.unlauncher.datastore.proto.UnlauncherApps
 import com.jkuester.unlauncher.dialog.RenameAppDisplayNameDialog
@@ -318,9 +319,9 @@ class HomeFragment : BaseFragment() {
     fun updateClock() {
         updateDate()
         val homeFragmentContent = HomeFragmentContentBinding.bind(requireView())
-        val clockType = corePreferencesRepo.get().clockType
-        when (clockType) {
-            ClockType.digital -> updateClockDigital()
+        val corePrefs = corePreferencesRepo.get()
+        when (corePrefs.clockType) {
+            ClockType.digital -> updateClockDigital(corePrefs)
             ClockType.analog_0,
             ClockType.analog_1,
             ClockType.analog_2,
@@ -329,22 +330,17 @@ class HomeFragment : BaseFragment() {
             ClockType.analog_6,
             ClockType.analog_12,
             ClockType.analog_60 -> {
-                homeFragmentContent.homeFragmentAnalogTime.updateClock()
+                homeFragmentContent.homeFragmentAnalogTime.updateClock(corePrefs)
             }
-            ClockType.binary -> homeFragmentContent.homeFragmentBinTime.updateClock()
+            ClockType.binary -> homeFragmentContent.homeFragmentBinTime.updateClock(corePrefs)
             else -> {}
         }
     }
 
-    private fun updateClockDigital() {
-        val timeFormat = context?.getSharedPreferences(
-            getString(R.string.prefs_settings),
-            Context.MODE_PRIVATE
-        )
-            ?.getInt(getString(R.string.prefs_settings_key_time_format), 0)
-        val fWatchTime = when (timeFormat) {
-            1 -> SimpleDateFormat("H:mm", Locale.getDefault())
-            2 -> SimpleDateFormat("h:mm aa", Locale.getDefault())
+    private fun updateClockDigital(corePrefs: CorePreferences) {
+        val fWatchTime = when (corePrefs.timeFormat) {
+            TimeFormat.twenty_four_hour -> SimpleDateFormat("H:mm", Locale.getDefault())
+            TimeFormat.twelve_hour -> SimpleDateFormat("h:mm aa", Locale.getDefault())
             else -> DateFormat.getTimeFormat(context)
         }
         val homeFragmentContent = HomeFragmentContentBinding.bind(requireView())

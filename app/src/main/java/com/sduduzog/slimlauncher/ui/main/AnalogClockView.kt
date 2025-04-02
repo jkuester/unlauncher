@@ -130,9 +130,9 @@ class AnalogClockView(context: Context, attrs: AttributeSet) : ClockView(context
         setMeasuredDimension(w, h)
     }
 
-    override fun updateClock() {
-        super.updateClock()
-        val clockType = corePreferencesRepo.get().clockType
+    override fun updateClock(corePrefs: CorePreferences) {
+        super.updateClock(corePrefs)
+        val clockType = corePrefs.clockType
         tickCount = when (clockType) {
             ClockType.analog_0 -> 0
             ClockType.analog_1 -> 1

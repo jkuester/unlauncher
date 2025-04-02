@@ -1,7 +1,6 @@
 package com.sduduzog.slimlauncher
 
 import android.annotation.SuppressLint
-import android.content.SharedPreferences
 import android.content.res.Resources
 import android.graphics.Rect
 import android.os.Bundle
@@ -49,7 +48,6 @@ class MainActivity :
     @Inject @WithActivityLifecycle
     lateinit var corePrefRepo: DataRepository<CorePreferences>
 
-    private lateinit var settings: SharedPreferences
     private lateinit var navigator: NavController
     private lateinit var homeWatcher: HomeWatcher
     private val themeManager = ThemeManager(this)
@@ -87,7 +85,6 @@ class MainActivity :
 
         themeManager.listenForThemeChanges(corePrefRepo, currentTheme)
         setContentView(R.layout.main_activity)
-        settings = getSharedPreferences(getString(R.string.prefs_settings), MODE_PRIVATE)
         val navHostFragment = supportFragmentManager.findFragmentById(
             R.id.nav_host_fragment
         ) as NavHostFragment
