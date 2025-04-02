@@ -38,6 +38,12 @@ fun setTimeFormat(timeFormat: TimeFormat) = { originalPrefs: CorePreferences ->
 fun setTheme(theme: Theme) = { originalPrefs: CorePreferences ->
     originalPrefs.toBuilder().setTheme(theme).build()
 }
+fun setHideStatusBar(hideStatusBar: Boolean) = { originalPrefs: CorePreferences ->
+    originalPrefs.toBuilder().setHideStatusBar(hideStatusBar).build()
+}
+fun toggleHideStatusBar() = { originalPrefs: CorePreferences ->
+    setHideStatusBar(!originalPrefs.hideStatusBar)(originalPrefs)
+}
 
 private val STYLE_RESOURCES_BY_THEME = mapOf(
     Theme.system_theme to R.style.AppTheme,

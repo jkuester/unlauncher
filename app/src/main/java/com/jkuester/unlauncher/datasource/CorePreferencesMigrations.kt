@@ -12,6 +12,7 @@ import com.jkuester.unlauncher.datastore.proto.TimeFormat
 private const val SHARED_PREF_GROUP_NAME = "settings"
 private const val PREFS_SETTINGS_KEY_TIME_FORMAT = "time_format"
 private const val PREFS_SETTINGS_KEY_THEME = "key_theme"
+private const val PREFS_SETTINGS_KEY_HIDE_STATUS_BAR = "hide_status_bar"
 
 object AddClockTypeMigration : DataMigration<CorePreferences> {
     override suspend fun shouldMigrate(currentData: CorePreferences) = !currentData.hasClockType()
@@ -29,13 +30,19 @@ object AddShowSearchBarMigration : DataMigration<CorePreferences> {
 fun slimLauncherSharedPrefsMigration(context: Context) = SharedPreferencesMigration(
     context,
     SHARED_PREF_GROUP_NAME,
-    setOf(PREFS_SETTINGS_KEY_TIME_FORMAT, PREFS_SETTINGS_KEY_THEME),
+    setOf(
+        PREFS_SETTINGS_KEY_TIME_FORMAT,
+        PREFS_SETTINGS_KEY_THEME,
+        PREFS_SETTINGS_KEY_HIDE_STATUS_BAR
+    ),
     { true },
     { sharedPrefs: SharedPreferencesView, currentData: CorePreferences ->
         val timeFormatPref = sharedPrefs.getInt(PREFS_SETTINGS_KEY_TIME_FORMAT, 0)
         val themePref = sharedPrefs.getInt(PREFS_SETTINGS_KEY_THEME, 0)
+        val hideStatusBarPref = sharedPrefs.getBoolean(PREFS_SETTINGS_KEY_HIDE_STATUS_BAR, false)
         currentData
             .let(setTimeFormat(TimeFormat.forNumber(timeFormatPref)))
             .let(setTheme(Theme.forNumber(themePref)))
+            .let(setHideStatusBar(hideStatusBarPref))
     }
 )

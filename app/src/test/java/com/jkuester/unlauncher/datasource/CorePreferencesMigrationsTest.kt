@@ -113,6 +113,7 @@ class CorePreferencesMigrationsTest {
             every { sharedPrefs.contains(any()) } returns true
             every { sharedPrefs.getInt("time_format", any()) } returns TimeFormat.twelve_hour.number
             every { sharedPrefs.getInt("key_theme", any()) } returns Theme.jupiter.number
+            every { sharedPrefs.getBoolean("hide_status_bar", any()) } returns true
             val initialPrefs = CorePreferences
                 .newBuilder()
                 .build()
@@ -123,9 +124,11 @@ class CorePreferencesMigrationsTest {
 
             prefs.timeFormat shouldBe TimeFormat.twelve_hour
             prefs.theme shouldBe Theme.jupiter
+            prefs.hideStatusBar shouldBe true
             verify(exactly = 1) { sharedPrefs.contains("time_format") }
             verify(exactly = 1) { sharedPrefs.getInt("time_format", 0) }
             verify(exactly = 1) { sharedPrefs.getInt("key_theme", 0) }
+            verify(exactly = 1) { sharedPrefs.getBoolean("hide_status_bar", false) }
         }
     }
 }

@@ -41,7 +41,6 @@ import kotlinx.coroutines.runBlocking
 @AndroidEntryPoint
 class MainActivity :
     AppCompatActivity(),
-    SharedPreferences.OnSharedPreferenceChangeListener,
     HomeWatcher.OnHomePressedListener,
     IPublisher {
 
@@ -89,7 +88,6 @@ class MainActivity :
         themeManager.listenForThemeChanges(corePrefRepo, currentTheme)
         setContentView(R.layout.main_activity)
         settings = getSharedPreferences(getString(R.string.prefs_settings), MODE_PRIVATE)
-        settings.registerOnSharedPreferenceChangeListener(this)
         val navHostFragment = supportFragmentManager.findFragmentById(
             R.id.nav_host_fragment
         ) as NavHostFragment
@@ -114,20 +112,9 @@ class MainActivity :
         homeWatcher.stopWatch()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        settings.unregisterOnSharedPreferenceChangeListener(this)
-    }
-
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
         if (hasFocus) systemUiManager.setSystemUiVisibility()
-    }
-
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, s: String?) {
-        if (s.equals(getString(R.string.prefs_settings_key_toggle_status_bar), true)) {
-            systemUiManager.setSystemUiVisibility()
-        }
     }
 
     override fun onApplyThemeResource(theme: Resources.Theme?, @StyleRes resid: Int, first: Boolean) {

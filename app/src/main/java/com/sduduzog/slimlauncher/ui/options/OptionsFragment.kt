@@ -1,6 +1,5 @@
 package com.sduduzog.slimlauncher.ui.options
 
-import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
@@ -8,10 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.ComponentActivity
-import androidx.core.content.edit
 import androidx.navigation.Navigation
 import com.jkuester.unlauncher.datasource.DataRepository
 import com.jkuester.unlauncher.datasource.setKeepDeviceWallpaper
+import com.jkuester.unlauncher.datasource.toggleHideStatusBar
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.dialog.AlignmentFormatDialog
 import com.jkuester.unlauncher.dialog.ClockTypeDialog
@@ -69,17 +68,7 @@ class OptionsFragment : BaseFragment() {
             AlignmentFormatDialog().showNow(childFragmentManager, "ALIGNMENT_CHOOSER")
         }
         optionsFragment.optionsFragmentToggleStatusBar.setOnClickListener {
-            val settings = requireContext().getSharedPreferences(
-                getString(R.string.prefs_settings),
-                MODE_PRIVATE
-            )
-            val isHidden = settings.getBoolean(
-                getString(R.string.prefs_settings_key_toggle_status_bar),
-                false
-            )
-            settings.edit {
-                putBoolean(getString(R.string.prefs_settings_key_toggle_status_bar), !isHidden)
-            }
+            corePreferencesRepo.updateAsync(toggleHideStatusBar())
         }
         optionsFragment.optionsFragmentCustomizeQuickButtons.setOnClickListener(
             Navigation.createNavigateOnClickListener(
