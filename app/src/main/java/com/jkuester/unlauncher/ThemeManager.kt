@@ -14,6 +14,7 @@ import com.jkuester.unlauncher.datasource.DataRepository
 import com.jkuester.unlauncher.datasource.getThemeStyleResource
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.datastore.proto.Theme
+import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.utils.isDefaultLauncher
 import kotlinx.coroutines.flow.first
 
@@ -41,29 +42,14 @@ private fun setWallpaperBackgroundColor(activity: Activity) = { color: Int ->
         }
 }
 
-private fun getThemeBackgroundColor(theme: Resources.Theme, themeRes: Int): Int {
-    val typedArray = theme.obtainStyledAttributes(themeRes, intArrayOf(android.R.attr.colorBackground))
-    return try {
-        typedArray.getColor(0, Int.MIN_VALUE)
-    } finally {
-        typedArray.recycle()
-    }
-}
-
-private suspend fun setWallpaper(
-    activity: AppCompatActivity,
-    corePrefsStore: DataStore<CorePreferences>,
-    theme: Resources.Theme,
-    resId: Int
-) {
+private suspend fun setWallpaper(activity: AppCompatActivity, corePrefsStore: DataStore<CorePreferences>) {
     val corePrefs = corePrefsStore.data.first()
     if (corePrefs.keepDeviceWallpaper || !isDefaultLauncher(activity)) {
         return
     }
 
-    getThemeBackgroundColor(theme, resId)
-        .takeUnless { it == Int.MIN_VALUE }
-        ?.let(setWallpaperBackgroundColor(activity))
+    getThemeAttribute(activity, R.attr.colorBackground)
+        .let(setWallpaperBackgroundColor(activity))
 }
 
 private fun isDarkTheme(configuration: Configuration): Boolean =
@@ -76,14 +62,13 @@ class ThemeManager(private val activity: AppCompatActivity) {
     suspend fun setDeviceWallpaper(
         corePrefsStore: DataStore<CorePreferences>,
         theme: Resources.Theme?,
-        resId: Int,
         first: Boolean
     ) {
         // first is true when starting the app (theme has not actually changed)
         if (theme == null || (first && !this.darkModeChanged())) {
             return
         }
-        setWallpaper(activity, corePrefsStore, theme, resId)
+        setWallpaper(activity, corePrefsStore)
     }
 
     fun listenForThemeChanges(corePrefRepo: DataRepository<CorePreferences>, initialTheme: Theme) {

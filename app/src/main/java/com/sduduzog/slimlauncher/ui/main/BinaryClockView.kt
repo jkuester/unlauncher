@@ -6,15 +6,17 @@ import android.graphics.Paint
 import android.graphics.RectF
 import android.text.format.DateFormat
 import android.util.AttributeSet
+import android.view.View
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.datastore.proto.TimeFormat
+import com.jkuester.unlauncher.getColorPaint
 import com.sduduzog.slimlauncher.R
 import java.util.Calendar
 
-class BinaryClockView(context: Context, attrs: AttributeSet) : ClockView(context, attrs) {
+class BinaryClockView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
-    private var offPaint = getColorPaint(R.attr.colorAccent)
-    private var onPaint = getColorPaint(R.attr.colorAccent)
+    private var offPaint = getColorPaint(context, R.attr.colorAccent)
+    private var onPaint = getColorPaint(context, R.attr.colorAccent)
     private var bitSize: Float
     private var border: Float
     private var distance: Float
@@ -99,8 +101,9 @@ class BinaryClockView(context: Context, attrs: AttributeSet) : ClockView(context
         setMeasuredDimension(w, h)
     }
 
-    override fun updateClock(corePrefs: CorePreferences) {
-        super.updateClock(corePrefs)
+    fun updateClock(corePrefs: CorePreferences) {
+        requestLayout()
+        invalidate()
 
         val timeFormat = corePrefs.timeFormat
         is24Hour = when (timeFormat) {

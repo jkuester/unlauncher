@@ -2,25 +2,18 @@ package com.sduduzog.slimlauncher.ui.main
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.ActivityNotFoundException
-import android.content.BroadcastReceiver
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.content.pm.LauncherApps
 import android.net.Uri
 import android.os.Bundle
 import android.os.UserManager
-import android.provider.AlarmClock
-import android.provider.CalendarContract
 import android.provider.MediaStore
 import android.provider.Settings
-import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
-import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -30,8 +23,11 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.motion.widget.MotionLayout.TransitionListener
+import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.jkuester.unlauncher.ClockReceiver
+import com.jkuester.unlauncher.createNewClock
 import com.jkuester.unlauncher.datasource.DataRepository
 import com.jkuester.unlauncher.datasource.getHomeApps
 import com.jkuester.unlauncher.datasource.getIconResourceId
@@ -41,7 +37,6 @@ import com.jkuester.unlauncher.datastore.proto.ClockType
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.datastore.proto.QuickButtonPreferences
 import com.jkuester.unlauncher.datastore.proto.SearchBarPosition
-import com.jkuester.unlauncher.datastore.proto.TimeFormat
 import com.jkuester.unlauncher.datastore.proto.UnlauncherApp
 import com.jkuester.unlauncher.datastore.proto.UnlauncherApps
 import com.jkuester.unlauncher.dialog.RenameAppDisplayNameDialog
@@ -55,9 +50,6 @@ import com.sduduzog.slimlauncher.databinding.HomeFragmentDefaultBinding
 import com.sduduzog.slimlauncher.utils.BaseFragment
 import com.sduduzog.slimlauncher.utils.isSystemApp
 import dagger.hilt.android.AndroidEntryPoint
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 import javax.inject.Inject
 
 private const val APP_TILE_SIZE: Int = 3
@@ -73,9 +65,10 @@ class HomeFragment : BaseFragment() {
     @Inject
     lateinit var quickButtonPreferencesRepo: DataRepository<QuickButtonPreferences>
 
-    private lateinit var receiver: BroadcastReceiver
     private lateinit var appDrawerAdapter: AppDrawerAdapter
     private lateinit var uninstallAppLauncher: ActivityResultLauncher<Intent>
+
+    private val clockReceiver = ClockReceiver()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,6 +81,21 @@ class HomeFragment : BaseFragment() {
         } else {
             HomeFragmentDefaultBinding.inflate(layoutInflater, container, false).root
         }
+
+    private fun listenForChangesToClockType(binding: HomeFragmentContentBinding): Observer<CorePreferences> {
+        var currentClockType: ClockType? = null
+        return Observer { corePrefs ->
+            if (corePrefs.clockType == currentClockType) {
+                return@Observer
+            }
+
+            currentClockType = corePrefs.clockType
+            binding.clockWrapper.removeAllViews()
+            val clock = createNewClock(requireContext(), corePrefs.clockType)
+            clockReceiver.clock = clock
+            binding.clockWrapper.addView(clock)
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -113,36 +121,47 @@ class HomeFragment : BaseFragment() {
 
         homeFragmentContent.appDrawerFragmentList.adapter = appDrawerAdapter
 
+        corePreferencesRepo.observe(listenForChangesToClockType(homeFragmentContent))
+
         corePreferencesRepo.observe { corePreferences ->
             homeFragmentContent.appDrawerEditText
                 .visibility = if (corePreferences.showSearchBar) View.VISIBLE else View.GONE
 
-            val clockType = corePreferences.clockType
-            homeFragmentContent.homeFragmentTime
-                .visibility = if (clockType == ClockType.digital) View.VISIBLE else View.GONE
-            homeFragmentContent.homeFragmentAnalogTime
-                .visibility = when (clockType) {
-                ClockType.analog_0,
-                ClockType.analog_1,
-                ClockType.analog_2,
-                ClockType.analog_3,
-                ClockType.analog_4,
-                ClockType.analog_6,
-                ClockType.analog_12,
-                ClockType.analog_60 -> View.VISIBLE
-                else -> View.GONE
-            }
-            homeFragmentContent.homeFragmentBinTime
-                .visibility = if (clockType == ClockType.binary) View.VISIBLE else View.GONE
-            homeFragmentContent.homeFragmentDate
-                .visibility = if (clockType != ClockType.none) View.VISIBLE else View.GONE
-        }
-    }
+//            val clockType = corePreferences.clockType
+//            when (clockType) {
+//                ClockType.analog_0,
+//                ClockType.analog_1,
+//                ClockType.analog_2,
+//                ClockType.analog_3,
+//                ClockType.analog_4,
+//                ClockType.analog_6,
+//                ClockType.analog_12,
+//                ClockType.analog_60 -> {
+//                    digitalClockView.update()
+//                }
+//                else -> {
+//                }
+//            }
 
-    override fun onStart() {
-        super.onStart()
-        receiver = ClockReceiver()
-        activity?.registerReceiver(receiver, IntentFilter(Intent.ACTION_TIME_TICK))
+//            homeFragmentContent.homeFragmentTime
+//                .visibility = if (clockType == ClockType.digital) View.VISIBLE else View.GONE
+//            homeFragmentContent.homeFragmentAnalogTime
+//                .visibility = when (clockType) {
+//                ClockType.analog_0,
+//                ClockType.analog_1,
+//                ClockType.analog_2,
+//                ClockType.analog_3,
+//                ClockType.analog_4,
+//                ClockType.analog_6,
+//                ClockType.analog_12,
+//                ClockType.analog_60 -> View.VISIBLE
+//                else -> View.GONE
+//            }
+//            homeFragmentContent.homeFragmentBinTime
+//                .visibility = if (clockType == ClockType.binary) View.VISIBLE else View.GONE
+//            homeFragmentContent.homeFragmentDate
+//                .visibility = if (clockType != ClockType.none) View.VISIBLE else View.GONE
+        }
     }
 
     override fun getFragmentView(): ViewGroup = HomeFragmentDefaultBinding.bind(
@@ -151,7 +170,7 @@ class HomeFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        updateClock()
+        clockReceiver.register(requireContext())
 
         refreshApps()
         if (!::appDrawerAdapter.isInitialized) {
@@ -173,38 +192,42 @@ class HomeFragment : BaseFragment() {
         unlauncherAppsRepo.updateAsync(setApps(installedApps))
     }
 
+    override fun onPause() {
+        super.onPause()
+        clockReceiver.unregister(requireContext())
+    }
+
     override fun onStop() {
         super.onStop()
-        activity?.unregisterReceiver(receiver)
         resetAppDrawerEditText()
     }
 
     private fun setEventListeners() {
-        val launchShowAlarms = OnClickListener {
-            try {
-                val intent = Intent(AlarmClock.ACTION_SHOW_ALARMS)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                launchActivity(it, intent)
-            } catch (e: ActivityNotFoundException) {
-                e.printStackTrace()
-                // Do nothing, we've failed :(
-            }
-        }
+//        val launchShowAlarms = OnClickListener {
+//            try {
+//                val intent = Intent(AlarmClock.ACTION_SHOW_ALARMS)
+//                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+//                launchActivity(it, intent)
+//            } catch (e: ActivityNotFoundException) {
+//                e.printStackTrace()
+//                // Do nothing, we've failed :(
+//            }
+//        }
         val homeFragmentContent = HomeFragmentContentBinding.bind(requireView())
-        homeFragmentContent.homeFragmentTime.setOnClickListener(launchShowAlarms)
-        homeFragmentContent.homeFragmentAnalogTime.setOnClickListener(launchShowAlarms)
-        homeFragmentContent.homeFragmentBinTime.setOnClickListener(launchShowAlarms)
-
-        homeFragmentContent.homeFragmentDate.setOnClickListener {
-            try {
-                val builder = CalendarContract.CONTENT_URI.buildUpon().appendPath("time")
-                val intent = Intent(Intent.ACTION_VIEW, builder.build())
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                launchActivity(it, intent)
-            } catch (e: ActivityNotFoundException) {
-                // Do nothing, we've failed :(
-            }
-        }
+//        homeFragmentContent.homeFragmentTime.setOnClickListener(launchShowAlarms)
+//        homeFragmentContent.homeFragmentAnalogTime.setOnClickListener(launchShowAlarms)
+//        homeFragmentContent.homeFragmentBinTime.setOnClickListener(launchShowAlarms)
+//
+//        homeFragmentContent.homeFragmentDate.setOnClickListener {
+//            try {
+//                val builder = CalendarContract.CONTENT_URI.buildUpon().appendPath("time")
+//                val intent = Intent(Intent.ACTION_VIEW, builder.build())
+//                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+//                launchActivity(it, intent)
+//            } catch (e: ActivityNotFoundException) {
+//                // Do nothing, we've failed :(
+//            }
+//        }
 
         quickButtonPreferencesRepo.observe { prefs ->
             val leftButtonIcon = getIconResourceId(prefs.leftButton.iconId)
@@ -316,42 +339,42 @@ class HomeFragment : BaseFragment() {
         })
     }
 
-    fun updateClock() {
-        updateDate()
-        val homeFragmentContent = HomeFragmentContentBinding.bind(requireView())
-        val corePrefs = corePreferencesRepo.get()
-        when (corePrefs.clockType) {
-            ClockType.digital -> updateClockDigital(corePrefs)
-            ClockType.analog_0,
-            ClockType.analog_1,
-            ClockType.analog_2,
-            ClockType.analog_3,
-            ClockType.analog_4,
-            ClockType.analog_6,
-            ClockType.analog_12,
-            ClockType.analog_60 -> {
-                homeFragmentContent.homeFragmentAnalogTime.updateClock(corePrefs)
-            }
-            ClockType.binary -> homeFragmentContent.homeFragmentBinTime.updateClock(corePrefs)
-            else -> {}
-        }
-    }
+//    fun updateClock() {
+// //        updateDate()
+// //        val homeFragmentContent = HomeFragmentContentBinding.bind(requireView())
+// //        val corePrefs = corePreferencesRepo.get()
+// //        when (corePrefs.clockType) {
+// //            ClockType.digital -> updateClockDigital(corePrefs)
+// //            ClockType.analog_0,
+// //            ClockType.analog_1,
+// //            ClockType.analog_2,
+// //            ClockType.analog_3,
+// //            ClockType.analog_4,
+// //            ClockType.analog_6,
+// //            ClockType.analog_12,
+// //            ClockType.analog_60 -> {
+// //                homeFragmentContent.homeFragmentAnalogTime.updateClock(corePrefs)
+// //            }
+// //            ClockType.binary -> homeFragmentContent.homeFragmentBinTime.updateClock(corePrefs)
+// //            else -> {}
+// //        }
+//    }
 
-    private fun updateClockDigital(corePrefs: CorePreferences) {
-        val fWatchTime = when (corePrefs.timeFormat) {
-            TimeFormat.twenty_four_hour -> SimpleDateFormat("H:mm", Locale.getDefault())
-            TimeFormat.twelve_hour -> SimpleDateFormat("h:mm aa", Locale.getDefault())
-            else -> DateFormat.getTimeFormat(context)
-        }
-        val homeFragmentContent = HomeFragmentContentBinding.bind(requireView())
-        homeFragmentContent.homeFragmentTime.text = fWatchTime.format(Date())
-    }
-
-    private fun updateDate() {
-        val fWatchDate = SimpleDateFormat(getString(R.string.main_date_format), Locale.getDefault())
-        val homeFragmentContent = HomeFragmentContentBinding.bind(requireView())
-        homeFragmentContent.homeFragmentDate.text = fWatchDate.format(Date())
-    }
+//    private fun updateClockDigital(corePrefs: CorePreferences) {
+//        val fWatchTime = when (corePrefs.timeFormat) {
+//            TimeFormat.twenty_four_hour -> SimpleDateFormat("H:mm", Locale.getDefault())
+//            TimeFormat.twelve_hour -> SimpleDateFormat("h:mm aa", Locale.getDefault())
+//            else -> DateFormat.getTimeFormat(context)
+//        }
+//        val homeFragmentContent = HomeFragmentContentBinding.bind(requireView())
+//        homeFragmentContent.homeFragmentTime.text = fWatchTime.format(Date())
+//    }
+//
+//    private fun updateDate() {
+//        val fWatchDate = SimpleDateFormat(getString(R.string.main_date_format), Locale.getDefault())
+//        val homeFragmentContent = HomeFragmentContentBinding.bind(requireView())
+//        homeFragmentContent.homeFragmentDate.text = fWatchDate.format(Date())
+//    }
 
     fun onLaunch(app: UnlauncherApp, view: View) {
         launchApp(app.packageName, app.className, app.userSerial)
@@ -366,12 +389,6 @@ class HomeFragment : BaseFragment() {
     override fun onHome() {
         val homeFragment = HomeFragmentDefaultBinding.bind(requireView()).root
         homeFragment.transitionToStart()
-    }
-
-    inner class ClockReceiver : BroadcastReceiver() {
-        override fun onReceive(ctx: Context?, intent: Intent?) {
-            updateClock()
-        }
     }
 
     private fun launchApp(packageName: String, activityName: String, userSerial: Long) {

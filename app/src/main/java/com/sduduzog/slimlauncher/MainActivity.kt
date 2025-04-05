@@ -117,7 +117,7 @@ class MainActivity :
     override fun onApplyThemeResource(theme: Resources.Theme?, @StyleRes resid: Int, first: Boolean) {
         super.onApplyThemeResource(theme, resid, first)
         this.lifecycleScope.launch(Dispatchers.IO) {
-            themeManager.setDeviceWallpaper(corePreferencesStore, theme, resid, first)
+            themeManager.setDeviceWallpaper(corePreferencesStore, theme, first)
         }
     }
 

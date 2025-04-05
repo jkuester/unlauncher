@@ -45,38 +45,44 @@
         app:srcCompat="@drawable/ic_cog"
         tools:ignore="ContentDescription" />
 
-    <com.sduduzog.slimlauncher.ui.main.BinaryClockView
-        android:id="@+id/home_fragment_bin_time"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        custom:bitSize="20"
-        custom:border="2"
-        custom:distance="10" />
+    <FrameLayout
+        android:id="@+id/clock_wrapper"
+        android:layout_width="0dp"
+        android:layout_height="0dp" />
 
-    <com.sduduzog.slimlauncher.ui.main.AnalogClockView
-        android:id="@+id/home_fragment_analog_time"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        custom:radius="@dimen/_60sdp"
-        custom:rim="0" />
 
-    <TextView
-        android:id="@+id/home_fragment_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_64sdp"
-        android:text="@string/main_placeholder_clock"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textSize="@dimen/font_size_home_clock" />
+<!--    <com.sduduzog.slimlauncher.ui.main.BinaryClockView-->
+<!--        android:id="@+id/home_fragment_bin_time"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        custom:bitSize="20"-->
+<!--        custom:border="2"-->
+<!--        custom:distance="10" />-->
 
-    <TextView
-        android:id="@+id/home_fragment_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/_4sdp"
-        android:text="@string/main_placeholder_date"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textSize="@dimen/font_size_home_date" />
+<!--    <com.jkuester.unlauncher.view.AnalogClockView-->
+<!--        android:id="@+id/home_fragment_analog_time"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        custom:radius="@dimen/_60sdp"-->
+<!--        custom:rim="0" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/home_fragment_time"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="@dimen/_64sdp"-->
+<!--        android:text="@string/main_placeholder_clock"-->
+<!--        android:textAppearance="@style/TextAppearance.AppCompat"-->
+<!--        android:textSize="@dimen/font_size_home_clock" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/home_fragment_date"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:padding="@dimen/_4sdp"-->
+<!--        android:text="@string/main_placeholder_date"-->
+<!--        android:textAppearance="@style/TextAppearance.AppCompat"-->
+<!--        android:textSize="@dimen/font_size_home_date" />-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/home_fragment_list"
