@@ -33,20 +33,16 @@ class BinaryClockView(context: Context) : LinearLayout(context) {
 
     private var offPaint = getColorPaint(context, R.attr.colorAccent)
     private var onPaint = getColorPaint(context, R.attr.colorAccent)
+
+    private var centerPoint = Pair(0F, 0F)
     private var bitSize = 20F
-    private var border = 2F
     private var distance = 10F
-    private val bounds = RectF(0F, 0F, 0F, 0F)
+
+    private val hourBounds = RectF(0F, 0F, 0F, 0F)
+    private val minuteBounds = RectF(0F, 0F, 0F, 0F)
     private var is24Hour: Boolean = false
 
     private val binding: ClockBinaryBinding
-
-    // HACK:
-    // it does not seem to be possible to consider bottom margins in
-    // layouting (or I don't know how layout_marginBottom is not
-    // considered (the boxes touch without it, but the margin is drawn
-    // in debug view)), so we add 20 pixels here.
-    private var extraPaddingBottom = 20
 
     init {
         inflate(context, R.layout.clock_binary, this)
@@ -63,43 +59,22 @@ class BinaryClockView(context: Context) : LinearLayout(context) {
         setOnClickListener(launchShowAlarms(fragment))
         binding.binaryDate.setOnClickListener(launchShowCalendar(fragment))
         updateChildViews()
-//        context.theme.obtainStyledAttributes(
-//            attrs,
-//            R.styleable.BinaryClockView,
-//            0,
-//            0
-//        ).apply {
-//            try {
-//                bitSize = getFloat(R.styleable.BinaryClockView_bitSize, 40F)
-//                border = getFloat(R.styleable.BinaryClockView_border, 4F)
-//                distance = getFloat(R.styleable.BinaryClockView_distance, 0F)
-//            } finally {
-//                recycle()
-//            }
-//        }
     }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         val calendar = Calendar.getInstance()
 
-        val middle = if (distance > 0) distance * 3 + bitSize * 2 else height.toFloat() / 2
         var hour = calendar[if (is24Hour) Calendar.HOUR_OF_DAY else Calendar.HOUR]
         if (hour == 0 && calendar[Calendar.AM] != 0) hour = 12
-        bounds.set(0f, 0f, width.toFloat(), middle)
-        renderBits(canvas, bounds, if (is24Hour) 5 else 4, hour)
+        renderBits(canvas, hourBounds, if (is24Hour) 5 else 4, hour)
 
-        bounds.set(0f, middle, width.toFloat(), middle * 2)
         val minute = calendar[Calendar.MINUTE]
-        renderBits(canvas, bounds, 6, minute)
+        renderBits(canvas, minuteBounds, 6, minute)
     }
 
     private fun renderBits(canvas: Canvas, bounds: RectF, nBits: Int, value: Int) {
-        val cw = if (distance > 0) {
-            distance + 2 * bitSize
-        } else {
-            bounds.width() / 18 // divide width by maximal number of bits * 3
-        }
+        val cw = distance + 2 * bitSize
         val ch = bounds.height()
         val cpx = cw / 2 - bitSize
         val cpy = ch / 2 - bitSize
@@ -126,7 +101,7 @@ class BinaryClockView(context: Context) : LinearLayout(context) {
         // Whatever the width is, ask for a height that lets the pie get as big as
         // it can.
         val minh: Int = paddingBottom + paddingTop +
-            4 * bitSize.toInt() + 5 * distance.toInt() + extraPaddingBottom
+            4 * bitSize.toInt() + 5 * distance.toInt()
         val h: Int = resolveSizeAndState(minh, heightMeasureSpec, 0)
 
         setMeasuredDimension(w, h)
@@ -135,6 +110,21 @@ class BinaryClockView(context: Context) : LinearLayout(context) {
     override fun invalidate() {
         super.invalidate()
         updateChildViews()
+    }
+
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
+        centerPoint = Pair((w / 2).toFloat(), (h / 2).toFloat())
+        distance = (w / 50).toFloat()
+        bitSize = distance * 2
+
+        val bitWidth = distance + 2 * bitSize
+        val bitHeight = distance * 3 + bitSize * 2
+        val startX = -centerPoint.first + bitWidth * 3
+        val startY = centerPoint.second - bitHeight * 2
+
+        hourBounds.set(startX, startY, startX + width.toFloat(), startY + bitHeight)
+        minuteBounds.set(startX, startY + bitHeight, startX + width.toFloat(), startY + bitHeight * 2)
     }
 
     private fun updateChildViews() {

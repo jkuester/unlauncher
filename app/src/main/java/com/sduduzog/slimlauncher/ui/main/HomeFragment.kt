@@ -82,21 +82,6 @@ class HomeFragment : BaseFragment() {
             HomeFragmentDefaultBinding.inflate(layoutInflater, container, false).root
         }
 
-    private fun listenForChangesToClockType(binding: HomeFragmentContentBinding): Observer<CorePreferences> {
-        var currentClockType: ClockType? = null
-        return Observer { corePrefs ->
-            if (corePrefs.clockType == currentClockType) {
-                return@Observer
-            }
-
-            currentClockType = corePrefs.clockType
-            binding.clockWrapper.removeAllViews()
-            val clock = createNewClock(requireContext(), corePrefs.clockType)
-            clockReceiver.clock = clock
-            binding.clockWrapper.addView(clock)
-        }
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val adapter1 = HomeAdapter(this, corePreferencesRepo)
@@ -126,41 +111,6 @@ class HomeFragment : BaseFragment() {
         corePreferencesRepo.observe { corePreferences ->
             homeFragmentContent.appDrawerEditText
                 .visibility = if (corePreferences.showSearchBar) View.VISIBLE else View.GONE
-
-//            val clockType = corePreferences.clockType
-//            when (clockType) {
-//                ClockType.analog_0,
-//                ClockType.analog_1,
-//                ClockType.analog_2,
-//                ClockType.analog_3,
-//                ClockType.analog_4,
-//                ClockType.analog_6,
-//                ClockType.analog_12,
-//                ClockType.analog_60 -> {
-//                    digitalClockView.update()
-//                }
-//                else -> {
-//                }
-//            }
-
-//            homeFragmentContent.homeFragmentTime
-//                .visibility = if (clockType == ClockType.digital) View.VISIBLE else View.GONE
-//            homeFragmentContent.homeFragmentAnalogTime
-//                .visibility = when (clockType) {
-//                ClockType.analog_0,
-//                ClockType.analog_1,
-//                ClockType.analog_2,
-//                ClockType.analog_3,
-//                ClockType.analog_4,
-//                ClockType.analog_6,
-//                ClockType.analog_12,
-//                ClockType.analog_60 -> View.VISIBLE
-//                else -> View.GONE
-//            }
-//            homeFragmentContent.homeFragmentBinTime
-//                .visibility = if (clockType == ClockType.binary) View.VISIBLE else View.GONE
-//            homeFragmentContent.homeFragmentDate
-//                .visibility = if (clockType != ClockType.none) View.VISIBLE else View.GONE
         }
     }
 
@@ -203,31 +153,7 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun setEventListeners() {
-//        val launchShowAlarms = OnClickListener {
-//            try {
-//                val intent = Intent(AlarmClock.ACTION_SHOW_ALARMS)
-//                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-//                launchActivity(it, intent)
-//            } catch (e: ActivityNotFoundException) {
-//                e.printStackTrace()
-//                // Do nothing, we've failed :(
-//            }
-//        }
         val homeFragmentContent = HomeFragmentContentBinding.bind(requireView())
-//        homeFragmentContent.homeFragmentTime.setOnClickListener(launchShowAlarms)
-//        homeFragmentContent.homeFragmentAnalogTime.setOnClickListener(launchShowAlarms)
-//        homeFragmentContent.homeFragmentBinTime.setOnClickListener(launchShowAlarms)
-//
-//        homeFragmentContent.homeFragmentDate.setOnClickListener {
-//            try {
-//                val builder = CalendarContract.CONTENT_URI.buildUpon().appendPath("time")
-//                val intent = Intent(Intent.ACTION_VIEW, builder.build())
-//                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-//                launchActivity(it, intent)
-//            } catch (e: ActivityNotFoundException) {
-//                // Do nothing, we've failed :(
-//            }
-//        }
 
         quickButtonPreferencesRepo.observe { prefs ->
             val leftButtonIcon = getIconResourceId(prefs.leftButton.iconId)
@@ -339,43 +265,6 @@ class HomeFragment : BaseFragment() {
         })
     }
 
-//    fun updateClock() {
-// //        updateDate()
-// //        val homeFragmentContent = HomeFragmentContentBinding.bind(requireView())
-// //        val corePrefs = corePreferencesRepo.get()
-// //        when (corePrefs.clockType) {
-// //            ClockType.digital -> updateClockDigital(corePrefs)
-// //            ClockType.analog_0,
-// //            ClockType.analog_1,
-// //            ClockType.analog_2,
-// //            ClockType.analog_3,
-// //            ClockType.analog_4,
-// //            ClockType.analog_6,
-// //            ClockType.analog_12,
-// //            ClockType.analog_60 -> {
-// //                homeFragmentContent.homeFragmentAnalogTime.updateClock(corePrefs)
-// //            }
-// //            ClockType.binary -> homeFragmentContent.homeFragmentBinTime.updateClock(corePrefs)
-// //            else -> {}
-// //        }
-//    }
-
-//    private fun updateClockDigital(corePrefs: CorePreferences) {
-//        val fWatchTime = when (corePrefs.timeFormat) {
-//            TimeFormat.twenty_four_hour -> SimpleDateFormat("H:mm", Locale.getDefault())
-//            TimeFormat.twelve_hour -> SimpleDateFormat("h:mm aa", Locale.getDefault())
-//            else -> DateFormat.getTimeFormat(context)
-//        }
-//        val homeFragmentContent = HomeFragmentContentBinding.bind(requireView())
-//        homeFragmentContent.homeFragmentTime.text = fWatchTime.format(Date())
-//    }
-//
-//    private fun updateDate() {
-//        val fWatchDate = SimpleDateFormat(getString(R.string.main_date_format), Locale.getDefault())
-//        val homeFragmentContent = HomeFragmentContentBinding.bind(requireView())
-//        homeFragmentContent.homeFragmentDate.text = fWatchDate.format(Date())
-//    }
-
     fun onLaunch(app: UnlauncherApp, view: View) {
         launchApp(app.packageName, app.className, app.userSerial)
     }
@@ -404,6 +293,21 @@ class HomeFragment : BaseFragment() {
             launcher.startMainActivity(componentName, userHandle, view?.clipBounds, null)
         } catch (e: Exception) {
             // Do no shit yet
+        }
+    }
+
+    private fun listenForChangesToClockType(binding: HomeFragmentContentBinding): Observer<CorePreferences> {
+        var currentClockType: ClockType? = null
+        return Observer { corePrefs ->
+            if (corePrefs.clockType == currentClockType) {
+                return@Observer
+            }
+
+            currentClockType = corePrefs.clockType
+            binding.clockWrapper.removeAllViews()
+            val clock = createNewClock(requireContext(), corePrefs.clockType)
+            clockReceiver.clock = clock
+            binding.clockWrapper.addView(clock)
         }
     }
 
