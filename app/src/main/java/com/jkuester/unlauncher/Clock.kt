@@ -13,6 +13,7 @@ import android.view.View.OnClickListener
 import androidx.fragment.app.Fragment
 import com.jkuester.unlauncher.datastore.proto.ClockType
 import com.jkuester.unlauncher.view.AnalogClockView
+import com.jkuester.unlauncher.view.BinaryClockView
 import com.jkuester.unlauncher.view.DigitalClockView
 import com.sduduzog.slimlauncher.R
 import java.text.SimpleDateFormat
@@ -40,7 +41,7 @@ fun launchShowCalendar(fragment: Fragment) = OnClickListener {
     }
 }
 
-fun getCurrentDateString(resources: Resources) = SimpleDateFormat(
+fun getCurrentDateString(resources: Resources): String = SimpleDateFormat(
     resources.getString(R.string.main_date_format),
     Locale.getDefault()
 ).format(Date())
@@ -53,12 +54,9 @@ fun createNewClock(ctx: Context, clockType: ClockType): View = when (clockType) 
     ClockType.analog_4,
     ClockType.analog_6,
     ClockType.analog_12,
-    ClockType.analog_60 -> {
-        AnalogClockView(ctx)
-    }
-    else -> {
-        DigitalClockView(ctx)
-    }
+    ClockType.analog_60 -> AnalogClockView(ctx)
+    ClockType.binary -> BinaryClockView(ctx)
+    else -> DigitalClockView(ctx)
 }
 
 class ClockReceiver : BroadcastReceiver() {

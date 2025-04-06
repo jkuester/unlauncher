@@ -3,10 +3,8 @@ package com.jkuester.unlauncher.view
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
-import android.os.Build
 import android.view.Gravity
-import android.widget.FrameLayout
-import android.widget.TextView
+import android.widget.LinearLayout
 import androidx.core.graphics.withRotation
 import androidx.core.graphics.withSave
 import androidx.core.view.marginBottom
@@ -14,7 +12,6 @@ import androidx.core.view.marginEnd
 import androidx.core.view.marginStart
 import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
-import com.jkuester.unlauncher.androidSdkAtLeast
 import com.jkuester.unlauncher.datasource.DataRepository
 import com.jkuester.unlauncher.datastore.proto.ClockType
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
@@ -24,6 +21,7 @@ import com.jkuester.unlauncher.getCurrentDateString
 import com.jkuester.unlauncher.launchShowAlarms
 import com.jkuester.unlauncher.launchShowCalendar
 import com.sduduzog.slimlauncher.R
+import com.sduduzog.slimlauncher.databinding.ClockAnalogBinding
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.WithFragmentBindings
 import java.util.Calendar
@@ -33,7 +31,7 @@ import kotlin.math.min
 
 @AndroidEntryPoint
 @WithFragmentBindings
-class AnalogClockView(context: Context) : FrameLayout(context) {
+class AnalogClockView(context: Context) : LinearLayout(context) {
     @Inject
     lateinit var fragment: Fragment
     @Inject @WithFragmentLifecycle
@@ -54,29 +52,14 @@ class AnalogClockView(context: Context) : FrameLayout(context) {
     private val tickWidthMin = 2F
     private val tickLengthMin = 1F - .05F
 
-    private val dateView = TextView(context)
+    private val binding: ClockAnalogBinding
     private var tickCount = 0
 
     init {
-        dateView.apply {
-            if (androidSdkAtLeast(Build.VERSION_CODES.M)) {
-                setTextAppearance(R.style.TextAppearance_Primary)
-            } else {
-                setTextAppearance(context, R.style.TextAppearance_Primary)
-            }
-
-            val padding = resources.getDimension(R.dimen._4sdp).toInt()
-            setPadding(padding, padding, padding, padding)
-            layoutParams = LayoutParams(
-                LayoutParams.WRAP_CONTENT,
-                LayoutParams.WRAP_CONTENT
-            ).apply {
-                gravity = Gravity.CENTER
-                topMargin = resources.getDimension(R.dimen._12ssp).toInt()
-            }
-            setOnClickListener(launchShowCalendar(fragment))
-        }
-        addView(dateView)
+        inflate(context, R.layout.clock_analog, this)
+        orientation = VERTICAL
+        gravity = Gravity.CENTER
+        binding = ClockAnalogBinding.bind(this)
         setWillNotDraw(false)
 
         corePrefsRepo.observe(this::listenForChangesToClockType)
@@ -86,6 +69,7 @@ class AnalogClockView(context: Context) : FrameLayout(context) {
         handPaint.strokeCap = Paint.Cap.ROUND
 
         setOnClickListener(launchShowAlarms(fragment))
+        binding.analogDate.setOnClickListener(launchShowCalendar(fragment))
         updateChildViews()
     }
 
@@ -144,7 +128,7 @@ class AnalogClockView(context: Context) : FrameLayout(context) {
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        measureChild(dateView, widthMeasureSpec, heightMeasureSpec)
+        measureChildren(widthMeasureSpec, heightMeasureSpec)
         val dim = max(
             min(suggestedMinimumWidth, suggestedMinimumHeight),
             2 * radius.toInt()
@@ -169,7 +153,7 @@ class AnalogClockView(context: Context) : FrameLayout(context) {
     }
 
     private fun updateChildViews() {
-        dateView.text = getCurrentDateString(resources)
+        binding.analogDate.text = getCurrentDateString(resources)
     }
 
     private fun listenForChangesToClockType(corePrefs: CorePreferences) {

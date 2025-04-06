@@ -51,7 +51,7 @@
         android:layout_height="0dp" />
 
 
-<!--    <com.sduduzog.slimlauncher.ui.main.BinaryClockView-->
+<!--    <com.jkuester.unlauncher.view.BinaryClockView-->
 <!--        android:id="@+id/home_fragment_bin_time"-->
 <!--        android:layout_width="match_parent"-->
 <!--        android:layout_height="wrap_content"-->

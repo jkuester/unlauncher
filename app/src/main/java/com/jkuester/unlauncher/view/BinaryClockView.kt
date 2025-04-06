@@ -1,27 +1,45 @@
-package com.sduduzog.slimlauncher.ui.main
+package com.jkuester.unlauncher.view
 
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.RectF
 import android.text.format.DateFormat
-import android.util.AttributeSet
-import android.view.View
+import android.view.Gravity
+import android.widget.LinearLayout
+import androidx.fragment.app.Fragment
+import com.jkuester.unlauncher.datasource.DataRepository
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.datastore.proto.TimeFormat
+import com.jkuester.unlauncher.fragment.WithFragmentLifecycle
 import com.jkuester.unlauncher.getColorPaint
+import com.jkuester.unlauncher.getCurrentDateString
+import com.jkuester.unlauncher.launchShowAlarms
+import com.jkuester.unlauncher.launchShowCalendar
 import com.sduduzog.slimlauncher.R
+import com.sduduzog.slimlauncher.databinding.ClockBinaryBinding
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.WithFragmentBindings
 import java.util.Calendar
+import javax.inject.Inject
 
-class BinaryClockView(context: Context, attrs: AttributeSet) : View(context, attrs) {
+@AndroidEntryPoint
+@WithFragmentBindings
+class BinaryClockView(context: Context) : LinearLayout(context) {
+    @Inject
+    lateinit var fragment: Fragment
+    @Inject @WithFragmentLifecycle
+    lateinit var corePrefsRepo: DataRepository<CorePreferences>
 
     private var offPaint = getColorPaint(context, R.attr.colorAccent)
     private var onPaint = getColorPaint(context, R.attr.colorAccent)
-    private var bitSize: Float
-    private var border: Float
-    private var distance: Float
+    private var bitSize = 20F
+    private var border = 2F
+    private var distance = 10F
     private val bounds = RectF(0F, 0F, 0F, 0F)
     private var is24Hour: Boolean = false
+
+    private val binding: ClockBinaryBinding
 
     // HACK:
     // it does not seem to be possible to consider bottom margins in
@@ -31,22 +49,34 @@ class BinaryClockView(context: Context, attrs: AttributeSet) : View(context, att
     private var extraPaddingBottom = 20
 
     init {
+        inflate(context, R.layout.clock_binary, this)
+        orientation = VERTICAL
+        gravity = Gravity.CENTER
+        binding = ClockBinaryBinding.bind(this)
+        setWillNotDraw(false)
+
+        corePrefsRepo.observe(this::listenForChangesToTimeFormat)
+
         onPaint.style = Paint.Style.FILL_AND_STROKE
         offPaint.style = Paint.Style.STROKE
-        context.theme.obtainStyledAttributes(
-            attrs,
-            R.styleable.BinaryClockView,
-            0,
-            0
-        ).apply {
-            try {
-                bitSize = getFloat(R.styleable.BinaryClockView_bitSize, 40F)
-                border = getFloat(R.styleable.BinaryClockView_border, 4F)
-                distance = getFloat(R.styleable.BinaryClockView_distance, 0F)
-            } finally {
-                recycle()
-            }
-        }
+
+        setOnClickListener(launchShowAlarms(fragment))
+        binding.binaryDate.setOnClickListener(launchShowCalendar(fragment))
+        updateChildViews()
+//        context.theme.obtainStyledAttributes(
+//            attrs,
+//            R.styleable.BinaryClockView,
+//            0,
+//            0
+//        ).apply {
+//            try {
+//                bitSize = getFloat(R.styleable.BinaryClockView_bitSize, 40F)
+//                border = getFloat(R.styleable.BinaryClockView_border, 4F)
+//                distance = getFloat(R.styleable.BinaryClockView_distance, 0F)
+//            } finally {
+//                recycle()
+//            }
+//        }
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -87,6 +117,7 @@ class BinaryClockView(context: Context, attrs: AttributeSet) : View(context, att
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        measureChildren(widthMeasureSpec, heightMeasureSpec)
         // Try for a width based on your minimum.
         val minw: Int = paddingLeft + paddingRight + suggestedMinimumWidth +
             12 * bitSize.toInt() + 7 * distance.toInt()
@@ -101,15 +132,25 @@ class BinaryClockView(context: Context, attrs: AttributeSet) : View(context, att
         setMeasuredDimension(w, h)
     }
 
-    fun updateClock(corePrefs: CorePreferences) {
-        requestLayout()
-        invalidate()
+    override fun invalidate() {
+        super.invalidate()
+        updateChildViews()
+    }
 
-        val timeFormat = corePrefs.timeFormat
-        is24Hour = when (timeFormat) {
+    private fun updateChildViews() {
+        binding.binaryDate.text = getCurrentDateString(resources)
+    }
+
+    private fun listenForChangesToTimeFormat(corePrefs: CorePreferences) {
+        val originalIs24Hour = is24Hour
+        is24Hour = when (corePrefs.timeFormat) {
             TimeFormat.twenty_four_hour -> true
             TimeFormat.twelve_hour -> false
             else -> DateFormat.is24HourFormat(context)
+        }
+
+        if (originalIs24Hour != is24Hour) {
+            invalidate()
         }
     }
 }
