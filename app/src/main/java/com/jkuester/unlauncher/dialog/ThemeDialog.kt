@@ -20,7 +20,7 @@ import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.datastore.proto.Theme
 import com.jkuester.unlauncher.fragment.WithFragmentLifecycle
 import com.sduduzog.slimlauncher.R
-import com.sduduzog.slimlauncher.utils.getMyColor
+import com.sduduzog.slimlauncher.utils.getColorCompat
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -53,10 +53,10 @@ class ThemeDialog : DialogFragment() {
                 val previewDrawable = ThemeColorPreviewDrawable(
                     sizePx = textSize,
                     strokeWidthPx = radioButton.context.resources.getDimension(R.dimen._1sdp),
-                    bgColor = context.getMyColor(colors[0]),
-                    headerColor = context.getMyColor(colors[1]),
-                    fontColor = context.getMyColor(colors[2]),
-                    strokeColor = context.getMyColor(R.color.colorGray)
+                    bgColor = context.getColorCompat(colors[0]),
+                    headerColor = context.getColorCompat(colors[1]),
+                    fontColor = context.getColorCompat(colors[2]),
+                    strokeColor = context.getColorCompat(R.color.colorGray)
                 )
                 previewDrawable.setBounds(
                     0,

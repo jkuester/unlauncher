@@ -48,10 +48,11 @@ fun AlignmentFormat.gravity(): Int = when (this.number) {
 }
 
 @ColorInt
-fun Context.getMyColor(@ColorRes colorId: Int): Int {
+fun Context.getColorCompat(@ColorRes colorId: Int): Int {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        this.getColor(colorId)
+        this.resources.getColor(colorId, this.theme)
     } else {
+        @Suppress("DEPRECATION")
         this.resources.getColor(colorId)
     }
 }
