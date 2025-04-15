@@ -3,9 +3,12 @@ package com.sduduzog.slimlauncher.utils
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ApplicationInfo
+import android.os.Build
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.TextAppearanceSpan
+import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
 import com.jkuester.unlauncher.datastore.proto.AlignmentFormat
 import com.sduduzog.slimlauncher.R
 
@@ -42,4 +45,14 @@ fun AlignmentFormat.gravity(): Int = when (this.number) {
     2 -> 5 // RIGHT
     1 -> 1 // CENTER
     else -> 3 // LEFT
+}
+
+@ColorInt
+fun Context.getColorCompat(@ColorRes colorId: Int): Int {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        this.resources.getColor(colorId, this.theme)
+    } else {
+        @Suppress("DEPRECATION")
+        this.resources.getColor(colorId)
+    }
 }
