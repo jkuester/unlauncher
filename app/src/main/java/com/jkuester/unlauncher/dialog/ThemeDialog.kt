@@ -94,11 +94,11 @@ class ThemeDialog : DialogFragment() {
 
     private fun getThemePreviewColors(listPosition: Int): Array<Int>? {
         val colors = Array(3) { _ -> 0 }
-        when (listPosition) {
+        when (Theme.forNumber(listPosition)) {
             // System default
-            0 -> return null
+            Theme.system_theme -> return null
             // Midnight
-            1 -> {
+            Theme.midnight -> {
                 fillArray(
                     android.R.color.black,
                     R.color.colorChineseWhite,
@@ -107,7 +107,7 @@ class ThemeDialog : DialogFragment() {
                 )
             }
             // Jupiter
-            2 -> {
+            Theme.jupiter -> {
                 fillArray(
                     R.color.colorBlueGrey,
                     R.color.colorChineseWhite,
@@ -116,7 +116,7 @@ class ThemeDialog : DialogFragment() {
                 )
             }
             // teal
-            3 -> {
+            Theme.teal -> {
                 fillArray(
                     R.color.colorTeal,
                     R.color.colorVampireBlack,
@@ -125,7 +125,7 @@ class ThemeDialog : DialogFragment() {
                 )
             }
             // Candy
-            4 -> {
+            Theme.candy -> {
                 fillArray(
                     R.color.colorCandy,
                     R.color.colorChineseWhite,
@@ -134,7 +134,7 @@ class ThemeDialog : DialogFragment() {
                 )
             }
             // Pastel
-            5 -> {
+            Theme.pastel -> {
                 fillArray(
                     R.color.colorPink,
                     R.color.colorVampireBlack,
@@ -143,7 +143,7 @@ class ThemeDialog : DialogFragment() {
                 )
             }
             // Noon
-            6 -> {
+            Theme.noon -> {
                 fillArray(
                     android.R.color.white,
                     R.color.colorVampireBlack,
@@ -152,7 +152,7 @@ class ThemeDialog : DialogFragment() {
                 )
             }
             // Vlad
-            7 -> {
+            Theme.vlad -> {
                 fillArray(
                     R.color.colorGunmetal,
                     R.color.colorDarkBlueGray,
@@ -161,7 +161,7 @@ class ThemeDialog : DialogFragment() {
                 )
             }
             // Groovy
-            8 -> {
+            Theme.groovy -> {
                 fillArray(
                     R.color.colorCharlestonGreen,
                     R.color.colorAcidGreen,
@@ -169,6 +169,7 @@ class ThemeDialog : DialogFragment() {
                     colors
                 )
             }
+            else -> return null
         }
         return colors
     }
