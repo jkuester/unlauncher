@@ -6,6 +6,7 @@ import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.datastore.proto.SearchBarPosition
 import com.jkuester.unlauncher.datastore.proto.Theme
 import com.jkuester.unlauncher.datastore.proto.TimeFormat
+import com.jkuester.unlauncher.datastore.proto.FontSize
 import com.sduduzog.slimlauncher.R
 
 fun toggleActivateKeyboardInDrawer() = { originalPrefs: CorePreferences ->
@@ -44,6 +45,9 @@ fun setHideStatusBar(hideStatusBar: Boolean) = { originalPrefs: CorePreferences 
 fun toggleHideStatusBar() = { originalPrefs: CorePreferences ->
     setHideStatusBar(!originalPrefs.hideStatusBar)(originalPrefs)
 }
+fun setFontSize(fontSize: FontSize) = { originalPrefs: CorePreferences -> 
+    originalPrefs.toBuilder().setFontSize(fontSize).build()
+}
 
 private val STYLE_RESOURCES_BY_THEME = mapOf(
     Theme.system_theme to R.style.AppTheme,
@@ -57,4 +61,11 @@ private val STYLE_RESOURCES_BY_THEME = mapOf(
     Theme.groovy to R.style.AppGruvBoxDarkTheme,
 )
 
+private val FONT_SIZE_VALUES = mapOf(
+    FontSize.small to 14f,
+    FontSize.medium to 16f,
+    FontSize.large to 18f
+)
+
 fun getThemeStyleResource(theme: Theme) = STYLE_RESOURCES_BY_THEME[theme] ?: R.style.AppTheme
+fun getFontSizeValue(fontSize: FontSize) = FONT_SIZE_VALUES[fontSize] ?: 16f
