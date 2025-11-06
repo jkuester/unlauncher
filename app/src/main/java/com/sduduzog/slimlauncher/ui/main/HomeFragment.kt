@@ -33,6 +33,7 @@ import androidx.constraintlayout.motion.widget.MotionLayout.TransitionListener
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jkuester.unlauncher.datasource.DataRepository
+import com.jkuester.unlauncher.datasource.getFontSizeValue
 import com.jkuester.unlauncher.datasource.getHomeApps
 import com.jkuester.unlauncher.datasource.getIconResourceId
 import com.jkuester.unlauncher.datasource.setApps
@@ -136,6 +137,9 @@ class HomeFragment : BaseFragment() {
                 .visibility = if (clockType == ClockType.binary) View.VISIBLE else View.GONE
             homeFragmentContent.homeFragmentDate
                 .visibility = if (clockType != ClockType.none) View.VISIBLE else View.GONE
+            val fontSize = getFontSizeValue(corePreferences.fontSize)
+            homeFragmentContent.homeFragmentTime.textSize = fontSize + 20
+            homeFragmentContent.homeFragmentDate.textSize = fontSize
         }
     }
 
