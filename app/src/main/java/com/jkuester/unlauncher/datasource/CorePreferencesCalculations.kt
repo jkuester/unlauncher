@@ -61,11 +61,17 @@ private val STYLE_RESOURCES_BY_THEME = mapOf(
     Theme.groovy to R.style.AppGruvBoxDarkTheme,
 )
 
-private val FONT_SIZE_VALUES = mapOf(
-    FontSize.small to 18f,
-    FontSize.medium to 24f,
-    FontSize.large to 40f
+private val FONT_SCALE_FACTORS = mapOf(
+    FontSize.small to 0.8f,
+    FontSize.medium to 1.0f,
+    FontSize.large to 1.2f
 )
 
 fun getThemeStyleResource(theme: Theme) = STYLE_RESOURCES_BY_THEME[theme] ?: R.style.AppTheme
-fun getFontSizeValue(fontSize: FontSize) = FONT_SIZE_VALUES[fontSize] ?: 16f
+fun getFontScaleFactor(fontSize: FontSize) = FONT_SCALE_FACTORS[fontSize] ?: 1.0f
+private const val ORIGINAL_CLOCK_SIZE = 40f
+private const val ORIGINAL_DATE_SIZE = 18f
+private const val ORIGINAL_APP_SIZE = 24f
+fun getScaledClockSize(fontSize: FontSize) = ORIGINAL_CLOCK_SIZE * getFontScaleFactor(fontSize)
+fun getScaledDateSize(fontSize: FontSize) = ORIGINAL_DATE_SIZE * getFontScaleFactor(fontSize)
+fun getScaledAppSize(fontSize: FontSize) = ORIGINAL_APP_SIZE * getFontScaleFactor(fontSize)
