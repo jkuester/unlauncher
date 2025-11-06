@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.jkuester.unlauncher.datasource.DataRepository
+import com.jkuester.unlauncher.datasource.getFontSizeValue
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.datastore.proto.UnlauncherApp
 import com.sduduzog.slimlauncher.R
@@ -34,6 +35,7 @@ class HomeAdapter(
         }
         corePreferencesRepo.observe {
             holder.mLabelView.gravity = it.alignmentFormat.gravity()
+            holder.mLabelView.textSize = getFontSizeValue(it.fontSize)
         }
     }
 
