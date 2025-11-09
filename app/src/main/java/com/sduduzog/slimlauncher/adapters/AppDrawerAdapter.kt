@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.jkuester.unlauncher.datasource.DataRepository
+import com.jkuester.unlauncher.datasource.getScaledAppSize
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.datastore.proto.UnlauncherApp
 import com.jkuester.unlauncher.datastore.proto.UnlauncherApps
@@ -167,6 +168,7 @@ class AppDrawerAdapter(
         fun bind(item: UnlauncherApp) {
             this.item.text = item.displayName
             this.item.gravity = gravity
+            this.item.textSize = getScaledAppSize(corePreferencesRepo.get().fontSize)
         }
     }
 
@@ -177,6 +179,7 @@ class AppDrawerAdapter(
 
         fun bind(letter: String) {
             header.text = letter
+            header.textSize = getScaledAppSize(corePreferencesRepo.get().fontSize)
         }
     }
 }
