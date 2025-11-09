@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.activity.ComponentActivity
 import androidx.navigation.Navigation
 import com.jkuester.unlauncher.datasource.DataRepository
+import com.jkuester.unlauncher.datasource.getScaledAppSize
 import com.jkuester.unlauncher.datasource.setKeepDeviceWallpaper
 import com.jkuester.unlauncher.datasource.toggleHideStatusBar
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
@@ -84,6 +85,18 @@ class OptionsFragment : BaseFragment() {
                 R.id.action_optionsFragment_to_customiseAppDrawerFragment
             )
         )
+        corePreferencesRepo.observe { corePreferences ->
+            val fontSize = getScaledAppSize(corePreferences.fontSize)
+            optionsFragment.optionsFragmentDeviceSettings.textSize = fontSize
+            optionsFragment.optionsFragmentChangeTheme.textSize = fontSize
+            optionsFragment.optionsFragmentChooseTimeFormat.textSize = fontSize
+            optionsFragment.optionsFragmentChooseClockType.textSize = fontSize
+            optionsFragment.optionsFragmentChooseAlignment.textSize = fontSize
+            optionsFragment.optionsFragmentChooseFontSize.textSize = fontSize
+            optionsFragment.optionsFragmentToggleStatusBar.textSize = fontSize
+            optionsFragment.optionsFragmentCustomizeQuickButtons.textSize = fontSize
+            optionsFragment.optionsFragmentCustomizeAppDrawer.textSize = fontSize
+        }
     }
 
     override fun onStart() {
