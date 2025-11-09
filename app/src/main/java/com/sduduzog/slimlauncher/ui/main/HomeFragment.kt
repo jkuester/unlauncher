@@ -35,6 +35,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.jkuester.unlauncher.datasource.DataRepository
 import com.jkuester.unlauncher.datasource.getHomeApps
 import com.jkuester.unlauncher.datasource.getIconResourceId
+import com.jkuester.unlauncher.datasource.getScaledAppSize
 import com.jkuester.unlauncher.datasource.getScaledClockSize
 import com.jkuester.unlauncher.datasource.getScaledDateSize
 import com.jkuester.unlauncher.datasource.setApps
@@ -140,6 +141,7 @@ class HomeFragment : BaseFragment() {
                 .visibility = if (clockType != ClockType.none) View.VISIBLE else View.GONE
             homeFragmentContent.homeFragmentTime.textSize = getScaledClockSize(corePreferences.fontSize)
             homeFragmentContent.homeFragmentDate.textSize = getScaledDateSize(corePreferences.fontSize)
+            homeFragmentContent.appDrawerEditText.textSize = getScaledAppSize(corePreferences.fontSize)
         }
     }
 
