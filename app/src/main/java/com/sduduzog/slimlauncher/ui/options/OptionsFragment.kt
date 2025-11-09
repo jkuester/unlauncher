@@ -14,6 +14,7 @@ import com.jkuester.unlauncher.datasource.toggleHideStatusBar
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.dialog.AlignmentFormatDialog
 import com.jkuester.unlauncher.dialog.ClockTypeDialog
+import com.jkuester.unlauncher.dialog.FontSizeDialog
 import com.jkuester.unlauncher.dialog.ThemeDialog
 import com.jkuester.unlauncher.dialog.TimeFormatDialog
 import com.jkuester.unlauncher.fragment.WithFragmentLifecycle
@@ -66,6 +67,9 @@ class OptionsFragment : BaseFragment() {
         }
         optionsFragment.optionsFragmentChooseAlignment.setOnClickListener {
             AlignmentFormatDialog().showNow(childFragmentManager, "ALIGNMENT_CHOOSER")
+        }
+        optionsFragment.optionsFragmentChooseFontSize.setOnClickListener {
+            FontSizeDialog().showNow(childFragmentManager, "FONT_SIZE_CHOOSER")
         }
         optionsFragment.optionsFragmentToggleStatusBar.setOnClickListener {
             corePreferencesRepo.updateAsync(toggleHideStatusBar())
