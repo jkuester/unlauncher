@@ -1,12 +1,13 @@
 package com.jkuester.unlauncher.datasource
-
 import com.jkuester.unlauncher.datastore.proto.AlignmentFormat
 import com.jkuester.unlauncher.datastore.proto.ClockType
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
+import com.jkuester.unlauncher.datastore.proto.FontSize
 import com.jkuester.unlauncher.datastore.proto.SearchBarPosition
 import com.jkuester.unlauncher.datastore.proto.Theme
 import com.jkuester.unlauncher.datastore.proto.TimeFormat
 import com.sduduzog.slimlauncher.R
+import io.kotest.matchers.floats.plusOrMinus
 import io.kotest.matchers.shouldBe
 import io.mockk.junit5.MockKExtension
 import org.junit.jupiter.api.Test
@@ -133,5 +134,40 @@ class CorePreferencesCalculationsTest {
 
         val updatedPrefs1 = toggleHideStatusBar()(updatedPrefs)
         updatedPrefs1.hideStatusBar shouldBe false
+    }
+
+    @ParameterizedTest
+    @EnumSource(
+        value = FontSize::class,
+        names = ["UNRECOGNIZED"],
+        mode = EnumSource.Mode.EXCLUDE
+    )
+    fun testSetFontSize(fontSize: FontSize) {
+        val updatedPrefs = setFontSize(fontSize)(EMPTY_PREFS)
+        updatedPrefs.fontSize shouldBe fontSize
+    }
+
+    @ParameterizedTest
+    @EnumSource(FontSize::class)
+    fun testGetScaledAppSize(fontSize: FontSize) {
+        val expectedSizes = arrayOf(19.2f, 24f, 28.8f, 24f)
+        val size = getScaledAppSize(fontSize)
+        size shouldBe (expectedSizes[fontSize.ordinal] plusOrMinus 0.01f)
+    }
+
+    @ParameterizedTest
+    @EnumSource(FontSize::class)
+    fun testGetScaledClockSize(fontSize: FontSize) {
+        val expectedSizes = arrayOf(32f, 40f, 48f, 40f)
+        val size = getScaledClockSize(fontSize)
+        size shouldBe (expectedSizes[fontSize.ordinal] plusOrMinus 0.01f)
+    }
+
+    @ParameterizedTest
+    @EnumSource(FontSize::class)
+    fun testGetScaledDateSize(fontSize: FontSize) {
+        val expectedSizes = arrayOf(14.4f, 18f, 21.6f, 18f)
+        val size = getScaledDateSize(fontSize)
+        size shouldBe (expectedSizes[fontSize.ordinal] plusOrMinus 0.01f)
     }
 }

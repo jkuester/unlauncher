@@ -87,8 +87,8 @@ class OptionsFragment : BaseFragment() {
         )
         corePreferencesRepo.observe { corePreferences ->
             val fontSize = getScaledAppSize(corePreferences.fontSize)
-            //Options title is not aligned with arrow, so omitting the below line
-            //optionsFragment.optionsFragmentTitle.textSize = fontSize
+            // Options title is not aligned with arrow, so omitting the below line
+            // optionsFragment.optionsFragmentTitle.textSize = fontSize
             optionsFragment.optionsFragmentDeviceSettings.textSize = fontSize
             optionsFragment.optionsFragmentChangeTheme.textSize = fontSize
             optionsFragment.optionsFragmentChooseTimeFormat.textSize = fontSize
