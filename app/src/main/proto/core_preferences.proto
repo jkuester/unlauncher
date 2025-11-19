@@ -15,6 +15,7 @@ message CorePreferences {
   TimeFormat time_format = 9;
   Theme theme = 10;
   bool hide_status_bar = 11;
+  FontSize font_size = 12;
 }
 
 enum SearchBarPosition {
@@ -58,4 +59,10 @@ enum Theme {
   noon = 6;
   vlad = 7;
   groovy = 8;
+}
+
+enum FontSize {
+  small = 0;
+  medium = 1;
+  large = 2;
 }

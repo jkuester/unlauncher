@@ -98,6 +98,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/options_fragment_toggle_status_bar" />
             <TextView
+                android:id="@+id/options_fragment_choose_font_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_list_items"
+                android:text="@string/options_fragment_choose_font_size"
+                android:textAppearance="@style/TextAppearance.Primary.Large"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/options_fragment_choose_alignment" />
+
+            <TextView
                 android:id="@+id/options_fragment_customize_quick_buttons"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -105,7 +115,7 @@
                 android:text="@string/customize_home"
                 android:textAppearance="@style/TextAppearance.Primary.Large"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/options_fragment_choose_alignment" />
+                app:layout_constraintTop_toBottomOf="@+id/options_fragment_choose_font_size" />
             <TextView
                 android:id="@+id/options_fragment_customize_app_drawer"
                 android:layout_width="match_parent"
