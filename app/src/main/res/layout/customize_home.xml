@@ -31,13 +31,23 @@
         app:layout_constraintStart_toEndOf="@id/header_back"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <FrameLayout
+        android:id="@+id/clock_wrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_top"
+        android:minHeight="100dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/header_title" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/customise_home_apps_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_top"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintTop_toBottomOf="@+id/header_title"
+        app:layout_constraintTop_toBottomOf="@+id/clock_wrapper"
         tools:itemCount="0"
         tools:listitem="@layout/main_fragment_list_item" />
 

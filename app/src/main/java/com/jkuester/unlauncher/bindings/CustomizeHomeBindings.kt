@@ -1,5 +1,6 @@
 package com.jkuester.unlauncher.bindings
 
+import android.content.Context
 import android.view.View
 import android.view.View.OnClickListener
 import android.widget.ImageView
@@ -7,12 +8,16 @@ import androidx.activity.ComponentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.Navigation
 import com.jkuester.unlauncher.adapter.CustomizeHomeAppsListAdapter
+import com.jkuester.unlauncher.createNewClock
 import com.jkuester.unlauncher.datasource.DataRepository
 import com.jkuester.unlauncher.datasource.QuickButtonIcon
 import com.jkuester.unlauncher.datasource.getHomeApps
 import com.jkuester.unlauncher.datasource.getIconResourceId
+import com.jkuester.unlauncher.datastore.proto.ClockType
+import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.datastore.proto.QuickButtonPreferences
 import com.jkuester.unlauncher.datastore.proto.UnlauncherApps
+import com.jkuester.unlauncher.dialog.ClockTypeDialog
 import com.jkuester.unlauncher.dialog.QuickButtonIconDialog
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.databinding.CustomizeHomeBinding
@@ -73,3 +78,26 @@ fun setupHomeAppsList(appsRepo: DataRepository<UnlauncherApps>, fragmentManager:
     { binding: CustomizeHomeBinding ->
         binding.customiseHomeAppsList.adapter = CustomizeHomeAppsListAdapter(appsRepo, fragmentManager)
     }
+
+private fun updateClockPreview(context: Context, binding: CustomizeHomeBinding): (CorePreferences) -> Unit {
+    var currentClockType: ClockType? = null
+    return { corePrefs ->
+        if (corePrefs.clockType != currentClockType) {
+            currentClockType = corePrefs.clockType
+            binding.clockWrapper.removeAllViews()
+            val clock = createNewClock(context, corePrefs.clockType)
+            binding.clockWrapper.addView(clock)
+        }
+    }
+}
+
+fun setupClockPreview(
+    context: Context,
+    corePreferencesRepo: DataRepository<CorePreferences>,
+    fragmentManager: FragmentManager,
+) = { binding: CustomizeHomeBinding ->
+    corePreferencesRepo.observe(updateClockPreview(context, binding))
+    binding.clockWrapper.setOnClickListener {
+        ClockTypeDialog().showNow(fragmentManager, null)
+    }
+}

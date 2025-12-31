@@ -1,7 +1,9 @@
 package com.jkuester.unlauncher.bindings
 
+import android.content.Context
 import android.view.View
 import android.view.View.OnClickListener
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -16,12 +18,16 @@ import com.jkuester.unlauncher.adapter.CustomizeHomeAppsListAdapter
 import com.jkuester.unlauncher.datasource.QuickButtonIcon
 import com.jkuester.unlauncher.datasource.addHomeApp
 import com.jkuester.unlauncher.datasource.setCenterIconId
+import com.jkuester.unlauncher.datasource.setClockType
 import com.jkuester.unlauncher.datasource.setHomeApps
 import com.jkuester.unlauncher.datasource.setLeftIconId
 import com.jkuester.unlauncher.datasource.setRightIconId
+import com.jkuester.unlauncher.datastore.proto.ClockType
+import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.datastore.proto.QuickButtonPreferences
 import com.jkuester.unlauncher.datastore.proto.UnlauncherApp
 import com.jkuester.unlauncher.datastore.proto.UnlauncherApps
+import com.jkuester.unlauncher.dialog.ClockTypeDialog
 import com.jkuester.unlauncher.dialog.QuickButtonIconDialog
 import com.jkuester.unlauncher.util.TestDataRepository
 import com.sduduzog.slimlauncher.R
@@ -61,10 +67,13 @@ class CustomizeHomeBindingsTest {
     lateinit var quickButtonCenter: ImageView
     @MockK
     lateinit var quickButtonRight: ImageView
+    @MockK
+    lateinit var clockWrapper: FrameLayout
 
     private lateinit var binding: CustomizeHomeBinding
     private val prefsRepo = TestDataRepository(QuickButtonPreferences.getDefaultInstance())
     private val appsRepo = TestDataRepository(UnlauncherApps.getDefaultInstance())
+    private val corePrefsRepo = TestDataRepository(CorePreferences.getDefaultInstance())
 
     @BeforeEach
     fun beforeEach() {
@@ -77,6 +86,7 @@ class CustomizeHomeBindingsTest {
         every { ViewBindings.findChildViewById<View>(any(), R.id.quick_button_left) } returns quickButtonLeft
         every { ViewBindings.findChildViewById<View>(any(), R.id.quick_button_center) } returns quickButtonCenter
         every { ViewBindings.findChildViewById<View>(any(), R.id.quick_button_right) } returns quickButtonRight
+        every { ViewBindings.findChildViewById<View>(any(), R.id.clock_wrapper) } returns clockWrapper
 
         binding = CustomizeHomeBinding.bind(rootView)
     }
@@ -90,6 +100,7 @@ class CustomizeHomeBindingsTest {
         verify(exactly = 1) { ViewBindings.findChildViewById<View>(rootView, R.id.quick_button_left) }
         verify(exactly = 1) { ViewBindings.findChildViewById<View>(rootView, R.id.quick_button_center) }
         verify(exactly = 1) { ViewBindings.findChildViewById<View>(rootView, R.id.quick_button_right) }
+        verify(exactly = 1) { ViewBindings.findChildViewById<View>(rootView, R.id.clock_wrapper) }
     }
 
     @Test
@@ -205,5 +216,40 @@ class CustomizeHomeBindingsTest {
         setupHomeAppsList(appsRepo, mockk())(binding)
 
         verify(exactly = 1) { homeAppsList.adapter = any<CustomizeHomeAppsListAdapter>() }
+    }
+
+    @Test
+    fun setupClockPreview() {
+        val context = mockk<Context>()
+        val fragmentManager = mockk<FragmentManager>()
+        val clickListenerSlot = slot<OnClickListener>()
+        justRun { clockWrapper.setOnClickListener(capture(clickListenerSlot)) }
+        justRun { clockWrapper.removeAllViews() }
+        justRun { clockWrapper.addView(any()) }
+        mockkConstructor(ClockTypeDialog::class)
+        justRun { anyConstructed<ClockTypeDialog>().showNow(any(), any()) }
+
+        setupClockPreview(context, corePrefsRepo, fragmentManager)(binding)
+
+        verify(exactly = 1) { clockWrapper.setOnClickListener(clickListenerSlot.captured) }
+
+        // Simulate tapping the clock wrapper to open dialog
+        clickListenerSlot.captured.onClick(clockWrapper)
+        verify(exactly = 1) { anyConstructed<ClockTypeDialog>().showNow(fragmentManager, null) }
+
+        // Simulate changing clock type - should update the view
+        corePrefsRepo.updateAsync(setClockType(ClockType.analog_0))
+        verify(exactly = 1) { clockWrapper.removeAllViews() }
+        verify(exactly = 1) { clockWrapper.addView(any()) }
+
+        // Simulate changing to a different clock type
+        corePrefsRepo.updateAsync(setClockType(ClockType.binary))
+        verify(exactly = 2) { clockWrapper.removeAllViews() }
+        verify(exactly = 2) { clockWrapper.addView(any()) }
+
+        // Simulate setting the same clock type - should NOT update
+        corePrefsRepo.updateAsync(setClockType(ClockType.binary))
+        verify(exactly = 2) { clockWrapper.removeAllViews() }
+        verify(exactly = 2) { clockWrapper.addView(any()) }
     }
 }
