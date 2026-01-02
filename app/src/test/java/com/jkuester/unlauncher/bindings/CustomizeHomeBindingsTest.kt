@@ -288,13 +288,13 @@ class CustomizeHomeBindingsTest {
         corePrefsRepo.updateAsync(setClockType(ClockType.binary))
         verify(exactly = 4) { clockWrapper.removeAllViews() }
         verify(exactly = 3) { clockWrapper.addView(any()) }
-        verify(exactly = 3) { clockOptionsButton.visibility = View.GONE }
+        verify(exactly = 2) { clockOptionsButton.visibility = View.GONE }
 
         // Simulate setting clock type to none - should show border, not add clock
         corePrefsRepo.updateAsync(setClockType(ClockType.none))
         verify(exactly = 5) { clockWrapper.removeAllViews() }
         verify(exactly = 2) { clockWrapper.setBackgroundResource(R.drawable.imageview_border) }
         verify(exactly = 3) { clockWrapper.addView(any()) } // Still only 3 addView calls
-        verify(exactly = 4) { clockOptionsButton.visibility = View.GONE }
+        verify(exactly = 3) { clockOptionsButton.visibility = View.GONE }
     }
 }
