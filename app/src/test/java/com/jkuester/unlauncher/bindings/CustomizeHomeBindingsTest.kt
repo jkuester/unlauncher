@@ -3,6 +3,7 @@ package com.jkuester.unlauncher.bindings
 import android.content.Context
 import android.view.View
 import android.view.View.OnClickListener
+import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -243,9 +244,13 @@ class CustomizeHomeBindingsTest {
         mockkConstructor(AnalogClockTypeDialog::class)
         justRun { anyConstructed<AnalogClockTypeDialog>().showNow(any(), any()) }
         mockkStatic(::createNewClock)
-        val mockClockView = mockk<View>()
+        val mockChildView = mockk<View>()
+        justRun { mockChildView.isClickable = any() }
+        val mockClockView = mockk<ViewGroup>()
         every { createNewClock(any(), any()) } returns mockClockView
         justRun { mockClockView.isClickable = any() }
+        every { mockClockView.childCount } returns 1
+        every { mockClockView.getChildAt(0) } returns mockChildView
 
         setupClockPreview(context, corePrefsRepo, fragmentManager)(binding)
 

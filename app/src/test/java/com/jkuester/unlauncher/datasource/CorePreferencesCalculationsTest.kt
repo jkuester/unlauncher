@@ -1,6 +1,7 @@
 package com.jkuester.unlauncher.datasource
 
 import com.jkuester.unlauncher.datastore.proto.AlignmentFormat
+import com.jkuester.unlauncher.datastore.proto.AnalogClockType
 import com.jkuester.unlauncher.datastore.proto.ClockType
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.datastore.proto.SearchBarPosition
@@ -69,6 +70,12 @@ class CorePreferencesCalculationsTest {
     fun setClockType() {
         val updatedPrefs = setClockType(ClockType.digital)(EMPTY_PREFS)
         updatedPrefs.clockType shouldBe ClockType.digital
+    }
+
+    @Test
+    fun setAnalogClockType() {
+        val updatedPrefs = setAnalogClockType(AnalogClockType.analog_4)(EMPTY_PREFS)
+        updatedPrefs.analogClockType shouldBe AnalogClockType.analog_4
     }
 
     @Test
