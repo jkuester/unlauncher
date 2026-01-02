@@ -99,6 +99,14 @@ private fun updateClockPreview(context: Context, binding: CustomizeHomeBinding):
 
         currentClockType = corePrefs.clockType
         binding.clockWrapper.removeAllViews()
+
+        // Show a border when "None" is selected so user knows they can tap to change
+        if (corePrefs.clockType == ClockType.none) {
+            binding.clockWrapper.setBackgroundResource(R.drawable.imageview_border)
+            return@updateClock
+        }
+
+        binding.clockWrapper.setBackgroundResource(0)
         val clock = createNewClock(context, corePrefs.clockType)
         // Disable click handling on the clock and its children so clicks pass through to the wrapper
         disableClicksRecursively(clock)
