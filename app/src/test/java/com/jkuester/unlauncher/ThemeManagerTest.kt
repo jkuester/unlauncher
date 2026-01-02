@@ -27,13 +27,13 @@ import io.mockk.mockk
 import io.mockk.mockkConstructor
 import io.mockk.mockkStatic
 import io.mockk.verify
+import kotlin.reflect.KFunction
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import kotlin.reflect.KFunction
 
 private const val BACKGROUND_COLOR = 0xf06292
 typealias CreateBitmapFunction = (Int, Int, Bitmap.Config) -> Bitmap
