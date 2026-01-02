@@ -3,6 +3,7 @@ package com.jkuester.unlauncher.bindings
 import android.content.Context
 import android.view.View
 import android.view.View.OnClickListener
+import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.activity.ComponentActivity
 import androidx.fragment.app.FragmentManager
@@ -79,15 +80,29 @@ fun setupHomeAppsList(appsRepo: DataRepository<UnlauncherApps>, fragmentManager:
         binding.customiseHomeAppsList.adapter = CustomizeHomeAppsListAdapter(appsRepo, fragmentManager)
     }
 
+private fun disableClicksRecursively(view: View) {
+    view.isClickable = false
+    if (view !is ViewGroup) {
+        return
+    }
+    for (i in 0 until view.childCount) {
+        disableClicksRecursively(view.getChildAt(i))
+    }
+}
+
 private fun updateClockPreview(context: Context, binding: CustomizeHomeBinding): (CorePreferences) -> Unit {
     var currentClockType: ClockType? = null
-    return { corePrefs ->
-        if (corePrefs.clockType != currentClockType) {
-            currentClockType = corePrefs.clockType
-            binding.clockWrapper.removeAllViews()
-            val clock = createNewClock(context, corePrefs.clockType)
-            binding.clockWrapper.addView(clock)
+    return updateClock@{ corePrefs ->
+        if (corePrefs.clockType == currentClockType) {
+            return@updateClock
         }
+
+        currentClockType = corePrefs.clockType
+        binding.clockWrapper.removeAllViews()
+        val clock = createNewClock(context, corePrefs.clockType)
+        // Disable click handling on the clock and its children so clicks pass through to the wrapper
+        disableClicksRecursively(clock)
+        binding.clockWrapper.addView(clock)
     }
 }
 
