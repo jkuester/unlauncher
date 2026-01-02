@@ -305,6 +305,13 @@ class HomeFragment : BaseFragment() {
 
             currentClockType = corePrefs.clockType
             binding.clockWrapper.removeAllViews()
+            clockReceiver.clock = null
+
+            // Don't add a clock view when "None" is selected
+            if (corePrefs.clockType == ClockType.none) {
+                return@Observer
+            }
+
             val clock = createNewClock(requireContext(), corePrefs.clockType)
             clockReceiver.clock = clock
             binding.clockWrapper.addView(clock)
