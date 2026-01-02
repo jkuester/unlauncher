@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="font_size_home_clock">@dimen/_40ssp</dimen>
-    <dimen name="font_size_home_date">@dimen/_18ssp</dimen>
     <dimen name="font_size_home_app_list_item">@dimen/_24ssp</dimen>
 
     <dimen name="font_size_drawer_search">@dimen/_18ssp</dimen>

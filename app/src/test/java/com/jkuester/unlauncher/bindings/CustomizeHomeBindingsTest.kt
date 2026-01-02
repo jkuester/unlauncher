@@ -15,6 +15,7 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBindings
 import com.jkuester.unlauncher.adapter.CustomizeHomeAppsListAdapter
+import com.jkuester.unlauncher.createNewClock
 import com.jkuester.unlauncher.datasource.QuickButtonIcon
 import com.jkuester.unlauncher.datasource.addHomeApp
 import com.jkuester.unlauncher.datasource.setCenterIconId
@@ -229,10 +230,17 @@ class CustomizeHomeBindingsTest {
         justRun { clockWrapper.setBackgroundResource(any()) }
         mockkConstructor(ClockTypeDialog::class)
         justRun { anyConstructed<ClockTypeDialog>().showNow(any(), any()) }
+        mockkStatic(::createNewClock)
+        val mockClockView = mockk<View>()
+        every { createNewClock(any(), any()) } returns mockClockView
+        justRun { mockClockView.isClickable = any() }
 
         setupClockPreview(context, corePrefsRepo, fragmentManager)(binding)
 
         verify(exactly = 1) { clockWrapper.setOnClickListener(clickListenerSlot.captured) }
+        // Initial observe triggers with default ClockType.none
+        verify(exactly = 1) { clockWrapper.removeAllViews() }
+        verify(exactly = 1) { clockWrapper.setBackgroundResource(R.drawable.imageview_border) }
 
         // Simulate tapping the clock wrapper to open dialog
         clickListenerSlot.captured.onClick(clockWrapper)
@@ -240,25 +248,25 @@ class CustomizeHomeBindingsTest {
 
         // Simulate changing clock type - should update the view
         corePrefsRepo.updateAsync(setClockType(ClockType.analog_0))
-        verify(exactly = 1) { clockWrapper.removeAllViews() }
+        verify(exactly = 2) { clockWrapper.removeAllViews() }
         verify(exactly = 1) { clockWrapper.setBackgroundResource(0) }
         verify(exactly = 1) { clockWrapper.addView(any()) }
 
         // Simulate changing to a different clock type
         corePrefsRepo.updateAsync(setClockType(ClockType.binary))
-        verify(exactly = 2) { clockWrapper.removeAllViews() }
+        verify(exactly = 3) { clockWrapper.removeAllViews() }
         verify(exactly = 2) { clockWrapper.setBackgroundResource(0) }
         verify(exactly = 2) { clockWrapper.addView(any()) }
 
         // Simulate setting the same clock type - should NOT update
         corePrefsRepo.updateAsync(setClockType(ClockType.binary))
-        verify(exactly = 2) { clockWrapper.removeAllViews() }
+        verify(exactly = 3) { clockWrapper.removeAllViews() }
         verify(exactly = 2) { clockWrapper.addView(any()) }
 
         // Simulate setting clock type to none - should show border, not add clock
         corePrefsRepo.updateAsync(setClockType(ClockType.none))
-        verify(exactly = 3) { clockWrapper.removeAllViews() }
-        verify(exactly = 1) { clockWrapper.setBackgroundResource(R.drawable.imageview_border) }
+        verify(exactly = 4) { clockWrapper.removeAllViews() }
+        verify(exactly = 2) { clockWrapper.setBackgroundResource(R.drawable.imageview_border) }
         verify(exactly = 2) { clockWrapper.addView(any()) } // Still only 2 addView calls
     }
 }

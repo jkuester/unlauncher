@@ -3,7 +3,6 @@ package com.jkuester.unlauncher
 import android.app.WallpaperManager
 import android.content.res.Configuration
 import android.content.res.Resources
-import android.content.res.TypedArray
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Rect
@@ -28,15 +27,14 @@ import io.mockk.mockk
 import io.mockk.mockkConstructor
 import io.mockk.mockkStatic
 import io.mockk.verify
-import kotlin.reflect.KFunction
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import kotlin.reflect.KFunction
 
-private const val RES_ID = 1234
 private const val BACKGROUND_COLOR = 0xf06292
 typealias CreateBitmapFunction = (Int, Int, Bitmap.Config) -> Bitmap
 private val CREATE_BITMAP_FN: CreateBitmapFunction = Bitmap::createBitmap
@@ -86,8 +84,6 @@ class ThemeManagerTest {
         @MockK
         lateinit var theme: Resources.Theme
         @MockK
-        lateinit var themeAttributes: TypedArray
-        @MockK
         lateinit var wallpaperManager: WallpaperManager
         @MockK
         lateinit var bounds: Rect
@@ -106,8 +102,7 @@ class ThemeManagerTest {
             every { activity.windowManager } returns windowManager
             every { windowManager.currentWindowMetrics } returns windowMetrics
             every { windowMetrics.bounds } returns bounds
-            every { theme.obtainStyledAttributes(any(), any()) } returns themeAttributes
-            justRun { themeAttributes.recycle() }
+            mockkStatic(::getThemeAttribute)
             mockkStatic(::isDefaultLauncher)
             mockkStatic(WallpaperManager::getInstance)
             every { WallpaperManager.getInstance(any()) } returns wallpaperManager
@@ -119,13 +114,12 @@ class ThemeManagerTest {
 
         @Test
         fun nullTheme() = runTest {
-            themeManager.setDeviceWallpaper(corePrefsStore, null, RES_ID, true)
+            themeManager.setDeviceWallpaper(corePrefsStore, null, true)
 
             verify(exactly = 0) { activity.resources }
             verify(exactly = 0) { resources.configuration }
             verify(exactly = 0) { corePrefsStore.data }
-            verify(exactly = 0) { theme.obtainStyledAttributes(any(), any()) }
-            verify(exactly = 0) { themeAttributes.recycle() }
+            verify(exactly = 0) { getThemeAttribute(any(), any()) }
             verify(exactly = 0) { WallpaperManager.getInstance(any()) }
             verify(exactly = 0) { windowMetrics.bounds }
             verify(exactly = 0) { wallpaperManager.setBitmap(any()) }
@@ -136,13 +130,12 @@ class ThemeManagerTest {
             val corePrefs = CorePreferences.newBuilder().setKeepDeviceWallpaper(true).build()
             every { corePrefsStore.data } returns flowOf(corePrefs)
 
-            themeManager.setDeviceWallpaper(corePrefsStore, theme, RES_ID, false)
+            themeManager.setDeviceWallpaper(corePrefsStore, theme, false)
 
             verify(exactly = 0) { activity.resources }
             verify(exactly = 0) { resources.configuration }
             verify(exactly = 1) { corePrefsStore.data }
-            verify(exactly = 0) { theme.obtainStyledAttributes(any(), any()) }
-            verify(exactly = 0) { themeAttributes.recycle() }
+            verify(exactly = 0) { getThemeAttribute(any(), any()) }
             verify(exactly = 0) { WallpaperManager.getInstance(any()) }
             verify(exactly = 0) { windowMetrics.bounds }
             verify(exactly = 0) { wallpaperManager.setBitmap(any()) }
@@ -153,34 +146,13 @@ class ThemeManagerTest {
             every { corePrefsStore.data } returns flowOf(prefsDoNotKeepWallpaper)
             every { isDefaultLauncher(any()) } returns false
 
-            themeManager.setDeviceWallpaper(corePrefsStore, theme, RES_ID, false)
+            themeManager.setDeviceWallpaper(corePrefsStore, theme, false)
 
             verify(exactly = 0) { activity.resources }
             verify(exactly = 0) { resources.configuration }
             verify(exactly = 1) { corePrefsStore.data }
             verify(exactly = 1) { isDefaultLauncher(activity) }
-            verify(exactly = 0) { theme.obtainStyledAttributes(any(), any()) }
-            verify(exactly = 0) { themeAttributes.recycle() }
-            verify(exactly = 0) { WallpaperManager.getInstance(any()) }
-            verify(exactly = 0) { windowMetrics.bounds }
-            verify(exactly = 0) { wallpaperManager.setBitmap(any()) }
-        }
-
-        @Test
-        fun backgroundColorNotFound() = runTest {
-            every { corePrefsStore.data } returns flowOf(prefsDoNotKeepWallpaper)
-            every { isDefaultLauncher(any()) } returns true
-            every { themeAttributes.getColor(any(), any()) } returns Int.MIN_VALUE
-
-            themeManager.setDeviceWallpaper(corePrefsStore, theme, RES_ID, false)
-
-            verify(exactly = 0) { activity.resources }
-            verify(exactly = 0) { resources.configuration }
-            verify(exactly = 1) { corePrefsStore.data }
-            verify(exactly = 1) { isDefaultLauncher(activity) }
-            verify(exactly = 1) { theme.obtainStyledAttributes(RES_ID, intArrayOf(android.R.attr.colorBackground)) }
-            verify(exactly = 1) { themeAttributes.getColor(0, Int.MIN_VALUE) }
-            verify(exactly = 1) { themeAttributes.recycle() }
+            verify(exactly = 0) { getThemeAttribute(any(), any()) }
             verify(exactly = 0) { WallpaperManager.getInstance(any()) }
             verify(exactly = 0) { windowMetrics.bounds }
             verify(exactly = 0) { wallpaperManager.setBitmap(any()) }
@@ -190,7 +162,7 @@ class ThemeManagerTest {
         fun setWallpaper_toScreenResolution_AndroidLowerThanR() = runTest {
             every { corePrefsStore.data } returns flowOf(prefsDoNotKeepWallpaper)
             every { isDefaultLauncher(any()) } returns true
-            every { themeAttributes.getColor(any(), any()) } returns BACKGROUND_COLOR
+            every { getThemeAttribute(any(), any()) } returns BACKGROUND_COLOR
             every { androidSdkAtLeast(any()) } returns false
             val display = mockk<Display>()
             every { windowManager.defaultDisplay } returns display
@@ -203,15 +175,13 @@ class ThemeManagerTest {
             every { CREATE_BITMAP_FN(any(), any(), any()) } returns bitmap
             justRun { anyConstructed<Canvas>().drawColor(any()) }
 
-            themeManager.setDeviceWallpaper(corePrefsStore, theme, RES_ID, false)
+            themeManager.setDeviceWallpaper(corePrefsStore, theme, false)
 
             verify(exactly = 0) { activity.resources }
             verify(exactly = 0) { resources.configuration }
             verify(exactly = 1) { corePrefsStore.data }
             verify(exactly = 1) { isDefaultLauncher(activity) }
-            verify(exactly = 1) { theme.obtainStyledAttributes(RES_ID, intArrayOf(android.R.attr.colorBackground)) }
-            verify(exactly = 1) { themeAttributes.getColor(0, Int.MIN_VALUE) }
-            verify(exactly = 1) { themeAttributes.recycle() }
+            verify(exactly = 1) { getThemeAttribute(activity, com.sduduzog.slimlauncher.R.attr.colorBackground) }
             verify(exactly = 1) { WallpaperManager.getInstance(activity) }
             verify(exactly = 1) { androidSdkAtLeast(Build.VERSION_CODES.R) }
             verify(exactly = 1) { windowManager.defaultDisplay }
@@ -227,7 +197,7 @@ class ThemeManagerTest {
         fun setWallpaper_toScreenResolution() = runTest {
             every { corePrefsStore.data } returns flowOf(prefsDoNotKeepWallpaper)
             every { isDefaultLauncher(any()) } returns true
-            every { themeAttributes.getColor(any(), any()) } returns BACKGROUND_COLOR
+            every { getThemeAttribute(any(), any()) } returns BACKGROUND_COLOR
             every { androidSdkAtLeast(any()) } returns true
             every { bounds.width() } returns 600
             every { bounds.height() } returns 400
@@ -236,15 +206,13 @@ class ThemeManagerTest {
             every { CREATE_BITMAP_FN(any(), any(), any()) } returns bitmap
             justRun { anyConstructed<Canvas>().drawColor(any()) }
 
-            themeManager.setDeviceWallpaper(corePrefsStore, theme, RES_ID, false)
+            themeManager.setDeviceWallpaper(corePrefsStore, theme, false)
 
             verify(exactly = 0) { activity.resources }
             verify(exactly = 0) { resources.configuration }
             verify(exactly = 1) { corePrefsStore.data }
             verify(exactly = 1) { isDefaultLauncher(activity) }
-            verify(exactly = 1) { theme.obtainStyledAttributes(RES_ID, intArrayOf(android.R.attr.colorBackground)) }
-            verify(exactly = 1) { themeAttributes.getColor(0, Int.MIN_VALUE) }
-            verify(exactly = 1) { themeAttributes.recycle() }
+            verify(exactly = 1) { getThemeAttribute(activity, com.sduduzog.slimlauncher.R.attr.colorBackground) }
             verify(exactly = 1) { WallpaperManager.getInstance(activity) }
             verify(exactly = 1) { androidSdkAtLeast(Build.VERSION_CODES.R) }
             verify(exactly = 1) { activity.windowManager }
@@ -263,7 +231,7 @@ class ThemeManagerTest {
         fun setWallpaper_toDesiredMinWidthHeight() = runTest {
             every { corePrefsStore.data } returns flowOf(prefsDoNotKeepWallpaper)
             every { isDefaultLauncher(any()) } returns true
-            every { themeAttributes.getColor(any(), any()) } returns BACKGROUND_COLOR
+            every { getThemeAttribute(any(), any()) } returns BACKGROUND_COLOR
             every { androidSdkAtLeast(any()) } returns true
             every { bounds.width() } returns 600
             every { bounds.height() } returns 400
@@ -272,15 +240,13 @@ class ThemeManagerTest {
             every { CREATE_BITMAP_FN(any(), any(), any()) } returns bitmap
             justRun { anyConstructed<Canvas>().drawColor(any()) }
 
-            themeManager.setDeviceWallpaper(corePrefsStore, theme, RES_ID, false)
+            themeManager.setDeviceWallpaper(corePrefsStore, theme, false)
 
             verify(exactly = 0) { activity.resources }
             verify(exactly = 0) { resources.configuration }
             verify(exactly = 1) { corePrefsStore.data }
             verify(exactly = 1) { isDefaultLauncher(activity) }
-            verify(exactly = 1) { theme.obtainStyledAttributes(RES_ID, intArrayOf(android.R.attr.colorBackground)) }
-            verify(exactly = 1) { themeAttributes.getColor(0, Int.MIN_VALUE) }
-            verify(exactly = 1) { themeAttributes.recycle() }
+            verify(exactly = 1) { getThemeAttribute(activity, com.sduduzog.slimlauncher.R.attr.colorBackground) }
             verify(exactly = 1) { WallpaperManager.getInstance(activity) }
             verify(exactly = 1) { androidSdkAtLeast(Build.VERSION_CODES.R) }
             verify(exactly = 1) { activity.windowManager }
@@ -299,7 +265,7 @@ class ThemeManagerTest {
         fun firstAndDarkModeChanged() = runTest {
             every { corePrefsStore.data } returns flowOf(prefsDoNotKeepWallpaper)
             every { isDefaultLauncher(any()) } returns true
-            every { themeAttributes.getColor(any(), any()) } returns BACKGROUND_COLOR
+            every { getThemeAttribute(any(), any()) } returns BACKGROUND_COLOR
             every { androidSdkAtLeast(any()) } returns true
             every { bounds.width() } returns 600
             every { bounds.height() } returns 400
@@ -309,42 +275,38 @@ class ThemeManagerTest {
             justRun { anyConstructed<Canvas>().drawColor(any()) }
             configuration.uiMode = Configuration.UI_MODE_NIGHT_NO
 
-            themeManager.setDeviceWallpaper(corePrefsStore, theme, RES_ID, true)
+            themeManager.setDeviceWallpaper(corePrefsStore, theme, true)
 
             // Nothing happens the first time since the original status was null
             verify(exactly = 1) { activity.resources }
             verify(exactly = 1) { resources.configuration }
             verify(exactly = 0) { corePrefsStore.data }
-            verify(exactly = 0) { theme.obtainStyledAttributes(any(), any()) }
-            verify(exactly = 0) { themeAttributes.recycle() }
+            verify(exactly = 0) { getThemeAttribute(any(), any()) }
             verify(exactly = 0) { WallpaperManager.getInstance(any()) }
             verify(exactly = 0) { windowMetrics.bounds }
             verify(exactly = 0) { wallpaperManager.setBitmap(any()) }
 
-            themeManager.setDeviceWallpaper(corePrefsStore, theme, RES_ID, true)
+            themeManager.setDeviceWallpaper(corePrefsStore, theme, true)
 
             // Nothing happens the second time since the original status has not changed
             verify(exactly = 2) { activity.resources }
             verify(exactly = 2) { resources.configuration }
             verify(exactly = 0) { corePrefsStore.data }
-            verify(exactly = 0) { theme.obtainStyledAttributes(any(), any()) }
-            verify(exactly = 0) { themeAttributes.recycle() }
+            verify(exactly = 0) { getThemeAttribute(any(), any()) }
             verify(exactly = 0) { WallpaperManager.getInstance(any()) }
             verify(exactly = 0) { windowMetrics.bounds }
             verify(exactly = 0) { wallpaperManager.setBitmap(any()) }
 
             configuration.uiMode = Configuration.UI_MODE_NIGHT_YES
 
-            themeManager.setDeviceWallpaper(corePrefsStore, theme, RES_ID, true)
+            themeManager.setDeviceWallpaper(corePrefsStore, theme, true)
 
             // When the dark mode changes, the wallpaper actually gets set
             verify(exactly = 3) { activity.resources }
             verify(exactly = 3) { resources.configuration }
             verify(exactly = 1) { corePrefsStore.data }
             verify(exactly = 1) { isDefaultLauncher(activity) }
-            verify(exactly = 1) { theme.obtainStyledAttributes(RES_ID, intArrayOf(android.R.attr.colorBackground)) }
-            verify(exactly = 1) { themeAttributes.getColor(0, Int.MIN_VALUE) }
-            verify(exactly = 1) { themeAttributes.recycle() }
+            verify(exactly = 1) { getThemeAttribute(activity, com.sduduzog.slimlauncher.R.attr.colorBackground) }
             verify(exactly = 1) { WallpaperManager.getInstance(activity) }
             verify(exactly = 1) { androidSdkAtLeast(Build.VERSION_CODES.R) }
             verify(exactly = 1) { activity.windowManager }

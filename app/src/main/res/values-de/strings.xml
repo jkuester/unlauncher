@@ -75,7 +75,6 @@
     <string name="open_app">Öffnen</string>
     <string name="options_fragment_change_theme">Stil auswählen</string>
     <string name="options_fragment_choose_alignment">Apps ausrichten</string>
-    <string name="options_fragment_choose_clock_type">Uhrdarstellung</string>
     <string name="options_fragment_choose_time_format">Zeitformat</string>
     <string name="options_fragment_customise_apps">Apps einstellen</string>
     <string name="options_fragment_customize_app_drawer">Appschublade</string>
