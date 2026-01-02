@@ -10,15 +10,18 @@
     <string-array name="clock_type_array">
         <item>None</item>
         <item>Digital</item>
-        <item>Analog 12</item>
+        <item>Analog</item>
         <item>Binary</item>
-        <item>Analog 0</item>
-        <item>Analog 1</item>
-        <item>Analog 2</item>
-        <item>Analog 3</item>
-        <item>Analog 4</item>
-        <item>Analog 6</item>
-        <item>Analog 60</item>
+    </string-array>
+    <string-array name="analog_clock_type_array">
+        <item>12 markers</item>
+        <item>No markers</item>
+        <item>1 marker</item>
+        <item>2 markers</item>
+        <item>3 markers</item>
+        <item>4 markers</item>
+        <item>6 markers</item>
+        <item>60 markers</item>
     </string-array>
     <string-array name="quick_button_array">
         <item>Show</item>
@@ -48,6 +51,7 @@
     <string name="add_apps_fragment_search_apps">Search apps</string>
     <string name="app_info">App Info</string>
     <string name="choose_alignment_dialog_title">Alignment</string>
+    <string name="choose_analog_clock_type_dialog_title">Analog Clock Style</string>
     <string name="choose_clock_type_dialog_title">Clock Type</string>
     <string name="choose_search_bar_position_dialog_title">Position of Search Field</string>
     <string name="choose_theme_dialog_title">Theme</string>

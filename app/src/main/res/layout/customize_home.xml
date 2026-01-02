@@ -41,6 +41,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/header_title" />
 
+    <ImageView
+        android:id="@+id/clock_options_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/choose_analog_clock_type_dialog_title"
+        android:padding="@dimen/padding"
+        android:visibility="gone"
+        app:layout_constraintStart_toEndOf="@id/clock_wrapper"
+        app:layout_constraintTop_toTopOf="@id/clock_wrapper"
+        app:srcCompat="@drawable/ic_rename_app" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/customise_home_apps_list"
         android:layout_width="match_parent"

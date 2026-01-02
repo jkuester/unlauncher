@@ -33,6 +33,7 @@ import com.jkuester.unlauncher.datasource.getHomeApps
 import com.jkuester.unlauncher.datasource.getIconResourceId
 import com.jkuester.unlauncher.datasource.setApps
 import com.jkuester.unlauncher.datasource.setDisplayInDrawer
+import com.jkuester.unlauncher.datastore.proto.AnalogClockType
 import com.jkuester.unlauncher.datastore.proto.ClockType
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.datastore.proto.QuickButtonPreferences
@@ -298,12 +299,17 @@ class HomeFragment : BaseFragment() {
 
     private fun listenForChangesToClockType(binding: HomeFragmentContentBinding): Observer<CorePreferences> {
         var currentClockType: ClockType? = null
+        var currentAnalogClockType: AnalogClockType? = null
         return Observer { corePrefs ->
-            if (corePrefs.clockType == currentClockType) {
+            if (
+                corePrefs.clockType == currentClockType &&
+                corePrefs.analogClockType == currentAnalogClockType
+            ) {
                 return@Observer
             }
 
             currentClockType = corePrefs.clockType
+            currentAnalogClockType = corePrefs.analogClockType
             binding.clockWrapper.removeAllViews()
             clockReceiver.clock = null
 

@@ -47,14 +47,7 @@ fun getCurrentDateString(resources: Resources): String = SimpleDateFormat(
 ).format(Date())
 
 fun createNewClock(ctx: Context, clockType: ClockType): View = when (clockType) {
-    ClockType.analog_0,
-    ClockType.analog_1,
-    ClockType.analog_2,
-    ClockType.analog_3,
-    ClockType.analog_4,
-    ClockType.analog_6,
-    ClockType.analog_12,
-    ClockType.analog_60 -> AnalogClockView(ctx)
+    ClockType.analog -> AnalogClockView(ctx)
     ClockType.binary -> BinaryClockView(ctx)
     else -> DigitalClockView(ctx)
 }

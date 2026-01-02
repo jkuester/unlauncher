@@ -13,7 +13,7 @@ import androidx.core.view.marginStart
 import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
 import com.jkuester.unlauncher.datasource.DataRepository
-import com.jkuester.unlauncher.datastore.proto.ClockType
+import com.jkuester.unlauncher.datastore.proto.AnalogClockType
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.fragment.WithFragmentLifecycle
 import com.jkuester.unlauncher.getColorPaint
@@ -158,21 +158,21 @@ class AnalogClockView(context: Context) : LinearLayout(context) {
 
     private fun listenForChangesToClockType(corePrefs: CorePreferences) {
         val originalTickCount = tickCount
-        tickCount = getTickCount(corePrefs.clockType)
+        tickCount = getTickCount(corePrefs.analogClockType)
         if (originalTickCount != tickCount) {
             invalidate()
         }
     }
 }
 
-private fun getTickCount(clockType: ClockType) = when (clockType) {
-    ClockType.analog_0 -> 0
-    ClockType.analog_1 -> 1
-    ClockType.analog_2 -> 2
-    ClockType.analog_3 -> 3
-    ClockType.analog_4 -> 4
-    ClockType.analog_6 -> 6
-    ClockType.analog_12 -> 12
-    ClockType.analog_60 -> 60
+private fun getTickCount(analogClockType: AnalogClockType) = when (analogClockType) {
+    AnalogClockType.analog_0 -> 0
+    AnalogClockType.analog_1 -> 1
+    AnalogClockType.analog_2 -> 2
+    AnalogClockType.analog_3 -> 3
+    AnalogClockType.analog_4 -> 4
+    AnalogClockType.analog_6 -> 6
+    AnalogClockType.analog_12 -> 12
+    AnalogClockType.analog_60 -> 60
     else -> 12
 }

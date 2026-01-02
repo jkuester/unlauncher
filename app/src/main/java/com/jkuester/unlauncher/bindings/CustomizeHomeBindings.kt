@@ -14,10 +14,12 @@ import com.jkuester.unlauncher.datasource.DataRepository
 import com.jkuester.unlauncher.datasource.QuickButtonIcon
 import com.jkuester.unlauncher.datasource.getHomeApps
 import com.jkuester.unlauncher.datasource.getIconResourceId
+import com.jkuester.unlauncher.datastore.proto.AnalogClockType
 import com.jkuester.unlauncher.datastore.proto.ClockType
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.datastore.proto.QuickButtonPreferences
 import com.jkuester.unlauncher.datastore.proto.UnlauncherApps
+import com.jkuester.unlauncher.dialog.AnalogClockTypeDialog
 import com.jkuester.unlauncher.dialog.ClockTypeDialog
 import com.jkuester.unlauncher.dialog.QuickButtonIconDialog
 import com.sduduzog.slimlauncher.R
@@ -92,12 +94,21 @@ private fun disableClicksRecursively(view: View) {
 
 private fun updateClockPreview(context: Context, binding: CustomizeHomeBinding): (CorePreferences) -> Unit {
     var currentClockType: ClockType? = null
+    var currentAnalogClockType: AnalogClockType? = null
     return updateClock@{ corePrefs ->
-        if (corePrefs.clockType == currentClockType) {
+        if (
+            corePrefs.clockType == currentClockType &&
+            corePrefs.analogClockType == currentAnalogClockType
+        ) {
             return@updateClock
         }
 
         currentClockType = corePrefs.clockType
+        currentAnalogClockType = corePrefs.analogClockType
+
+        val isAnalogClock = corePrefs.clockType == ClockType.analog
+        binding.clockOptionsButton.visibility = if (isAnalogClock) View.VISIBLE else View.GONE
+
         binding.clockWrapper.removeAllViews()
 
         // Show a border when "None" is selected so user knows they can tap to change
@@ -122,5 +133,8 @@ fun setupClockPreview(
     corePreferencesRepo.observe(updateClockPreview(context, binding))
     binding.clockWrapper.setOnClickListener {
         ClockTypeDialog().showNow(fragmentManager, null)
+    }
+    binding.clockOptionsButton.setOnClickListener {
+        AnalogClockTypeDialog().showNow(fragmentManager, null)
     }
 }
