@@ -82,7 +82,7 @@ class BinaryClockBindingsTest {
         every { getCurrentDateString(resources) } returns "Fri, Jan 02"
         justRun { binaryDate.text = any() }
 
-        updateBinaryClockDate(resources)(binding)
+        updateBinaryClockDate(resources, binding)()
 
         verify(exactly = 1) { binaryDate.text = "Fri, Jan 02" }
         verify(exactly = 1) { getCurrentDateString(resources) }

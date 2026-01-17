@@ -35,6 +35,7 @@ class BinaryClockView(context: Context) : LinearLayout(context) {
     private val state = BinaryClockState(context)
 
     private val binding: ClockBinaryBinding
+    private val updateChildViews: () -> Unit
 
     init {
         inflate(context, R.layout.clock_binary, this)
@@ -45,6 +46,7 @@ class BinaryClockView(context: Context) : LinearLayout(context) {
             .also(setupBinaryClockDateClickListener(fragment))
         setWillNotDraw(false)
         setOnClickListener(launchShowAlarms(fragment))
+        updateChildViews = updateBinaryClockDate(resources, binding)
         observeIs24HourFormatChanges(context, corePrefsRepo, state, ::invalidate)
         updateChildViews()
     }
@@ -70,9 +72,5 @@ class BinaryClockView(context: Context) : LinearLayout(context) {
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
         updateStateOnSizeChanged(state, w, h, width)
-    }
-
-    private fun updateChildViews() {
-        updateBinaryClockDate(resources)(binding)
     }
 }

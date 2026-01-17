@@ -37,7 +37,7 @@ fun setupBinaryClockDateClickListener(fragment: Fragment) = { binding: ClockBina
     binding.binaryDate.setOnClickListener(launchShowCalendar(fragment))
 }
 
-fun updateBinaryClockDate(resources: Resources) = { binding: ClockBinaryBinding ->
+fun updateBinaryClockDate(resources: Resources, binding: ClockBinaryBinding): () -> Unit = {
     binding.binaryDate.text = getCurrentDateString(resources)
 }
 
