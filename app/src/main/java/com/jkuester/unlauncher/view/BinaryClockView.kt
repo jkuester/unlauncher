@@ -4,18 +4,17 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.RectF
-import android.text.format.DateFormat
 import android.view.Gravity
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
+import com.jkuester.unlauncher.bindings.observeIs24HourFormatChanges
+import com.jkuester.unlauncher.bindings.setupBinaryClockDateClickListener
+import com.jkuester.unlauncher.bindings.updateBinaryClockDate
 import com.jkuester.unlauncher.datasource.DataRepository
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
-import com.jkuester.unlauncher.datastore.proto.TimeFormat
 import com.jkuester.unlauncher.fragment.WithFragmentLifecycle
 import com.jkuester.unlauncher.getColorPaint
-import com.jkuester.unlauncher.getCurrentDateString
 import com.jkuester.unlauncher.launchShowAlarms
-import com.jkuester.unlauncher.launchShowCalendar
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.databinding.ClockBinaryBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,7 +27,9 @@ import javax.inject.Inject
 class BinaryClockView(context: Context) : LinearLayout(context) {
     @Inject
     lateinit var fragment: Fragment
-    @Inject @WithFragmentLifecycle
+
+    @Inject
+    @WithFragmentLifecycle
     lateinit var corePrefsRepo: DataRepository<CorePreferences>
 
     private var offPaint = getColorPaint(context, R.attr.colorAccent)
@@ -48,16 +49,24 @@ class BinaryClockView(context: Context) : LinearLayout(context) {
         inflate(context, R.layout.clock_binary, this)
         orientation = VERTICAL
         gravity = Gravity.CENTER
-        binding = ClockBinaryBinding.bind(this)
+        binding = ClockBinaryBinding
+            .bind(this)
+            .also(setupBinaryClockDateClickListener(fragment))
         setWillNotDraw(false)
-
-        corePrefsRepo.observe(this::listenForChangesToTimeFormat)
 
         onPaint.style = Paint.Style.FILL_AND_STROKE
         offPaint.style = Paint.Style.STROKE
 
         setOnClickListener(launchShowAlarms(fragment))
-        binding.binaryDate.setOnClickListener(launchShowCalendar(fragment))
+        observeIs24HourFormatChanges(
+            context,
+            corePrefsRepo,
+            onInitialValue = { is24Hour = it },
+            onFormatChanged = {
+                is24Hour = it
+                invalidate()
+            }
+        )
         updateChildViews()
     }
 
@@ -93,13 +102,10 @@ class BinaryClockView(context: Context) : LinearLayout(context) {
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         measureChildren(widthMeasureSpec, heightMeasureSpec)
-        // Try for a width based on your minimum.
         val minw: Int = paddingLeft + paddingRight + suggestedMinimumWidth +
             12 * bitSize.toInt() + 7 * distance.toInt()
         val w: Int = resolveSizeAndState(minw, widthMeasureSpec, 0)
 
-        // Whatever the width is, ask for a height that lets the pie get as big as
-        // it can.
         val minh: Int = paddingBottom + paddingTop +
             4 * bitSize.toInt() + 5 * distance.toInt()
         val h: Int = resolveSizeAndState(minh, heightMeasureSpec, 0)
@@ -128,19 +134,6 @@ class BinaryClockView(context: Context) : LinearLayout(context) {
     }
 
     private fun updateChildViews() {
-        binding.binaryDate.text = getCurrentDateString(resources)
-    }
-
-    private fun listenForChangesToTimeFormat(corePrefs: CorePreferences) {
-        val originalIs24Hour = is24Hour
-        is24Hour = when (corePrefs.timeFormat) {
-            TimeFormat.twenty_four_hour -> true
-            TimeFormat.twelve_hour -> false
-            else -> DateFormat.is24HourFormat(context)
-        }
-
-        if (originalIs24Hour != is24Hour) {
-            invalidate()
-        }
+        updateBinaryClockDate(resources)(binding)
     }
 }

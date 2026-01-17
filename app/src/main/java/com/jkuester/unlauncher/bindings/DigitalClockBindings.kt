@@ -32,10 +32,7 @@ fun updateDigitalClockViews(context: Context, resources: Resources, timeFormat: 
         binding.digitalDate.text = getCurrentDateString(resources)
     }
 
-fun observeTimeFormatChanges(
-    corePrefsRepo: DataRepository<CorePreferences>,
-    onUpdate: () -> Unit
-) {
+fun observeTimeFormatChanges(corePrefsRepo: DataRepository<CorePreferences>, onUpdate: () -> Unit) {
     var currentTimeFormat: TimeFormat? = null
     corePrefsRepo.observe { corePrefs ->
         val previousTimeFormat = currentTimeFormat

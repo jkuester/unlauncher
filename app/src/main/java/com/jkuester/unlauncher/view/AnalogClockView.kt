@@ -12,14 +12,14 @@ import androidx.core.view.marginEnd
 import androidx.core.view.marginStart
 import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
+import com.jkuester.unlauncher.bindings.observeAnalogClockTypeChanges
+import com.jkuester.unlauncher.bindings.setupAnalogClockDateClickListener
+import com.jkuester.unlauncher.bindings.updateAnalogClockDate
 import com.jkuester.unlauncher.datasource.DataRepository
-import com.jkuester.unlauncher.datastore.proto.AnalogClockType
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.fragment.WithFragmentLifecycle
 import com.jkuester.unlauncher.getColorPaint
-import com.jkuester.unlauncher.getCurrentDateString
 import com.jkuester.unlauncher.launchShowAlarms
-import com.jkuester.unlauncher.launchShowCalendar
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.databinding.ClockAnalogBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -34,7 +34,9 @@ import kotlin.math.min
 class AnalogClockView(context: Context) : LinearLayout(context) {
     @Inject
     lateinit var fragment: Fragment
-    @Inject @WithFragmentLifecycle
+
+    @Inject
+    @WithFragmentLifecycle
     lateinit var corePrefsRepo: DataRepository<CorePreferences>
 
     private var handPaint = getColorPaint(context, R.attr.colorAccent)
@@ -59,17 +61,24 @@ class AnalogClockView(context: Context) : LinearLayout(context) {
         inflate(context, R.layout.clock_analog, this)
         orientation = VERTICAL
         gravity = Gravity.CENTER
-        binding = ClockAnalogBinding.bind(this)
+        binding = ClockAnalogBinding
+            .bind(this)
+            .also(setupAnalogClockDateClickListener(fragment))
         setWillNotDraw(false)
-
-        corePrefsRepo.observe(this::listenForChangesToClockType)
 
         handPaint.strokeWidth = handWidthMinute
         handPaint.style = Paint.Style.STROKE
         handPaint.strokeCap = Paint.Cap.ROUND
 
         setOnClickListener(launchShowAlarms(fragment))
-        binding.analogDate.setOnClickListener(launchShowCalendar(fragment))
+        observeAnalogClockTypeChanges(
+            corePrefsRepo,
+            onInitialValue = { tickCount = it },
+            onTickCountChanged = {
+                tickCount = it
+                invalidate()
+            }
+        )
         updateChildViews()
     }
 
@@ -153,26 +162,6 @@ class AnalogClockView(context: Context) : LinearLayout(context) {
     }
 
     private fun updateChildViews() {
-        binding.analogDate.text = getCurrentDateString(resources)
+        updateAnalogClockDate(resources)(binding)
     }
-
-    private fun listenForChangesToClockType(corePrefs: CorePreferences) {
-        val originalTickCount = tickCount
-        tickCount = getTickCount(corePrefs.analogClockType)
-        if (originalTickCount != tickCount) {
-            invalidate()
-        }
-    }
-}
-
-private fun getTickCount(analogClockType: AnalogClockType) = when (analogClockType) {
-    AnalogClockType.analog_0 -> 0
-    AnalogClockType.analog_1 -> 1
-    AnalogClockType.analog_2 -> 2
-    AnalogClockType.analog_3 -> 3
-    AnalogClockType.analog_4 -> 4
-    AnalogClockType.analog_6 -> 6
-    AnalogClockType.analog_12 -> 12
-    AnalogClockType.analog_60 -> 60
-    else -> 12
 }
