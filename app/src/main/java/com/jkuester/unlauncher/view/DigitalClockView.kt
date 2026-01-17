@@ -27,6 +27,7 @@ class DigitalClockView(context: Context) : LinearLayout(context) {
     lateinit var corePrefsRepo: DataRepository<CorePreferences>
 
     private val binding: ClockDigitalBinding
+    private val updateChildViews: () -> Unit
 
     init {
         inflate(context, R.layout.clock_digital, this)
@@ -35,6 +36,7 @@ class DigitalClockView(context: Context) : LinearLayout(context) {
         binding = ClockDigitalBinding
             .bind(this)
             .also(setupDigitalClockClickListeners(fragment))
+        updateChildViews = updateDigitalClockViews(context, resources, corePrefsRepo, binding)
         observeTimeFormatChanges(corePrefsRepo, this::invalidate)
         updateChildViews()
     }
@@ -42,9 +44,5 @@ class DigitalClockView(context: Context) : LinearLayout(context) {
     override fun invalidate() {
         super.invalidate()
         updateChildViews()
-    }
-
-    private fun updateChildViews() {
-        updateDigitalClockViews(context, resources, corePrefsRepo.get().timeFormat)(binding)
     }
 }

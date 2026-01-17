@@ -26,11 +26,15 @@ private fun getTimeFormat(context: Context, timeFormat: TimeFormat): java.text.D
     else -> DateFormat.getTimeFormat(context)
 }
 
-fun updateDigitalClockViews(context: Context, resources: Resources, timeFormat: TimeFormat) =
-    { binding: ClockDigitalBinding ->
-        binding.digitalTime.text = getTimeFormat(context, timeFormat).format(Date())
-        binding.digitalDate.text = getCurrentDateString(resources)
-    }
+fun updateDigitalClockViews(
+    context: Context,
+    resources: Resources,
+    corePrefsRepo: DataRepository<CorePreferences>,
+    binding: ClockDigitalBinding
+): () -> Unit = {
+    binding.digitalTime.text = getTimeFormat(context, corePrefsRepo.get().timeFormat).format(Date())
+    binding.digitalDate.text = getCurrentDateString(resources)
+}
 
 fun observeTimeFormatChanges(corePrefsRepo: DataRepository<CorePreferences>, onUpdate: () -> Unit) {
     var currentTimeFormat: TimeFormat? = null

@@ -89,8 +89,12 @@ class DigitalClockBindingsTest {
         val timeSlot = slot<CharSequence>()
         justRun { digitalTime.text = capture(timeSlot) }
         justRun { digitalDate.text = any() }
+        val corePrefsRepo = TestDataRepository(
+            CorePreferences.newBuilder().setTimeFormat(TimeFormat.twenty_four_hour).build()
+        )
 
-        updateDigitalClockViews(context, resources, TimeFormat.twenty_four_hour)(binding)
+        val updateFn = updateDigitalClockViews(context, resources, corePrefsRepo, binding)
+        updateFn()
 
         // 24-hour format pattern "H:mm" produces times like "14:30" or "9:05"
         timeSlot.captured.toString() shouldMatch Regex("\\d{1,2}:\\d{2}")
@@ -108,8 +112,12 @@ class DigitalClockBindingsTest {
         val timeSlot = slot<CharSequence>()
         justRun { digitalTime.text = capture(timeSlot) }
         justRun { digitalDate.text = any() }
+        val corePrefsRepo = TestDataRepository(
+            CorePreferences.newBuilder().setTimeFormat(TimeFormat.twelve_hour).build()
+        )
 
-        updateDigitalClockViews(context, resources, TimeFormat.twelve_hour)(binding)
+        val updateFn = updateDigitalClockViews(context, resources, corePrefsRepo, binding)
+        updateFn()
 
         // 12-hour format pattern "h:mm aa" produces times like "2:30 PM" or "9:05 AM"
         timeSlot.captured.toString() shouldMatch Regex("\\d{1,2}:\\d{2} [AP]M")
@@ -130,8 +138,12 @@ class DigitalClockBindingsTest {
         every { systemTimeFormat.format(any()) } returns "12:00 PM"
         justRun { digitalTime.text = any() }
         justRun { digitalDate.text = any() }
+        val corePrefsRepo = TestDataRepository(
+            CorePreferences.newBuilder().setTimeFormat(TimeFormat.system).build()
+        )
 
-        updateDigitalClockViews(context, resources, TimeFormat.system)(binding)
+        val updateFn = updateDigitalClockViews(context, resources, corePrefsRepo, binding)
+        updateFn()
 
         verify(exactly = 1) { digitalTime.text = "12:00 PM" }
         verify(exactly = 1) { digitalDate.text = "Fri, Jan 02" }
@@ -143,7 +155,7 @@ class DigitalClockBindingsTest {
     }
 
     @Test
-    fun updateDigitalClockViews_withUnrecognizedFormat_usesDateFormat() {
+    fun updateDigitalClockViews_returnsReusableFunction() {
         mockkStatic(::getCurrentDateString)
         mockkStatic(DateFormat::class)
         every { getCurrentDateString(resources) } returns "Fri, Jan 02"
@@ -152,14 +164,20 @@ class DigitalClockBindingsTest {
         every { systemTimeFormat.format(any()) } returns "12:00 PM"
         justRun { digitalTime.text = any() }
         justRun { digitalDate.text = any() }
+        val corePrefsRepo = TestDataRepository(
+            CorePreferences.newBuilder().setTimeFormat(TimeFormat.system).build()
+        )
 
-        updateDigitalClockViews(context, resources, TimeFormat.UNRECOGNIZED)(binding)
+        val updateFn = updateDigitalClockViews(context, resources, corePrefsRepo, binding)
+        updateFn()
+        updateFn()
+        updateFn()
 
-        verify(exactly = 1) { digitalTime.text = "12:00 PM" }
-        verify(exactly = 1) { digitalDate.text = "Fri, Jan 02" }
-        verify(exactly = 1) { getCurrentDateString(resources) }
-        verify(exactly = 1) { DateFormat.getTimeFormat(context) }
-        verify(exactly = 1) { systemTimeFormat.format(any()) }
+        verify(exactly = 3) { digitalTime.text = "12:00 PM" }
+        verify(exactly = 3) { digitalDate.text = "Fri, Jan 02" }
+        verify(exactly = 3) { getCurrentDateString(resources) }
+        verify(exactly = 3) { DateFormat.getTimeFormat(context) }
+        verify(exactly = 3) { systemTimeFormat.format(any()) }
         verify(exactly = 1) { ViewBindings.findChildViewById<View>(rootView, R.id.digital_time) }
         verify(exactly = 1) { ViewBindings.findChildViewById<View>(rootView, R.id.digital_date) }
     }
