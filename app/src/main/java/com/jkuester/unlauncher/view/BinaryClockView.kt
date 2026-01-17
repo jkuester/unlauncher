@@ -7,6 +7,7 @@ import android.view.Gravity
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import com.jkuester.unlauncher.bindings.BinaryClockState
+import com.jkuester.unlauncher.bindings.calculateMinimumDimensions
 import com.jkuester.unlauncher.bindings.observeIs24HourFormatChanges
 import com.jkuester.unlauncher.bindings.setupBinaryClockDateClickListener
 import com.jkuester.unlauncher.bindings.updateBinaryClockDate
@@ -90,14 +91,9 @@ class BinaryClockView(context: Context) : LinearLayout(context) {
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         measureChildren(widthMeasureSpec, heightMeasureSpec)
-        val minw: Int = paddingLeft + paddingRight + suggestedMinimumWidth +
-            12 * state.bitSize.toInt() + 7 * state.distance.toInt()
+        val (minw, minh) = calculateMinimumDimensions(state, this, suggestedMinimumWidth)
         val w: Int = resolveSizeAndState(minw, widthMeasureSpec, 0)
-
-        val minh: Int = paddingBottom + paddingTop +
-            4 * state.bitSize.toInt() + 5 * state.distance.toInt()
         val h: Int = resolveSizeAndState(minh, heightMeasureSpec, 0)
-
         setMeasuredDimension(w, h)
     }
 

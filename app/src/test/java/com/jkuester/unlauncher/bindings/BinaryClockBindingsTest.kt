@@ -269,4 +269,34 @@ class BinaryClockBindingsTest {
         verify(exactly = 1) { anyConstructed<RectF>().set(-200F, 60F, 800F, 200F) }
         excludeRecords { anyConstructed<RectF>().set(any(), any(), any(), any()) }
     }
+
+    @Test
+    fun calculateMinimumDimensions_returnsCorrectDimensions() {
+        val paint = mockk<Paint>()
+        val view = mockk<View>()
+        mockkStatic(::getColorPaint)
+        every { getColorPaint(context, R.attr.colorAccent) } returns paint
+        justRun { paint.style = any() }
+        every { view.paddingLeft } returns 10
+        every { view.paddingRight } returns 10
+        every { view.paddingTop } returns 5
+        every { view.paddingBottom } returns 5
+
+        val state = BinaryClockState(context)
+        // Default state: bitSize = 20, distance = 10
+
+        val (minWidth, minHeight) = calculateMinimumDimensions(state, view, 100)
+
+        // minWidth = 10 + 10 + 100 + 12*20 + 7*10 = 120 + 240 + 70 = 430
+        minWidth shouldBe 430
+        // minHeight = 5 + 5 + 4*20 + 5*10 = 10 + 80 + 50 = 140
+        minHeight shouldBe 140
+        verify(exactly = 2) { getColorPaint(context, R.attr.colorAccent) }
+        verify(exactly = 1) { paint.style = Paint.Style.STROKE }
+        verify(exactly = 1) { paint.style = Paint.Style.FILL_AND_STROKE }
+        verify(exactly = 1) { view.paddingLeft }
+        verify(exactly = 1) { view.paddingRight }
+        verify(exactly = 1) { view.paddingTop }
+        verify(exactly = 1) { view.paddingBottom }
+    }
 }

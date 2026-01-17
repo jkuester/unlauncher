@@ -5,6 +5,7 @@ import android.content.res.Resources
 import android.graphics.Paint
 import android.graphics.RectF
 import android.text.format.DateFormat
+import android.view.View
 import androidx.fragment.app.Fragment
 import com.jkuester.unlauncher.datasource.DataRepository
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
@@ -74,4 +75,12 @@ fun updateStateOnSizeChanged(state: BinaryClockState, w: Int, h: Int, viewWidth:
 
     state.hourBounds.set(startX, startY, startX + viewWidth.toFloat(), startY + bitHeight)
     state.minuteBounds.set(startX, startY + bitHeight, startX + viewWidth.toFloat(), startY + bitHeight * 2)
+}
+
+fun calculateMinimumDimensions(state: BinaryClockState, view: View, suggestedMinimumWidth: Int): Pair<Int, Int> {
+    val minWidth = view.paddingLeft + view.paddingRight + suggestedMinimumWidth +
+        12 * state.bitSize.toInt() + 7 * state.distance.toInt()
+    val minHeight = view.paddingBottom + view.paddingTop +
+        4 * state.bitSize.toInt() + 5 * state.distance.toInt()
+    return Pair(minWidth, minHeight)
 }
