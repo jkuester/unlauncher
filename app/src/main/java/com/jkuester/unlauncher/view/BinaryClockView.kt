@@ -2,12 +2,12 @@ package com.jkuester.unlauncher.view
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.RectF
 import android.view.Gravity
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import com.jkuester.unlauncher.bindings.BinaryClockState
 import com.jkuester.unlauncher.bindings.calculateMinimumDimensions
+import com.jkuester.unlauncher.bindings.drawBinaryClock
 import com.jkuester.unlauncher.bindings.observeIs24HourFormatChanges
 import com.jkuester.unlauncher.bindings.setupBinaryClockDateClickListener
 import com.jkuester.unlauncher.bindings.updateBinaryClockDate
@@ -20,7 +20,6 @@ import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.databinding.ClockBinaryBinding
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.WithFragmentBindings
-import java.util.Calendar
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -61,32 +60,7 @@ class BinaryClockView(context: Context) : LinearLayout(context) {
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        val calendar = Calendar.getInstance()
-
-        var hour = calendar[if (state.is24Hour) Calendar.HOUR_OF_DAY else Calendar.HOUR]
-        if (hour == 0 && calendar[Calendar.AM] != 0) hour = 12
-        renderBits(canvas, state.hourBounds, if (state.is24Hour) 5 else 4, hour)
-
-        val minute = calendar[Calendar.MINUTE]
-        renderBits(canvas, state.minuteBounds, 6, minute)
-    }
-
-    private fun renderBits(canvas: Canvas, bounds: RectF, nBits: Int, value: Int) {
-        val cw = state.distance + 2 * state.bitSize
-        val ch = bounds.height()
-        val cpx = cw / 2 - state.bitSize
-        val cpy = ch / 2 - state.bitSize
-        var x = bounds.right - cpx - state.bitSize
-        val y = bounds.bottom - cpy - state.bitSize
-
-        var bit = nBits
-        var leftover = value
-        while (bit > 0) {
-            canvas.drawCircle(x, y, state.bitSize, if ((leftover and 1) != 1) state.offPaint else state.onPaint)
-            x -= cw
-            bit--
-            leftover = leftover.ushr(1)
-        }
+        drawBinaryClock(state, canvas)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {

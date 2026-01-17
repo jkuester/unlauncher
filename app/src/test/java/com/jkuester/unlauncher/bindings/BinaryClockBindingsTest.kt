@@ -2,6 +2,7 @@ package com.jkuester.unlauncher.bindings
 
 import android.content.Context
 import android.content.res.Resources
+import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.RectF
 import android.text.format.DateFormat
@@ -29,6 +30,7 @@ import io.mockk.mockk
 import io.mockk.mockkConstructor
 import io.mockk.mockkStatic
 import io.mockk.verify
+import java.util.Calendar
 import kotlin.reflect.KFunction
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -298,5 +300,121 @@ class BinaryClockBindingsTest {
         verify(exactly = 1) { view.paddingRight }
         verify(exactly = 1) { view.paddingTop }
         verify(exactly = 1) { view.paddingBottom }
+    }
+
+    @Test
+    fun drawBinaryClock_in12HourMode_rendersWithCorrectBits() {
+        val paint = mockk<Paint>()
+        val canvas = mockk<Canvas>()
+        val calendar = mockk<Calendar>()
+        mockkStatic(::getColorPaint)
+        mockkStatic(Calendar::class)
+        mockkConstructor(RectF::class)
+        every { getColorPaint(context, R.attr.colorAccent) } returns paint
+        every { Calendar.getInstance() } returns calendar
+        every { calendar[Calendar.HOUR] } returns 10
+        every { calendar[Calendar.MINUTE] } returns 30
+        every { calendar[Calendar.AM_PM] } returns Calendar.AM
+        justRun { paint.style = any() }
+        justRun { canvas.drawCircle(any(), any(), any(), any()) }
+        every { anyConstructed<RectF>().height() } returns 100F
+
+        val state = BinaryClockState(context)
+        state.is24Hour = false
+        state.hourBounds.right = 100F
+        state.hourBounds.bottom = 100F
+        state.minuteBounds.right = 100F
+        state.minuteBounds.bottom = 100F
+
+        drawBinaryClock(state, canvas)
+
+        // 4 bits for hour (12-hour mode) + 6 bits for minute = 10 circles
+        verify(exactly = 10) { canvas.drawCircle(any(), any(), any(), any()) }
+        verify(exactly = 2) { getColorPaint(context, R.attr.colorAccent) }
+        verify(exactly = 1) { paint.style = Paint.Style.STROKE }
+        verify(exactly = 1) { paint.style = Paint.Style.FILL_AND_STROKE }
+        verify(exactly = 1) { Calendar.getInstance() }
+        verify(exactly = 1) { calendar[Calendar.HOUR] }
+        verify(exactly = 1) { calendar[Calendar.MINUTE] }
+        verify(exactly = 1) { calendar[Calendar.AM_PM] }
+        excludeRecords { anyConstructed<RectF>().height() }
+    }
+
+    @Test
+    fun drawBinaryClock_in24HourMode_rendersWithCorrectBits() {
+        val paint = mockk<Paint>()
+        val canvas = mockk<Canvas>()
+        val calendar = mockk<Calendar>()
+        mockkStatic(::getColorPaint)
+        mockkStatic(Calendar::class)
+        mockkConstructor(RectF::class)
+        every { getColorPaint(context, R.attr.colorAccent) } returns paint
+        every { Calendar.getInstance() } returns calendar
+        every { calendar[Calendar.HOUR_OF_DAY] } returns 14
+        every { calendar[Calendar.MINUTE] } returns 45
+        every { calendar[Calendar.AM_PM] } returns Calendar.PM
+        justRun { paint.style = any() }
+        justRun { canvas.drawCircle(any(), any(), any(), any()) }
+        every { anyConstructed<RectF>().height() } returns 100F
+
+        val state = BinaryClockState(context)
+        state.is24Hour = true
+        state.hourBounds.right = 100F
+        state.hourBounds.bottom = 100F
+        state.minuteBounds.right = 100F
+        state.minuteBounds.bottom = 100F
+
+        drawBinaryClock(state, canvas)
+
+        // 5 bits for hour (24-hour mode) + 6 bits for minute = 11 circles
+        verify(exactly = 11) { canvas.drawCircle(any(), any(), any(), any()) }
+        verify(exactly = 2) { getColorPaint(context, R.attr.colorAccent) }
+        verify(exactly = 1) { paint.style = Paint.Style.STROKE }
+        verify(exactly = 1) { paint.style = Paint.Style.FILL_AND_STROKE }
+        verify(exactly = 1) { Calendar.getInstance() }
+        verify(exactly = 1) { calendar[Calendar.HOUR_OF_DAY] }
+        verify(exactly = 1) { calendar[Calendar.MINUTE] }
+        verify(exactly = 1) { calendar[Calendar.AM_PM] }
+        excludeRecords { anyConstructed<RectF>().height() }
+    }
+
+    @Test
+    fun drawBinaryClock_withZeroHourPM_displaysAs12() {
+        val paint = mockk<Paint>()
+        val canvas = mockk<Canvas>()
+        val calendar = mockk<Calendar>()
+        mockkStatic(::getColorPaint)
+        mockkStatic(Calendar::class)
+        mockkConstructor(RectF::class)
+        every { getColorPaint(context, R.attr.colorAccent) } returns paint
+        every { Calendar.getInstance() } returns calendar
+        // hour=0, AM_PM=PM means 12 PM (noon) in 12-hour mode
+        every { calendar[Calendar.HOUR] } returns 0
+        every { calendar[Calendar.MINUTE] } returns 0
+        every { calendar[Calendar.AM_PM] } returns Calendar.PM
+        justRun { paint.style = any() }
+        justRun { canvas.drawCircle(any(), any(), any(), any()) }
+        every { anyConstructed<RectF>().height() } returns 100F
+
+        val state = BinaryClockState(context)
+        state.is24Hour = false
+        state.hourBounds.right = 100F
+        state.hourBounds.bottom = 100F
+        state.minuteBounds.right = 100F
+        state.minuteBounds.bottom = 100F
+
+        drawBinaryClock(state, canvas)
+
+        // Should render 12 (binary 1100) for hours, 0 for minutes
+        // 4 bits for hour + 6 bits for minute = 10 circles total
+        verify(exactly = 10) { canvas.drawCircle(any(), any(), any(), any()) }
+        verify(exactly = 2) { getColorPaint(context, R.attr.colorAccent) }
+        verify(exactly = 1) { paint.style = Paint.Style.STROKE }
+        verify(exactly = 1) { paint.style = Paint.Style.FILL_AND_STROKE }
+        verify(exactly = 1) { Calendar.getInstance() }
+        verify(exactly = 1) { calendar[Calendar.HOUR] }
+        verify(exactly = 1) { calendar[Calendar.MINUTE] }
+        verify(exactly = 1) { calendar[Calendar.AM_PM] }
+        excludeRecords { anyConstructed<RectF>().height() }
     }
 }

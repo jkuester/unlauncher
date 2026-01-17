@@ -2,10 +2,12 @@ package com.jkuester.unlauncher.bindings
 
 import android.content.Context
 import android.content.res.Resources
+import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.RectF
 import android.text.format.DateFormat
 import android.view.View
+import java.util.Calendar
 import androidx.fragment.app.Fragment
 import com.jkuester.unlauncher.datasource.DataRepository
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
@@ -83,4 +85,31 @@ fun calculateMinimumDimensions(state: BinaryClockState, view: View, suggestedMin
     val minHeight = view.paddingBottom + view.paddingTop +
         4 * state.bitSize.toInt() + 5 * state.distance.toInt()
     return Pair(minWidth, minHeight)
+}
+
+fun drawBinaryClock(state: BinaryClockState, canvas: Canvas) {
+    val calendar = Calendar.getInstance()
+    var hour = calendar[if (state.is24Hour) Calendar.HOUR_OF_DAY else Calendar.HOUR]
+    val minute = calendar[Calendar.MINUTE]
+    val isAm = calendar[Calendar.AM_PM] == Calendar.AM
+    if (hour == 0 && !isAm) hour = 12
+    renderBits(state, canvas, state.hourBounds, if (state.is24Hour) 5 else 4, hour)
+    renderBits(state, canvas, state.minuteBounds, 6, minute)
+}
+
+private fun renderBits(state: BinaryClockState, canvas: Canvas, bounds: RectF, nBits: Int, value: Int) {
+    val cw = state.distance + 2 * state.bitSize
+    val cpx = cw / 2 - state.bitSize
+    val cpy = bounds.height() / 2 - state.bitSize
+    var x = bounds.right - cpx - state.bitSize
+    val y = bounds.bottom - cpy - state.bitSize
+
+    var bit = nBits
+    var leftover = value
+    while (bit > 0) {
+        canvas.drawCircle(x, y, state.bitSize, if ((leftover and 1) != 1) state.offPaint else state.onPaint)
+        x -= cw
+        bit--
+        leftover = leftover.ushr(1)
+    }
 }
