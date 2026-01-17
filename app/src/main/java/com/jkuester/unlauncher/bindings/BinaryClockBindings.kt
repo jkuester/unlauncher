@@ -61,3 +61,17 @@ fun observeIs24HourFormatChanges(
         }
     }
 }
+
+fun updateStateOnSizeChanged(state: BinaryClockState, w: Int, h: Int, viewWidth: Int) {
+    state.centerPoint = Pair((w / 2).toFloat(), (h / 2).toFloat())
+    state.distance = (w / 50).toFloat()
+    state.bitSize = state.distance * 2
+
+    val bitWidth = state.distance + 2 * state.bitSize
+    val bitHeight = state.distance * 3 + state.bitSize * 2
+    val startX = -state.centerPoint.first + bitWidth * 3
+    val startY = state.centerPoint.second - bitHeight * 2
+
+    state.hourBounds.set(startX, startY, startX + viewWidth.toFloat(), startY + bitHeight)
+    state.minuteBounds.set(startX, startY + bitHeight, startX + viewWidth.toFloat(), startY + bitHeight * 2)
+}

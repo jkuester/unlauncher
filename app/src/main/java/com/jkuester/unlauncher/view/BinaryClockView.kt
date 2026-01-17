@@ -10,6 +10,7 @@ import com.jkuester.unlauncher.bindings.BinaryClockState
 import com.jkuester.unlauncher.bindings.observeIs24HourFormatChanges
 import com.jkuester.unlauncher.bindings.setupBinaryClockDateClickListener
 import com.jkuester.unlauncher.bindings.updateBinaryClockDate
+import com.jkuester.unlauncher.bindings.updateStateOnSizeChanged
 import com.jkuester.unlauncher.datasource.DataRepository
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.fragment.WithFragmentLifecycle
@@ -107,17 +108,7 @@ class BinaryClockView(context: Context) : LinearLayout(context) {
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-        state.centerPoint = Pair((w / 2).toFloat(), (h / 2).toFloat())
-        state.distance = (w / 50).toFloat()
-        state.bitSize = state.distance * 2
-
-        val bitWidth = state.distance + 2 * state.bitSize
-        val bitHeight = state.distance * 3 + state.bitSize * 2
-        val startX = -state.centerPoint.first + bitWidth * 3
-        val startY = state.centerPoint.second - bitHeight * 2
-
-        state.hourBounds.set(startX, startY, startX + width.toFloat(), startY + bitHeight)
-        state.minuteBounds.set(startX, startY + bitHeight, startX + width.toFloat(), startY + bitHeight * 2)
+        updateStateOnSizeChanged(state, w, h, width)
     }
 
     private fun updateChildViews() {

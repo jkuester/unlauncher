@@ -3,6 +3,7 @@ package com.jkuester.unlauncher.bindings
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.Paint
+import android.graphics.RectF
 import android.text.format.DateFormat
 import android.view.View
 import android.view.View.OnClickListener
@@ -20,10 +21,12 @@ import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.databinding.ClockBinaryBinding
 import io.kotest.matchers.shouldBe
 import io.mockk.every
+import io.mockk.excludeRecords
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
 import io.mockk.justRun
 import io.mockk.mockk
+import io.mockk.mockkConstructor
 import io.mockk.mockkStatic
 import io.mockk.verify
 import kotlin.reflect.KFunction
@@ -210,5 +213,60 @@ class BinaryClockBindingsTest {
         verify(exactly = 2) { getColorPaint(context, R.attr.colorAccent) }
         verify(exactly = 1) { paint.style = Paint.Style.STROKE }
         verify(exactly = 1) { paint.style = Paint.Style.FILL_AND_STROKE }
+    }
+
+    @Test
+    fun updateStateOnSizeChanged_updatesCenterPointDistanceAndBitSize() {
+        val paint = mockk<Paint>()
+        mockkStatic(::getColorPaint)
+        mockkConstructor(RectF::class)
+        every { getColorPaint(context, R.attr.colorAccent) } returns paint
+        every { anyConstructed<RectF>().set(any(), any(), any(), any()) } answers { }
+        justRun { paint.style = any() }
+        excludeRecords { anyConstructed<RectF>().set(any(), any(), any(), any()) }
+
+        val state = BinaryClockState(context)
+
+        updateStateOnSizeChanged(state, 500, 200, 500)
+
+        state.centerPoint shouldBe Pair(250F, 100F)
+        state.distance shouldBe 10F // 500 / 50
+        state.bitSize shouldBe 20F // distance * 2
+        verify(exactly = 2) { getColorPaint(context, R.attr.colorAccent) }
+        verify(exactly = 1) { paint.style = Paint.Style.STROKE }
+        verify(exactly = 1) { paint.style = Paint.Style.FILL_AND_STROKE }
+    }
+
+    @Test
+    fun updateStateOnSizeChanged_updatesHourAndMinuteBounds() {
+        val paint = mockk<Paint>()
+        mockkStatic(::getColorPaint)
+        mockkConstructor(RectF::class)
+        every { getColorPaint(context, R.attr.colorAccent) } returns paint
+        every { anyConstructed<RectF>().set(any(), any(), any(), any()) } answers { }
+        justRun { paint.style = any() }
+
+        val state = BinaryClockState(context)
+
+        updateStateOnSizeChanged(state, 1000, 400, 1000)
+
+        // distance = 20, bitSize = 40
+        // bitWidth = 20 + 2*40 = 100
+        // bitHeight = 20*3 + 40*2 = 140
+        // startX = -500 + 100*3 = -200
+        // startY = 200 - 140*2 = -80
+        state.centerPoint shouldBe Pair(500F, 200F)
+        state.distance shouldBe 20F
+        state.bitSize shouldBe 40F
+        verify(exactly = 2) { getColorPaint(context, R.attr.colorAccent) }
+        verify(exactly = 1) { paint.style = Paint.Style.STROKE }
+        verify(exactly = 1) { paint.style = Paint.Style.FILL_AND_STROKE }
+        // hourBounds: set(startX, startY, startX + viewWidth, startY + bitHeight)
+        //           = set(-200, -80, -200 + 1000, -80 + 140) = set(-200, -80, 800, 60)
+        verify(exactly = 1) { anyConstructed<RectF>().set(-200F, -80F, 800F, 60F) }
+        // minuteBounds: set(startX, startY + bitHeight, startX + viewWidth, startY + bitHeight * 2)
+        //             = set(-200, -80 + 140, -200 + 1000, -80 + 280) = set(-200, 60, 800, 200)
+        verify(exactly = 1) { anyConstructed<RectF>().set(-200F, 60F, 800F, 200F) }
+        excludeRecords { anyConstructed<RectF>().set(any(), any(), any(), any()) }
     }
 }
