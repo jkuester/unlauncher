@@ -90,106 +90,120 @@ class BinaryClockBindingsTest {
     }
 
     @Test
-    fun observeIs24HourFormatChanges_withTwentyFourHour_returnsTrue() {
+    fun observeIs24HourFormatChanges_withTwentyFourHour_setsStateToTrue() {
+        val paint = mockk<Paint>()
+        mockkStatic(::getColorPaint)
+        every { getColorPaint(context, R.attr.colorAccent) } returns paint
+        justRun { paint.style = any() }
+
         val corePrefsRepo = TestDataRepository(
             CorePreferences.newBuilder().setTimeFormat(TimeFormat.twenty_four_hour).build()
         )
-        var initialValue: Boolean? = null
-        var changedValue: Boolean? = null
+        val state = BinaryClockState(context)
+        var formatChangedCount = 0
 
-        observeIs24HourFormatChanges(
-            context,
-            corePrefsRepo,
-            onInitialValue = { initialValue = it },
-            onFormatChanged = { changedValue = it }
-        )
+        observeIs24HourFormatChanges(context, corePrefsRepo, state) { formatChangedCount++ }
 
-        initialValue shouldBe true
-        changedValue shouldBe null
+        state.is24Hour shouldBe true
+        formatChangedCount shouldBe 0
+        verify(exactly = 2) { getColorPaint(context, R.attr.colorAccent) }
+        verify(exactly = 1) { paint.style = Paint.Style.STROKE }
+        verify(exactly = 1) { paint.style = Paint.Style.FILL_AND_STROKE }
     }
 
     @Test
-    fun observeIs24HourFormatChanges_withTwelveHour_returnsFalse() {
+    fun observeIs24HourFormatChanges_withTwelveHour_setsStateToFalse() {
+        val paint = mockk<Paint>()
+        mockkStatic(::getColorPaint)
+        every { getColorPaint(context, R.attr.colorAccent) } returns paint
+        justRun { paint.style = any() }
+
         val corePrefsRepo = TestDataRepository(
             CorePreferences.newBuilder().setTimeFormat(TimeFormat.twelve_hour).build()
         )
-        var initialValue: Boolean? = null
-        var changedValue: Boolean? = null
+        val state = BinaryClockState(context)
+        var formatChangedCount = 0
 
-        observeIs24HourFormatChanges(
-            context,
-            corePrefsRepo,
-            onInitialValue = { initialValue = it },
-            onFormatChanged = { changedValue = it }
-        )
+        observeIs24HourFormatChanges(context, corePrefsRepo, state) { formatChangedCount++ }
 
-        initialValue shouldBe false
-        changedValue shouldBe null
+        state.is24Hour shouldBe false
+        formatChangedCount shouldBe 0
+        verify(exactly = 2) { getColorPaint(context, R.attr.colorAccent) }
+        verify(exactly = 1) { paint.style = Paint.Style.STROKE }
+        verify(exactly = 1) { paint.style = Paint.Style.FILL_AND_STROKE }
     }
 
     @Test
     fun observeIs24HourFormatChanges_withSystemFormat_usesDateFormat() {
+        val paint = mockk<Paint>()
+        mockkStatic(::getColorPaint)
         mockkStatic(DateFormat::class)
+        every { getColorPaint(context, R.attr.colorAccent) } returns paint
+        justRun { paint.style = any() }
         every { DateFormat.is24HourFormat(context) } returns true
 
         val corePrefsRepo = TestDataRepository(
             CorePreferences.newBuilder().setTimeFormat(TimeFormat.system).build()
         )
-        var initialValue: Boolean? = null
+        val state = BinaryClockState(context)
 
-        observeIs24HourFormatChanges(
-            context,
-            corePrefsRepo,
-            onInitialValue = { initialValue = it },
-            onFormatChanged = { }
-        )
+        observeIs24HourFormatChanges(context, corePrefsRepo, state) { }
 
-        initialValue shouldBe true
+        state.is24Hour shouldBe true
         verify(exactly = 1) { DateFormat.is24HourFormat(context) }
+        verify(exactly = 2) { getColorPaint(context, R.attr.colorAccent) }
+        verify(exactly = 1) { paint.style = Paint.Style.STROKE }
+        verify(exactly = 1) { paint.style = Paint.Style.FILL_AND_STROKE }
     }
 
     @Test
     fun observeIs24HourFormatChanges_callsOnFormatChangedWhenFormatChanges() {
+        val paint = mockk<Paint>()
+        mockkStatic(::getColorPaint)
+        every { getColorPaint(context, R.attr.colorAccent) } returns paint
+        justRun { paint.style = any() }
+
         val corePrefsRepo = TestDataRepository(
             CorePreferences.newBuilder().setTimeFormat(TimeFormat.twelve_hour).build()
         )
-        var initialValue: Boolean? = null
-        val changedValues = mutableListOf<Boolean>()
+        val state = BinaryClockState(context)
+        var formatChangedCount = 0
 
-        observeIs24HourFormatChanges(
-            context,
-            corePrefsRepo,
-            onInitialValue = { initialValue = it },
-            onFormatChanged = { changedValues.add(it) }
-        )
+        observeIs24HourFormatChanges(context, corePrefsRepo, state) { formatChangedCount++ }
 
-        initialValue shouldBe false
-        changedValues shouldBe emptyList()
+        state.is24Hour shouldBe false
+        formatChangedCount shouldBe 0
 
         corePrefsRepo.updateAsync {
             it.toBuilder().setTimeFormat(TimeFormat.twenty_four_hour).build()
         }
-        changedValues shouldBe listOf(true)
+        state.is24Hour shouldBe true
+        formatChangedCount shouldBe 1
 
         corePrefsRepo.updateAsync {
             it.toBuilder().setTimeFormat(TimeFormat.twelve_hour).build()
         }
-        changedValues shouldBe listOf(true, false)
+        state.is24Hour shouldBe false
+        formatChangedCount shouldBe 2
+        verify(exactly = 2) { getColorPaint(context, R.attr.colorAccent) }
+        verify(exactly = 1) { paint.style = Paint.Style.STROKE }
+        verify(exactly = 1) { paint.style = Paint.Style.FILL_AND_STROKE }
     }
 
     @Test
     fun observeIs24HourFormatChanges_doesNotCallOnFormatChangedWhenUnchanged() {
+        val paint = mockk<Paint>()
+        mockkStatic(::getColorPaint)
+        every { getColorPaint(context, R.attr.colorAccent) } returns paint
+        justRun { paint.style = any() }
+
         val corePrefsRepo = TestDataRepository(
             CorePreferences.newBuilder().setTimeFormat(TimeFormat.twelve_hour).build()
         )
+        val state = BinaryClockState(context)
         var formatChangedCount = 0
 
-        observeIs24HourFormatChanges(
-            context,
-            corePrefsRepo,
-            onInitialValue = { },
-            onFormatChanged = { formatChangedCount++ }
-        )
+        observeIs24HourFormatChanges(context, corePrefsRepo, state) { formatChangedCount++ }
 
         formatChangedCount shouldBe 0
 
@@ -197,6 +211,9 @@ class BinaryClockBindingsTest {
             it.toBuilder().setTimeFormat(TimeFormat.twelve_hour).build()
         }
         formatChangedCount shouldBe 0
+        verify(exactly = 2) { getColorPaint(context, R.attr.colorAccent) }
+        verify(exactly = 1) { paint.style = Paint.Style.STROKE }
+        verify(exactly = 1) { paint.style = Paint.Style.FILL_AND_STROKE }
     }
 
     @Test

@@ -7,7 +7,6 @@ import android.graphics.Paint
 import android.graphics.RectF
 import android.text.format.DateFormat
 import android.view.View
-import java.util.Calendar
 import androidx.fragment.app.Fragment
 import com.jkuester.unlauncher.datasource.DataRepository
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
@@ -17,6 +16,7 @@ import com.jkuester.unlauncher.getCurrentDateString
 import com.jkuester.unlauncher.launchShowCalendar
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.databinding.ClockBinaryBinding
+import java.util.Calendar
 
 class BinaryClockState(context: Context) {
     val offPaint: Paint = getColorPaint(context, R.attr.colorAccent).apply {
@@ -50,17 +50,16 @@ private fun getIs24HourFormat(context: Context, timeFormat: TimeFormat): Boolean
 fun observeIs24HourFormatChanges(
     context: Context,
     corePrefsRepo: DataRepository<CorePreferences>,
-    onInitialValue: (Boolean) -> Unit,
-    onFormatChanged: (Boolean) -> Unit
+    state: BinaryClockState,
+    onFormatChanged: () -> Unit
 ) {
     var currentIs24Hour: Boolean? = null
     corePrefsRepo.observe { corePrefs ->
         val previousIs24Hour = currentIs24Hour
         currentIs24Hour = getIs24HourFormat(context, corePrefs.timeFormat)
-        if (previousIs24Hour == null) {
-            onInitialValue(currentIs24Hour!!)
-        } else if (previousIs24Hour != currentIs24Hour) {
-            onFormatChanged(currentIs24Hour!!)
+        state.is24Hour = currentIs24Hour
+        if (previousIs24Hour != null && previousIs24Hour != currentIs24Hour) {
+            onFormatChanged()
         }
     }
 }

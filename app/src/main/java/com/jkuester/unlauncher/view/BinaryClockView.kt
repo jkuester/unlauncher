@@ -44,17 +44,8 @@ class BinaryClockView(context: Context) : LinearLayout(context) {
             .bind(this)
             .also(setupBinaryClockDateClickListener(fragment))
         setWillNotDraw(false)
-
         setOnClickListener(launchShowAlarms(fragment))
-        observeIs24HourFormatChanges(
-            context,
-            corePrefsRepo,
-            onInitialValue = { state.is24Hour = it },
-            onFormatChanged = {
-                state.is24Hour = it
-                invalidate()
-            }
-        )
+        observeIs24HourFormatChanges(context, corePrefsRepo, state, ::invalidate)
         updateChildViews()
     }
 
