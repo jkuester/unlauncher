@@ -2,6 +2,7 @@ package com.jkuester.unlauncher.bindings
 
 import android.content.Context
 import android.content.res.Resources
+import android.graphics.Paint
 import android.text.format.DateFormat
 import android.view.View
 import android.view.View.OnClickListener
@@ -11,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBindings
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.datastore.proto.TimeFormat
+import com.jkuester.unlauncher.getColorPaint
 import com.jkuester.unlauncher.getCurrentDateString
 import com.jkuester.unlauncher.launchShowCalendar
 import com.jkuester.unlauncher.util.TestDataRepository
@@ -190,5 +192,23 @@ class BinaryClockBindingsTest {
             it.toBuilder().setTimeFormat(TimeFormat.twelve_hour).build()
         }
         formatChangedCount shouldBe 0
+    }
+
+    @Test
+    fun binaryClockState_initializesWithDefaultValues() {
+        val paint = mockk<Paint>()
+        mockkStatic(::getColorPaint)
+        every { getColorPaint(context, R.attr.colorAccent) } returns paint
+        justRun { paint.style = any() }
+
+        val state = BinaryClockState(context)
+
+        state.centerPoint shouldBe Pair(0F, 0F)
+        state.bitSize shouldBe 20F
+        state.distance shouldBe 10F
+        state.is24Hour shouldBe false
+        verify(exactly = 2) { getColorPaint(context, R.attr.colorAccent) }
+        verify(exactly = 1) { paint.style = Paint.Style.STROKE }
+        verify(exactly = 1) { paint.style = Paint.Style.FILL_AND_STROKE }
     }
 }

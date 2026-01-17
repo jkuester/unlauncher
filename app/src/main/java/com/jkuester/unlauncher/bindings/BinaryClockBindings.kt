@@ -2,14 +2,33 @@ package com.jkuester.unlauncher.bindings
 
 import android.content.Context
 import android.content.res.Resources
+import android.graphics.Paint
+import android.graphics.RectF
 import android.text.format.DateFormat
 import androidx.fragment.app.Fragment
 import com.jkuester.unlauncher.datasource.DataRepository
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.datastore.proto.TimeFormat
+import com.jkuester.unlauncher.getColorPaint
 import com.jkuester.unlauncher.getCurrentDateString
 import com.jkuester.unlauncher.launchShowCalendar
+import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.databinding.ClockBinaryBinding
+
+class BinaryClockState(context: Context) {
+    val offPaint: Paint = getColorPaint(context, R.attr.colorAccent).apply {
+        style = Paint.Style.STROKE
+    }
+    val onPaint: Paint = getColorPaint(context, R.attr.colorAccent).apply {
+        style = Paint.Style.FILL_AND_STROKE
+    }
+    var centerPoint: Pair<Float, Float> = Pair(0F, 0F)
+    var bitSize: Float = 20F
+    var distance: Float = 10F
+    val hourBounds: RectF = RectF(0F, 0F, 0F, 0F)
+    val minuteBounds: RectF = RectF(0F, 0F, 0F, 0F)
+    var is24Hour: Boolean = false
+}
 
 fun setupBinaryClockDateClickListener(fragment: Fragment) = { binding: ClockBinaryBinding ->
     binding.binaryDate.setOnClickListener(launchShowCalendar(fragment))
