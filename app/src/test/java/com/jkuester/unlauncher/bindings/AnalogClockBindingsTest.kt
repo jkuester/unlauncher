@@ -303,10 +303,7 @@ class AnalogClockBindingsTest {
         state.radius = 100F
         state.border = 5F
 
-        val (minWidth, minHeight) = calculateMinimumDimensions(
-            state,
-            suggestedMinimumWidth = 50,
-            suggestedMinimumHeight = 50,
+        val dimensions = ViewDimensions(
             paddingLeft = 10,
             paddingRight = 10,
             paddingTop = 5,
@@ -315,6 +312,13 @@ class AnalogClockBindingsTest {
             marginEnd = 2,
             marginTop = 3,
             marginBottom = 3
+        )
+
+        val (minWidth, minHeight) = calculateMinimumDimensions(
+            state,
+            dimensions,
+            suggestedMinimumWidth = 50,
+            suggestedMinimumHeight = 50
         )
 
         // dim = max(min(50, 50), 2*100) + 4*5 = max(50, 200) + 20 = 220

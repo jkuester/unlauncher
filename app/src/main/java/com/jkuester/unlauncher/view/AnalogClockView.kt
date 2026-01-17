@@ -1,15 +1,14 @@
 package com.jkuester.unlauncher.view
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.view.Gravity
 import android.widget.LinearLayout
-import androidx.core.view.marginBottom
-import androidx.core.view.marginEnd
-import androidx.core.view.marginStart
 import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
 import com.jkuester.unlauncher.bindings.AnalogClockState
+import com.jkuester.unlauncher.bindings.ViewDimensions
 import com.jkuester.unlauncher.bindings.calculateMinimumDimensions
 import com.jkuester.unlauncher.bindings.drawAnalogClock
 import com.jkuester.unlauncher.bindings.observeAnalogClockTypeChanges
@@ -60,20 +59,14 @@ class AnalogClockView(context: Context) : LinearLayout(context) {
         drawAnalogClock(state, canvas, width, height, marginTop)
     }
 
+    @SuppressLint("DrawAllocation")
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         measureChildren(widthMeasureSpec, heightMeasureSpec)
         val (minw, minh) = calculateMinimumDimensions(
             state,
+            ViewDimensions(this),
             suggestedMinimumWidth,
-            suggestedMinimumHeight,
-            paddingLeft,
-            paddingRight,
-            paddingTop,
-            paddingBottom,
-            marginStart,
-            marginEnd,
-            marginTop,
-            marginBottom
+            suggestedMinimumHeight
         )
         val w: Int = resolveSizeAndState(minw, widthMeasureSpec, 0)
         val h: Int = resolveSizeAndState(minh, heightMeasureSpec, 0)

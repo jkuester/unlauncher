@@ -4,8 +4,13 @@ import android.content.Context
 import android.content.res.Resources
 import android.graphics.Canvas
 import android.graphics.Paint
+import android.view.View
 import androidx.core.graphics.withRotation
 import androidx.core.graphics.withSave
+import androidx.core.view.marginBottom
+import androidx.core.view.marginEnd
+import androidx.core.view.marginStart
+import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
 import com.jkuester.unlauncher.datasource.DataRepository
 import com.jkuester.unlauncher.datastore.proto.AnalogClockType
@@ -18,6 +23,28 @@ import com.sduduzog.slimlauncher.databinding.ClockAnalogBinding
 import java.util.Calendar
 import kotlin.math.max
 import kotlin.math.min
+
+data class ViewDimensions(
+    val paddingLeft: Int,
+    val paddingRight: Int,
+    val paddingTop: Int,
+    val paddingBottom: Int,
+    val marginStart: Int,
+    val marginEnd: Int,
+    val marginTop: Int,
+    val marginBottom: Int
+) {
+    constructor(view: View) : this(
+        paddingLeft = view.paddingLeft,
+        paddingRight = view.paddingRight,
+        paddingTop = view.paddingTop,
+        paddingBottom = view.paddingBottom,
+        marginStart = view.marginStart,
+        marginEnd = view.marginEnd,
+        marginTop = view.marginTop,
+        marginBottom = view.marginBottom
+    )
+}
 
 class AnalogClockState(context: Context) {
     val handPaint: Paint = getColorPaint(context, R.attr.colorAccent).apply {
@@ -82,23 +109,18 @@ fun updateStateOnSizeChanged(state: AnalogClockState, viewWidth: Int) {
 
 fun calculateMinimumDimensions(
     state: AnalogClockState,
+    dimensions: ViewDimensions,
     suggestedMinimumWidth: Int,
-    suggestedMinimumHeight: Int,
-    paddingLeft: Int,
-    paddingRight: Int,
-    paddingTop: Int,
-    paddingBottom: Int,
-    marginStart: Int,
-    marginEnd: Int,
-    marginTop: Int,
-    marginBottom: Int
+    suggestedMinimumHeight: Int
 ): Pair<Int, Int> {
     val dim = max(
         min(suggestedMinimumWidth, suggestedMinimumHeight),
         2 * state.radius.toInt()
     ) + 4 * state.border.toInt()
-    val minWidth = dim + paddingLeft + paddingRight + marginStart + marginEnd
-    val minHeight = dim + paddingBottom + paddingTop + marginTop + marginBottom
+    val minWidth = dim + dimensions.paddingLeft + dimensions.paddingRight +
+        dimensions.marginStart + dimensions.marginEnd
+    val minHeight = dim + dimensions.paddingBottom + dimensions.paddingTop +
+        dimensions.marginTop + dimensions.marginBottom
     return Pair(minWidth, minHeight)
 }
 
