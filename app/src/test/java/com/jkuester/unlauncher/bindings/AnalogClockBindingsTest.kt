@@ -400,4 +400,46 @@ class AnalogClockBindingsTest {
         excludeRecords { canvas.rotate(any(), any(), any()) }
         excludeRecords { canvas.restoreToCount(any()) }
     }
+
+    @Test
+    fun drawAnalogClock_withTickCountGreaterThan12_drawsMajorAndMinorTicks() {
+        val paint = mockk<Paint>()
+        val canvas = mockk<Canvas>()
+        val calendar = mockk<Calendar>()
+        mockkStatic(::getColorPaint)
+        mockkStatic(Calendar::class)
+        every { getColorPaint(context, R.attr.colorAccent) } returns paint
+        every { Calendar.getInstance() } returns calendar
+        every { calendar[Calendar.HOUR] } returns 10
+        every { calendar[Calendar.MINUTE] } returns 30
+        justRun { paint.style = any() }
+        justRun { paint.strokeCap = any() }
+        justRun { paint.strokeWidth = any() }
+        justRun { canvas.drawLine(any(), any(), any(), any(), any()) }
+        every { canvas.save() } returns 0
+        justRun { canvas.rotate(any(), any(), any()) }
+        justRun { canvas.restoreToCount(any()) }
+
+        val state = AnalogClockState(context)
+        state.radius = 100F
+        state.tickCount = 60
+
+        drawAnalogClock(state, canvas, 200, 200, 0)
+
+        verify(exactly = 1) { Calendar.getInstance() }
+        verify(exactly = 1) { calendar[Calendar.HOUR] }
+        verify(exactly = 1) { calendar[Calendar.MINUTE] }
+        verify(atLeast = 1) { canvas.drawLine(any(), any(), any(), any(), any()) }
+        verify(exactly = 1) { getColorPaint(context, R.attr.colorAccent) }
+        verify(exactly = 1) { paint.style = Paint.Style.STROKE }
+        verify(exactly = 1) { paint.strokeCap = Paint.Cap.ROUND }
+        // Verify strokeWidth is set multiple times (for major ticks, minor ticks, and hands)
+        verify(atLeast = 3) { paint.strokeWidth = any() }
+        // Verify the tickWidthMin is used for minor ticks
+        verify(exactly = 1) { paint.strokeWidth = state.tickWidthMin }
+        // Exclude canvas rotation/save operations from verification
+        excludeRecords { canvas.save() }
+        excludeRecords { canvas.rotate(any(), any(), any()) }
+        excludeRecords { canvas.restoreToCount(any()) }
+    }
 }
