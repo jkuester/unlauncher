@@ -1,30 +1,29 @@
-package com.jkuester.unlauncher.view
+package com.jkuester.unlauncher.android.view
 
 import android.content.Context
 import android.graphics.Canvas
 import android.view.Gravity
-import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import com.jkuester.unlauncher.bindings.BinaryClockState
 import com.jkuester.unlauncher.bindings.calculateMinimumDimensions
 import com.jkuester.unlauncher.bindings.drawBinaryClock
 import com.jkuester.unlauncher.bindings.observeIs24HourFormatChanges
-import com.jkuester.unlauncher.bindings.setupBinaryClockDateClickListener
 import com.jkuester.unlauncher.bindings.updateBinaryClockDate
 import com.jkuester.unlauncher.bindings.updateStateOnSizeChanged
 import com.jkuester.unlauncher.datasource.DataRepository
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.fragment.WithFragmentLifecycle
-import com.jkuester.unlauncher.launchShowAlarms
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.databinding.ClockBinaryBinding
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.WithFragmentBindings
 import javax.inject.Inject
 
+fun createBinaryClockView(ctx: Context): BinaryClockView = BinaryClockView(ctx)
+
 @AndroidEntryPoint
 @WithFragmentBindings
-class BinaryClockView(context: Context) : LinearLayout(context) {
+class BinaryClockView(context: Context) : AbstractClock(context) {
     @Inject
     lateinit var fragment: Fragment
 
@@ -43,7 +42,8 @@ class BinaryClockView(context: Context) : LinearLayout(context) {
         gravity = Gravity.CENTER
         binding = ClockBinaryBinding
             .bind(this)
-            .also(setupBinaryClockDateClickListener(fragment))
+            .also { it.binaryDate.setOnClickListener(launchShowCalendar(fragment)) }
+
         setWillNotDraw(false)
         setOnClickListener(launchShowAlarms(fragment))
         updateChildViews = updateBinaryClockDate(resources, binding)

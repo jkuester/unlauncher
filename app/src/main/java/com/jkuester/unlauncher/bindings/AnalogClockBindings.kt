@@ -11,13 +11,11 @@ import androidx.core.view.marginBottom
 import androidx.core.view.marginEnd
 import androidx.core.view.marginStart
 import androidx.core.view.marginTop
-import androidx.fragment.app.Fragment
 import com.jkuester.unlauncher.datasource.DataRepository
 import com.jkuester.unlauncher.datastore.proto.AnalogClockType
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.getColorPaint
 import com.jkuester.unlauncher.getCurrentDateString
-import com.jkuester.unlauncher.launchShowCalendar
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.databinding.ClockAnalogBinding
 import java.util.Calendar
@@ -65,10 +63,6 @@ class AnalogClockState(context: Context) {
     val tickLength = 1F - .1F
     val tickWidthMin = 2F
     val tickLengthMin = 1F - .05F
-}
-
-fun setupAnalogClockDateClickListener(fragment: Fragment) = { binding: ClockAnalogBinding ->
-    binding.analogDate.setOnClickListener(launchShowCalendar(fragment))
 }
 
 fun updateAnalogClockDate(resources: Resources, binding: ClockAnalogBinding): () -> Unit = {

@@ -3,22 +3,14 @@ package com.jkuester.unlauncher.bindings
 import android.content.Context
 import android.content.res.Resources
 import android.text.format.DateFormat
-import androidx.fragment.app.Fragment
 import com.jkuester.unlauncher.datasource.DataRepository
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.datastore.proto.TimeFormat
 import com.jkuester.unlauncher.getCurrentDateString
-import com.jkuester.unlauncher.launchShowAlarms
-import com.jkuester.unlauncher.launchShowCalendar
 import com.sduduzog.slimlauncher.databinding.ClockDigitalBinding
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-
-fun setupDigitalClockClickListeners(fragment: Fragment) = { binding: ClockDigitalBinding ->
-    binding.digitalTime.setOnClickListener(launchShowAlarms(fragment))
-    binding.digitalDate.setOnClickListener(launchShowCalendar(fragment))
-}
 
 private fun getTimeFormat(context: Context, timeFormat: TimeFormat): java.text.DateFormat = when (timeFormat) {
     TimeFormat.twenty_four_hour -> SimpleDateFormat("H:mm", Locale.getDefault())

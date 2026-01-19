@@ -1,10 +1,9 @@
-package com.jkuester.unlauncher.view
+package com.jkuester.unlauncher.android.view
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.view.Gravity
-import android.widget.LinearLayout
 import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
 import com.jkuester.unlauncher.bindings.AnalogClockState
@@ -12,22 +11,22 @@ import com.jkuester.unlauncher.bindings.ViewDimensions
 import com.jkuester.unlauncher.bindings.calculateMinimumDimensions
 import com.jkuester.unlauncher.bindings.drawAnalogClock
 import com.jkuester.unlauncher.bindings.observeAnalogClockTypeChanges
-import com.jkuester.unlauncher.bindings.setupAnalogClockDateClickListener
 import com.jkuester.unlauncher.bindings.updateAnalogClockDate
 import com.jkuester.unlauncher.bindings.updateStateOnSizeChanged
 import com.jkuester.unlauncher.datasource.DataRepository
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.fragment.WithFragmentLifecycle
-import com.jkuester.unlauncher.launchShowAlarms
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.databinding.ClockAnalogBinding
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.WithFragmentBindings
 import javax.inject.Inject
 
+fun createAnalogClockView(ctx: Context): AnalogClockView = AnalogClockView(ctx)
+
 @AndroidEntryPoint
 @WithFragmentBindings
-class AnalogClockView(context: Context) : LinearLayout(context) {
+class AnalogClockView(context: Context) : AbstractClock(context) {
     @Inject
     lateinit var fragment: Fragment
 
@@ -46,7 +45,7 @@ class AnalogClockView(context: Context) : LinearLayout(context) {
         gravity = Gravity.CENTER
         binding = ClockAnalogBinding
             .bind(this)
-            .also(setupAnalogClockDateClickListener(fragment))
+            .also({ it.analogDate.setOnClickListener(launchShowCalendar(fragment)) })
         setWillNotDraw(false)
         setOnClickListener(launchShowAlarms(fragment))
         updateChildViews = updateAnalogClockDate(resources, binding)

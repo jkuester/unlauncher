@@ -7,7 +7,6 @@ import android.graphics.Paint
 import android.graphics.RectF
 import android.text.format.DateFormat
 import android.view.View
-import android.view.View.OnClickListener
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -16,7 +15,6 @@ import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.datastore.proto.TimeFormat
 import com.jkuester.unlauncher.getColorPaint
 import com.jkuester.unlauncher.getCurrentDateString
-import com.jkuester.unlauncher.launchShowCalendar
 import com.jkuester.unlauncher.util.TestDataRepository
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.databinding.ClockBinaryBinding
@@ -42,12 +40,16 @@ import org.junit.jupiter.api.extension.ExtendWith
 class BinaryClockBindingsTest {
     @MockK
     lateinit var context: Context
+
     @MockK
     lateinit var resources: Resources
+
     @MockK
     lateinit var fragment: Fragment
+
     @MockK
     lateinit var rootView: LinearLayout
+
     @MockK
     lateinit var binaryDate: TextView
 
@@ -60,20 +62,6 @@ class BinaryClockBindingsTest {
         every { ViewBindings.findChildViewById<View>(any(), R.id.binary_date) } returns binaryDate
 
         binding = ClockBinaryBinding.bind(rootView)
-    }
-
-    @Test
-    fun setupBinaryClockDateClickListener_setsDateClickListener() {
-        mockkStatic(::launchShowCalendar)
-        val dateClickListener = mockk<OnClickListener>()
-        every { launchShowCalendar(fragment) } returns dateClickListener
-        justRun { binaryDate.setOnClickListener(any()) }
-
-        setupBinaryClockDateClickListener(fragment)(binding)
-
-        verify(exactly = 1) { launchShowCalendar(fragment) }
-        verify(exactly = 1) { binaryDate.setOnClickListener(dateClickListener) }
-        verify(exactly = 1) { ViewBindings.findChildViewById<View>(rootView, R.id.binary_date) }
     }
 
     @Test

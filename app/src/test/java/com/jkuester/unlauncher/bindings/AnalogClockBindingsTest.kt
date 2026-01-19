@@ -5,7 +5,6 @@ import android.content.res.Resources
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.view.View
-import android.view.View.OnClickListener
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -14,7 +13,6 @@ import com.jkuester.unlauncher.datastore.proto.AnalogClockType
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.getColorPaint
 import com.jkuester.unlauncher.getCurrentDateString
-import com.jkuester.unlauncher.launchShowCalendar
 import com.jkuester.unlauncher.util.TestDataRepository
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.databinding.ClockAnalogBinding
@@ -39,12 +37,16 @@ import org.junit.jupiter.api.extension.ExtendWith
 class AnalogClockBindingsTest {
     @MockK
     lateinit var context: Context
+
     @MockK
     lateinit var resources: Resources
+
     @MockK
     lateinit var fragment: Fragment
+
     @MockK
     lateinit var rootView: LinearLayout
+
     @MockK
     lateinit var analogDate: TextView
 
@@ -57,20 +59,6 @@ class AnalogClockBindingsTest {
         every { ViewBindings.findChildViewById<View>(any(), R.id.analog_date) } returns analogDate
 
         binding = ClockAnalogBinding.bind(rootView)
-    }
-
-    @Test
-    fun setupAnalogClockDateClickListener_setsDateClickListener() {
-        mockkStatic(::launchShowCalendar)
-        val dateClickListener = mockk<OnClickListener>()
-        every { launchShowCalendar(fragment) } returns dateClickListener
-        justRun { analogDate.setOnClickListener(any()) }
-
-        setupAnalogClockDateClickListener(fragment)(binding)
-
-        verify(exactly = 1) { launchShowCalendar(fragment) }
-        verify(exactly = 1) { analogDate.setOnClickListener(dateClickListener) }
-        verify(exactly = 1) { ViewBindings.findChildViewById<View>(rootView, R.id.analog_date) }
     }
 
     @Test

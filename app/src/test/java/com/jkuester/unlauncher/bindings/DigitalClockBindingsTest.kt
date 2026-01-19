@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.res.Resources
 import android.text.format.DateFormat
 import android.view.View
-import android.view.View.OnClickListener
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -12,8 +11,6 @@ import androidx.viewbinding.ViewBindings
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.datastore.proto.TimeFormat
 import com.jkuester.unlauncher.getCurrentDateString
-import com.jkuester.unlauncher.launchShowAlarms
-import com.jkuester.unlauncher.launchShowCalendar
 import com.jkuester.unlauncher.util.TestDataRepository
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.databinding.ClockDigitalBinding
@@ -38,14 +35,19 @@ import org.junit.jupiter.api.extension.ExtendWith
 class DigitalClockBindingsTest {
     @MockK
     lateinit var context: Context
+
     @MockK
     lateinit var resources: Resources
+
     @MockK
     lateinit var fragment: Fragment
+
     @MockK
     lateinit var rootView: LinearLayout
+
     @MockK
     lateinit var digitalTime: TextView
+
     @MockK
     lateinit var digitalDate: TextView
 
@@ -59,27 +61,6 @@ class DigitalClockBindingsTest {
         every { ViewBindings.findChildViewById<View>(any(), R.id.digital_date) } returns digitalDate
 
         binding = ClockDigitalBinding.bind(rootView)
-    }
-
-    @Test
-    fun setupDigitalClockClickListeners_setsTimeClickListener() {
-        mockkStatic(::launchShowAlarms)
-        mockkStatic(::launchShowCalendar)
-        val timeClickListener = mockk<OnClickListener>()
-        val dateClickListener = mockk<OnClickListener>()
-        every { launchShowAlarms(fragment) } returns timeClickListener
-        every { launchShowCalendar(fragment) } returns dateClickListener
-        justRun { digitalTime.setOnClickListener(any()) }
-        justRun { digitalDate.setOnClickListener(any()) }
-
-        setupDigitalClockClickListeners(fragment)(binding)
-
-        verify(exactly = 1) { launchShowAlarms(fragment) }
-        verify(exactly = 1) { launchShowCalendar(fragment) }
-        verify(exactly = 1) { digitalTime.setOnClickListener(timeClickListener) }
-        verify(exactly = 1) { digitalDate.setOnClickListener(dateClickListener) }
-        verify(exactly = 1) { ViewBindings.findChildViewById<View>(rootView, R.id.digital_time) }
-        verify(exactly = 1) { ViewBindings.findChildViewById<View>(rootView, R.id.digital_date) }
     }
 
     @Test

@@ -1,11 +1,9 @@
-package com.jkuester.unlauncher.view
+package com.jkuester.unlauncher.android.view
 
 import android.content.Context
 import android.view.Gravity
-import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import com.jkuester.unlauncher.bindings.observeTimeFormatChanges
-import com.jkuester.unlauncher.bindings.setupDigitalClockClickListeners
 import com.jkuester.unlauncher.bindings.updateDigitalClockViews
 import com.jkuester.unlauncher.datasource.DataRepository
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
@@ -16,9 +14,11 @@ import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.WithFragmentBindings
 import javax.inject.Inject
 
+fun createDigitalClockView(ctx: Context): DigitalClockView = DigitalClockView(ctx)
+
 @AndroidEntryPoint
 @WithFragmentBindings
-class DigitalClockView(context: Context) : LinearLayout(context) {
+class DigitalClockView(context: Context) : AbstractClock(context) {
     @Inject
     lateinit var fragment: Fragment
 
@@ -35,7 +35,10 @@ class DigitalClockView(context: Context) : LinearLayout(context) {
         gravity = Gravity.CENTER
         binding = ClockDigitalBinding
             .bind(this)
-            .also(setupDigitalClockClickListeners(fragment))
+            .also { b ->
+                b.digitalTime.setOnClickListener(launchShowAlarms(fragment))
+                b.digitalDate.setOnClickListener(launchShowCalendar(fragment))
+            }
         updateChildViews = updateDigitalClockViews(context, resources, corePrefsRepo, binding)
         observeTimeFormatChanges(corePrefsRepo, this::invalidate)
         updateChildViews()
