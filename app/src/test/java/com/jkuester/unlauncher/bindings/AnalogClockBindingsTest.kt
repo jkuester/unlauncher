@@ -5,6 +5,7 @@ import android.content.res.Resources
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.view.View
+import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -441,5 +442,100 @@ class AnalogClockBindingsTest {
         excludeRecords { canvas.save() }
         excludeRecords { canvas.rotate(any(), any(), any()) }
         excludeRecords { canvas.restoreToCount(any()) }
+    }
+
+    @Test
+    fun drawAnalogClock_withTickCountZero_skipsDrawingTicks() {
+        val paint = mockk<Paint>()
+        val canvas = mockk<Canvas>()
+        val calendar = mockk<Calendar>()
+        mockkStatic(::getColorPaint)
+        mockkStatic(Calendar::class)
+        every { getColorPaint(context, R.attr.colorAccent) } returns paint
+        every { Calendar.getInstance() } returns calendar
+        every { calendar[Calendar.HOUR] } returns 10
+        every { calendar[Calendar.MINUTE] } returns 30
+        justRun { paint.style = any() }
+        justRun { paint.strokeCap = any() }
+        justRun { paint.strokeWidth = any() }
+        justRun { canvas.drawLine(any(), any(), any(), any(), any()) }
+        every { canvas.save() } returns 0
+        justRun { canvas.rotate(any(), any(), any()) }
+        justRun { canvas.restoreToCount(any()) }
+
+        val state = AnalogClockState(context)
+        state.radius = 100F
+        state.tickCount = 0
+
+        drawAnalogClock(state, canvas, 200, 200, 0)
+
+        verify(exactly = 1) { Calendar.getInstance() }
+        verify(exactly = 1) { calendar[Calendar.HOUR] }
+        verify(exactly = 1) { calendar[Calendar.MINUTE] }
+        // Only 2 drawLine calls for the hour and minute hands (no ticks drawn)
+        verify(exactly = 2) { canvas.drawLine(any(), any(), any(), any(), any()) }
+        verify(exactly = 1) { getColorPaint(context, R.attr.colorAccent) }
+        verify(exactly = 1) { paint.style = Paint.Style.STROKE }
+        verify(exactly = 1) { paint.strokeCap = Paint.Cap.ROUND }
+        verify(atLeast = 1) { paint.strokeWidth = any() }
+        // Exclude canvas save/restore operations from verification
+        excludeRecords { canvas.save() }
+        excludeRecords { canvas.restoreToCount(any()) }
+        excludeRecords { canvas.rotate(any(), any(), any()) }
+    }
+
+    @Test
+    fun viewDimensions_constructorWithView_extractsDimensionsFromView() {
+        val view = mockk<View>()
+        val layoutParams = mockk<ViewGroup.MarginLayoutParams>()
+        every { view.paddingLeft } returns 10
+        every { view.paddingRight } returns 20
+        every { view.paddingTop } returns 30
+        every { view.paddingBottom } returns 40
+        every { view.layoutParams } returns layoutParams
+        every { layoutParams.marginStart } returns 5
+        every { layoutParams.marginEnd } returns 15
+
+        val dimensions = ViewDimensions(view)
+
+        dimensions.paddingLeft shouldBe 10
+        dimensions.paddingRight shouldBe 20
+        dimensions.paddingTop shouldBe 30
+        dimensions.paddingBottom shouldBe 40
+        dimensions.marginStart shouldBe 5
+        dimensions.marginEnd shouldBe 15
+        // Cannot mock out these properties...
+        dimensions.marginTop shouldBe 0
+        dimensions.marginBottom shouldBe 0
+        verify(exactly = 1) { view.paddingLeft }
+        verify(exactly = 1) { view.paddingRight }
+        verify(exactly = 1) { view.paddingTop }
+        verify(exactly = 1) { view.paddingBottom }
+        verify(exactly = 4) { view.layoutParams }
+        verify(exactly = 1) { layoutParams.marginStart }
+        verify(exactly = 1) { layoutParams.marginEnd }
+    }
+
+    @Test
+    fun observeAnalogClockTypeChanges_withUnrecognizedType_defaultsTo12() {
+        val paint = mockk<Paint>()
+        mockkStatic(::getColorPaint)
+        every { getColorPaint(context, R.attr.colorAccent) } returns paint
+        justRun { paint.style = any() }
+        justRun { paint.strokeCap = any() }
+
+        val corePrefsRepo = TestDataRepository(
+            CorePreferences.newBuilder().setAnalogClockTypeValue(-1).build()
+        )
+        val state = AnalogClockState(context)
+        var tickCountChangedCount = 0
+
+        observeAnalogClockTypeChanges(corePrefsRepo, state) { tickCountChangedCount++ }
+
+        state.tickCount shouldBe 12
+        tickCountChangedCount shouldBe 0
+        verify(exactly = 1) { getColorPaint(context, R.attr.colorAccent) }
+        verify(exactly = 1) { paint.style = Paint.Style.STROKE }
+        verify(exactly = 1) { paint.strokeCap = Paint.Cap.ROUND }
     }
 }
