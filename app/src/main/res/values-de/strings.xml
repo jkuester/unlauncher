@@ -32,15 +32,8 @@
     <string-array name="clock_type_array">
         <item>Keine</item>
         <item>Digital</item>
-        <item>Analog 12</item>
+        <item>Analog</item>
         <item>Binär</item>
-        <item>Analog 0</item>
-        <item>Analog 1</item>
-        <item>Analog 2</item>
-        <item>Analog 3</item>
-        <item>Analog 4</item>
-        <item>Analog 6</item>
-        <item>Analog 60</item>
     </string-array>
 
     <string name="add_apps_fragment_search_apps">Appsuche</string>
@@ -75,7 +68,6 @@
     <string name="open_app">Öffnen</string>
     <string name="options_fragment_change_theme">Stil auswählen</string>
     <string name="options_fragment_choose_alignment">Apps ausrichten</string>
-    <string name="options_fragment_choose_clock_type">Uhrdarstellung</string>
     <string name="options_fragment_choose_time_format">Zeitformat</string>
     <string name="options_fragment_customise_apps">Apps einstellen</string>
     <string name="options_fragment_customize_app_drawer">Appschublade</string>

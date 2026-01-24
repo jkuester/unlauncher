@@ -10,15 +10,8 @@
     <string-array name="clock_type_array">
         <item>无时钟</item>
         <item>数字时钟</item>
-        <item>指针时钟12</item>
+        <item>指针时钟</item>
         <item>二进制时钟</item>
-        <item>指针时钟0</item>
-        <item>指针时钟1</item>
-        <item>指针时钟2</item>
-        <item>指针时钟3</item>
-        <item>指针时钟4</item>
-        <item>指针时钟6</item>
-        <item>指针时钟60</item>
     </string-array>
     <string-array name="quick_button_array">
         <item>显示</item>
@@ -77,7 +70,6 @@
     <string name="open_app">打开应用</string>
     <string name="options_fragment_change_theme">更改主题</string>
     <string name="options_fragment_choose_alignment">选择对齐方向</string>
-    <string name="options_fragment_choose_clock_type">选择时钟类型</string>
     <string name="options_fragment_choose_time_format">选择时间格式</string>
     <string name="options_fragment_customise_apps">自定义应用</string>
     <string name="options_fragment_customize_app_drawer">自定义抽屉</string>

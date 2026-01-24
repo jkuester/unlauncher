@@ -1,18 +1,26 @@
 package com.jkuester.unlauncher.bindings
 
+import android.content.Context
 import android.view.View
 import android.view.View.OnClickListener
+import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.activity.ComponentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.Navigation
 import com.jkuester.unlauncher.adapter.CustomizeHomeAppsListAdapter
+import com.jkuester.unlauncher.createNewClock
 import com.jkuester.unlauncher.datasource.DataRepository
 import com.jkuester.unlauncher.datasource.QuickButtonIcon
 import com.jkuester.unlauncher.datasource.getHomeApps
 import com.jkuester.unlauncher.datasource.getIconResourceId
+import com.jkuester.unlauncher.datastore.proto.AnalogClockType
+import com.jkuester.unlauncher.datastore.proto.ClockType
+import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.datastore.proto.QuickButtonPreferences
 import com.jkuester.unlauncher.datastore.proto.UnlauncherApps
+import com.jkuester.unlauncher.dialog.AnalogClockTypeDialog
+import com.jkuester.unlauncher.dialog.ClockTypeDialog
 import com.jkuester.unlauncher.dialog.QuickButtonIconDialog
 import com.sduduzog.slimlauncher.R
 import com.sduduzog.slimlauncher.databinding.CustomizeHomeBinding
@@ -73,3 +81,60 @@ fun setupHomeAppsList(appsRepo: DataRepository<UnlauncherApps>, fragmentManager:
     { binding: CustomizeHomeBinding ->
         binding.customiseHomeAppsList.adapter = CustomizeHomeAppsListAdapter(appsRepo, fragmentManager)
     }
+
+private fun disableClicksRecursively(view: View) {
+    view.isClickable = false
+    if (view !is ViewGroup) {
+        return
+    }
+    for (i in 0 until view.childCount) {
+        disableClicksRecursively(view.getChildAt(i))
+    }
+}
+
+private fun updateClockPreview(context: Context, binding: CustomizeHomeBinding): (CorePreferences) -> Unit {
+    var currentClockType: ClockType? = null
+    var currentAnalogClockType: AnalogClockType? = null
+    return updateClock@{ corePrefs ->
+        if (
+            corePrefs.clockType == currentClockType &&
+            corePrefs.analogClockType == currentAnalogClockType
+        ) {
+            return@updateClock
+        }
+
+        currentClockType = corePrefs.clockType
+        currentAnalogClockType = corePrefs.analogClockType
+
+        val isAnalogClock = corePrefs.clockType == ClockType.analog
+        binding.clockOptionsButton.visibility = if (isAnalogClock) View.VISIBLE else View.GONE
+
+        binding.clockWrapper.removeAllViews()
+
+        // Show a border when "None" is selected so user knows they can tap to change
+        if (corePrefs.clockType == ClockType.none) {
+            binding.clockWrapper.setBackgroundResource(R.drawable.imageview_border)
+            return@updateClock
+        }
+
+        binding.clockWrapper.setBackgroundResource(0)
+        val clock = createNewClock(context, corePrefs.clockType)
+        // Disable click handling on the clock and its children so clicks pass through to the wrapper
+        disableClicksRecursively(clock)
+        binding.clockWrapper.addView(clock)
+    }
+}
+
+fun setupClockPreview(
+    context: Context,
+    corePreferencesRepo: DataRepository<CorePreferences>,
+    fragmentManager: FragmentManager,
+) = { binding: CustomizeHomeBinding ->
+    corePreferencesRepo.observe(updateClockPreview(context, binding))
+    binding.clockWrapper.setOnClickListener {
+        ClockTypeDialog().showNow(fragmentManager, null)
+    }
+    binding.clockOptionsButton.setOnClickListener {
+        AnalogClockTypeDialog().showNow(fragmentManager, null)
+    }
+}

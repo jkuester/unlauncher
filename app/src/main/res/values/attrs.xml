@@ -6,14 +6,4 @@
     <attr name="colorHintTextEnabled" format="reference"/>
     <attr name="colorPrimaryTextDisabled" format="reference"/>
     <attr name="colorPrimaryTextEnabled" format="reference"/>
-
-    <declare-styleable name="BinaryClockView">
-        <attr name="bitSize" format="integer" />
-        <attr name="border" format="integer" />
-        <attr name="distance" format="integer" />
-    </declare-styleable>
-    <declare-styleable name="AnalogClockView">
-        <attr name="radius" format="dimension" />
-        <attr name="rim" format="integer" />
-    </declare-styleable>
 </resources>

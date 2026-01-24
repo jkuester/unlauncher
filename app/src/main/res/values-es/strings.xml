@@ -8,15 +8,8 @@
     <string-array name="clock_type_array">
         <item>Ninguno</item>
         <item>Digital</item>
-        <item>Analógico 12</item>
+        <item>Analógico</item>
         <item>Binario</item>
-        <item>Analógico 0</item>
-        <item>Analógico 1</item>
-        <item>Analógico 2</item>
-        <item>Analógico 3</item>
-        <item>Analógico 4</item>
-        <item>Analógico 6</item>
-        <item>Analógico 60</item>
     </string-array>
     <string-array name="quick_button_array">
         <item>Mostrar</item>
@@ -75,7 +68,6 @@
     <string name="open_app">Abrir aplicación</string>
     <string name="options_fragment_change_theme">Tema</string>
     <string name="options_fragment_choose_alignment">Alineación de la aplicación</string>
-    <string name="options_fragment_choose_clock_type">Tipo de reloj</string>
     <string name="options_fragment_choose_time_format">Formato de la hora</string>
     <string name="options_fragment_customise_apps">Aplicaciones de inicio</string>
     <string name="options_fragment_customize_app_drawer">Cajón</string>

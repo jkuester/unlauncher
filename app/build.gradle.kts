@@ -146,6 +146,7 @@ kover {
                 packages(
                     "com.sduduzog.slimlauncher",
                     "com.jkuester.unlauncher.datastore.proto",
+                    "com.jkuester.unlauncher.android",
                     "dagger.hilt.internal.aggregatedroot.codegen",
                     "hilt_aggregated_deps",
                 )

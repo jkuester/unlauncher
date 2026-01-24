@@ -1,6 +1,7 @@
 package com.jkuester.unlauncher.datasource
 
 import com.jkuester.unlauncher.datastore.proto.AlignmentFormat
+import com.jkuester.unlauncher.datastore.proto.AnalogClockType
 import com.jkuester.unlauncher.datastore.proto.ClockType
 import com.jkuester.unlauncher.datastore.proto.CorePreferences
 import com.jkuester.unlauncher.datastore.proto.SearchBarPosition
@@ -28,6 +29,9 @@ fun toggleSearchAllAppsInDrawer() = { originalPrefs: CorePreferences ->
 }
 fun setClockType(clockType: ClockType) = { originalPrefs: CorePreferences ->
     originalPrefs.toBuilder().setClockType(clockType).build()
+}
+fun setAnalogClockType(analogClockType: AnalogClockType) = { originalPrefs: CorePreferences ->
+    originalPrefs.toBuilder().setAnalogClockType(analogClockType).build()
 }
 fun setAlignmentFormat(alignmentFormat: AlignmentFormat) = { originalPrefs: CorePreferences ->
     originalPrefs.toBuilder().setAlignmentFormat(alignmentFormat).build()

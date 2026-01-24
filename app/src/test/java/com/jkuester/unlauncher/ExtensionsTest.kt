@@ -37,4 +37,11 @@ class ExtensionsTest {
         val exception = shouldThrow<IndexOutOfBoundsException> { originalList.swap(-1, 2) }
         exception.message shouldBe "Index out of bounds"
     }
+
+    @Test
+    fun swap_BothIndicesOutOfBounds() {
+        val originalList = listOf('a', 'b')
+        val exception = shouldThrow<IndexOutOfBoundsException> { originalList.swap(-1, 2) }
+        exception.message shouldBe "Index out of bounds"
+    }
 }

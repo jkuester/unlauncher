@@ -6,6 +6,11 @@ This project uses [ktlint](https://pinterest.github.io/ktlint/latest/) to format
 
 Developers using Android Studio are encouraged to install the [Ktlint plugin](https://plugins.jetbrains.com/plugin/15057-ktlint) for a tighter feedback loop and more automation. 
 
+## Unit testing
+
+Unit tests are required for all functionality except for the rare cases where the code requires Android framework dependencies that cannot be mocked. In these cases, the minimum required code should be extracted to the `com.jkuester.unlauncher.android` package.
+
+
 ## Adding a new configuration preference
 
 Currently user preferences in the Unlauncher code base are stored in one of three different ways:
